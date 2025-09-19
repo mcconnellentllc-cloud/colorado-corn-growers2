@@ -193,6 +193,25 @@
             margin-bottom: 1.5rem;
         }
 
+        .image-container {
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(247, 197, 45, 0.2);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-container:hover img {
+            transform: scale(1.05);
+        }
+
         .image-placeholder {
             background: linear-gradient(135deg, rgba(247, 197, 45, 0.1), rgba(46, 125, 50, 0.2));
             height: 400px;
@@ -456,9 +475,8 @@
                 
                 <p>We are <strong>not</strong> the Colorado Corn Promotion Council - we are the grassroots advocacy organization that fights for policies that benefit our corn growers. Affiliated with the Southwest Council of Agribusiness and working alongside Tom Sell, we bring real lobbying power to agricultural issues that matter most to our members.</p>
             </div>
-            <div class="image-placeholder">
-                Colorado Corn Field<br>
-                [Replace with actual corn field photo]
+            <div class="image-container">
+                <img src="colorado-corn-field.jpg" alt="Colorado Corn Field" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Colorado Corn Field<br>[Image: colorado-corn-field.jpg not found]</div>'">
             </div>
         </div>
 
@@ -488,9 +506,8 @@
                 
                 <p><strong>Board information and member profiles will be updated here.</strong> Contact our office for current board member information and meeting schedules.</p>
             </div>
-            <div class="image-placeholder">
-                Board Meeting Photo<br>
-                [Replace with actual board meeting or leadership photo]
+            <div class="image-container">
+                <img src="board-meeting.jpg" alt="Board Meeting" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Board Meeting Photo<br>[Image: board-meeting.jpg not found]</div>'">
             </div>
         </div>
     </section>
@@ -513,9 +530,8 @@
                 
                 <p><strong>Contact us today</strong> to learn about sponsorship opportunities and how your business can support Colorado corn growers in our fight for fair agricultural policies.</p>
             </div>
-            <div class="image-placeholder">
-                Partnership Handshake<br>
-                [Replace with sponsor meeting or partnership photo]
+            <div class="image-container">
+                <img src="partnership-handshake.jpg" alt="Partnership" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Partnership Handshake<br>[Image: partnership-handshake.jpg not found]</div>'">
             </div>
         </div>
     </section>
