@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Our Board - Colorado Corn Growers Association</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+        }
+        
+        .intro-section {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .intro-section h2 {
+            color: #2c5530;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .intro-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .commitment-highlight {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .board-member {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .board-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .member-photo {
+            height: 250px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+            border-bottom: 3px solid #4a7c59;
+        }
+        
+        .member-info {
+            padding: 30px;
+        }
+        
+        .member-name {
+            color: #2c5530;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .member-title {
+            color: #4a7c59;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .member-location {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+        
+        .member-bio {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #555;
+        }
+        
+        .member-bio p {
+            margin-bottom: 15px;
+        }
+        
+        .leadership-section {
+            background: #2c5530;
+            color: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .leadership-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .leadership-section p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+        
+        .nav-links {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .nav-links h3 {
+            color: #2c5530;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .board-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 10px;
+            }
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>MEET OUR BOARD</h1>
+            <p>Volunteer Corn Producers Committed to Fighting for Colorado Agriculture</p>
+        </header>
+
+        <div class="intro-section">
+            <h2>Volunteer Leadership</h2>
+            <p>Our board consists of dedicated Colorado corn producers who volunteer their time, energy, and passion to ensure CCGA represents the best interests of all Colorado corn growers. These are not paid administrators - they are working farmers who understand the daily challenges of agricultural production.</p>
+            
+            <div class="commitment-highlight">
+                Most every Friday morning, you'll find our board members on phone calls with lobbyists, politicians, and policy makers. Because Washington never stops, and neither do we.
+            </div>
+            
+            <p>This persistent advocacy is why we've secured over $1.2 billion in assistance for Colorado agriculture since 2018. It's not luck - it's hard work by volunteers who understand that survival requires constant vigilance.</p>
+        </div>
+
+        <div class="board-grid">
+            <div class="board-member">
+                <div class="member-photo">
+                    [Photo needed: Jeff Self]
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Jeff Self</div>
+                    <div class="member-title">President</div>
+                    <div class="member-location">Springfield, Colorado</div>
+                    <div class="member-bio">
+                        <p>Jeff Self serves as President of CCGA and has been a long-standing advocate for Colorado corn producers. As a member of District 7 representation (covering Baca, Bent, Crowley, Custer, Fremont, Huerfano, Kiowa, Las Animas, Otero, Prowers, and Pueblo counties), Jeff brings extensive experience in agricultural policy and grassroots advocacy.</p>
+                        <p>Jeff's leadership has been instrumental in CCGA's success in securing critical funding and policy victories for Colorado corn growers. His commitment to the Friday morning advocacy sessions exemplifies the volunteer spirit that drives CCGA's effectiveness.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-member">
+                <div class="member-photo">
+                    [Photo needed: Kyle McConnell]
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Kyle McConnell</div>
+                    <div class="member-title">Vice President</div>
+                    <div class="member-location">Haxtun, Colorado</div>
+                    <div class="member-bio">
+                        <p>Kyle McConnell is a fourth-generation farmer and rancher who operates McConnell Enterprises, providing Agriculture Seed Solutions and Precision Ag Support. Kyle grows corn and wheat, sells seed, and maintains cattle operations while serving as a dedicated advocate for Colorado agriculture.</p>
+                        <p>Kyle demonstrates the resilience and innovation that define Colorado corn growers, adapting his operations to meet changing market conditions while maintaining his commitment to agricultural excellence. His hands-on farming experience brings practical knowledge to CCGA's policy discussions.</p>
+                        <p>As Vice President, Kyle actively participates in CCGA's Friday morning advocacy sessions, helping ensure Colorado's agricultural voice is heard in both Denver and Washington D.C.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-member">
+                <div class="member-photo">
+                    [Photo needed: Randy Wenger]
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Randy Wenger</div>
+                    <div class="member-title">Secretary</div>
+                    <div class="member-location">Yuma, Colorado</div>
+                    <div class="member-bio">
+                        <p>Randy Wenger owns and operates R&B Farms Inc, a corn and wheat operation that has been in his family since 1919. His century-long family farming heritage brings deep agricultural knowledge and commitment to sustainable farming practices.</p>
+                        <p>Randy has demonstrated innovative approaches to agriculture, including exploration of alternative crops to ensure farm profitability and sustainability. His willingness to adapt and try new approaches while maintaining traditional farming values makes him a valuable voice for Colorado corn growers.</p>
+                        <p>As Secretary, Randy ensures CCGA maintains clear records and communication while bringing his extensive experience in crop production and farm management to board discussions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-member">
+                <div class="member-photo">
+                    [Photo needed: Bruce Unruh]
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Bruce Unruh</div>
+                    <div class="member-title">Treasurer</div>
+                    <div class="member-location">Burlington, Colorado</div>
+                    <div class="member-bio">
+                        <p>Bruce Unruh serves as CCGA's Treasurer, bringing financial expertise and agricultural experience to the board. Based in Burlington, Colorado - home to CCGA's office operations - Bruce provides valuable insight into the financial management of our volunteer organization.</p>
+                        <p>As Treasurer, Bruce ensures that every membership dollar and sponsorship contribution is used effectively to advance CCGA's advocacy mission. His commitment to financial transparency and responsible stewardship reflects the values that Colorado corn growers expect from their representatives.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-member">
+                <div class="member-photo">
+                    [Photo needed: Josh Hasart]
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Josh Hasart</div>
+                    <div class="member-title">Board Member</div>
+                    <div class="member-location">Stratton, Colorado</div>
+                    <div class="member-bio">
+                        <p>Josh Hasart brings energy and dedication to the CCGA board as a committed advocate for Colorado corn growers. His experience in agricultural production and understanding of the challenges facing modern farming operations make him a valuable voice in policy discussions.</p>
+                        <p>Josh participates actively in CCGA's Friday morning advocacy sessions, helping to maintain constant communication with policymakers and ensuring Colorado's voice is heard in Washington D.C. and Denver.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-member">
+                <div class="member-photo">
+                    [Photo needed: Jeff Cure]
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Jeff Cure</div>
+                    <div class="member-title">Board Member</div>
+                    <div class="member-location">Holyoke, Colorado</div>
+                    <div class="member-bio">
+                        <p>Jeff Cure represents the extensive Cure family farming operations that have been a significant presence in Colorado agriculture for generations. The Cure family operations include multiple farming entities across the region, demonstrating a deep commitment to Colorado agricultural success.</p>
+                        <p>Jeff brings valuable perspective on large-scale agricultural operations and the policy challenges that affect multi-generational farming families. His involvement in CCGA ensures that both large and small corn growing operations have effective representation.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="board-member">
+                <div class="member-photo">
+                    [Photo needed: Dave Cure]
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Dave Cure</div>
+                    <div class="member-title">Past President</div>
+                    <div class="member-location">Stratton, Colorado</div>
+                    <div class="member-bio">
+                        <p>Dave Cure serves as Past President, providing institutional knowledge and continuity to CCGA's leadership. His previous service as President during critical years helped establish many of the advocacy strategies that have made CCGA so effective.</p>
+                        <p>As part of the Cure family's extensive agricultural operations, Dave brings decades of farming experience and a deep understanding of the policy challenges facing Colorado corn growers. His continued involvement ensures that CCGA benefits from experienced leadership while transitioning to new board leadership.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leadership-section">
+            <h2>Proven Leadership, Real Results</h2>
+            <p>This volunteer board has delivered over $1.2 billion in assistance for Colorado agriculture since 2018. From Market Facilitation Programs to SDRP victories, from regulatory relief to farm bill advocacy - these results come from dedication, not luck.</p>
+            <p>Every Friday morning, while others sleep in, our board members are on calls with Washington lobbyists, policymakers, and agricultural leaders. This is the commitment that separates CCGA from organizations that just collect fees and hold meetings.</p>
+            <p>When disaster strikes, when policies threaten, when opportunities arise - CCGA's board is already working, already advocating, already fighting for Colorado corn growers.</p>
+        </div>
+
+        <div class="nav-links">
+            <h3>Learn More About CCGA</h3>
+            <div class="nav-buttons">
+                <a href="../index.html" class="nav-btn">Back to Home</a>
+                <a href="about.html" class="nav-btn">About CCGA</a>
+                <a href="become-a-sponsor.html" class="nav-btn">Become a Sponsor</a>
+                <a href="sponsorship-form.html" class="nav-btn">Sponsorship Form</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
