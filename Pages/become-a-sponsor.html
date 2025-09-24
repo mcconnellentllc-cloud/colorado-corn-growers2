@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Become a Sponsor - Colorado Corn Growers Association</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #2c2c2c;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #1a1a1a;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: #f4d03f;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #f4d03f;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(244, 208, 63, 0.9), rgba(229, 165, 10, 0.9)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f4d03f" width="1200" height="600"/><path fill="%23e5a50a" d="M0,300 Q300,200 600,300 T1200,300 L1200,600 L0,600 Z"/></svg>');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: #2c2c2c;
+            font-weight: 600;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .urgent-notice {
+            background: linear-gradient(45deg, #dc2626, #ef4444);
+            border: 3px solid #f4d03f;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .urgent-notice h2 {
+            color: #f4d03f;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .urgent-notice p {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .contact-highlight {
+            background-color: #f4d03f;
+            color: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .payback-section {
+            background: linear-gradient(135deg, #1e40af, #1d4ed8);
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 3rem 0;
+            border: 3px solid #f4d03f;
+        }
+
+        .payback-section h2 {
+            color: #f4d03f;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .independence-section {
+            background: linear-gradient(135deg, #065f46, #059669);
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .independence-section h2 {
+            color: #f4d03f;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .benefit-card {
+            background-color: #3c3c3c;
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 5px solid #f4d03f;
+            transition: transform 0.3s;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .benefit-card h3 {
+            color: #f4d03f;
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .sponsor-levels {
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            padding: 3rem;
+            margin: 3rem 0;
+        }
+
+        .sponsor-levels h2 {
+            color: #f4d03f;
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .level-card {
+            background: linear-gradient(145deg, #2c2c2c, #3c3c3c);
+            border: 2px solid #f4d03f;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .level-card h3 {
+            color: #f4d03f;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .level-card .price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(45deg, #059669, #10b981);
+            border-radius: 15px;
+            padding: 4rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #ffffff;
+        }
+
+        .contact-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .contact-card {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-card h3 {
+            color: #f4d03f;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #f4d03f, #e5a50a);
+            color: #1a1a1a;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(244, 208, 63, 0.4);
+        }
+
+        .footer {
+            background-color: #1a1a1a;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            color: #888;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .benefits-grid,
+            .levels-grid,
+            .contact-methods {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="nav-container">
+            <a href="/" class="logo">Colorado Corn Growers</a>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/meet-our-board">Meet Our Board</a></li>
+                    <li><a href="/become-a-sponsor">Become a Sponsor</a></li>
+                    <li><a href="/become-a-member">Become a Member</a></li>
+                    <li><a href="/contact">Contact Us</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Become a Sponsor</h1>
+                <p>Support the ONLY independent voice fighting for Colorado corn growers</p>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <div class="payback-section">
+            <h2>If We Helped You Get Farm Assistance - Help Us Keep It Coming</h2>
+            <div style="font-size: 1.3rem; line-height: 1.8;">
+                <p><strong>Did you receive disaster payments? Crop insurance benefits? Farm bill assistance? Conservation program funds?</strong></p>
+                <p style="margin: 1.5rem 0;"><strong>The Growers Association fought for those programs. Now we need you to invest a small portion back to keep the assistance flowing.</strong></p>
+                <p style="color: #f4d03f; font-size: 1.5rem; font-weight: bold;">THE BETTER WE DO, THE MORE ASSISTANCE COMES TO COLORADO FARMERS</p>
+                <p style="margin-top: 1.5rem;">Every dollar you received in government assistance happened because organizations like ours lobbied for those programs. Now it's time to invest in keeping those wins coming.</p>
+            </div>
+            <div class="contact-highlight" style="margin-top: 2rem;">
+                CALL US TODAY: 1-877-COGROW-9 | Email: office@cologrowers.com | Send Check: PO BOX 340, BURLINGTON, CO 80807
+            </div>
+        </div>
+
+        <div class="urgent-notice">
+            <h2>URGENT: We Need Your Support NOW</h2>
+            <p>Colorado corn growers are under attack from bad policies and weak representation.</p>
+            <p>The Growers Association is the ONLY organization fighting back with REAL results!</p>
+            <div class="contact-highlight">
+                CALL US TODAY: 1-877-COGROW-9 | Email: office@cologrowers.com | Mail Check: PO BOX 340, BURLINGTON, CO 80807
+            </div>
+        </div>
+
+        <div class="independence-section">
+            <h2>WE ARE DIFFERENT - AND THAT'S WHY WE WIN</h2>
+            <div style="font-size: 1.2rem;">
+                <p><strong>We are NOT the Colorado Corn Council</strong></p>
+                <p><strong>We collect NO automatic checkoff dollars</strong></p>
+                <p><strong>We receive NO guaranteed government funding</strong></p>
+                <p><strong>We are 100% VOLUNTARY and INDEPENDENT</strong></p>
+                <p><strong>We rely ONLY on memberships and sponsorships</strong></p>
+                <p><strong>We actually FIGHT and WIN policy battles</strong></p>
+            </div>
+        </div>
+
+        <div class="alliance-section" style="background: linear-gradient(135deg, #1f2937, #374151); border-radius: 15px; padding: 3rem; margin: 3rem 0; border: 3px solid #f4d03f;">
+            <div style="display: grid; grid-template-columns: 1fr auto; gap: 2rem; align-items: center;">
+                <div>
+                    <h2 style="color: #f4d03f; font-size: 2.2rem; margin-bottom: 1.5rem;">OUR POWERFUL ALLIANCE</h2>
+                    <div style="font-size: 1.2rem; line-height: 1.8;">
+                        <p><strong>The Growers Association of Colorado Corn is proud to partner with the Southwest Council of Agribusiness (SWCA)</strong> - a coalition of grower associations, agriculture enterprises, and financial institutions across Colorado, Kansas, New Mexico, Oklahoma, and Texas.</p>
+                        
+                        <p style="margin: 1.5rem 0;">Through our alliance with SWCA, we leverage the expertise of policy veterans like <strong>Tom Sell</strong> and former Congressman <strong>Larry Combest</strong> to fight battles in Washington D.C. that Colorado corn growers could never win alone.</p>
+                        
+                        <div style="margin-top: 2rem;">
+                            <a href="https://southwest-council.org/" target="_blank" style="background: linear-gradient(45deg, #f4d03f, #e5a50a); color: #1a1a1a; padding: 1rem 1.5rem; text-decoration: none; border-radius: 8px; font-weight: bold; text-transform: uppercase; display: inline-block;">Visit SWCA</a>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="background-color: #ffffff; padding: 1.5rem; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                        <img src="../swca-logo.png" alt="Southwest Council of Agribusiness Logo" style="max-width: 150px; height: auto;" />
+                        <p style="color: #1a1a1a; font-size: 0.9rem; margin-top: 0.5rem; font-weight: bold;">SWCA Partner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wins-section" style="background-color: #065f46; border-radius: 15px; padding: 3rem; margin: 3rem 0; border: 3px solid #f4d03f;">
+            <h2 style="color: #f4d03f; font-size: 2.5rem; margin-bottom: 2rem; text-align: center;">OUR PROVEN TRACK RECORD</h2>
+            
+            <div class="wins-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background-color: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; border-left: 5px solid #f4d03f;">
+                    <h3 style="color: #f4d03f; font-size: 1.5rem; margin-bottom: 1rem;">Disaster Program Victories</h3>
+                    <p>For years, we've fought to ensure Colorado farmers get their fair share of federal disaster assistance. When drought, hail, or other disasters strike, our lobbying efforts have secured millions in emergency aid for Colorado corn growers.</p>
+                </div>
+
+                <div style="background-color: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; border-left: 5px solid #f4d03f;">
+                    <h3 style="color: #f4d03f; font-size: 1.5rem; margin-bottom: 1rem;">Taking on the Corn Belt</h3>
+                    <p>We've challenged the Corn Belt's dominance to ensure Colorado gets equitable opportunities to grow corn. Our advocacy has secured fair treatment in crop insurance, conservation programs, and research funding - ensuring Western agriculture isn't left behind.</p>
+                </div>
+
+                <div style="background-color: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; border-left: 5px solid #f4d03f;">
+                    <h3 style="color: #f4d03f; font-size: 1.5rem; margin-bottom: 1rem;">Water Rights Protection</h3>
+                    <p>Colorado's water rights are under constant attack. We've successfully defended agricultural water rights in court and in legislatures, ensuring corn growers maintain access to the water they need to feed America.</p>
+                </div>
+
+                <div style="background-color: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; border-left: 5px solid #f4d03f;">
+                    <h3 style="color: #f4d03f; font-size: 1.5rem; margin-bottom: 1rem;">Farm Bill Wins</h3>
+                    <p>Every Farm Bill cycle, we fight for provisions that benefit Colorado corn growers. From crop insurance improvements to conservation program enhancements, our advocacy has brought millions in additional support to Colorado agriculture.</p>
+                </div>
+
+                <div style="background-color: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; border-left: 5px solid #f4d03f;">
+                    <h3 style="color: #f4d03f; font-size: 1.5rem; margin-bottom: 1rem;">Trade and Market Access</h3>
+                    <p>Working with our SWCA alliance, we've opened new markets for Colorado corn exports and defended against unfair trade practices that hurt American farmers. Our efforts have secured better prices and expanded opportunities for Colorado corn.</p>
+                </div>
+
+                <div style="background-color: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px; border-left: 5px solid #f4d03f;">
+                    <h3 style="color: #f4d03f; font-size: 1.5rem; margin-bottom: 1rem;">Regulatory Relief</h3>
+                    <p>We've successfully fought against burdensome EPA regulations, OSHA overreach, and other federal rules that threatened to crush Colorado farms. Our advocacy has saved Colorado corn growers millions in compliance costs.</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 3rem; padding: 2rem; background-color: rgba(244, 208, 63, 0.1); border-radius: 10px;">
+                <h3 style="color: #f4d03f; font-size: 1.8rem; margin-bottom: 1rem;">THESE WINS DIDN'T HAPPEN BY ACCIDENT</h3>
+                <p style="font-size: 1.2rem; font-weight: bold;">Every victory required lobbying, legal battles, and coalition building. Every dollar you received from these programs happened because we fought for them. Now we need you to invest back into the fight.</p>
+            </div>
+        </div>
+
+        <section class="section">
+            <h2 style="color: #f4d03f; font-size: 2.5rem; text-align: center; margin-bottom: 2rem;">Why Your Continued Support Matters</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Capitol Lobbying</h3>
+                    <p>Your sponsorship funds our lobbying efforts in Denver and Washington D.C., ensuring Colorado corn growers have a strong voice when farm assistance programs are decided.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <h3>Policy Advocacy</h3>
+                    <p>We fight for pro-agriculture candidates and policies, working with champions like Congresswoman Lauren Boebert and policy experts like Tom Sell from Southwest Council of Agribusiness.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <h3>Farm Bill Battles</h3>
+                    <p>Every Farm Bill cycle, we fight to maintain and expand assistance programs. The more resources we have, the bigger victories we can achieve for Colorado farmers.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <h3>Crisis Response</h3>
+                    <p>When disasters hit or markets crash, we have the relationships and advocacy power to push for emergency assistance programs that put money back in farmers' pockets.</p>
+                </div>
+            </div>
+        </section>
+
+        <div style="background-color: #dc2626; border-radius: 15px; padding: 3rem; margin: 3rem 0; text-align: center;">
+            <h2 style="color: #f4d03f; font-size: 2.2rem; margin-bottom: 1.5rem;">THE MATH IS SIMPLE</h2>
+            <div style="font-size: 1.3rem; line-height: 1.8;">
+                <p><strong>Received $10,000 in disaster assistance? Invest $500 to keep it coming.</strong></p>
+                <p><strong>Got $50,000 in crop insurance? Invest $2,500 to protect the program.</strong></p>
+                <p><strong>Benefited from $100,000 in farm programs? Invest $5,000 to expand them.</strong></p>
+                <p style="color: #f4d03f; font-size: 1.5rem; margin-top: 1.5rem;"><strong>SMALL INVESTMENT = BIG RETURNS</strong></p>
+            </div>
+        </div>
+
+        <div class="sponsor-levels">
+            <h2>Sponsorship Investment Levels</h2>
+            <p style="text-align: center; margin-bottom: 2rem; font-size: 1.2rem;">All sponsors receive recognition on our website and in our communications</p>
+            <div class="levels-grid">
+                <div class="level-card">
+                    <h3>Champion Level</h3>
+                    <div class="price">$10,000+</div>
+                    <ul style="text-align: left; margin: 1rem 0;">
+                        <li>Premium logo placement on website</li>
+                        <li>Recognition in all newsletters</li>
+                        <li>Acknowledgment at events</li>
+                        <li>Social media mentions</li>
+                    </ul>
+                </div>
+
+                <div class="level-card">
+                    <h3>Advocate Level</h3>
+                    <div class="price">$5,000+</div>
+                    <ul style="text-align: left; margin: 1rem 0;">
+                        <li>Website logo placement</li>
+                        <li>Newsletter recognition</li>
+                        <li>Event acknowledgment</li>
+                    </ul>
+                </div>
+
+                <div class="level-card">
+                    <h3>Supporter Level</h3>
+                    <div class="price">$2,500+</div>
+                    <ul style="text-align: left; margin: 1rem 0;">
+                        <li>Website sponsor listing</li>
+                        <li>Newsletter mentions</li>
+                        <li>Annual recognition</li>
+                    </ul>
+                </div>
+
+                <div class="level-card">
+                    <h3>Friend Level</h3>
+                    <div class="price">$1,000+</div>
+                    <ul style="text-align: left; margin: 1rem 0;">
+                        <li>Website sponsor listing</li>
+                        <li>Annual thank you</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h2>Ready to Invest in Your Future?</h2>
+            <p style="font-size: 1.3rem; margin-bottom: 2rem;">The assistance programs that helped you survive - we helped create them. Now help us create more.</p>
+            
+            <div class="contact-methods">
+                <div class="contact-card">
+                    <h3>Call Us Today</h3>
+                    <p style="font-size: 1.5rem; font-weight: bold; color: #f4d03f;">1-877-COGROW-9</p>
+                    <p>Speak directly with our team about sponsorship opportunities and how your investment fights for more farm assistance.</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Send Your Check</h3>
+                    <p style="font-size: 1.2rem; font-weight: bold;">Colorado Corn Growers Association<br>
+                    PO BOX 340<br>
+                    BURLINGTON, CO 80807</p>
+                    <p>Include a note with your contact information and preferred sponsorship level.</p>
+                </div>
+
+                <div class="contact-card">
+                    <h3>Email Us</h3>
+                    <p style="font-size: 1.3rem; font-weight: bold; color: #f4d03f;">office@cologrowers.com</p>
+                    <p>Send us your questions and we'll follow up within 24 hours.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem;">
+                <a href="tel:1-877-264-7699" class="btn">Call Now: 1-877-COGROW-9</a>
+            </div>
+        </div>
+
+        <div style="background-color: #1a1a1a; border-radius: 15px; padding: 2rem; margin: 3rem 0; text-align: center;">
+            <h3 style="color: #f4d03f; margin-bottom: 1rem;">THE TIME IS NOW</h3>
+            <p style="font-size: 1.2rem;">Every day we wait, opportunities for new assistance programs slip away. Your sponsorship today funds the fights that bring assistance dollars tomorrow.</p>
+            <p style="font-size: 1.3rem; font-weight: bold; color: #f4d03f; margin-top: 1rem;">Support the ONLY organization that actually delivers results!</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Colorado Corn Growers Association | PO BOX 340 | BURLINGTON, CO 80807 US</p>
+            <p style="margin-top: 0.5rem;">Proudly independent • No checkoff dollars • Real results</p>
+        </div>
+    </footer>
+</body>
+</html>
