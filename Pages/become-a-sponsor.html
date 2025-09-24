@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Become a Sponsor - Growers Association of Colorado Corn</title>
+    <title>Partner with Winners - Colorado Corn Growers Association</title>
     <style>
         * {
             margin: 0;
@@ -24,57 +24,157 @@
             padding: 20px;
         }
         
-        .header {
+        .hero-section {
             background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
             color: white;
-            padding: 60px 0;
+            padding: 80px 0;
             text-align: center;
             margin-bottom: 50px;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
         }
         
-        .header h1 {
-            font-size: 3rem;
+        .hero-section h1 {
+            font-size: 3.5rem;
             margin-bottom: 20px;
             font-weight: bold;
         }
         
-        .header p {
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 0 auto;
+        .hero-section .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
             opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
-        .independence-banner {
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            color: #1a1a1a;
-            padding: 30px;
-            margin-bottom: 40px;
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
             border-radius: 10px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border: 3px solid #b8860b;
+            backdrop-filter: blur(10px);
         }
         
-        .independence-banner h2 {
-            font-size: 2.2rem;
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .winning-team-section {
+            background: white;
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+        }
+        
+        .winning-team-section h2 {
+            color: #2c5530;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .expertise-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #d4af37;
+            text-align: center;
+        }
+        
+        .expertise-icon {
+            font-size: 3rem;
+            color: #2c5530;
+            margin-bottom: 15px;
+        }
+        
+        .expertise-card h3 {
+            color: #2c5530;
+            font-size: 1.4rem;
             margin-bottom: 15px;
             font-weight: bold;
         }
         
-        .independence-banner p {
-            font-size: 1.2rem;
+        .expertise-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .results-banner {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            color: #1a1a1a;
+            padding: 40px;
+            margin: 50px 0;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .results-banner h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .results-banner p {
+            font-size: 1.3rem;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
-        .track-record {
-            margin-bottom: 50px;
+        .independence-section {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin: 50px 0;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         
-        .track-record h2 {
+        .independence-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        
+        .independence-section p {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .victories-section {
+            margin: 50px 0;
+        }
+        
+        .victories-section h2 {
             color: #2c5530;
             font-size: 2.5rem;
             text-align: center;
@@ -92,9 +192,14 @@
         .victory-card {
             background: white;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border-left: 5px solid #4a7c59;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-top: 4px solid #4a7c59;
+            transition: transform 0.3s ease;
+        }
+        
+        .victory-card:hover {
+            transform: translateY(-5px);
         }
         
         .victory-card h3 {
@@ -107,119 +212,149 @@
         .victory-card p {
             font-size: 1rem;
             line-height: 1.7;
-        }
-        
-        .highlight {
-            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid #28a745;
-            margin-bottom: 30px;
-        }
-        
-        .highlight h3 {
-            color: #155724;
-            font-size: 1.4rem;
             margin-bottom: 15px;
         }
         
-        .contact-emphasis {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        .victory-amount {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
             color: white;
-            padding: 40px;
-            margin: 40px 0;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .contact-emphasis h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
+            padding: 10px 15px;
+            border-radius: 5px;
             font-weight: bold;
-        }
-        
-        .contact-info {
-            font-size: 1.3rem;
+            display: inline-block;
             margin-bottom: 15px;
         }
         
         .sponsorship-tiers {
             background: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 50px 0;
+        }
+        
+        .sponsorship-tiers h2 {
+            color: #2c5530;
+            font-size: 2.5rem;
+            text-align: center;
             margin-bottom: 40px;
+            font-weight: bold;
         }
         
         .tier {
             border: 2px solid #4a7c59;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 10px;
             background: #f8f9fa;
+            transition: all 0.3s ease;
+        }
+        
+        .tier:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         
         .tier h3 {
             color: #2c5530;
-            font-size: 1.4rem;
-            margin-bottom: 15px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
             font-weight: bold;
         }
         
         .premium-tier {
             border-color: #d4af37;
             background: linear-gradient(135deg, #fff8dc 0%, #f5f5dc 100%);
+            border-width: 3px;
         }
         
-        .alliance-section {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            margin-bottom: 40px;
+        .premium-tier h3 {
+            color: #b8860b;
         }
         
-        .alliance-section h2 {
-            color: #2c5530;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-align: center;
+        .tier ul {
+            margin-left: 20px;
+            line-height: 1.8;
         }
         
-        .footer {
-            text-align: center;
-            padding: 30px;
-            background: #2c5530;
+        .tier li {
+            margin-bottom: 8px;
+        }
+        
+        .contact-section {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
             color: white;
-            border-radius: 10px;
-            margin-top: 40px;
+            padding: 50px;
+            border-radius: 15px;
+            margin: 50px 0;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        
+        .contact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+        
+        .contact-info {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
         
         .cta-button {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 15px 30px;
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            color: #1a1a1a;
+            padding: 18px 35px;
             border: none;
             border-radius: 8px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            margin: 10px;
+            margin: 15px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
         }
         
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+        
+        .alliance-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .alliance-logos img {
+            max-height: 80px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .alliance-logos img:hover {
+            opacity: 1;
         }
         
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
+            .hero-section h1 {
+                font-size: 2.5rem;
             }
-            .header p {
-                font-size: 1rem;
+            .hero-section .subtitle {
+                font-size: 1.2rem;
+            }
+            .hero-stats {
+                gap: 20px;
+            }
+            .team-grid {
+                grid-template-columns: 1fr;
             }
             .victories-grid {
                 grid-template-columns: 1fr;
@@ -232,146 +367,219 @@
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <h1>BECOME A SPONSOR</h1>
-            <p>Support Real Advocacy That Delivers Real Results for Colorado Corn Growers</p>
-        </header>
+        <section class="hero-section">
+            <h1>PARTNER WITH WINNERS</h1>
+            <p class="subtitle">When you sponsor CCGA, you're not just supporting agriculture - you're partnering with the proven team that delivered $1.2 billion in results for Colorado corn growers</p>
+            
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-number">$1.2B+</div>
+                    <div class="stat-label">Delivered Since 2018</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Board Experts</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">52</div>
+                    <div class="stat-label">Friday Advocacy Sessions/Year</div>
+                </div>
+            </div>
+        </section>
 
-        <div class="independence-banner">
+        <section class="winning-team-section">
+            <h2>THE WINNING TEAM BEHIND YOUR INVESTMENT</h2>
+            <p style="text-align: center; font-size: 1.2rem; margin-bottom: 40px; color: #555;">
+                Most agricultural associations have farmers who meet occasionally. CCGA has practicing attorneys, political veterans, national board members, and policy experts who work Washington every Friday morning.
+            </p>
+            
+            <div class="team-grid">
+                <div class="expertise-card">
+                    <div class="expertise-icon">⚖</div>
+                    <h3>Legal Expertise</h3>
+                    <p>Practicing attorney Jeff Cure provides insider knowledge of agricultural law, regulations, and crop insurance policies that directly impact policy outcomes.</p>
+                </div>
+                
+                <div class="expertise-card">
+                    <div class="expertise-icon">POLITICS</div>
+                    <h3>Political Veterans</h3>
+                    <p>Mike Lefever brings years of political experience and serves on the National Corn Growers Association board, ensuring national-level connections and influence.</p>
+                </div>
+                
+                <div class="expertise-card">
+                    <div class="expertise-icon">POLICY</div>
+                    <h3>Policy Implementation</h3>
+                    <p>Past President Dave Cure has been extremely instrumental in bringing critical federal programs to Colorado and putting them to practical use for farmers.</p>
+                </div>
+                
+                <div class="expertise-card">
+                    <div class="expertise-icon">LEGACY</div>
+                    <h3>Multi-Generational Wisdom</h3>
+                    <p>Board members represent century-old family farming operations, fourth-generation farmers, and diverse agricultural enterprises across Colorado.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%); padding: 30px; border-radius: 10px; margin-top: 30px;">
+                <h3 style="color: #155724; margin-bottom: 15px; font-size: 1.4rem;">The Friday Morning Difference</h3>
+                <p style="font-size: 1.1rem; line-height: 1.7; color: #155724;">
+                    <strong>Most every Friday morning</strong>, you'll find our board members on phone calls with lobbyists, politicians, and policy makers. Because Washington never stops, and neither do we. This persistent advocacy is why we've secured over $1.2 billion in assistance since 2018.
+                </p>
+            </div>
+        </section>
+
+        <div class="results-banner">
+            <h2>$1.2 BILLION IN PROVEN RESULTS</h2>
+            <p>Not luck. Not coincidence. Hard work by volunteers who understand that survival requires constant vigilance.</p>
+            <p>This is what happens when you have attorneys, political veterans, and national board members working Washington every Friday morning.</p>
+        </div>
+
+        <div class="independence-section">
             <h2>WE ARE NOT THE CHECKOFF PROGRAM!</h2>
-            <p>The Growers Association of Colorado Corn collects NO checkoff dollars and receives NO automatic fees.</p>
-            <p>We are 100% funded by voluntary memberships and business sponsorships.</p>
+            <p>The Colorado Corn Growers Association collects NO checkoff dollars and receives NO automatic fees. We are 100% funded by voluntary memberships and business sponsorships.</p>
+            <p><strong>Your sponsorship funds the lobbying efforts, policy battles, and coalition building that delivers real results.</strong></p>
             <p>Support the organization that fights for you by choice, not by government mandate.</p>
         </div>
 
-        <section class="track-record">
-            <h2>OUR PROVEN TRACK RECORD</h2>
+        <section class="victories-section">
+            <h2>RECENT VICTORIES YOUR SPONSORSHIP POWERED</h2>
             
             <div class="victories-grid">
                 <div class="victory-card">
-                    <h3>Disaster Program Victories</h3>
-                    <p>American agriculture climbed out of a 7-year recession capped by COVID-19 uncertainty and trade war challenges. CCGA's advocacy work has secured well over <strong>$1.2 billion</strong> in critical assistance for Colorado farmers since 2018. Our wins include over $100 million from Market Facilitation Programs, over $400 million from CFAP 1 and 2, over $300 million in ARC and PLC payments, over $200 million in PPP loans, and over $500 million in crop insurance indemnities.</p>
-                    <p><strong>Current victories continue</strong> - CCGA's advocacy through SWCA partnerships helped secure ECAP (Emergency Commodity Assistance Program) which has delivered $8 billion nationally for 2024 economic losses. Most critically, SWCA's successful fight to include <strong>excessive heat</strong> as a qualifying peril in SDRP expanded Colorado's eligibility from just 24 drought-designated counties to statewide coverage - potentially multiplying Colorado's share of the $16 billion SDRP program.</p>
+                    <h3>SDRP Game-Changer Victory</h3>
+                    <div class="victory-amount">Expanded Statewide Coverage</div>
+                    <p>CCGA's advocacy through SWCA partnerships successfully fought to include <strong>excessive heat</strong> as a qualifying peril in SDRP. This single victory expanded Colorado's eligibility from just 24 drought-designated counties to <strong>statewide coverage</strong> - potentially multiplying Colorado's share of the $16 billion SDRP program.</p>
+                    <p><strong>Impact:</strong> Without this advocacy win, most of Colorado would have been left out of critical disaster payments.</p>
                 </div>
 
                 <div class="victory-card">
-                    <h3>Farm Bill Wins</h3>
-                    <p>Every Farm Bill cycle, CCGA fights for provisions that benefit Colorado corn growers. From crop insurance improvements to conservation program enhancements, our advocacy has brought over <strong>$1.2 billion</strong> in support to Colorado agriculture since 2018. Through our SWCA alliance, we secured critical disaster designations and successfully advocated for excessive heat inclusion in federal disaster programs.</p>
-                    <p>CCGA continues mounting strong defenses against elimination of stepped-up basis tax policies that would disproportionately affect farm families, while actively promoting "climate smart agriculture" policies that recognize the unique realities of the western Great Plains. Our ongoing partnership with NCGA defends current market access and fights for expanding markets through ethanol and international trade deals.</p>
+                    <h3>Market Facilitation Programs</h3>
+                    <div class="victory-amount">$100+ Million</div>
+                    <p>When trade wars threatened Colorado corn markets, CCGA's Washington advocacy secured over $100 million in Market Facilitation Program payments for Colorado corn growers. Our board's direct connections to policymakers ensured Colorado wasn't left behind.</p>
                 </div>
 
                 <div class="victory-card">
-                    <h3>Regulatory Relief</h3>
-                    <p>CCGA has successfully fought against burdensome labor regulations that threatened Colorado corn producers. When SB-021 proposed unjust labor regulations that would have devastated family farms, CCGA advocated aggressively alongside strong legislative allies to defend Colorado agriculture.</p>
-                    <p>Working with key lawmakers who understand that agriculture faces unique challenges, CCGA has helped sponsor and support legislation to repeal certain provisions that would have interfered with normal agricultural operations. Our regulatory advocacy has saved Colorado corn growers millions in compliance costs while protecting the viability of family farming operations across the state.</p>
+                    <h3>COVID-19 Relief Programs</h3>
+                    <div class="victory-amount">$400+ Million</div>
+                    <p>Through CFAP 1 and CFAP 2, CCGA's persistent advocacy secured over $400 million in critical COVID-19 relief for Colorado agriculture. Our Friday morning Washington calls ensured Colorado got its fair share when farmers needed it most.</p>
                 </div>
 
                 <div class="victory-card">
-                    <h3>Taking on the Corn Belt</h3>
-                    <p>We've challenged the Corn Belt's dominance to ensure Colorado gets equitable opportunities to grow corn. Our advocacy has secured fair treatment in crop insurance, conservation programs, and research funding - ensuring Western agriculture isn't left behind. While other regions had automatic advantages, CCGA fought to level the playing field for Colorado corn growers.</p>
+                    <h3>Crop Insurance & Conservation</h3>
+                    <div class="victory-amount">$500+ Million</div>
+                    <p>CCGA's advocacy has delivered over $300 million in ARC and PLC payments, over $200 million in PPP loans, and over $500 million in crop insurance indemnities. Our board's expertise in insurance law and federal programs makes the difference.</p>
+                </div>
+
+                <div class="victory-card">
+                    <h3>Emergency Commodity Assistance</h3>
+                    <div class="victory-amount">$8 Billion Nationally</div>
+                    <p>CCGA's advocacy through SWCA partnerships helped secure ECAP (Emergency Commodity Assistance Program) which delivered $8 billion nationally for 2024 economic losses. Colorado corn growers benefited directly from this national victory.</p>
+                </div>
+
+                <div class="victory-card">
+                    <h3>Regulatory Defense Victories</h3>
+                    <div class="victory-amount">Millions Saved</div>
+                    <p>When SB-021 proposed unjust labor regulations that would have devastated family farms, CCGA's political connections and advocacy expertise successfully defended Colorado agriculture, saving corn growers millions in compliance costs.</p>
                 </div>
             </div>
         </section>
-
-        <div class="highlight">
-            <h3>Critical SWCA Victory: Excessive Heat Qualification</h3>
-            <p>Without SWCA's successful advocacy to include <strong>excessive heat</strong> as a qualifying peril in SDRP, Colorado would have been limited to just 24 drought-designated counties for disaster payments. This single advocacy victory potentially <strong>multiplied Colorado's SDRP payments by several times over</strong> what drought-only qualification would have provided, bringing millions more in disaster relief to Colorado corn producers statewide.</p>
-        </div>
-
-        <div class="contact-emphasis">
-            <h2>READY TO SUPPORT REAL ADVOCACY?</h2>
-            <div class="contact-info"><strong>Call: 1-877-CO-GROW-9</strong></div>
-            <div class="contact-info"><strong>Email: office@cologrowers.com</strong></div>
-            <div class="contact-info"><strong>Mail Your Check To:</strong><br>
-                Growers Association of Colorado Corn<br>
-                PO Box 340<br>
-                Burlington, CO 80807</div>
-            <p style="margin-top: 20px; font-size: 1.1rem;">Personal contact builds stronger partnerships. Call us to discuss how your sponsorship can support effective advocacy.</p>
-            
-            <div style="text-align: center; margin-top: 25px;">
-                <a href="sponsorship-form.html" target="_blank" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; margin: 10px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); text-decoration: none; display: inline-block;">FILL OUT SPONSORSHIP FORM</a>
-            </div>
-        </div>
 
         <section class="sponsorship-tiers">
-            <h2 style="color: #2c5530; text-align: center; margin-bottom: 30px;">SPONSORSHIP OPPORTUNITIES</h2>
+            <h2>INVESTMENT LEVELS</h2>
             
             <div class="tier premium-tier">
-                <h3>CHAMPION SPONSOR - $10,000+</h3>
-                <ul style="margin-left: 20px; line-height: 1.8;">
-                    <li>Logo featured prominently on all materials</li>
-                    <li>Direct access to CCGA leadership and policy team</li>
-                    <li>Priority policy updates and advocacy briefings</li>
-                    <li>Recognition at all major CCGA events</li>
-                    <li>Priority consultation on issues affecting your business</li>
+                <h3>CHAMPION PARTNER - $10,000+</h3>
+                <p style="font-style: italic; margin-bottom: 15px; color: #b8860b;">Partner directly with our winning team</p>
+                <ul>
+                    <li><strong>Direct access</strong> to CCGA's attorney, political veterans, and policy experts</li>
+                    <li><strong>Logo featured prominently</strong> on all materials and communications</li>
+                    <li><strong>Priority policy briefings</strong> from board members with Washington insider knowledge</li>
+                    <li><strong>Recognition at all major events</strong> and networking opportunities</li>
+                    <li><strong>Priority consultation</strong> on issues affecting your business</li>
+                    <li><strong>Exclusive updates</strong> from our Friday morning Washington sessions</li>
                 </ul>
             </div>
 
             <div class="tier">
-                <h3>ADVOCACY SPONSOR - $5,000 - $9,999</h3>
-                <ul style="margin-left: 20px; line-height: 1.8;">
-                    <li>Logo on website and key publications</li>
-                    <li>Regular policy updates via multiple channels</li>
+                <h3>ADVOCACY PARTNER - $5,000 - $9,999</h3>
+                <ul>
+                    <li>Logo placement on website and key publications</li>
+                    <li>Regular policy updates from our Washington advocacy team</li>
                     <li>Event recognition and networking opportunities</li>
                     <li>Direct line to CCGA policy staff</li>
+                    <li>Access to board member expertise on key issues</li>
                 </ul>
             </div>
 
             <div class="tier">
-                <h3>SUPPORTING SPONSOR - $2,500 - $4,999</h3>
-                <ul style="margin-left: 20px; line-height: 1.8;">
-                    <li>Website recognition</li>
+                <h3>SUPPORTING PARTNER - $2,500 - $4,999</h3>
+                <ul>
+                    <li>Website recognition as a valued partner</li>
                     <li>Policy updates via email, social media, and website</li>
-                    <li>Event invitations and updates</li>
+                    <li>Event invitations and industry updates</li>
+                    <li>Access to CCGA's advocacy victories and insights</li>
                 </ul>
             </div>
 
             <div class="tier">
-                <h3>FRIEND OF CCGA - Any amount below $2,500</h3>
-                <p style="font-style: italic; margin-bottom: 15px; color: #2c5530;">Even a small donation goes a tremendously long way in supporting our volunteer advocacy efforts.</p>
-                <ul style="margin-left: 20px; line-height: 1.8;">
+                <h3>FRIEND OF CCGA - Under $2,500</h3>
+                <p style="font-style: italic; margin-bottom: 15px; color: #2c5530;">Every contribution fuels our volunteer advocacy efforts</p>
+                <ul>
                     <li>Recognition as a CCGA supporter</li>
-                    <li>Policy updates via email, social media, landing pages and website</li>
+                    <li>Policy updates via multiple channels</li>
                     <li>Invitations to select events</li>
+                    <li>Connection to our advocacy victories</li>
                 </ul>
             </div>
         </section>
 
-        <section class="alliance-section">
-            <h2>OUR STRATEGIC ALLIANCES</h2>
-            <p style="text-align: center; margin-bottom: 30px; font-size: 1.1rem;">
-                CCGA doesn't work alone. Our partnerships amplify your sponsorship investment:
-            </p>
+        <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 50px 0; text-align: center;">
+            <h2 style="color: #2c5530; margin-bottom: 30px; font-size: 2rem;">OUR STRATEGIC ALLIANCES AMPLIFY YOUR INVESTMENT</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 30px; color: #555;">Your sponsorship doesn't work alone - it's amplified through powerful partnerships:</p>
             
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                <div style="text-align: center; padding: 20px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-bottom: 40px;">
+                <div>
                     <h3 style="color: #2c5530; margin-bottom: 15px;">Southwest Council of Agribusiness (SWCA)</h3>
-                    <p>Our partnership with SWCA gives Colorado corn growers a powerful voice in Washington. Together, we've secured hundreds of millions in disaster relief and critical policy victories like the excessive heat SDRP qualification.</p>
+                    <p>Our partnership with SWCA gives your investment reach into Washington policy circles. Together, we secured the excessive heat SDRP qualification that expanded Colorado's disaster relief eligibility statewide.</p>
                 </div>
                 
-                <div style="text-align: center; padding: 20px;">
+                <div>
                     <h3 style="color: #2c5530; margin-bottom: 15px;">National Corn Growers Association (NCGA)</h3>
-                    <p>Through NCGA, your sponsorship investment reaches national policy makers and ensures Colorado's voice is heard in every major agricultural decision in Washington, D.C.</p>
+                    <p>Through NCGA, your sponsorship investment reaches national policy makers. Board member Mike Lefever's NCGA service ensures Colorado's voice is heard in every major agricultural decision in Washington.</p>
                 </div>
             </div>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <img src="swca-logo.PNG" alt="SWCA Logo" style="max-height: 80px; margin: 0 20px;">
-                <img src="ncga-logo.png" alt="NCGA Logo" style="max-height: 80px; margin: 0 20px;">
+            <div class="alliance-logos">
+                <img src="../images/swca-logo.PNG" alt="SWCA Logo">
+                <img src="../images/ncga-logo.png" alt="NCGA Logo">
             </div>
-        </section>
-
-        <div class="highlight">
-            <h3>Why Your Sponsorship Matters Now</h3>
-            <p>Colorado corn growers face unprecedented challenges - from climate uncertainties to regulatory pressures to trade disruptions. Unlike the checkoff programs that collect automatic fees, CCGA depends entirely on voluntary support from those who believe in effective advocacy. Your sponsorship directly funds the lobbying efforts, policy battles, and coalition building that delivers real results for Colorado agriculture.</p>
         </div>
 
-        <footer class="footer">
-            <h3>Growers Association of Colorado Corn</h3>
-            <p>PO Box 340, Burlington, CO 80807</p>
-            <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
-            <p style="margin-top: 20px; font-style: italic;">"Fighting for Colorado Corn Growers Through Choice, Not Mandate"</p>
-            <a href="sponsorship-form.html" target="_blank" class="cta-button" style="text-decoration: none; display: inline-block;">BECOME A SPONSOR TODAY</a>
+        <section class="contact-section">
+            <h2>READY TO PARTNER WITH WINNERS?</h2>
+            
+            <div class="contact-info"><strong>Call: 1-877-CO-GROW-9</strong></div>
+            <div class="contact-info"><strong>Email: office@cologrowers.com</strong></div>
+            <div class="contact-info"><strong>Mail Your Investment:</strong><br>
+                Colorado Corn Growers Association<br>
+                PO Box 340<br>
+                Burlington, CO 80807</div>
+            
+            <p style="margin: 30px 0; font-size: 1.2rem; opacity: 0.9;">
+                Personal contact builds stronger partnerships. Call us to discuss how your sponsorship can support the team that delivers real results.
+            </p>
+            
+            <a href="sponsorship-form.html" target="_blank" class="cta-button">BECOME A PARTNER TODAY</a>
+            <a href="meet-our-board.html" target="_blank" class="cta-button">MEET THE WINNING TEAM</a>
+        </section>
+
+        <footer style="text-align: center; padding: 40px; background: #2c5530; color: white; border-radius: 15px; margin-top: 50px;">
+            <h3 style="font-size: 1.8rem; margin-bottom: 15px;">Colorado Corn Growers Association</h3>
+            <p style="font-size: 1.1rem; margin-bottom: 10px;">PO Box 340, Burlington, CO 80807</p>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">1-877-CO-GROW-9 | office@cologrowers.com</p>
+            <p style="font-style: italic; font-size: 1.2rem; margin-bottom: 25px; color: #d4af37;">
+                "Fighting for Colorado Corn Growers Through Choice, Not Mandate"
+            </p>
+            <a href="sponsorship-form.html" target="_blank" class="cta-button">START YOUR PARTNERSHIP</a>
         </footer>
     </div>
 </body>
