@@ -12,10 +12,74 @@
         }
         
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding-top: 100px;
+        }
+        
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #f7c52d;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #f7c52d;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #f7c52d;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
         
         .container {
@@ -109,6 +173,12 @@
             border-bottom: 3px solid #4a7c59;
         }
         
+        .member-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
         .member-info {
             padding: 30px;
         }
@@ -164,7 +234,7 @@
             margin-bottom: 20px;
         }
         
-        .nav-links {
+        .nav-links-footer {
             background: white;
             padding: 30px;
             border-radius: 10px;
@@ -172,7 +242,7 @@
             text-align: center;
         }
         
-        .nav-links h3 {
+        .nav-links-footer h3 {
             color: #2c5530;
             margin-bottom: 20px;
             font-size: 1.3rem;
@@ -218,10 +288,32 @@
                 flex-direction: column;
                 align-items: center;
             }
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
     <div class="container">
         <header class="header">
             <h1>MEET OUR BOARD</h1>
@@ -242,7 +334,7 @@
         <div class="board-grid">
             <div class="board-member">
                 <div class="member-photo">
-                    <img src="../images/Jeff Self.JPG" alt="Jeff Self" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="../Images/Jeff Self.JPG" alt="Jeff Self" onerror="this.parentElement.innerHTML='Photo not available'">
                 </div>
                 <div class="member-info">
                     <div class="member-name">Jeff Self</div>
@@ -257,7 +349,7 @@
 
             <div class="board-member">
                 <div class="member-photo">
-                    <img src="../images/Kyle McConnell.JPG" alt="Kyle McConnell" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="../Images/Kyle McConnell.JPG" alt="Kyle McConnell" onerror="this.parentElement.innerHTML='Photo not available'">
                 </div>
                 <div class="member-info">
                     <div class="member-name">Kyle McConnell</div>
@@ -273,7 +365,7 @@
 
             <div class="board-member">
                 <div class="member-photo">
-                    <img src="../images/Randy Wenger.JPG" alt="Randy Wenger" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="../Images/Randy Wenger.JPG" alt="Randy Wenger" onerror="this.parentElement.innerHTML='Photo not available'">
                 </div>
                 <div class="member-info">
                     <div class="member-name">Randy Wenger</div>
@@ -289,7 +381,7 @@
 
             <div class="board-member">
                 <div class="member-photo">
-                    <img src="../images/Bruce Unruh.JPG" alt="Bruce Unruh" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="../Images/Bruce Unruh.JPG" alt="Bruce Unruh" onerror="this.parentElement.innerHTML='Photo not available'">
                 </div>
                 <div class="member-info">
                     <div class="member-name">Bruce Unruh</div>
@@ -304,7 +396,7 @@
 
             <div class="board-member">
                 <div class="member-photo">
-                    <img src="../images/Josh Hasart.JPG" alt="Josh Hasart" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="../Images/Josh Hasart.JPG" alt="Josh Hasart" onerror="this.parentElement.innerHTML='Photo not available'">
                 </div>
                 <div class="member-info">
                     <div class="member-name">Josh Hasart</div>
@@ -319,7 +411,7 @@
 
             <div class="board-member">
                 <div class="member-photo">
-                    <img src="../images/Jeff Cure.JPG" alt="Jeff Cure" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="../Images/Jeff Cure.JPG" alt="Jeff Cure" onerror="this.parentElement.innerHTML='Photo not available'">
                 </div>
                 <div class="member-info">
                     <div class="member-name">Jeff Cure</div>
@@ -335,7 +427,7 @@
 
             <div class="board-member">
                 <div class="member-photo">
-                    <img src="../images/Dave Cure.JPG" alt="Dave Cure" style="width: 100%; height: 100%; object-fit: cover;">
+                    <img src="../Images/Dave Cure.JPG" alt="Dave Cure" onerror="this.parentElement.innerHTML='Photo not available'">
                 </div>
                 <div class="member-info">
                     <div class="member-name">Dave Cure</div>
@@ -348,3 +440,54 @@
                     </div>
                 </div>
             </div>
+
+            <div class="board-member">
+                <div class="member-photo">
+                    <img src="../Images/Mike Lefever.JPG" alt="Mike Lefever" onerror="this.parentElement.innerHTML='Photo not available'">
+                </div>
+                <div class="member-info">
+                    <div class="member-name">Mike Lefever</div>
+                    <div class="member-title">Board Member</div>
+                    <div class="member-location">Wiggins, Colorado</div>
+                    <div class="member-bio">
+                        <p>Mike Lefever brings extensive political and organizational leadership experience to the CCGA board. As a former administration committee president, Mike has demonstrated strong leadership capabilities in managing complex agricultural organizations and initiatives.</p>
+                        <p>With years of experience in politics, Mike understands the intricacies of policy development and advocacy at multiple levels of government. His political background provides valuable insight into navigating the legislative and regulatory processes that directly impact Colorado corn growers.</p>
+                        <p>Mike's service on the National Corn Growers Association (NCGA) board brings national-level perspective to CCGA's advocacy efforts. This experience at the highest levels of corn industry representation ensures that Colorado's voice is informed by and connected to broader national agricultural policy discussions and initiatives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leadership-section">
+            <h2>Proven Leadership, Real Results</h2>
+            <p>This volunteer board has delivered over $1.2 billion in assistance for Colorado agriculture since 2018. From Market Facilitation Programs to SDRP victories, from regulatory relief to farm bill advocacy - these results come from dedication, not luck.</p>
+            <p>Every Friday morning, while others sleep in, our board members are on calls with Washington lobbyists, policymakers, and agricultural leaders. This is the commitment that separates CCGA from organizations that just collect fees and hold meetings.</p>
+            <p>When disaster strikes, when policies threaten, when opportunities arise - CCGA's board is already working, already advocating, already fighting for Colorado corn growers.</p>
+        </div>
+
+        <div class="nav-links-footer">
+            <h3>Learn More About CCGA</h3>
+            <div class="nav-buttons">
+                <a href="../index.html" class="nav-btn">Back to Home</a>
+                <a href="about.html" class="nav-btn">About CCGA</a>
+                <a href="become-a-sponsor.html" class="nav-btn">Become a Sponsor</a>
+                <a href="sponsorship-form.html" class="nav-btn">Sponsorship Form</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(26, 26, 26, 0.98)';
+                navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.background = 'rgba(26, 26, 26, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
