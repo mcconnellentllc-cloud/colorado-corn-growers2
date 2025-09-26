@@ -88,231 +88,413 @@
             padding: 20px;
         }
         
-        .header {
+        .hero-section {
             background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
             color: white;
-            padding: 60px 0;
+            padding: 80px 0;
             text-align: center;
             margin-bottom: 50px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .header h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        
-        .header p {
-            font-size: 1.3rem;
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0.95;
-        }
-        
-        .mission-statement {
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            color: #1a1a1a;
-            padding: 40px;
-            margin-bottom: 40px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border: 3px solid #b8860b;
-        }
-        
-        .mission-statement h2 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-        
-        .mission-statement p {
-            font-size: 1.2rem;
-            font-weight: 600;
-            line-height: 1.7;
-        }
-        
-        .content-section {
-            background: white;
-            margin-bottom: 40px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            position: relative;
             overflow: hidden;
         }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="25" cy="25" r="2" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1.5" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
         
-        .section-header {
-            background: #2c5530;
-            color: white;
-            padding: 25px 40px;
-            font-size: 1.8rem;
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero-section .tagline {
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            background: rgba(255,255,255,0.15);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-stat-number {
+            font-size: 2.2rem;
             font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 5px;
+        }
+
+        .hero-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
         }
         
-        .section-content {
-            padding: 40px;
+        .story-section {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .story-section::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 6rem;
+            color: #f7c52d;
+            opacity: 0.3;
+            font-family: serif;
         }
         
-        .section-content h3 {
+        .story-section h2 {
             color: #2c5530;
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .story-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .story-content .highlight {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+            color: #856404;
+        }
+        
+        .approach-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 50px 0;
+        }
+
+        .approach-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-top: 5px solid #4a7c59;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .approach-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #4a7c59 0%, #d4af37 100%);
+        }
+
+        .approach-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .approach-card h3 {
+            color: #2c5530;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .approach-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .friday-spotlight {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            padding: 40px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border-left: 6px solid #28a745;
+            position: relative;
+        }
+
+        .friday-spotlight h4 {
+            color: #155724;
             font-size: 1.4rem;
             margin-bottom: 15px;
-            font-weight: bold;
+            font-weight: 600;
         }
-        
-        .section-content p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-        
-        .friday-highlight {
-            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
-            padding: 30px;
-            border-radius: 8px;
-            border-left: 5px solid #28a745;
-            margin: 25px 0;
-        }
-        
-        .friday-highlight h3 {
-            color: #155724;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .friday-highlight p {
+
+        .friday-spotlight p {
             color: #155724;
             font-size: 1.1rem;
             font-weight: 500;
+            line-height: 1.7;
         }
         
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
-        .stat-card {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            text-align: center;
-            border-left: 4px solid #4a7c59;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2c5530;
-            display: block;
-        }
-        
-        .stat-label {
-            font-size: 1rem;
-            color: #666;
-            margin-top: 5px;
-        }
-        
-        .independence-section {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        .impact-section {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
             color: white;
-            padding: 40px;
-            margin: 40px 0;
-            border-radius: 10px;
+            padding: 60px;
+            border-radius: 20px;
+            margin: 50px 0;
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
-        
-        .independence-section h2 {
+
+        .impact-section h2 {
+            font-size: 2.6rem;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .impact-item {
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .impact-amount {
             font-size: 2.2rem;
-            margin-bottom: 20px;
             font-weight: bold;
+            color: #d4af37;
+            margin-bottom: 10px;
         }
-        
+
+        .impact-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .impact-desc {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .independence-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 50px;
+            border-radius: 20px;
+            margin: 50px 0;
+            text-align: center;
+            border: 2px solid #4a7c59;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .independence-section h2 {
+            color: #2c5530;
+            font-size: 2.4rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
         .independence-section p {
             font-size: 1.2rem;
             line-height: 1.7;
-            margin-bottom: 15px;
-        }
-        
-        .alliance-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 30px 0;
-        }
-        
-        .alliance-card {
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border-top: 5px solid #4a7c59;
-            text-align: center;
-        }
-        
-        .alliance-card h3 {
-            color: #2c5530;
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-        }
-        
-        .contact-footer {
-            background: #2c5530;
-            color: white;
-            padding: 40px;
-            text-align: center;
-            border-radius: 10px;
-            margin-top: 40px;
-        }
-        
-        .contact-footer h2 {
-            font-size: 2rem;
+            color: #555;
             margin-bottom: 20px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        
-        .contact-info {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
+
+        .partnerships-section {
+            margin: 50px 0;
         }
-        
+
+        .partnerships-section h2 {
+            color: #2c5530;
+            font-size: 2.6rem;
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .partnership-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+        }
+
+        .partnership-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-top: 4px solid #d4af37;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .partnership-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+        }
+
+        .partnership-card h3 {
+            color: #2c5530;
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .partnership-card p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #666;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            color: #1a1a1a;
+            padding: 60px;
+            border-radius: 20px;
+            text-align: center;
+            margin: 50px 0;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        }
+
+        .cta-section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .cta-section p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
         .cta-button {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
             color: white;
-            padding: 15px 30px;
+            padding: 18px 35px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 1.2rem;
-            font-weight: bold;
-            margin: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: 600;
             text-decoration: none;
             display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
-        
+
         .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.3);
         }
-        
+
+        .contact-info {
+            background: #2c5530;
+            color: white;
+            padding: 50px;
+            border-radius: 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .contact-details {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 400;
+        }
+
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
+            .hero-section h1 {
+                font-size: 2.5rem;
             }
-            .header p {
-                font-size: 1rem;
+            .hero-section .tagline {
+                font-size: 1.1rem;
             }
-            .stats-grid {
+            .hero-stats {
+                gap: 20px;
+                flex-direction: column;
+                align-items: center;
+            }
+            .approach-section {
+                grid-template-columns: 1fr;
+            }
+            .partnership-grid {
                 grid-template-columns: 1fr;
             }
             .container {
                 padding: 10px;
             }
-            .section-content {
-                padding: 25px;
+            .story-section, .impact-section, .independence-section {
+                padding: 30px 25px;
             }
             .nav-links {
                 flex-direction: column;
@@ -321,6 +503,10 @@
             .nav-container {
                 flex-direction: column;
                 gap: 1rem;
+            }
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -341,116 +527,149 @@
     </nav>
 
     <div class="container">
-        <header class="header">
-            <h1>ABOUT CCGA</h1>
-            <p>Volunteer Corn Producers Fighting for Colorado Agriculture</p>
-        </header>
-
-        <div class="mission-statement">
-            <h2>We Are Real Farmers, Not Bureaucrats</h2>
-            <p>The Colorado Corn Growers Association is comprised of volunteer corn producers with a deep passion for farm policy. We don't just manage programs - we fight for the policies that keep Colorado agriculture viable.</p>
-        </div>
-
-        <div class="content-section">
-            <div class="section-header">Our Grassroots Approach</div>
-            <div class="section-content">
-                <p>Unlike bureaucratic organizations that operate on automatic funding streams, CCGA is driven by volunteer corn growers who roll up their sleeves and get to work. We're not paid staff managing existing programs - we're working farmers who understand what it takes to survive in today's agricultural economy.</p>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>COLORADO CORN GROWERS</h1>
+                <p class="tagline">Where Real Farmers Drive Real Results Through Strategic Advocacy</p>
                 
-                <div class="friday-highlight">
-                    <h3>Every Friday Morning: The Fight Continues</h3>
-                    <p>Most every Friday morning, you'll find CCGA volunteer board members on phone calls and video conferences with lobbyists, politicians, and policy makers. Why? Because Washington never stops, and it's a constant battle to keep Colorado corn growers at the forefront of funding and policy decisions. While others wait for things to happen, we make them happen.</p>
-                </div>
-                
-                <p>This isn't a hobby for us - it's survival. When disaster strikes, when trade wars threaten our markets, when regulations threaten our operations, we're already on the phone, already working the relationships, already fighting for Colorado corn growers.</p>
-            </div>
-        </div>
-
-        <div class="content-section">
-            <div class="section-header">Our Proven Track Record</div>
-            <div class="section-content">
-                <p>Since 2018, our volunteer advocacy efforts have secured well over <strong>$1.2 billion</strong> in critical assistance for Colorado agriculture. This didn't happen by accident - it happened because CCGA volunteers were in Washington, on the phone, and at the table when these programs were being developed.</p>
-                
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <span class="stat-number">$1.2B+</span>
-                        <div class="stat-label">Total Assistance Secured</div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">$1.2B+</div>
+                        <div class="hero-stat-label">Secured Since 2018</div>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-number">52+</span>
-                        <div class="stat-label">Friday Morning Advocacy Sessions per Year</div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">52</div>
+                        <div class="hero-stat-label">Advocacy Sessions/Year</div>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-number">7</span>
-                        <div class="stat-label">Years Fighting Through Agricultural Recession</div>
-                    </div>
-                    <div class="stat-card">
-                        <span class="stat-number">100%</span>
-                        <div class="stat-label">Volunteer-Driven Organization</div>
-                    </div>
-                </div>
-                
-                <h3>Current Victories Include:</h3>
-                <p><strong>Market Facilitation Programs:</strong> Over $100 million secured for Colorado producers during the China trade war</p>
-                <p><strong>CFAP 1 & 2:</strong> Over $400 million in COVID-19 relief for Colorado agriculture</p>
-                <p><strong>ARC and PLC Payments:</strong> Over $300 million in farm bill safety net payments</p>
-                <p><strong>PPP Loans:</strong> Over $200 million helping Colorado farms survive the pandemic</p>
-                <p><strong>ECAP:</strong> Fighting for Colorado's share of $8 billion in economic assistance</p>
-                <p><strong>SDRP Victory:</strong> Our SWCA partnership's successful advocacy for "excessive heat" as a qualifying disaster peril expanded Colorado's eligibility from just 24 drought counties to statewide coverage - potentially multiplying disaster payments by several times over.</p>
-            </div>
-        </div>
-
-        <div class="independence-section">
-            <h2>100% Independent, Voluntary Support</h2>
-            <p>We collect NO automatic funding streams. We receive NO government mandated fees. We depend entirely on voluntary memberships and sponsorships from those who believe in effective advocacy.</p>
-            <p>This independence means we can fight for what's right, not what's politically convenient. We answer to corn growers, not government bureaucrats.</p>
-        </div>
-
-        <div class="content-section">
-            <div class="section-header">Strategic Partnerships That Multiply Our Impact</div>
-            <div class="section-content">
-                <p>CCGA doesn't fight alone. Our volunteer board members have built strategic alliances that amplify Colorado's voice on the national stage.</p>
-                
-                <div class="alliance-grid">
-                    <div class="alliance-card">
-                        <h3>Southwest Council of Agribusiness (SWCA)</h3>
-                        <p>Our partnership with SWCA gives Colorado corn growers a powerful voice in Washington. Together, we've secured hundreds of millions in disaster relief and critical policy victories like the excessive heat SDRP qualification that dramatically expanded Colorado's eligibility for disaster payments.</p>
-                    </div>
-                    
-                    <div class="alliance-card">
-                        <h3>National Corn Growers Association (NCGA)</h3>
-                        <p>Through NCGA, our volunteer advocacy reaches national policy makers and ensures Colorado's voice is heard in every major agricultural decision in Washington, D.C. This partnership helps us defend current markets and fight for new opportunities like ethanol expansion and international trade deals.</p>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">100%</div>
+                        <div class="hero-stat-label">Volunteer Driven</div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <div class="content-section">
-            <div class="section-header">The Burlington Connection</div>
-            <div class="section-content">
-                <p>Our Burlington office serves as the hub of our volunteer operation. Located in the heart of Colorado corn country, this office represents our grassroots commitment to staying connected to the farmers we serve.</p>
+        <section class="story-section">
+            <h2>Who We Are</h2>
+            <div class="story-content">
+                <p>The Colorado Corn Growers Association represents something unique in agriculture: <span class="highlight">working farmers who refuse to wait for someone else to solve their problems</span>. We're not career bureaucrats managing programs from air-conditioned offices. We're corn producers with dirt under our fingernails and spreadsheets showing why aggressive advocacy isn't optional anymore.</p>
                 
-                <p>From Burlington, our volunteer board members coordinate their Friday morning advocacy sessions, maintain relationships with key political allies, and ensure Colorado corn growers have a voice in policy decisions being made hundreds of miles away in Washington.</p>
+                <p>When agricultural challenges threaten our livelihoods, most organizations schedule meetings. <span class="highlight">We schedule phone calls with lawmakers</span>. When disaster strikes, others wait for existing programs. We fight to create new ones. When trade wars threaten our markets, we don't just complain about it on social media—we work Washington directly.</p>
+            </div>
+        </section>
+
+        <div class="approach-section">
+            <div class="approach-card">
+                <h3>The Friday Morning Formula</h3>
+                <p>Most every Friday morning, our volunteer board members are on strategic calls with lobbyists, politicians, and policy makers. This isn't casual conversation—it's systematic advocacy that has delivered over $1.2 billion in results since 2018.</p>
                 
-                <p>This isn't a corporate headquarters - it's a working office where real farmers gather to fight for real solutions to the challenges facing Colorado agriculture.</p>
+                <div class="friday-spotlight">
+                    <h4>Why Friday Mornings Matter</h4>
+                    <p>Washington operates on a relentless schedule, and agricultural policy decisions happen whether we're involved or not. Our Friday morning sessions ensure Colorado corn growers have a voice in every critical decision affecting our industry.</p>
+                </div>
+            </div>
+
+            <div class="approach-card">
+                <h3>Expertise That Delivers</h3>
+                <p>Our board combines practical farming experience with professional expertise that gives us credibility in policy circles. We have practicing attorneys, political veterans, and national board members who understand both farming and how Washington really works.</p>
+                
+                <p>This combination of agricultural knowledge and political expertise is what separates effective advocacy from well-intentioned meetings that accomplish nothing.</p>
+            </div>
+
+            <div class="approach-card">
+                <h3>Strategic Partnerships</h3>
+                <p>Through our partnerships with the Southwest Council of Agribusiness (SWCA) and National Corn Growers Association (NCGA), our advocacy reaches far beyond Colorado's borders. These alliances amplify our voice and multiply our impact on national agricultural policy.</p>
+                
+                <p>Recent partnership victories include expanding disaster relief eligibility from 24 counties to statewide coverage—potentially multiplying relief payments several times over.</p>
             </div>
         </div>
 
-        <div class="contact-footer">
-            <h2>Join Our Fight</h2>
-            <div class="contact-info">PO Box 340, Burlington, CO 80807</div>
-            <div class="contact-info">1-877-CO-GROW-9 | office@cologrowers.com</div>
+        <section class="impact-section">
+            <h2>Proven Results Since 2018</h2>
+            <p style="font-size: 1.3rem; margin-bottom: 40px; opacity: 0.95;">When agricultural survival depends on federal programs and policies, advocacy isn't optional—it's essential.</p>
             
-            <p style="margin: 30px 0; font-size: 1.1rem; font-style: italic;">
-                "We're volunteer corn producers with a passion for farm policy.<br>
-                Every Friday morning, we're fighting for Colorado agriculture.<br>
-                Because Washington never stops, and neither do we."
+            <div class="impact-grid">
+                <div class="impact-item">
+                    <div class="impact-amount">$400M+</div>
+                    <div class="impact-title">COVID-19 Relief</div>
+                    <div class="impact-desc">CFAP 1 & 2 programs secured through persistent advocacy during the pandemic</div>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-amount">$300M+</div>
+                    <div class="impact-title">Safety Net Payments</div>
+                    <div class="impact-desc">ARC and PLC payments protecting Colorado farms during market downturns</div>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-amount">$200M+</div>
+                    <div class="impact-title">Business Survival</div>
+                    <div class="impact-desc">PPP loans helping Colorado farms navigate economic uncertainty</div>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-amount">$100M+</div>
+                    <div class="impact-title">Trade War Relief</div>
+                    <div class="impact-desc">Market Facilitation Programs during China trade disputes</div>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-amount">Statewide</div>
+                    <div class="impact-title">SDRP Expansion</div>
+                    <div class="impact-desc">Expanded disaster relief from 24 counties to full Colorado coverage</div>
+                </div>
+                
+                <div class="impact-item">
+                    <div class="impact-amount">$8B</div>
+                    <div class="impact-title">National Programs</div>
+                    <div class="impact-desc">ECAP and other programs secured through coalition advocacy</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="independence-section">
+            <h2>Independence Through Choice</h2>
+            <p>The Colorado Corn Growers Association operates through voluntary support, not mandatory fees. We collect no checkoff dollars and receive no automatic funding streams. This independence means we can advocate for what's right for corn growers, not what's politically convenient for bureaucratic stakeholders.</p>
+            
+            <p><strong>Every dollar we receive is a voluntary investment in advocacy that delivers measurable results.</strong> Our supporters choose to fund our work because they've seen what strategic, persistent advocacy can accomplish when it's driven by working farmers rather than career administrators.</p>
+        </section>
+
+        <section class="partnerships-section">
+            <h2>Strategic Alliances That Multiply Impact</h2>
+            
+            <div class="partnership-grid">
+                <div class="partnership-card">
+                    <h3>Southwest Council of Agribusiness (SWCA)</h3>
+                    <p>Our partnership with SWCA gives Colorado corn growers powerful representation in Washington policy discussions. Together, we've secured critical victories like the "excessive heat" disaster qualification that expanded Colorado's relief eligibility statewide—a game-changing policy win that dramatically increased potential disaster payments for Colorado producers.</p>
+                </div>
+                
+                <div class="partnership-card">
+                    <h3>National Corn Growers Association (NCGA)</h3>
+                    <p>Through NCGA, our local advocacy reaches national decision-makers. Board member Mike Lefever's service on NCGA's board ensures Colorado maintains influence in every major agricultural policy decision. This national connection has been instrumental in securing Colorado's share of federal programs and defending corn grower interests in trade negotiations.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Agriculture's Future Depends on Strategic Advocacy</h2>
+            <p>The next federal farm bill, trade negotiations, and regulatory battles will determine whether Colorado corn growing remains viable or becomes a historical footnote. These decisions won't wait for us to get organized—they're happening now.</p>
+            
+            <div class="cta-buttons">
+                <a href="become-a-sponsor.html" class="cta-button">Support Our Advocacy</a>
+                <a href="meet-our-board.html" class="cta-button">Meet Our Team</a>
+                <a href="https://www.ncga.com/membership/join-ncga" target="_blank" class="cta-button">Become a Member</a>
+            </div>
+        </section>
+
+        <footer class="contact-info">
+            <h3>Colorado Corn Growers Association</h3>
+            <div class="contact-details">PO Box 340, Burlington, CO 80807</div>
+            <div class="contact-details">1-877-CO-GROW-9 | office@cologrowers.com</div>
+            
+            <p style="margin-top: 30px; font-style: italic; font-size: 1.2rem; opacity: 0.9;">
+                "Real farmers. Real results. Real advocacy that makes a difference."
             </p>
-            
-            <div>
-                <a href="sponsorship-form.html" target="_blank" class="cta-button">SUPPORT OUR FIGHT</a>
-                <a href="become-a-sponsor.html" class="cta-button">LEARN MORE</a>
-            </div>
-        </div>
+        </footer>
     </div>
 </body>
 </html>
