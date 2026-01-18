@@ -312,54 +312,83 @@
         }
 
         .sponsor-teaser {
-            background: linear-gradient(135deg, rgba(220, 38, 38, 0.9), rgba(239, 68, 68, 0.9));
-            border: 3px solid #f7c52d;
-            border-radius: 15px;
+            background: linear-gradient(135deg, #2c5530 0%, #3d7044 50%, #4a8052 100%);
+            border: none;
+            border-radius: 20px;
             padding: 4rem;
             margin: 4rem 0;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 40px rgba(44, 85, 48, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sponsor-teaser::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f7c52d, #e6b800, #f7c52d);
         }
 
         .sponsor-teaser h2 {
-            color: #f7c52d;
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .sponsor-teaser .subtitle {
+            color: #f7c52d;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            font-style: italic;
         }
 
         .sponsor-teaser p {
-            font-size: 1.4rem;
-            font-weight: bold;
+            font-size: 1.15rem;
+            font-weight: normal;
             margin-bottom: 1.5rem;
-            line-height: 1.6;
+            line-height: 1.8;
+            color: #e8f0e8;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .sponsor-highlight {
-            background-color: #f7c52d;
-            color: #1a1a1a;
-            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(247, 197, 45, 0.4);
+            color: #ffffff;
+            padding: 1.5rem 2rem;
             border-radius: 10px;
-            margin: 2rem 0;
-            font-size: 1.5rem;
-            font-weight: bold;
+            margin: 2rem auto;
+            font-size: 1.1rem;
+            font-weight: 500;
+            max-width: 700px;
+        }
+
+        .sponsor-highlight strong {
+            color: #f7c52d;
         }
 
         .sponsor-btn {
             display: inline-block;
             background: linear-gradient(45deg, #f7c52d, #e6b800);
             color: #1a1a1a;
-            padding: 20px 40px;
+            padding: 16px 32px;
             text-decoration: none;
             border-radius: 8px;
-            font-weight: bold;
-            font-size: 1.2rem;
+            font-weight: 600;
+            font-size: 1rem;
             transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 1rem;
+            letter-spacing: 1px;
+            margin: 0.75rem;
         }
 
         .sponsor-btn:hover {
@@ -561,20 +590,38 @@
                 <li>SDRP Victory: SWCA partnership's "excessive heat" advocacy expanded Colorado's eligibility from 24 drought counties to statewide coverage</li>
                 <li>Regulatory Relief: Successfully fought against SB-021's burdensome labor regulations</li>
                 <li>Championed Renewable Fuel Standard (RFS) protecting ethanol markets</li>
+                <li><strong>NEW: CLIP Program:</strong> Co-developed the Crop & Livestock Income Protection program with Texas Corn Producers and AgriLogic - a new federally subsidized umbrella insurance option for diversified farms</li>
             </ul>
+        </div>
+
+        <!-- CLIP Feature Section -->
+        <div style="background: linear-gradient(135deg, #2c5530, #4a7c59); padding: 3rem; border-radius: 12px; margin-top: 3rem; color: white;">
+            <h3 style="color: #f7c52d; font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: 400;">Latest Achievement: CLIP Insurance Program</h3>
+            <p style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                The Colorado Corn Growers Association, alongside the <strong>Texas Corn Producers</strong> and <strong>AgriLogic Consulting</strong>, helped conceive and develop the <strong>Crop & Livestock Income Protection (CLIP)</strong> program - a groundbreaking new insurance option for America's farmers.
+            </p>
+            <p style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                CLIP is a federally subsidized umbrella revenue protection program that works alongside existing Federal Revenue Protection policies. It allows diversified operations to elect higher coverage levels at more affordable rates by leveraging the risk diversification of multiple commodities.
+            </p>
+            <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem; opacity: 0.9;">
+                This is what real advocacy looks like: working with partners across state lines to create new tools that help farmers manage risk and protect their livelihoods.
+            </p>
+            <a href="https://clipfarmcoverage.com/" target="_blank" style="display: inline-block; background: #f7c52d; color: #1a1a1a; padding: 12px 28px; border-radius: 6px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">Learn More About CLIP</a>
         </div>
     </section>
 
     <div class="sponsor-teaser">
-        <h2>Colorado Corn Growers Need Your Support</h2>
-        <p>If farm assistance helped you survive - IT'S TIME TO PAY IT BACK.</p>
-        <p>Every disaster payment, crop insurance benefit, and farm program you received happened because WE FOUGHT FOR THEM.</p>
+        <h2>Partner With Us</h2>
+        <p class="subtitle">Your support keeps Colorado agriculture strong</p>
+        <p>Unlike many agricultural organizations, we receive no automatic checkoff funding. Every dollar that powers our advocacy comes from voluntary memberships and sponsorships from people who believe in what we do.</p>
+        <p>Your support directly funds the work that matters: traveling to Washington to meet with legislators, hosting events that bring growers together, and maintaining the relationships that have helped secure over $1.2 billion for Colorado agriculture.</p>
         <div class="sponsor-highlight">
-            THE BETTER WE DO, THE MORE ASSISTANCE COMES TO COLORADO FARMERS
+            <strong>Memberships</strong> give you a voice in our direction. <strong>Sponsorships</strong> fuel our mission. Both are essential to keeping Colorado corn growers represented at every level.
         </div>
-        <p style="font-size: 1.6rem; margin: 2rem 0;">We depend entirely on voluntary sponsorships and memberships to fight for YOU. Your sponsorship directly funds the travel and promotional gatherings that keep Colorado corn growers at the forefront of policy decisions.</p>
-        <a href="Pages/become-a-sponsor.html" class="sponsor-btn">VIEW SPONSORSHIP OPPORTUNITIES</a>
-        <a href="tel:1-877-264-7699" class="sponsor-btn">CALL NOW: 1-877-CO-GROW-9</a>
+        <p>Whether you're a farmer, agribusiness, or supporter of Colorado agriculture, there's a way for you to be part of this work.</p>
+        <a href="Pages/become-a-sponsor.html" class="sponsor-btn">View Sponsorship Levels</a>
+        <a href="https://www.ncga.com/membership/join-ncga" target="_blank" class="sponsor-btn">Become a Member</a>
+        <a href="tel:1-877-264-7699" class="sponsor-btn">Call: 1-877-CO-GROW-9</a>
     </div>
 
     <section id="board" class="section">
