@@ -4,6 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partner with Champions - Colorado Corn Growers Association</title>
+
+    <!-- Social Media Sharing Meta Tags -->
+    <meta property="og:title" content="Partner with Colorado Corn Growers Association">
+    <meta property="og:description" content="Join the organization that's delivered $1.2 billion in results for Colorado agriculture. Your sponsorship powers advocacy that works.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://coloradocorngrowers.com/Pages/become-a-sponsor.html">
+    <meta property="og:image" content="https://coloradocorngrowers.com/images/ccga-social-share.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Partner with Colorado Corn Growers Association">
+    <meta name="twitter:description" content="Join the organization that's delivered $1.2 billion in results for Colorado agriculture.">
+    <meta name="twitter:image" content="https://coloradocorngrowers.com/images/ccga-social-share.jpg">
+
+    <!-- General Meta -->
+    <meta name="description" content="Become a sponsor of the Colorado Corn Growers Association. Support agricultural advocacy that delivers real results for Colorado farmers.">
+
     <style>
         * {
             margin: 0;
@@ -584,6 +602,152 @@
             color: #2c5530;
         }
 
+        .payment-section {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 25px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .payment-section h2 {
+            color: #2c5530;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .payment-section > p {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .payment-option {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-radius: 15px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            min-width: 250px;
+        }
+
+        .payment-option:hover {
+            border-color: #4a7c59;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .payment-option h3 {
+            color: #2c5530;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+
+        .payment-option p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .payment-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a7c59 0%, #2c5530 100%);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .payment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
+        }
+
+        .payment-btn.venmo {
+            background: linear-gradient(135deg, #008CFF 0%, #0070CC 100%);
+        }
+
+        .payment-btn.stripe {
+            background: linear-gradient(135deg, #635BFF 0%, #4B45C6 100%);
+        }
+
+        .payment-note {
+            font-size: 0.95rem;
+            color: #888;
+            margin-top: 20px;
+        }
+
+        .share-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 40px;
+            border-radius: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .share-section h3 {
+            color: #2c5530;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .share-btn.facebook {
+            background: #1877F2;
+            color: white;
+        }
+
+        .share-btn.twitter {
+            background: #1DA1F2;
+            color: white;
+        }
+
+        .share-btn.linkedin {
+            background: #0A66C2;
+            color: white;
+        }
+
+        .share-btn.email {
+            background: #2c5530;
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .hero-section h1 {
                 font-size: 2.8rem;
@@ -822,6 +986,55 @@
                 </ul>
             </div>
         </section>
+
+        <!-- Payment Section -->
+        <section class="payment-section">
+            <h2>Easy Ways to Support</h2>
+            <p>Choose the payment method that works best for you. All contributions go directly to supporting Colorado agriculture advocacy.</p>
+
+            <div class="payment-options">
+                <div class="payment-option">
+                    <h3>Pay with Venmo</h3>
+                    <p>Quick and easy mobile payment</p>
+                    <!-- TODO: Replace with actual Venmo link when ready -->
+                    <a href="#" class="payment-btn venmo" id="venmo-btn">@CCGA-Venmo</a>
+                </div>
+
+                <div class="payment-option">
+                    <h3>Pay with Card</h3>
+                    <p>Secure credit/debit card payment</p>
+                    <!-- TODO: Replace with actual Stripe link when ready -->
+                    <a href="#" class="payment-btn stripe" id="stripe-btn">Pay with Stripe</a>
+                </div>
+
+                <div class="payment-option">
+                    <h3>Pay by Check</h3>
+                    <p>Mail to: PO Box 340<br>Burlington, CO 80807</p>
+                    <span style="color: #2c5530; font-weight: 600;">Payable to: CCGA</span>
+                </div>
+            </div>
+
+            <p class="payment-note">Questions about payment? Call 1-877-CO-GROW-9 or email office@cologrowers.com</p>
+        </section>
+
+        <!-- Share Section -->
+        <div class="share-section">
+            <h3>Help Spread the Word</h3>
+            <div class="share-buttons">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://coloradocorngrowers.com/Pages/become-a-sponsor.html" target="_blank" class="share-btn facebook">
+                    Share on Facebook
+                </a>
+                <a href="https://twitter.com/intent/tweet?url=https://coloradocorngrowers.com/Pages/become-a-sponsor.html&text=Support%20Colorado%20agriculture%20-%20Partner%20with%20the%20Colorado%20Corn%20Growers%20Association" target="_blank" class="share-btn twitter">
+                    Share on X
+                </a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coloradocorngrowers.com/Pages/become-a-sponsor.html&title=Partner%20with%20Colorado%20Corn%20Growers" target="_blank" class="share-btn linkedin">
+                    Share on LinkedIn
+                </a>
+                <a href="mailto:?subject=Support%20Colorado%20Corn%20Growers&body=Check%20out%20sponsorship%20opportunities%20with%20the%20Colorado%20Corn%20Growers%20Association:%20https://coloradocorngrowers.com/Pages/become-a-sponsor.html" class="share-btn email">
+                    Share via Email
+                </a>
+            </div>
+        </div>
 
         <section class="partnership-benefits">
             <h2>Beyond Sponsorship: True Partnership</h2>
