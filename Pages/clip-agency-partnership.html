@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLIP Agency Partnership - Colorado Corn Growers Association</title>
+
+    <!-- Social Media Sharing Meta Tags -->
+    <meta property="og:title" content="CLIP Agency Partnership - Colorado Corn Growers">
+    <meta property="og:description" content="Offer CLIP coverage to your clients. Get personalized training for your agency or district from the team that helped create the program.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://coloradocorngrowers.com/Pages/clip-agency-partnership.html">
+    <meta property="og:image" content="https://coloradocorngrowers.com/images/ccga-social-share.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CLIP Agency Partnership - Colorado Corn Growers">
+    <meta name="twitter:description" content="Personalized CLIP training for crop insurance agencies. From the team that helped create the program.">
+    <meta name="twitter:image" content="https://coloradocorngrowers.com/images/ccga-social-share.jpg">
+
+    <meta name="description" content="Crop insurance agencies can get personalized CLIP training and meetings from the Colorado Corn Growers Association - the team that helped develop the program.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding-top: 100px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #f7c52d;
+            font-size: 1.6rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #f7c52d;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 80px 50px;
+            text-align: center;
+            margin-bottom: 50px;
+            border-radius: 25px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #d4af37, #ffd700, #d4af37);
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero-section .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .intro-section {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .intro-section h2 {
+            color: #2c5530;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .intro-section p {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fff8e7 0%, #fffdf5 100%);
+            border-left: 5px solid #d4af37;
+            padding: 25px 30px;
+            margin: 30px 0;
+            border-radius: 0 15px 15px 0;
+        }
+
+        .highlight-box p {
+            color: #856404;
+            font-weight: 500;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .offering-section {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 60px 50px;
+            border-radius: 25px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .offering-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .offering-section .price {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #d4af37;
+            margin: 20px 0;
+        }
+
+        .offering-section .price-note {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .benefit-card {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .benefit-card h3 {
+            color: #d4af37;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .benefit-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .why-section {
+            background: white;
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .why-section h2 {
+            color: #2c5530;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .why-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .why-list li {
+            padding: 15px 0 15px 35px;
+            position: relative;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1rem;
+        }
+
+        .why-list li:last-child {
+            border-bottom: none;
+        }
+
+        .why-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #2c5530;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+            color: #1a1a1a;
+            padding: 60px 50px;
+            border-radius: 25px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #2c5530;
+            color: white;
+            padding: 18px 40px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            background: #1a3a1f;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid #2c5530;
+            color: #2c5530;
+        }
+
+        .cta-button.secondary:hover {
+            background: #2c5530;
+            color: white;
+        }
+
+        .share-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .share-section h3 {
+            color: #2c5530;
+            margin-bottom: 15px;
+        }
+
+        .share-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .share-btn.facebook { background: #1877F2; color: white; }
+        .share-btn.twitter { background: #1DA1F2; color: white; }
+        .share-btn.linkedin { background: #0A66C2; color: white; }
+        .share-btn.email { background: #2c5530; color: white; }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #2c5530;
+            color: white;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        footer h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        footer a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.2rem;
+            }
+            .hero-section, .intro-section, .offering-section, .why-section, .cta-section {
+                padding: 40px 25px;
+            }
+            .offering-section .price {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .contact-grid {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="hero-section">
+            <span class="badge">For Crop Insurance Agencies</span>
+            <h1>CLIP Agency Partnership</h1>
+            <p class="subtitle">Get personalized training on the CLIP program from the team that helped create it</p>
+        </section>
+
+        <section class="intro-section">
+            <h2>We Helped Build CLIP - Let Us Help You Sell It</h2>
+            <p>The Colorado Corn Growers Association worked alongside <strong>Texas Corn Producers</strong> and <strong>AgriLogic Consulting</strong> to conceive and develop the <strong>Crop & Livestock Income Protection (CLIP)</strong> program - a groundbreaking new umbrella insurance option for diversified farming operations.</p>
+            <p>Now we want to help crop insurance agencies understand and offer this valuable coverage to their clients. Our team has the insider knowledge on how CLIP works, why it was created, and how it can benefit your customers.</p>
+
+            <div class="highlight-box">
+                <p>CLIP provides federally subsidized umbrella revenue protection that works alongside existing Federal Revenue Protection policies - allowing diversified operations to access higher coverage levels at more affordable rates.</p>
+            </div>
+        </section>
+
+        <section class="offering-section">
+            <h2>Agency & District Training</h2>
+            <div class="price">$1,500</div>
+            <p class="price-note">Sponsorship includes personalized training for your agency or district</p>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Personalized Presentation</h3>
+                    <p>A customized training session tailored to your agency's needs, market area, and client base.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Expert Insights</h3>
+                    <p>Learn from the people who helped design the program - understand the "why" behind CLIP's structure.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Sales Support</h3>
+                    <p>Get talking points, client scenarios, and real-world examples to help explain CLIP's benefits.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Flexible Format</h3>
+                    <p>In-person at your location, virtual meeting, or district-wide event - we accommodate your schedule.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Q&A Session</h3>
+                    <p>Dedicated time to address your specific questions and scenarios from your client base.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Sponsor Recognition</h3>
+                    <p>Recognition as a CCGA Supporting Partner, showing your commitment to Colorado agriculture.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="why-section">
+            <h2>Why Partner With Us?</h2>
+            <ul class="why-list">
+                <li><strong>We were there from the beginning</strong> - Our association helped conceive and write the CLIP program</li>
+                <li><strong>Direct connection to AgriLogic</strong> - We work alongside the consulting team that developed CLIP</li>
+                <li><strong>Understand producer needs</strong> - As corn growers ourselves, we know what farmers need from their coverage</li>
+                <li><strong>Support Colorado agriculture</strong> - Your sponsorship directly funds agricultural advocacy that benefits your clients</li>
+                <li><strong>Ongoing relationship</strong> - Stay connected to policy developments affecting crop insurance</li>
+            </ul>
+        </section>
+
+        <section class="cta-section">
+            <h2>Schedule Your Agency Training</h2>
+            <p>Contact us to arrange a personalized CLIP training session for your agency or district.</p>
+
+            <div class="contact-grid">
+                <div class="contact-item">Call: 1-877-CO-GROW-9</div>
+                <div class="contact-item">Email: office@cologrowers.com</div>
+            </div>
+
+            <a href="mailto:office@cologrowers.com?subject=CLIP%20Agency%20Training%20Inquiry&body=I'm%20interested%20in%20scheduling%20a%20CLIP%20training%20session%20for%20my%20agency.%0A%0AAgency%20Name:%0AContact%20Name:%0APhone:%0APreferred%20Format%20(in-person/virtual):%0AApproximate%20Number%20of%20Attendees:" class="cta-button">Request Training</a>
+            <a href="tel:1-877-264-7699" class="cta-button secondary">Call Now</a>
+        </section>
+
+        <div class="share-section">
+            <h3>Share With Fellow Agents</h3>
+            <div class="share-buttons">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://coloradocorngrowers.com/Pages/clip-agency-partnership.html" target="_blank" class="share-btn facebook">Facebook</a>
+                <a href="https://twitter.com/intent/tweet?url=https://coloradocorngrowers.com/Pages/clip-agency-partnership.html&text=Crop%20insurance%20agents:%20Get%20personalized%20CLIP%20training%20from%20the%20team%20that%20helped%20create%20it" target="_blank" class="share-btn twitter">X</a>
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coloradocorngrowers.com/Pages/clip-agency-partnership.html&title=CLIP%20Agency%20Training" target="_blank" class="share-btn linkedin">LinkedIn</a>
+                <a href="mailto:?subject=CLIP%20Training%20for%20Crop%20Insurance%20Agencies&body=Check%20out%20this%20CLIP%20training%20opportunity%20from%20Colorado%20Corn%20Growers:%20https://coloradocorngrowers.com/Pages/clip-agency-partnership.html" class="share-btn email">Email</a>
+            </div>
+        </div>
+
+        <footer>
+            <h3>Colorado Corn Growers Association</h3>
+            <p>PO Box 340, Burlington, CO 80807</p>
+            <p>1-877-CO-GROW-9 | <a href="mailto:office@cologrowers.com">office@cologrowers.com</a></p>
+            <p style="margin-top: 20px; font-style: italic; color: #d4af37;">"Strategic Advocacy. Proven Results. Agricultural Champions."</p>
+        </footer>
+    </div>
+</body>
+</html>
