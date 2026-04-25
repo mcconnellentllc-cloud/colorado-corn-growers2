@@ -1,0 +1,6 @@
+title: "Colorado Corn Growers Association"
+description: "Volunteer-driven advocacy for Colorado corn producers."
+url: "https://www.cologrowers.com"
+exclude:
+  - "README.md"
+  - ".gitattributes"

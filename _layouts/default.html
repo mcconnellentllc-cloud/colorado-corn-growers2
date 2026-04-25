@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%- assign page_url = site.url | append: page.url -%}
+    {%- assign og_image = page.og_image | default: '/colorado-corn-field.jpg' -%}
+    {%- assign og_image_abs = site.url | append: og_image -%}
+    {%- assign og_title = page.og_title | default: page.title -%}
+    {%- assign tw_title = page.twitter_title | default: og_title -%}
+    {%- assign tw_desc = page.twitter_description | default: page.description -%}
+    <meta name="description" content="{{ page.description }}">
+    <meta property="og:title" content="{{ og_title }}">
+    <meta property="og:description" content="{{ page.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:image" content="{{ og_image_abs }}">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ tw_title }}">
+    <meta name="twitter:description" content="{{ tw_desc }}">
+    <meta name="twitter:image" content="{{ og_image_abs }}">
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    {%- if page.head_extra %}
+    {{ page.head_extra }}
+    {%- endif %}
+    {%- if page.page_styles %}
+    <style>{{ page.page_styles }}</style>
+    {%- endif %}
+</head>
+<body>
+    {% include nav.html %}
+    {{ content }}
+    {% include footer.html %}
+</body>
+</html>

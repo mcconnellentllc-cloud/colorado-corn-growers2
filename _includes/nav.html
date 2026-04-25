@@ -1,0 +1,13 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="nav-logo">Colorado Corn Growers</div>
+        <ul class="nav-links">
+            <li><a class="nav-link {% if page.url == '/' %}active{% endif %}" href="{{ '/' | relative_url }}">Home</a></li>
+            <li><a class="nav-link {% if page.url == '/Pages/about.html' %}active{% endif %}" href="{{ '/Pages/about.html' | relative_url }}">About</a></li>
+            <li><a class="nav-link {% if page.url == '/Pages/meet-our-board.html' %}active{% endif %}" href="{{ '/Pages/meet-our-board.html' | relative_url }}">Meet Our Board</a></li>
+            <li><a class="nav-link {% if page.url == '/Pages/become-a-sponsor.html' %}active{% endif %}" href="{{ '/Pages/become-a-sponsor.html' | relative_url }}">Become a Sponsor</a></li>
+            <li><a class="nav-link" href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+            <li><a class="nav-link" href="{{ '/#contact' | relative_url }}">Contact Us</a></li>
+        </ul>
+    </div>
+</nav>
