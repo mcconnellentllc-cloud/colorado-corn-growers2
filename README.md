@@ -1,2 +1,2 @@
 # colorado-corn-growers
-Growers Association of Colorad Corn
+Growers Association of Colorado Corn
