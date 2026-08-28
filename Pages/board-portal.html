@@ -3,7 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
     <title>Board Portal - CCGA</title>
+
+    <!--
+      ============================================================
+      CCGA BOARD PORTAL — MAINTAINER NOTES
+      ============================================================
+
+      ACCESS
+      ------
+      Entry is through the circular badge in the bottom-right corner of
+      meet-our-board.html. A correct password sets a browser session flag
+      (sessionStorage 'ccgaBoardAccess'); the script below checks for that
+      flag and bounces anyone without it back to the board page.
+
+      IMPORTANT — this is a deterrent, NOT real security. This is a static
+      site (GitHub Pages), so there is no server to check a password. The
+      password lives in the page source of meet-our-board.html and can be
+      read by anyone who views source. Treat this portal as "unlisted,"
+      not "private." Do NOT post anything here that would cause a problem
+      if it became public: no financials, no personal phone numbers or home
+      addresses, no legal or personnel matters. For genuinely private
+      material, use email or a password-protected file share.
+
+      To change the password, edit checkPortalPassword() in
+      meet-our-board.html.
+
+      ADDING CONTENT
+      --------------
+      Each section below has a commented-out template row. Copy it, paste it
+      above the empty-state block, fill in the text, and delete the section's
+      <div class="placeholder"> block once it has real entries in it.
+      ============================================================
+    -->
+
+    <!-- Access gate: hide the page until the session flag is confirmed -->
+    <style id="gate-style">body { visibility: hidden; }</style>
+    <script>
+        (function () {
+            var granted = false;
+            try {
+                granted = sessionStorage.getItem('ccgaBoardAccess') === 'granted';
+            } catch (e) {
+                granted = false;
+            }
+            if (!granted) {
+                window.location.replace('meet-our-board.html');
+                return;
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                var gate = document.getElementById('gate-style');
+                if (gate) { gate.remove(); }
+            });
+        })();
+    </script>
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -32,9 +87,16 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 2rem;
+            gap: 1rem;
         }
 
         .nav-logo { font-weight: 600; color: #f7c52d; font-size: 1.6rem; }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
 
         .nav-back {
             color: #ccc;
@@ -43,6 +105,22 @@
             transition: color 0.2s;
         }
         .nav-back:hover { color: #f7c52d; }
+
+        .nav-signout {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: #ccc;
+            font-family: inherit;
+            font-size: 0.85rem;
+            padding: 7px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .nav-signout:hover {
+            border-color: #f7c52d;
+            color: #f7c52d;
+        }
 
         .container {
             max-width: 1100px;
@@ -56,12 +134,25 @@
             padding: 50px 40px;
             border-radius: 15px;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 24px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
 
         .portal-header h1 { font-size: 2.4rem; margin-bottom: 10px; }
         .portal-header p { font-size: 1.1rem; opacity: 0.85; }
+
+        .privacy-note {
+            background: #fff8e1;
+            border: 1px solid #f0d98c;
+            border-left: 4px solid #f7c52d;
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin-bottom: 40px;
+            font-size: 0.88rem;
+            color: #6b5518;
+            line-height: 1.55;
+        }
+        .privacy-note strong { color: #4a3c0d; }
 
         .section-label {
             font-size: 0.75rem;
@@ -76,6 +167,7 @@
         .portal-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
+            align-items: start;
             gap: 24px;
             margin-bottom: 24px;
         }
@@ -101,6 +193,7 @@
             border-bottom: 1px solid #f0f0f0;
             font-size: 0.95rem;
             color: #444;
+            line-height: 1.5;
         }
         .announcement-item:last-child { border-bottom: none; }
         .announcement-date {
@@ -119,8 +212,10 @@
             font-size: 0.95rem;
             color: #444;
             text-decoration: none;
+            transition: color 0.2s;
         }
         .doc-item:last-child { border-bottom: none; }
+        .doc-item:hover { color: #2c5530; }
         .doc-icon {
             width: 32px;
             height: 32px;
@@ -130,8 +225,14 @@
             align-items: center;
             justify-content: center;
             color: #2c5530;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
+            flex-shrink: 0;
+        }
+        .doc-meta {
+            margin-left: auto;
+            font-size: 0.78rem;
+            color: #aaa;
             flex-shrink: 0;
         }
 
@@ -140,24 +241,29 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
             padding: 12px 0;
             border-bottom: 1px solid #f0f0f0;
             font-size: 0.95rem;
         }
         .meeting-item:last-child { border-bottom: none; }
         .meeting-date { color: #2c5530; font-weight: 600; }
+        .meeting-detail { font-size: 0.85rem; color: #666; }
         .meeting-type {
             font-size: 0.8rem;
             background: #e8f5e8;
             color: #2c5530;
             padding: 3px 10px;
             border-radius: 20px;
+            white-space: nowrap;
         }
 
         /* Contact list */
         .contact-item {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            gap: 12px;
             padding: 10px 0;
             border-bottom: 1px solid #f0f0f0;
             font-size: 0.9rem;
@@ -165,6 +271,60 @@
         .contact-item:last-child { border-bottom: none; }
         .contact-name { font-weight: 600; color: #333; }
         .contact-role { color: #888; font-size: 0.8rem; }
+        .contact-location { color: #4a7c59; font-size: 0.85rem; white-space: nowrap; }
+
+        /* Quick links */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 12px;
+        }
+        .link-tile {
+            display: block;
+            padding: 16px 18px;
+            border: 1px solid #e8f0e8;
+            border-radius: 10px;
+            text-decoration: none;
+            background: #fafcfa;
+            transition: all 0.2s;
+        }
+        .link-tile:hover {
+            border-color: #4a7c59;
+            background: #f2f8f2;
+            transform: translateY(-2px);
+        }
+        .link-title {
+            color: #2c5530;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+        .link-desc { color: #888; font-size: 0.8rem; line-height: 1.4; }
+
+        /* Action items */
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .action-item:last-child { border-bottom: none; }
+        .action-status {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .status-open { background: #fdf0e3; color: #b06a1c; }
+        .status-progress { background: #e3eefd; color: #1c5bb0; }
+        .status-done { background: #e8f5e8; color: #2c5530; }
+        .action-text { font-size: 0.95rem; color: #444; line-height: 1.5; }
+        .action-owner { font-size: 0.8rem; color: #999; margin-top: 3px; }
 
         /* Full-width card */
         .card-full {
@@ -188,12 +348,27 @@
             padding: 30px 20px;
             color: #bbb;
             font-size: 0.9rem;
+            line-height: 1.5;
         }
         .placeholder-icon { font-size: 2rem; margin-bottom: 8px; }
 
+        .portal-footer {
+            text-align: center;
+            color: #7a869a;
+            font-size: 0.82rem;
+            padding: 10px 20px 40px;
+            line-height: 1.6;
+        }
+
         @media (max-width: 768px) {
             .portal-grid { grid-template-columns: 1fr; }
+            .portal-header { padding: 36px 24px; }
             .portal-header h1 { font-size: 1.8rem; }
+            .nav-container { padding: 0 1.2rem; }
+            .nav-logo { font-size: 1.2rem; }
+            .nav-actions { gap: 0.9rem; }
+            .nav-back { font-size: 0.85rem; }
+            .card, .card-full { padding: 22px; }
         }
     </style>
 </head>
@@ -201,7 +376,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">CCGA Board Portal</div>
-            <a href="meet-our-board.html" class="nav-back">← Back to Board Page</a>
+            <div class="nav-actions">
+                <a href="meet-our-board.html" class="nav-back">&larr; Back to Board Page</a>
+                <button class="nav-signout" onclick="boardSignOut()">Sign Out</button>
+            </div>
         </div>
     </nav>
 
@@ -212,132 +390,244 @@
             <p>Colorado Corn Growers Association &mdash; Internal Board Resources</p>
         </div>
 
-        <!-- Announcements & Meetings Row -->
+        <div class="privacy-note">
+            <strong>Before you post here:</strong> this portal is unlisted, not secured. It sits on a
+            public website with no server-side login, so anyone who finds the address can read it.
+            Keep it to schedules, agendas, and general updates &mdash; send financials, personnel
+            matters, and personal contact details by email instead.
+        </div>
+
+        <!-- ==================== ANNOUNCEMENTS & MEETINGS ==================== -->
         <div class="portal-grid">
 
             <div class="card">
                 <div class="section-label">Latest</div>
-                <h2>📢 Board Announcements</h2>
+                <h2>&#128226; Board Announcements</h2>
+
+                <!-- TEMPLATE — copy this block for each new announcement, newest first:
+                <div class="announcement-item">
+                    <div class="announcement-date">Month D, YYYY</div>
+                    Announcement text goes here.
+                </div>
+                -->
+
                 <div class="announcement-item">
                     <div class="announcement-date">August 28, 2026</div>
-                    Board portal launched. Add announcements here as needed.
+                    Board portal is live. Bookmark the entry badge on the Meet Our Board page &mdash;
+                    the portal address is unlisted and is not linked from site navigation.
                 </div>
+
                 <div class="placeholder">
-                    <div class="placeholder-icon">📋</div>
-                    More announcements will appear here.
+                    <div class="placeholder-icon">&#128203;</div>
+                    New announcements will appear here.
                 </div>
             </div>
 
             <div class="card">
                 <div class="section-label">Schedule</div>
-                <h2>📅 Upcoming Meetings</h2>
+                <h2>&#128197; Upcoming Meetings</h2>
+
+                <!-- TEMPLATE — copy this block for each scheduled meeting:
+                <div class="meeting-item">
+                    <div>
+                        <div class="meeting-date">Month D, YYYY</div>
+                        <div class="meeting-detail">Time &middot; Location or call-in</div>
+                    </div>
+                    <span class="meeting-type">Board Meeting</span>
+                </div>
+                -->
+
                 <div class="meeting-item">
                     <div>
                         <div class="meeting-date">Every Friday</div>
-                        <div style="font-size:0.85rem; color:#666;">Lobbyist / Policy Calls</div>
+                        <div class="meeting-detail">Lobbyist / policy call</div>
                     </div>
                     <span class="meeting-type">Weekly</span>
                 </div>
+
                 <div class="placeholder">
-                    <div class="placeholder-icon">📆</div>
-                    Board meeting dates will be listed here.
+                    <div class="placeholder-icon">&#128198;</div>
+                    Board meeting dates will be listed here once they are set.
                 </div>
             </div>
 
         </div>
 
-        <!-- Documents & Contacts Row -->
+        <!-- ==================== DOCUMENTS & CONTACTS ==================== -->
         <div class="portal-grid">
 
             <div class="card">
                 <div class="section-label">Resources</div>
-                <h2>📁 Documents</h2>
+                <h2>&#128193; Documents</h2>
+
+                <!-- TEMPLATE — upload the file to the repo, then copy this block per document:
+                <a class="doc-item" href="../documents/filename.pdf" target="_blank" rel="noopener">
+                    <span class="doc-icon">PDF</span>
+                    <span>Document title</span>
+                    <span class="doc-meta">Month YYYY</span>
+                </a>
+                -->
+
                 <div class="placeholder">
-                    <div class="placeholder-icon">📄</div>
+                    <div class="placeholder-icon">&#128196;</div>
                     Meeting minutes, agendas, and reports will be linked here.
                 </div>
             </div>
 
             <div class="card">
                 <div class="section-label">Board Directory</div>
-                <h2>👥 Contacts</h2>
+                <h2>&#128101; Contacts</h2>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Jeff Self</div>
                         <div class="contact-role">President</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Springfield, CO</div>
+                    <div class="contact-location">Springfield, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Kyle McConnell</div>
                         <div class="contact-role">Vice President</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Haxtun, CO</div>
+                    <div class="contact-location">Haxtun, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Randy Wenger</div>
                         <div class="contact-role">Secretary</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
+                    <div class="contact-location">Yuma, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Bruce Unruh</div>
                         <div class="contact-role">Treasurer</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Burlington, CO</div>
+                    <div class="contact-location">Burlington, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Josh Hasart</div>
                         <div class="contact-role">Board Member</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Bethune, CO</div>
+                    <div class="contact-location">Bethune, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Jeff Cure</div>
                         <div class="contact-role">Board Member</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Holyoke, CO</div>
+                    <div class="contact-location">Holyoke, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Dave Cure</div>
                         <div class="contact-role">Past President</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Stratton, CO</div>
+                    <div class="contact-location">Stratton, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Mike Lefever</div>
                         <div class="contact-role">Board Member</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Berthoud, CO</div>
+                    <div class="contact-location">Berthoud, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Blake Roth</div>
                         <div class="contact-role">Board Member</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
+                    <div class="contact-location">Yuma, CO</div>
                 </div>
             </div>
 
         </div>
 
-        <!-- Notes / Action Items -->
+        <!-- ==================== ACTION ITEMS ==================== -->
         <div class="card-full">
             <div class="section-label">Action Items</div>
-            <h2>✅ Pending Items</h2>
+            <h2>&#9989; Pending Items</h2>
+
+            <!-- TEMPLATE — copy per item. Status classes: status-open, status-progress, status-done
+            <div class="action-item">
+                <span class="action-status status-open">Open</span>
+                <div>
+                    <div class="action-text">What needs to happen.</div>
+                    <div class="action-owner">Owner &middot; due Month D</div>
+                </div>
+            </div>
+            -->
+
             <div class="placeholder">
-                <div class="placeholder-icon">📝</div>
+                <div class="placeholder-icon">&#128221;</div>
                 Board action items and follow-ups will be tracked here.
             </div>
         </div>
 
+        <!-- ==================== QUICK LINKS ==================== -->
+        <div class="card-full">
+            <div class="section-label">Reference</div>
+            <h2>&#128279; Quick Links</h2>
+            <div class="link-grid">
+
+                <a class="link-tile" href="sdrp-update.html">
+                    <div class="link-title">SDRP Program Update</div>
+                    <div class="link-desc">Supplemental Disaster Relief Program status page on our site</div>
+                </a>
+
+                <a class="link-tile" href="announcements.html">
+                    <div class="link-title">Public Announcements</div>
+                    <div class="link-desc">What members and the public currently see</div>
+                </a>
+
+                <a class="link-tile" href="sponsorship-outreach.html">
+                    <div class="link-title">Sponsorship Outreach</div>
+                    <div class="link-desc">Talking points and materials for approaching sponsors</div>
+                </a>
+
+                <a class="link-tile" href="become-a-sponsor.html">
+                    <div class="link-title">Sponsorship Levels</div>
+                    <div class="link-desc">Public-facing sponsor packages and benefits</div>
+                </a>
+
+                <a class="link-tile" href="https://www.fsa.usda.gov/resources/disaster-recovery/supplemental-disaster-relief-program-sdrp" target="_blank" rel="noopener">
+                    <div class="link-title">USDA FSA &mdash; SDRP</div>
+                    <div class="link-desc">Official program page at fsa.usda.gov</div>
+                </a>
+
+                <a class="link-tile" href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">
+                    <div class="link-title">FSA Service Center Locator</div>
+                    <div class="link-desc">Find the county office for a producer</div>
+                </a>
+
+                <a class="link-tile" href="https://clipfarmcoverage.com/" target="_blank" rel="noopener">
+                    <div class="link-title">CLIP Farm Coverage</div>
+                    <div class="link-desc">Crop Loss Insurance Program information</div>
+                </a>
+
+                <a class="link-tile" href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">
+                    <div class="link-title">Join NCGA</div>
+                    <div class="link-desc">National Corn Growers Association membership</div>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="portal-footer">
+            Colorado Corn Growers Association &mdash; Board Portal<br>
+            Your session ends when you close this browser tab or sign out.
+        </div>
+
     </div>
+
+    <script>
+        function boardSignOut() {
+            try {
+                sessionStorage.removeItem('ccgaBoardAccess');
+            } catch (e) { /* storage unavailable — redirect anyway */ }
+            window.location.replace('meet-our-board.html');
+        }
+    </script>
 </body>
 </html>

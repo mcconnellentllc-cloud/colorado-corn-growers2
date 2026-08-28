@@ -1,0 +1,5 @@
+# Colorado Corn Growers Association
+# The board portal is an internal page and should not be indexed.
+
+User-agent: *
+Disallow: /Pages/board-portal.html

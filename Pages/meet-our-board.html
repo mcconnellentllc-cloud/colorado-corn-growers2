@@ -532,7 +532,7 @@
         z-index: 9999;
         box-shadow: 0 2px 8px rgba(0,0,0,0.35);
         user-select: none;
-    " onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.65'" onclick="document.getElementById('portal-modal').style.display='flex'">
+    " onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.65'" onclick="openPortalModal()">
         <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="20" cy="20" r="18" stroke="#f7c52d" stroke-width="2.5" fill="none"/>
             <text x="20" y="26" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#f7c52d">C</text>
@@ -548,7 +548,7 @@
         z-index: 10000;
         align-items: center;
         justify-content: center;
-    " onclick="if(event.target===this)this.style.display='none'">
+    " onclick="if(event.target===this)closePortalModal()">
         <div style="
             background: white;
             border-radius: 12px;
@@ -611,10 +611,32 @@
             }
         });
 
+        function openPortalModal() {
+            const modal = document.getElementById('portal-modal');
+            modal.style.display = 'flex';
+            document.getElementById('portal-error').textContent = '';
+            const field = document.getElementById('portal-password');
+            field.value = '';
+            field.focus();
+        }
+
+        function closePortalModal() {
+            document.getElementById('portal-modal').style.display = 'none';
+        }
+
+        // NOTE: this is a deterrent, not real security. The site is static, so the
+        // password is visible in this page's source. It keeps the portal unlisted;
+        // it does not keep it private. See the maintainer notes in board-portal.html.
         function checkPortalPassword() {
             const input = document.getElementById('portal-password').value;
             const error = document.getElementById('portal-error');
             if (input === 'CCGArocks!') {
+                try {
+                    sessionStorage.setItem('ccgaBoardAccess', 'granted');
+                } catch (e) {
+                    error.textContent = 'Browser storage is blocked. Turn off private browsing to continue.';
+                    return;
+                }
                 window.location.href = 'board-portal.html';
             } else {
                 error.textContent = 'Incorrect password.';
@@ -622,6 +644,14 @@
                 document.getElementById('portal-password').focus();
             }
         }
+
+        // Close the portal modal with Escape
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                const modal = document.getElementById('portal-modal');
+                if (modal && modal.style.display === 'flex') { closePortalModal(); }
+            }
+        });
     </script>
 </body>
 </html>
