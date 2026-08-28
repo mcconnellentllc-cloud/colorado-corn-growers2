@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Portal - CCGA</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding-top: 100px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.97);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo { font-weight: 600; color: #f7c52d; font-size: 1.6rem; }
+
+        .nav-back {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: #f7c52d; }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .portal-header {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 50px 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .portal-header h1 { font-size: 2.4rem; margin-bottom: 10px; }
+        .portal-header p { font-size: 1.1rem; opacity: 0.85; }
+
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #4a7c59;
+            margin-bottom: 16px;
+        }
+
+        /* Grid layout */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #2c5530;
+            font-size: 1.15rem;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f5e8;
+        }
+
+        /* Announcements */
+        .announcement-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+            color: #444;
+        }
+        .announcement-item:last-child { border-bottom: none; }
+        .announcement-date {
+            font-size: 0.78rem;
+            color: #999;
+            margin-bottom: 3px;
+        }
+
+        /* Documents */
+        .doc-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+            color: #444;
+            text-decoration: none;
+        }
+        .doc-item:last-child { border-bottom: none; }
+        .doc-icon {
+            width: 32px;
+            height: 32px;
+            background: #e8f5e8;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2c5530;
+            font-size: 0.75rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        /* Meeting schedule */
+        .meeting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.95rem;
+        }
+        .meeting-item:last-child { border-bottom: none; }
+        .meeting-date { color: #2c5530; font-weight: 600; }
+        .meeting-type {
+            font-size: 0.8rem;
+            background: #e8f5e8;
+            color: #2c5530;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        /* Contact list */
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+        .contact-item:last-child { border-bottom: none; }
+        .contact-name { font-weight: 600; color: #333; }
+        .contact-role { color: #888; font-size: 0.8rem; }
+
+        /* Full-width card */
+        .card-full {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+        .card-full h2 {
+            color: #2c5530;
+            font-size: 1.15rem;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f5e8;
+        }
+
+        /* Placeholder states */
+        .placeholder {
+            text-align: center;
+            padding: 30px 20px;
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+        .placeholder-icon { font-size: 2rem; margin-bottom: 8px; }
+
+        @media (max-width: 768px) {
+            .portal-grid { grid-template-columns: 1fr; }
+            .portal-header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">CCGA Board Portal</div>
+            <a href="meet-our-board.html" class="nav-back">← Back to Board Page</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="portal-header">
+            <h1>Board Member Portal</h1>
+            <p>Colorado Corn Growers Association &mdash; Internal Board Resources</p>
+        </div>
+
+        <!-- Announcements & Meetings Row -->
+        <div class="portal-grid">
+
+            <div class="card">
+                <div class="section-label">Latest</div>
+                <h2>📢 Board Announcements</h2>
+                <div class="announcement-item">
+                    <div class="announcement-date">August 28, 2026</div>
+                    Board portal launched. Add announcements here as needed.
+                </div>
+                <div class="placeholder">
+                    <div class="placeholder-icon">📋</div>
+                    More announcements will appear here.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-label">Schedule</div>
+                <h2>📅 Upcoming Meetings</h2>
+                <div class="meeting-item">
+                    <div>
+                        <div class="meeting-date">Every Friday</div>
+                        <div style="font-size:0.85rem; color:#666;">Lobbyist / Policy Calls</div>
+                    </div>
+                    <span class="meeting-type">Weekly</span>
+                </div>
+                <div class="placeholder">
+                    <div class="placeholder-icon">📆</div>
+                    Board meeting dates will be listed here.
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Documents & Contacts Row -->
+        <div class="portal-grid">
+
+            <div class="card">
+                <div class="section-label">Resources</div>
+                <h2>📁 Documents</h2>
+                <div class="placeholder">
+                    <div class="placeholder-icon">📄</div>
+                    Meeting minutes, agendas, and reports will be linked here.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="section-label">Board Directory</div>
+                <h2>👥 Contacts</h2>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Jeff Self</div>
+                        <div class="contact-role">President</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Springfield, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Kyle McConnell</div>
+                        <div class="contact-role">Vice President</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Haxtun, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Randy Wenger</div>
+                        <div class="contact-role">Secretary</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Bruce Unruh</div>
+                        <div class="contact-role">Treasurer</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Burlington, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Josh Hasart</div>
+                        <div class="contact-role">Board Member</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Bethune, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Jeff Cure</div>
+                        <div class="contact-role">Board Member</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Holyoke, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Dave Cure</div>
+                        <div class="contact-role">Past President</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Stratton, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Mike Lefever</div>
+                        <div class="contact-role">Board Member</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Berthoud, CO</div>
+                </div>
+                <div class="contact-item">
+                    <div>
+                        <div class="contact-name">Blake Roth</div>
+                        <div class="contact-role">Board Member</div>
+                    </div>
+                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Notes / Action Items -->
+        <div class="card-full">
+            <div class="section-label">Action Items</div>
+            <h2>✅ Pending Items</h2>
+            <div class="placeholder">
+                <div class="placeholder-icon">📝</div>
+                Board action items and follow-ups will be tracked here.
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
