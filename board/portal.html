@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Board Vote &mdash; Colorado Corn Growers Association</title>
+    <link rel="stylesheet" href="board.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="memo.html">Decision Memo</a></li>
+                <li><button type="button" id="logoutBtn">Sign out</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="board-main wide">
+
+        <!-- Shown until /me answers. -->
+        <div id="loadingState">
+            <p class="subtle">Verifying your session&hellip;</p>
+        </div>
+
+        <!-- Shown if the session is missing or expired. -->
+        <div id="deniedState" hidden>
+            <p class="eyebrow">Board Members Only</p>
+            <h1>Sign-In Required</h1>
+            <p class="lede">Your session has expired or was never established on this browser.</p>
+            <p><a class="btn" href="index.html">Go to board sign-in</a></p>
+        </div>
+
+        <div id="portalState" hidden>
+            <p class="eyebrow">Board Ballot</p>
+            <h1>Amicus Curiae Participation</h1>
+            <p class="lede" id="greeting"></p>
+
+            <div id="deadlineNotice" class="notice notice-info"></div>
+
+            <!-- ---------- Motion ---------- -->
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>Motion Before the Board</h2>
+                </div>
+                <p class="motion-text">Authorize CCGA participation as amicus curiae in Public Service Company of Colorado v. Dryland Partners, LLC, conditioned on: counsel of record secured; procedural posture and deadline confirmed with Dryland's counsel; the draft returning to the board for approval before filing; and scope limited to (a) the absence of a clean statewide legal question on this record and (b) the effect of below-market condemnation comparables on grower easement negotiations.</p>
+            </section>
+
+            <!-- ---------- Documents ---------- -->
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>Before You Vote</h2>
+                </div>
+                <p>Please read both documents. The memo sets out the recommendation and the
+                    conditions attached to it; the court order is the underlying record.</p>
+                <ul class="doc-links">
+                    <li>
+                        <a href="memo.html">
+                            <span class="doc-kind">Memorandum</span>
+                            Decision memo to the board
+                        </a>
+                    </li>
+                    <li>
+                        <a href="Order_on_Petitioners_Motion_for_Immediate_Possession.pdf" target="_blank" rel="noopener">
+                            <span class="doc-kind">PDF &middot; Court Filing</span>
+                            Order on Petitioner&rsquo;s Motion for Immediate Possession
+                        </a>
+                    </li>
+                    <li id="mediaLinkItem" hidden>
+                        <a id="mediaLink" href="#" target="_blank" rel="noopener">
+                            <span class="doc-kind" id="mediaKind"></span>
+                            <span id="mediaLabel"></span>
+                            <span class="doc-kind" id="mediaDetail" style="text-transform:none; letter-spacing:0; margin-top:0.2rem;"></span>
+                        </a>
+                    </li>
+                </ul>
+                <p class="subtle" style="margin-top:1rem; margin-bottom:0;">The memo and the court
+                    order are the record before you. Anything listed as background is context only.</p>
+            </section>
+
+            <!-- ---------- Ballot ---------- -->
+            <section class="panel">
+                <div class="panel-head">
+                    <h2>Your Ballot</h2>
+                    <span class="subtle" id="ballotStatus"></span>
+                </div>
+
+                <div id="voteNotice" class="notice" hidden></div>
+
+                <!-- Recorded vote, shown once one exists. -->
+                <div id="recordPanel" hidden>
+                    <h3>Your recorded vote</h3>
+                    <dl class="record">
+                        <dt>Vote</dt>
+                        <dd class="choice-value" id="recordChoice"></dd>
+                        <dt>Recorded</dt>
+                        <dd id="recordTime"></dd>
+                        <dt>Comment</dt>
+                        <dd id="recordComment"></dd>
+                    </dl>
+                    <hr class="rule">
+                </div>
+
+                <form id="ballotForm">
+                    <div class="choices" id="choices">
+                        <label class="choice" data-choice="for">
+                            <input type="radio" name="choice" value="for">
+                            <span>
+                                <span class="choice-label">For</span>
+                                <span class="choice-note">Authorize participation on the stated conditions.</span>
+                            </span>
+                        </label>
+                        <label class="choice" data-choice="against">
+                            <input type="radio" name="choice" value="against">
+                            <span>
+                                <span class="choice-label">Against</span>
+                                <span class="choice-note">Do not authorize participation.</span>
+                            </span>
+                        </label>
+                        <label class="choice" data-choice="abstain">
+                            <input type="radio" name="choice" value="abstain">
+                            <span>
+                                <span class="choice-label">Abstain</span>
+                                <span class="choice-note">Recorded as present without taking a position.</span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="field">
+                        <label for="comment">Comment (optional)</label>
+                        <textarea id="comment" name="comment" maxlength="2000"
+                                  placeholder="Anything you want recorded alongside your vote."></textarea>
+                        <p class="field-note"><span id="commentCount">0</span> of 2000 characters</p>
+                    </div>
+
+                    <div class="btn-row">
+                        <button type="submit" class="btn" id="voteBtn">Record my vote</button>
+                        <span class="subtle" id="editNote">You can change your vote until the deadline.</span>
+                    </div>
+                </form>
+            </section>
+
+            <!-- ---------- Results ---------- -->
+            <section class="panel" id="resultsPanel" hidden>
+                <div class="panel-head">
+                    <h2>Tally</h2>
+                    <span class="subtle" id="resultsScope"></span>
+                </div>
+                <div class="tally" id="tally"></div>
+                <p class="subtle" id="turnout"></p>
+            </section>
+
+            <!-- ---------- Admin ---------- -->
+            <section class="panel" id="adminPanel" hidden>
+                <div class="panel-head">
+                    <h2>Administration</h2>
+                    <span class="subtle">Visible to board administrators only</span>
+                </div>
+                <p>Send a fresh single-use sign-in link to every active board member. Each recipient
+                    gets their own link. Limited to one broadcast every 15 minutes.</p>
+
+                <div id="adminNotice" class="notice" hidden></div>
+
+                <div class="btn-row">
+                    <button type="button" class="btn btn-secondary" id="sendAllBtn">Email a sign-in link to all board members</button>
+                </div>
+
+                <div id="sendResults" hidden>
+                    <hr class="rule">
+                    <h3>Delivery status</h3>
+                    <dl class="record" id="sendResultsList"></dl>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association</p>
+        <p><a href="../index.html">cologrowers.com</a></p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="board.js"></script>
+    <script>
+    (function () {
+        'use strict';
+
+        var el = function (id) { return document.getElementById(id); };
+        var state = { closed: false, isAdmin: false };
+
+        /* ---------- Optional background link ---------- */
+
+        (function renderMediaLink() {
+            var cfg = (window.CCGA_BOARD && window.CCGA_BOARD.MEDIA_LINK) || null;
+            if (!cfg || !cfg.url) return;   /* no URL configured, no dead link */
+            el('mediaLink').href = cfg.url;
+            el('mediaKind').textContent = cfg.kind || 'Background';
+            el('mediaLabel').textContent = cfg.label || 'Background listening';
+            el('mediaDetail').textContent = cfg.detail || '';
+            CCGABoard.show(el('mediaLinkItem'));
+        })();
+
+        /* ---------- Session ---------- */
+
+        CCGABoard.api('/me').then(function (result) {
+            CCGABoard.hide(el('loadingState'));
+            if (result.status === 401) {
+                CCGABoard.show(el('deniedState'));
+                return;
+            }
+            if (!result.ok) {
+                CCGABoard.show(el('deniedState'));
+                return;
+            }
+            render(result.data);
+            CCGABoard.show(el('portalState'));
+        }).catch(function () {
+            CCGABoard.hide(el('loadingState'));
+            CCGABoard.show(el('deniedState'));
+        });
+
+        function render(data) {
+            state.closed = Boolean(data.voting_closed);
+            state.isAdmin = Boolean(data.member && data.member.is_admin);
+
+            var name = (data.member && data.member.full_name) || 'Board member';
+            var role = data.member && data.member.role;
+            el('greeting').textContent = role
+                ? 'Signed in as ' + name + ', ' + role + '.'
+                : 'Signed in as ' + name + '.';
+
+            var deadlineText = CCGABoard.formatDateTime(data.deadline);
+            if (state.closed) {
+                CCGABoard.setNotice(el('deadlineNotice'), 'warn',
+                    'Voting closed ' + deadlineText + '. Ballots can no longer be changed.');
+            } else {
+                CCGABoard.setNotice(el('deadlineNotice'), 'info',
+                    'Voting closes ' + deadlineText + '. You can change your vote until then.');
+            }
+
+            if (data.vote) {
+                showRecord(data.vote);
+                preselect(data.vote);
+            } else {
+                el('ballotStatus').textContent = state.closed ? 'No vote recorded' : 'Not yet voted';
+            }
+
+            if (state.closed) lockBallot();
+            if (state.isAdmin) CCGABoard.show(el('adminPanel'));
+
+            /* Members see the tally only after close; admins at any time. */
+            if (state.closed || state.isAdmin) loadResults();
+        }
+
+        /* ---------- Recorded vote ---------- */
+
+        function showRecord(vote) {
+            el('recordChoice').textContent = vote.choice;
+            el('recordTime').textContent = CCGABoard.formatDateTime(vote.recorded_at);
+            el('recordComment').textContent = vote.comment ? vote.comment : 'None';
+            CCGABoard.show(el('recordPanel'));
+            el('ballotStatus').textContent = 'Vote recorded';
+        }
+
+        function preselect(vote) {
+            var input = document.querySelector('input[name="choice"][value="' + vote.choice + '"]');
+            if (input) {
+                input.checked = true;
+                markSelected();
+            }
+            if (vote.comment) {
+                el('comment').value = vote.comment;
+                updateCount();
+            }
+            el('voteBtn').textContent = 'Update my vote';
+        }
+
+        function lockBallot() {
+            el('ballotForm').hidden = true;
+            var labels = document.querySelectorAll('.choice');
+            for (var i = 0; i < labels.length; i++) labels[i].classList.add('locked');
+        }
+
+        /* ---------- Ballot interaction ---------- */
+
+        function markSelected() {
+            var labels = document.querySelectorAll('.choice');
+            for (var i = 0; i < labels.length; i++) {
+                var input = labels[i].querySelector('input');
+                labels[i].classList.toggle('selected', input.checked);
+            }
+        }
+
+        el('choices').addEventListener('change', markSelected);
+
+        function updateCount() {
+            el('commentCount').textContent = String(el('comment').value.length);
+        }
+
+        el('comment').addEventListener('input', updateCount);
+
+        el('ballotForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+            CCGABoard.hide(el('voteNotice'));
+
+            var selected = document.querySelector('input[name="choice"]:checked');
+            if (!selected) {
+                CCGABoard.setNotice(el('voteNotice'), 'error', 'Select For, Against, or Abstain.');
+                return;
+            }
+
+            var btn = el('voteBtn');
+            var originalLabel = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = 'Recording…';
+
+            CCGABoard.api('/vote', {
+                method: 'POST',
+                body: { choice: selected.value, comment: el('comment').value }
+            }).then(function (result) {
+                if (result.status === 401) {
+                    CCGABoard.setNotice(el('voteNotice'), 'error',
+                        'Your session expired. Sign in again to record your vote.');
+                    return;
+                }
+                if (result.status === 403 && result.data.error === 'voting_closed') {
+                    CCGABoard.setNotice(el('voteNotice'), 'warn',
+                        'Voting has closed. Your ballot can no longer be changed.');
+                    state.closed = true;
+                    lockBallot();
+                    return;
+                }
+                if (!result.ok) {
+                    CCGABoard.setNotice(el('voteNotice'), 'error',
+                        'Your vote was not recorded. Please try again.');
+                    return;
+                }
+                showRecord(result.data.vote);
+                CCGABoard.setNotice(el('voteNotice'), 'success', 'Your vote has been recorded.');
+                btn.textContent = 'Update my vote';
+                originalLabel = 'Update my vote';
+            }).catch(function () {
+                CCGABoard.setNotice(el('voteNotice'), 'error',
+                    'We could not reach the voting service. Check your connection and try again.');
+            }).then(function () {
+                btn.disabled = false;
+                btn.textContent = originalLabel;
+            });
+        });
+
+        /* ---------- Results ---------- */
+
+        function loadResults() {
+            CCGABoard.api('/results').then(function (result) {
+                if (!result.ok) return;
+                var data = result.data;
+                var tally = data.tally || {};
+
+                var rows = [
+                    ['For', tally.for || 0],
+                    ['Against', tally.against || 0],
+                    ['Abstain', tally.abstain || 0]
+                ];
+
+                var html = '';
+                for (var i = 0; i < rows.length; i++) {
+                    html += '<div class="tally-item">' +
+                            '<span class="tally-count">' + rows[i][1] + '</span>' +
+                            '<span class="tally-label">' + rows[i][0] + '</span>' +
+                            '</div>';
+                }
+                el('tally').innerHTML = html;
+
+                el('turnout').textContent = data.votes_cast + ' of ' + data.eligible_members +
+                    ' board members have voted. ' + data.not_yet_voted + ' outstanding.';
+
+                el('resultsScope').textContent = data.viewed_as_admin
+                    ? 'Interim count — not visible to members until voting closes'
+                    : 'Final count';
+
+                CCGABoard.show(el('resultsPanel'));
+            }).catch(function () { /* Tally is supplementary; stay quiet on failure. */ });
+        }
+
+        /* ---------- Admin broadcast ---------- */
+
+        el('sendAllBtn').addEventListener('click', function () {
+            var confirmed = window.confirm(
+                'Email a fresh single-use sign-in link to every active board member?');
+            if (!confirmed) return;
+
+            var btn = el('sendAllBtn');
+            btn.disabled = true;
+            btn.textContent = 'Sending…';
+            CCGABoard.hide(el('adminNotice'));
+            CCGABoard.hide(el('sendResults'));
+
+            CCGABoard.api('/admin/send-all', { method: 'POST' }).then(function (result) {
+                if (result.status === 429) {
+                    var minutes = Math.ceil((result.data.retry_after_seconds || 0) / 60);
+                    CCGABoard.setNotice(el('adminNotice'), 'warn',
+                        'A broadcast was sent recently. Try again in about ' + minutes +
+                        ' minute' + (minutes === 1 ? '' : 's') + '.');
+                    return;
+                }
+                if (result.status === 403) {
+                    CCGABoard.setNotice(el('adminNotice'), 'error',
+                        'Your account is not authorized to send board-wide email.');
+                    return;
+                }
+                if (!result.ok) {
+                    CCGABoard.setNotice(el('adminNotice'), 'error',
+                        'The broadcast did not go out. Please try again.');
+                    return;
+                }
+
+                var data = result.data;
+                CCGABoard.setNotice(el('adminNotice'),
+                    data.failed > 0 ? 'warn' : 'success',
+                    data.sent + ' of ' + data.total + ' sign-in links sent' +
+                    (data.failed > 0 ? ', ' + data.failed + ' failed.' : '.'));
+
+                var html = '';
+                for (var i = 0; i < data.results.length; i++) {
+                    var row = data.results[i];
+                    html += '<dt>' + CCGABoard.escapeHtml(row.full_name || row.email) + '</dt>' +
+                            '<dd>' + (row.status === 'sent'
+                                ? 'Sent'
+                                : 'Failed — ' + CCGABoard.escapeHtml(row.error || 'unknown error')) +
+                            '</dd>';
+                }
+                el('sendResultsList').innerHTML = html;
+                CCGABoard.show(el('sendResults'));
+            }).catch(function () {
+                CCGABoard.setNotice(el('adminNotice'), 'error',
+                    'We could not reach the mail service. Please try again.');
+            }).then(function () {
+                btn.disabled = false;
+                btn.textContent = 'Email a sign-in link to all board members';
+            });
+        });
+
+        /* ---------- Sign out ---------- */
+
+        el('logoutBtn').addEventListener('click', function () {
+            CCGABoard.api('/auth/logout', { method: 'POST' }).then(function () {
+                window.location.href = 'index.html';
+            }).catch(function () {
+                window.location.href = 'index.html';
+            });
+        });
+    })();
+    </script>
+</body>
+</html>

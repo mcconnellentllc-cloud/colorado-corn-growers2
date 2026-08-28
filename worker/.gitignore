@@ -1,0 +1,9 @@
+# Real roster — contains board members' email addresses. Never commit.
+seed.sql
+
+# Real secrets. Use `wrangler secret put` instead.
+.env
+.dev.vars
+
+node_modules/
+.wrangler/

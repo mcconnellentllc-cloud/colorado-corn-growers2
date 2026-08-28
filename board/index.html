@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Board Sign-In &mdash; Colorado Corn Growers Association</title>
+    <link rel="stylesheet" href="board.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../Pages/meet-our-board.html">Meet Our Board</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="board-main">
+        <p class="eyebrow">Board Members Only</p>
+        <h1>Board Sign-In</h1>
+        <p class="lede">Enter the email address on file with the association. We will send you a
+            sign-in link that takes you straight to the decision memo and the ballot &mdash; there is
+            no password to remember.</p>
+
+        <div id="linkError" class="notice notice-error" hidden></div>
+
+        <div class="panel" id="signInPanel">
+            <form id="signInForm" novalidate>
+                <div class="field">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" autocomplete="email"
+                           inputmode="email" required placeholder="you@example.com">
+                    <p class="field-note">Use the address the association has on file for you.</p>
+                </div>
+
+                <div id="formNotice" class="notice notice-error" hidden></div>
+
+                <button type="submit" class="btn" id="submitBtn">Email me a sign-in link</button>
+            </form>
+
+            <div id="sentPanel" hidden>
+                <div class="notice notice-success">
+                    <p><strong>Check your email.</strong></p>
+                    <p>If that address belongs to an active CCGA board member, a sign-in link is on
+                        its way. The link works once and expires 24 hours after it is sent.</p>
+                    <p>Please do not forward it &mdash; it signs in as you.</p>
+                </div>
+                <p class="subtle">Nothing arrived after a few minutes? Check your spam folder, then
+                    <button type="button" class="btn btn-secondary" id="retryBtn">try again</button>
+                </p>
+            </div>
+        </div>
+
+        <hr class="rule">
+
+        <h2>About this portal</h2>
+        <p>Access is limited to the association&rsquo;s current board roster. There is no
+            self-registration, and addresses that are not on the roster receive nothing. If you are a
+            board member and cannot get in, contact the association office rather than trying a
+            different address.</p>
+        <p class="subtle">Every sign-in and every ballot cast is recorded with a timestamp for the
+            association&rsquo;s records.</p>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association</p>
+        <p><a href="../index.html">cologrowers.com</a></p>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="board.js"></script>
+    <script>
+    (function () {
+        'use strict';
+
+        var form = document.getElementById('signInForm');
+        var emailInput = document.getElementById('email');
+        var submitBtn = document.getElementById('submitBtn');
+        var formNotice = document.getElementById('formNotice');
+        var sentPanel = document.getElementById('sentPanel');
+        var retryBtn = document.getElementById('retryBtn');
+        var linkError = document.getElementById('linkError');
+
+        /* /auth/verify redirects back here with ?error= when a link fails. */
+        var ERRORS = {
+            invalid_link: 'That sign-in link is not valid. It may have already been used. Request a new one below.',
+            expired_link: 'That sign-in link has expired. Links are good for 24 hours. Request a new one below.',
+            not_authorized: 'That link is no longer associated with an active board member. Contact the association office.'
+        };
+
+        var params = new URLSearchParams(window.location.search);
+        var errorKey = params.get('error');
+        if (errorKey && Object.prototype.hasOwnProperty.call(ERRORS, errorKey)) {
+            CCGABoard.setNotice(linkError, 'error', ERRORS[errorKey]);
+            /* Drop the query string so a refresh does not re-show the error. */
+            window.history.replaceState({}, '', window.location.pathname);
+        }
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            CCGABoard.hide(formNotice);
+
+            var email = emailInput.value.trim();
+            if (!email || email.indexOf('@') === -1) {
+                CCGABoard.setNotice(formNotice, 'error', 'Enter a valid email address.');
+                emailInput.focus();
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending…';
+
+            CCGABoard.api('/auth/request', { method: 'POST', body: { email: email } })
+                .then(function (result) {
+                    if (!result.ok) {
+                        throw new Error('request_failed');
+                    }
+                    /* The response is deliberately identical whether or not the
+                       address is on the roster, so the page says the same thing. */
+                    CCGABoard.hide(form);
+                    CCGABoard.show(sentPanel);
+                })
+                .catch(function () {
+                    CCGABoard.setNotice(formNotice, 'error',
+                        'We could not reach the sign-in service. Check your connection and try again.');
+                })
+                .then(function () {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Email me a sign-in link';
+                });
+        });
+
+        retryBtn.addEventListener('click', function () {
+            CCGABoard.hide(sentPanel);
+            CCGABoard.show(form);
+            emailInput.focus();
+        });
+    })();
+    </script>
+</body>
+</html>
