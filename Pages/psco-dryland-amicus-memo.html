@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light">
+<meta name="robots" content="noindex, nofollow">
+<title>Board Decision Memo — PSCo v. Dryland Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Public+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: only light;
+    --ink:#12181f;
+    --ink-2:#3c4650;
+    --ink-3:#4e585f;
+    --paper:#f6f7f4;
+    --paper-2:#ffffff;
+    --rule:#d3d8d1;
+    --rule-2:#e6e9e4;
+    --survey:#1f3a34;
+    --ochre:#9a6b12;
+    --oxide:#8c3a2b;
+    --measure:74ch;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;background:#f6f7f4;color-scheme:only light}
+  @media (prefers-color-scheme:dark){
+    html,body{background:#f6f7f4;color:#12181f}
+    .plat,.doc,.primary-doc,.rec,.caption-block div{background:#ffffff}
+    .caption-block div{background:#f6f7f4}
+  }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:16.5px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px 96px}
+
+  /* ---------- portal bar ---------- */
+  .portal-bar{
+    background:var(--survey);
+    color:#e8ece8;
+  }
+  .portal-bar .pb-inner{
+    max-width:1120px;margin:0 auto;padding:11px 24px;
+    display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
+  }
+  .portal-bar a{color:#f7c52d;text-decoration:none}
+  .portal-bar a:hover{text-decoration:underline}
+
+  /* ---------- masthead ---------- */
+  .mast{border-bottom:2px solid var(--ink);padding:44px 0 22px;margin-bottom:0}
+  .kicker{
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+    font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-3);margin:0 0 20px;
+  }
+  .kicker b{color:var(--survey);font-weight:600}
+  h1{
+    font-family:"Newsreader",Georgia,"Times New Roman",serif;
+    font-weight:500;font-size:clamp(2.1rem,5.4vw,3.5rem);
+    line-height:1.06;letter-spacing:-.018em;margin:0 0 14px;max-width:20ch;
+  }
+  .dek{
+    font-family:"Newsreader",Georgia,serif;font-size:clamp(1.05rem,2.2vw,1.28rem);
+    color:var(--ink-2);max-width:60ch;margin:0 0 26px;line-height:1.5;
+  }
+  .caption-block{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:6px;
+  }
+  .caption-block div{background:var(--paper);padding:12px 14px}
+  .caption-block dt{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-3);margin:0 0 5px;
+  }
+  .caption-block dd{margin:0;font-size:14.5px;font-weight:500;line-height:1.35}
+  .caption-block dd.mono{font-family:"IBM Plex Mono",monospace;font-size:13.5px}
+
+  /* ---------- layout rail ---------- */
+  section{
+    display:grid;grid-template-columns:168px minmax(0,1fr);gap:0 44px;
+    border-bottom:1px solid var(--rule-2);padding:40px 0;
+  }
+  section:last-of-type{border-bottom:none}
+  .rail{position:relative}
+  .rail .num{
+    font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;
+    color:var(--ink-3);text-transform:uppercase;display:block;margin-bottom:10px;
+  }
+  .rail h2{
+    font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:1.34rem;
+    line-height:1.14;margin:0;letter-spacing:-.01em;
+  }
+  .rail .note{
+    margin-top:16px;padding-top:14px;border-top:1px solid var(--rule);
+    font-family:"IBM Plex Mono",monospace;font-size:11.5px;line-height:1.65;
+    color:var(--ink-3);
+  }
+  .rail .note strong{color:var(--survey);font-weight:600;display:block}
+  .body{max-width:var(--measure)}
+  .body>*:first-child{margin-top:0}
+  .body>*:last-child{margin-bottom:0}
+  p{margin:0 0 1.05em}
+  .lede{font-family:"Newsreader",Georgia,serif;font-size:1.16rem;line-height:1.55;color:var(--ink)}
+
+  /* ---------- typographic details ---------- */
+  .cite{font-family:"IBM Plex Mono",monospace;font-size:.88em;color:var(--survey);font-weight:500;white-space:nowrap}
+  em.case{font-style:italic}
+  a{color:var(--survey);text-underline-offset:3px;text-decoration-thickness:1px}
+  a:hover{color:var(--oxide)}
+  a:focus-visible{outline:2px solid var(--oxide);outline-offset:3px}
+  h3{
+    font-family:"Public Sans",sans-serif;font-size:12px;font-weight:700;
+    letter-spacing:.11em;text-transform:uppercase;color:var(--ink-2);
+    margin:34px 0 12px;padding-bottom:7px;border-bottom:1px solid var(--rule);
+  }
+  ul,ol{margin:0 0 1.05em;padding-left:1.2em}
+  li{margin-bottom:.5em}
+  strong{font-weight:700}
+  blockquote{
+    margin:22px 0;padding:16px 0 16px 22px;border-left:3px solid var(--survey);
+    font-family:"Newsreader",Georgia,serif;font-size:1.08rem;line-height:1.5;color:var(--ink);
+  }
+  blockquote .src{
+    display:block;margin-top:10px;font-family:"IBM Plex Mono",monospace;
+    font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+  }
+
+  /* ---------- findings ---------- */
+  .finding{border-top:1px solid var(--rule);padding:18px 0 4px}
+  .finding:first-of-type{border-top:2px solid var(--ink)}
+  .finding .hd{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:8px}
+  .finding .tag{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;padding:3px 8px;border:1px solid;border-radius:2px;flex:none;
+  }
+  .t-strong{color:var(--survey);border-color:var(--survey)}
+  .t-weak{color:var(--oxide);border-color:var(--oxide)}
+  .t-mixed{color:var(--ochre);border-color:var(--ochre)}
+  .finding .ttl{font-family:"Newsreader",Georgia,serif;font-size:1.15rem;font-weight:500;line-height:1.25}
+
+  /* ---------- timeline ---------- */
+  .tl{border-top:2px solid var(--ink);margin-top:6px}
+  .tl-row{
+    display:grid;grid-template-columns:120px 1fr;gap:20px;
+    padding:11px 0;border-bottom:1px solid var(--rule-2);align-items:baseline;
+  }
+  .tl-row time{
+    font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-3);
+    letter-spacing:.02em;white-space:nowrap;
+  }
+  .tl-row .ev{font-size:15px;line-height:1.45}
+  .tl-row.key{background:linear-gradient(90deg,rgba(31,58,52,.06),transparent 65%)}
+  .tl-row.key .ev{font-weight:600}
+  .tl-row.key time{color:var(--survey);font-weight:600}
+
+  /* ---------- plat (signature) ---------- */
+  .plat{background:var(--paper-2);border:1px solid var(--rule);padding:26px 22px 18px;margin:6px 0 0}
+  .plat svg{width:100%;height:auto;display:block;max-width:560px;margin:0 auto}
+  .plat-cap{
+    margin:18px auto 0;max-width:560px;font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px;line-height:1.7;color:var(--ink-3);
+  }
+  .legend{display:flex;flex-wrap:wrap;gap:18px;margin:16px auto 0;max-width:560px}
+  .legend span{display:flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-2)}
+  .swatch{width:22px;height:0;border-top-width:3px;border-top-style:solid;flex:none}
+
+  /* ---------- documents ---------- */
+  .doc{
+    display:block;border:1px solid var(--rule);background:var(--paper-2);
+    padding:15px 17px;margin-bottom:-1px;text-decoration:none;color:inherit;
+  }
+  .doc:hover{background:#fff;border-color:var(--survey);position:relative;z-index:1}
+  .doc .dt{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:5px}
+  .doc .dn{font-family:"Newsreader",Georgia,serif;font-size:1.06rem;line-height:1.3;margin-bottom:5px;color:var(--survey);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+  .doc .dd{font-size:13.5px;color:var(--ink-2);line-height:1.45}
+  .primary-doc{border:2px solid var(--ink);background:var(--paper-2);padding:0;margin:0 0 26px}
+  .primary-doc .ph{padding:15px 18px;border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;gap:16px;align-items:baseline;flex-wrap:wrap}
+  .primary-doc .ph .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+  .primary-doc object,.primary-doc iframe{width:100%;height:600px;border:0;display:block;background:#e9ebe7}
+  .pdf-fallback{padding:26px 18px;font-size:14.5px;color:var(--ink-2)}
+  .pdf-fallback p:last-child{margin-bottom:0}
+
+  /* ---------- for / against ---------- */
+  .ledger{display:grid;grid-template-columns:1fr;gap:0;border-top:2px solid var(--ink)}
+  .col{padding:22px 0;border-bottom:1px solid var(--rule)}
+  .col-hd{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+  .col-hd .mark{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:2px;color:#fff}
+  .for .mark{background:var(--survey)}
+  .against .mark{background:var(--oxide)}
+  .col-hd h4{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:1.28rem;margin:0}
+  .arg{margin-bottom:16px}
+  .arg .at{font-weight:700;font-size:14.5px;margin-bottom:3px}
+  .arg p{margin:0;font-size:15px;color:var(--ink-2)}
+
+  /* ---------- recommendation ---------- */
+  .rec{background:var(--paper-2);color:var(--ink);padding:32px 30px;margin:6px 0 0;
+       border:1px solid var(--rule);border-left:5px solid var(--survey)}
+  .rec .rl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--survey);font-weight:600;margin-bottom:14px}
+  .rec h4{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:clamp(1.4rem,3.4vw,1.9rem);line-height:1.2;margin:0 0 18px;color:var(--ink);letter-spacing:-.01em}
+  .rec p{color:var(--ink-2);margin-bottom:1em}
+  .rec strong{color:var(--ink)}
+  .rec ol{color:var(--ink-2);padding-left:1.15em}
+  .rec ol li{margin-bottom:.65em}
+  .rec ol li strong{color:var(--ink)}
+
+  /* ---------- open items ---------- */
+  .open li{margin-bottom:.75em}
+  .open li strong{display:block}
+
+  footer{border-top:2px solid var(--ink);margin-top:12px;padding:26px 0 0;font-size:13px;color:var(--ink-3);line-height:1.6}
+  footer .org{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);margin-bottom:10px}
+
+  @media (min-width:860px){
+    .ledger{grid-template-columns:1fr 1fr;gap:0 44px}
+    .col{border-bottom:none}
+    .against{border-left:1px solid var(--rule);padding-left:44px;margin-left:-1px}
+  }
+  @media (max-width:820px){
+    section{grid-template-columns:1fr;gap:0}
+    .rail{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--rule)}
+    .rail .note{margin-top:12px}
+    .tl-row{grid-template-columns:1fr;gap:2px}
+    .primary-doc object,.primary-doc iframe{height:420px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  @media print{
+    body{background:#fff;font-size:11pt}
+    .portal-bar{display:none}
+    section{break-inside:avoid;page-break-inside:avoid}
+    .primary-doc object{display:none}
+    .rec{background:#fff;border:1px solid #000;border-left:4px solid #000}
+  }
+</style>
+</head>
+<body>
+
+<div class="portal-bar">
+  <div class="pb-inner">
+    <span>CCGA Board Portal &nbsp;·&nbsp; Internal Document</span>
+    <a href="board-portal.html">&larr; Back to Board Portal</a>
+  </div>
+</div>
+
+<div class="wrap">
+
+<header class="mast">
+  <p class="kicker">Colorado Corn Growers Association &nbsp;·&nbsp; <b>Board Decision Memo</b> &nbsp;·&nbsp; Prepared August 28, 2026</p>
+  <h1>Should CCGA file an amicus brief in the Dryland Partners case?</h1>
+  <p class="dek">Xcel's utility subsidiary lost a condemnation fight against a Cheyenne County farm on four independent grounds. It has now asked the Colorado Supreme Court to step in early. A grower association has one argument in this case that no party can make for itself — and one reason to think hard before making it.</p>
+
+  <div class="caption-block">
+    <div><dt>Case below</dt><dd class="mono">2026 CV 30001, Div. D</dd></div>
+    <div><dt>Court</dt><dd>Cheyenne County District<br>Judge Mike Davidson</dd></div>
+    <div><dt>Parties</dt><dd>PSCo (Xcel) v.<br>Dryland Partners, LLC</dd></div>
+    <div><dt>Order below</dt><dd class="mono">June 2, 2026<br>Petition dismissed</dd></div>
+    <div><dt>Supreme Court filing</dt><dd class="mono">July 31, 2026</dd></div>
+    <div><dt>Decision needed</dt><dd>Authorize / decline<br>amicus participation</dd></div>
+  </div>
+</header>
+
+<!-- ============ 01 BOTTOM LINE ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 01</span>
+    <h2>The short version</h2>
+    <div class="note"><strong>Read this first</strong>Everything below supports or qualifies this page.</div>
+  </div>
+  <div class="body">
+    <p class="lede">A district judge threw out Xcel's attempt to condemn roughly 550 feet of easement across a working Cheyenne County farm, finding the utility had no statutory authority, no public use, no necessity, and had negotiated in bad faith. Xcel has asked the Colorado Supreme Court to take the case immediately rather than wait for the Court of Appeals. The Colorado Energy Office and Tri-State are weighing briefs on Xcel's side. Nobody has yet filed on the landowner's side.</p>
+
+    <p>The board is being asked by Brian Dickey of Tenfold Farms to have CCGA weigh in. Before the board can vote, three things have to be settled: <strong>which filing we would be joining</strong>, <strong>who signs it</strong>, and <strong>when it is due</strong>. None of the three is currently known, because Xcel's petition has not reached us.</p>
+
+    <p>What is knowable today is whether CCGA has something worth saying. It does. Buried in paragraph 25 of the order is a finding that no party to this case will argue in the terms that matter to Colorado growers: condemnation at $19,886 would reset the valuation for every future easement negotiation at that substation. That is an agricultural-economics argument, not a utility-law argument, and it belongs to a growers' association.</p>
+
+    <p>There is also a real argument against involvement, and it is not the obvious one. It is set out in Section 08.</p>
+  </div>
+</section>
+
+<!-- ============ 02 PLAT ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 02</span>
+    <h2>The ground in dispute</h2>
+    <div class="note"><strong>T12S R45W, 6th P.M.</strong>Dryland holds land in Sections 18, 19 and 24. The Goose Creek Substation sits on ground Dryland sold to PSCo in 2022.</div>
+  </div>
+  <div class="body">
+    <div class="plat">
+      <svg viewBox="0 0 560 420" role="img" aria-label="Schematic township plat showing Sections 18, 19 and 24, the condemned route and the abandoned Section 24 alternative">
+        <defs>
+          <pattern id="hatch" width="7" height="7" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="7" stroke="#1f3a34" stroke-width="1.1" opacity=".16"/>
+          </pattern>
+        </defs>
+
+        <!-- township grid 6x6 -->
+        <g stroke="#c9cfc8" stroke-width="1" fill="none">
+          <rect x="40" y="30" width="480" height="360"/>
+          <line x1="120" y1="30" x2="120" y2="390"/><line x1="200" y1="30" x2="200" y2="390"/>
+          <line x1="280" y1="30" x2="280" y2="390"/><line x1="360" y1="30" x2="360" y2="390"/>
+          <line x1="440" y1="30" x2="440" y2="390"/>
+          <line x1="40" y1="90" x2="520" y2="90"/><line x1="40" y1="150" x2="520" y2="150"/>
+          <line x1="40" y1="210" x2="520" y2="210"/><line x1="40" y1="270" x2="520" y2="270"/>
+          <line x1="40" y1="330" x2="520" y2="330"/>
+        </g>
+
+        <!-- Dryland sections -->
+        <rect x="40" y="150" width="80" height="60" fill="url(#hatch)"/>
+        <rect x="40" y="210" width="80" height="60" fill="url(#hatch)"/>
+        <rect x="440" y="210" width="80" height="60" fill="url(#hatch)"/>
+        <g stroke="#1f3a34" stroke-width="1.8" fill="none">
+          <rect x="40" y="150" width="80" height="120"/>
+          <rect x="440" y="210" width="80" height="60"/>
+        </g>
+
+        <!-- section numbers -->
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#9aa39c" text-anchor="middle">
+          <text x="80" y="60">6</text><text x="160" y="60">5</text><text x="240" y="60">4</text><text x="320" y="60">3</text><text x="400" y="60">2</text><text x="480" y="60">1</text>
+          <text x="80" y="120">7</text><text x="160" y="120">8</text><text x="240" y="120">9</text><text x="320" y="120">10</text><text x="400" y="120">11</text><text x="480" y="120">12</text>
+          <text x="160" y="180">17</text><text x="240" y="180">16</text><text x="320" y="180">15</text><text x="400" y="180">14</text><text x="480" y="180">13</text>
+          <text x="160" y="240">20</text><text x="240" y="240">21</text><text x="320" y="240">22</text><text x="400" y="240">23</text>
+          <text x="80" y="300">30</text><text x="160" y="300">29</text><text x="240" y="300">28</text><text x="320" y="300">27</text><text x="400" y="300">26</text><text x="480" y="300">25</text>
+          <text x="80" y="360">31</text><text x="160" y="360">32</text><text x="240" y="360">33</text><text x="320" y="360">34</text><text x="400" y="360">35</text><text x="480" y="360">36</text>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="13" font-weight="600" fill="#1f3a34" text-anchor="middle">
+          <text x="80" y="180">18</text><text x="80" y="240">19</text><text x="480" y="240">24</text>
+        </g>
+
+        <!-- substation -->
+        <rect x="112" y="256" width="17" height="17" fill="#12181f"/>
+        <text x="137" y="269" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#12181f">Goose Creek Substation</text>
+
+        <!-- condemned route: through 18/19 -->
+        <path d="M60 152 L60 264 L112 264" stroke="#8c3a2b" stroke-width="3.4" fill="none" stroke-linecap="square"/>
+        <circle cx="60" cy="152" r="4" fill="#8c3a2b"/>
+        <text x="68" y="146" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#8c3a2b" font-weight="600">Route PSCo moved to condemn</text>
+
+        <!-- abandoned Section 24 alternative -->
+        <path d="M470 236 L300 236 L300 288 L129 288 L129 268" stroke="#1f3a34" stroke-width="3" fill="none" stroke-dasharray="9 6" stroke-linecap="square"/>
+        <circle cx="470" cy="236" r="4" fill="#1f3a34"/>
+        <text x="298" y="228" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#1f3a34" font-weight="600" text-anchor="middle">Section 24 corridor — approved, then abandoned</text>
+      </svg>
+
+      <div class="legend">
+        <span><i class="swatch" style="border-top-color:#8c3a2b"></i>Condemnation sought (Secs. 18 &amp; 19)</span>
+        <span><i class="swatch" style="border-top-color:#1f3a34;border-top-style:dashed"></i>Alternative Dryland built for PSCo (Sec. 24)</span>
+      </div>
+      <p class="plat-cap">Schematic only — not a survey. The court found PSCo had initially proposed and approved the Section 24 corridor after years of collaboration, then withdrew from negotiations and moved to take a different segment in Sections 18 and 19 — ground Dryland had already reserved as an oil and gas easement.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 03 HOW WE GOT HERE ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 03</span>
+    <h2>How we got here</h2>
+    <div class="note"><strong>Shaded rows</strong>Events that change the board's calculus.</div>
+  </div>
+  <div class="body">
+    <div class="tl">
+      <div class="tl-row"><time>2022</time><div class="ev">Dryland sells PSCo about 90 acres for $585,000 for the Goose Creek Substation — a voluntary sale, no court order.</div></div>
+      <div class="tl-row"><time>2022</time><div class="ev">PSCo's own Request for Proposals defines "Generator Interconnection Facilities" as running between the facility and the point of change of ownership — expressly not public transmission.</div></div>
+      <div class="tl-row"><time>2022–2025</time><div class="ev">Dryland works with NextEra, Enel and Apex to lay out shared corridors through Sections 18, 19 and 24, and grants a gen-tie easement to NextEra's Dusty Rose Wind at market rate.</div></div>
+      <div class="tl-row"><time>Jan 2024</time><div class="ev">PUC approves the resource plan adding roughly 6.1 GW to PSCo's system, including Singing Grass (603 MW) and Cheyenne Ridge II (450 MW).</div></div>
+      <div class="tl-row"><time>Feb 19, 2026</time><div class="ev">HB26-1278 introduced — would bar investor-owned utilities from starting condemnation before securing a CPCN and all local permits.</div></div>
+      <div class="tl-row key"><time>Mar 5, 2026</time><div class="ev">HB26-1278 postponed indefinitely in House Energy &amp; Environment, 7–4, after four amendments were adopted. The legislative fix died.</div></div>
+      <div class="tl-row"><time>Mar 12, 2026</time><div class="ev">HB26-1279, the 90-day landowner notice bill, also postponed indefinitely.</div></div>
+      <div class="tl-row"><time>Apr 6 &amp; 28, 2026</time><div class="ev">Two days of evidentiary hearings on PSCo's motion for immediate possession.</div></div>
+      <div class="tl-row"><time>Apr 2026</time><div class="ev">In the separate Elbert County fight, the PUC uses C.R.S. § 29-20-108 to override the county's permit denial on the Power Pathway route.</div></div>
+      <div class="tl-row key"><time>Jun 2, 2026</time><div class="ev">Judge Davidson denies immediate possession and dismisses the condemnation petition outright on four independent grounds.</div></div>
+      <div class="tl-row"><time>Jun 5–12, 2026</time><div class="ev">Separate emergency injunction proceeding over alleged trespass and drainage and erosion damage from substation construction; closing arguments June 12.</div></div>
+      <div class="tl-row key"><time>Jul 31, 2026</time><div class="ev">PSCo files in the Colorado Supreme Court, asking it to take the case ahead of normal appellate process. A Court of Appeals track is also open.</div></div>
+      <div class="tl-row"><time>Aug 20, 2026</time><div class="ev">Colorado Energy Office and Tri-State publicly say they are weighing amicus briefs supporting PSCo.</div></div>
+      <div class="tl-row key"><time>Aug 28, 2026</time><div class="ev">Board memo prepared. No brief has been filed on the landowner's side.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 WHAT THE COURT HELD ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 04</span>
+    <h2>What the court actually held</h2>
+    <div class="note"><strong>Four grounds</strong>Each independently sufficient. Xcel must beat all four.</div>
+  </div>
+  <div class="body">
+    <p>The order is 16 pages and reaches four separate holdings. They are not equally durable on appeal, and the board should understand which is which before deciding how loudly to associate CCGA with the ruling.</p>
+
+    <div class="finding">
+      <div class="hd"><span class="tag t-mixed">Novel</span><span class="ttl">No statutory authority to condemn</span></div>
+      <p>The court read <span class="cite">C.R.S. § 38-4-103</span> — the electric power line right-of-way statute — as limited to mines and mining claims, reasoning that eleven of the sixteen statutes in Article 4 of Title 38 concern mines, so "or other land" cannot be read to swallow the mining language. <span class="cite">§ 38-4-107</span> was found to address compensation only. <span class="cite">§§ 38-5-104</span> and <span class="cite">38-5-105</span> reach transmission and distribution <em>to the public</em>, not generation.</p>
+    </div>
+
+    <div class="finding">
+      <div class="hd"><span class="tag t-strong">Strong</span><span class="ttl">A separate statute bars it outright</span></div>
+      <p><span class="cite">C.R.S. § 40-2-125</span>, adopted by voters in 2004, says a qualifying retail utility may not condemn to site the generation facilities of a renewable energy system used to meet the electric resource standards. The court refused PSCo's reading that the bar applies only to petitions brought under <span class="cite">§ 38-2-101</span>, holding that reading would let a utility escape a clear prohibition by changing what it calls the line.</p>
+      <blockquote>If this type of gamesmanship was statutorily authorized, § 40-2-125 would be rendered meaningless, because a utility seeking to condemn private property for generating facilities could simply call them transmission facilities.<span class="src">Order, ¶ 15</span></blockquote>
+    </div>
+
+    <div class="finding">
+      <div class="hd"><span class="tag t-mixed">Contestable</span><span class="ttl">No public use</span></div>
+      <p>Applying the <em class="case">Tanner</em> factors, the court found no benefit conferred on Cheyenne County — the power moves to the Front Range — and distinguished <em class="case">Public Service Co. v. Shaklee</em>, where the line at issue served Coors but was also available to the public. Here the gen-ties are, under PSCo's own generator interconnection agreements, "sole use facilities" owned and operated by PSCo alone.</p>
+    </div>
+
+    <div class="finding">
+      <div class="hd"><span class="tag t-strong">Strong</span><span class="ttl">Not necessary, and negotiated in bad faith</span></div>
+      <p>Dickey testified credibly that he spent "thousands of hours" building corridors PSCo initially approved in Section 24, before PSCo withdrew and moved on Sections 18 and 19 — ground PSCo knew was reserved as an oil and gas easement. The offer was $19,886.36 against a NextEra comparable the court described as worth millions. The court concluded PSCo selected the route that maximized harm while a viable, less damaging alternative existed.</p>
+    </div>
+
+    <h3>The finding that anchors everything</h3>
+    <p>Xcel's senior manager of siting and land rights testified that generation tie lines are "just a more specific name for a transmission line." The court found that testimony <strong>incredible</strong> — flatly contradicted by PSCo's own conditional use permit application, its cover letter naming the "Singing Grass Wind Generation Tie line," its 2022 RFP definition, and its FERC generator interconnection agreements.</p>
+    <p>This matters procedurally more than legally. Appellate courts do not re-weigh credibility findings. Xcel's petition has to persuade the Supreme Court that a pure question of law is cleanly presented, when three of the four grounds below rest on findings about what this utility did on this ground.</p>
+  </div>
+</section>
+
+<!-- ============ 05 WEAKNESSES ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 05</span>
+    <h2>Where the ruling is exposed</h2>
+    <div class="note"><strong>Be candid</strong>A board that only hears the good case makes a bad decision.</div>
+  </div>
+  <div class="body">
+    <p>Two of the four holdings are genuinely vulnerable, and a third argument Dryland raised was rejected outright. If CCGA signs a brief, it should not tie itself to the weak parts.</p>
+
+    <h3>The mining limitation is a novel reading</h3>
+    <p>No Colorado appellate court has held that <span class="cite">§ 38-4-103</span> only reaches mines and mining claims. The statute has been on the books since 1907 and utilities have long assumed broader reach. This is the single most cert-worthy issue in the order and the one most likely to be reversed. It is also, unhelpfully, the ground the court reached first.</p>
+
+    <h3>The public use analysis strains against Carousel Farms</h3>
+    <p>The court wrote that generating electricity "only serves to benefit PSCo's profit margins." But <em class="case">Carousel Farms Metropolitan District v. Woodcrest Homes</em> holds that private parties may benefit significantly, even substantially, so long as the purpose and benefit are essentially public. The court itself conceded that the fourth <em class="case">Tanner</em> factor — necessity of the improvement to developing the state's resources — favors PSCo. A reviewing court could find the balance was struck too aggressively.</p>
+
+    <h3>The permit-feasibility argument already lost</h3>
+    <p>Dryland argued the project was infeasible because Cheyenne County would withhold permits after PSCo set pedestals in violation of the county's 75-foot setback. The court rejected it, citing <em class="case">Shaklee</em> for the proposition that Colorado law does not require a condemning authority to obtain development permits as a condition precedent. Any CCGA brief should stay away from this line entirely.</p>
+
+    <h3>The politics run the other direction</h3>
+    <p>The Colorado Energy Office — a state agency — is lining up behind Xcel, as is Tri-State. Xcel is framing this as more than 1,000 megawatts of finished wind stranded behind 550 feet of ground. That framing has real force with a court weighing whether to intervene early, and CCGA should expect it to be the headline rather than the easement valuation question.</p>
+  </div>
+</section>
+
+<!-- ============ 06 PROCEDURE ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 06</span>
+    <h2>Procedure, and why it decides everything</h2>
+    <div class="note"><strong>C.A.R. 29</strong>Governs amicus briefs. Leave of court is required. Word limits are hard.</div>
+  </div>
+  <div class="body">
+    <p>"Support the landowners" is a posture, not a filing. There are two entirely different documents on the table, and they argue opposite things.</p>
+
+    <h3>A petition-stage brief argues the court should stay out</h3>
+    <p>Xcel is asking the Supreme Court to take the case immediately — the standard is that a case be of such imperative public importance as to justify deviation from normal appellate practice. An amicus supporting Dryland at this stage argues the opposite: that this is a fact-bound dispute about one utility's conduct on one route, that a Court of Appeals track already exists, and that the record does not present the clean legal question Xcel claims. Short, procedural, roughly 3,150 words.</p>
+
+    <h3>A merits brief only exists if the court takes the case</h3>
+    <p>Broader, later, and a different drafting problem. It would defend the statutory holdings — including the weak one.</p>
+
+    <h3>The mechanics that constrain us</h3>
+    <ul>
+      <li><strong>Leave of court is required.</strong> An amicus brief is filed with a motion for leave under <span class="cite">C.A.R. 29(b)</span>. It is not filed as of right.</li>
+      <li><strong>Word limits are firm.</strong> Roughly 3,150 words at the certiorari stage absent the court's permission, and the brief may be stricken for non-compliance.</li>
+      <li><strong>The clock runs from the party's filing, not from ours.</strong> C.A.R. 29 keys the deadline to the filing being supported. That window may already be running.</li>
+      <li><strong>A Colorado-licensed attorney must sign it.</strong> CCGA's board includes attorneys. One of them has to be counsel of record.</li>
+      <li><strong>Disclosure is required.</strong> The brief must state whether a party's counsel authored it and whether anyone other than the amicus funded it.</li>
+      <li><strong>The board must authorize the appearance.</strong> CCGA cannot appear in a Colorado Supreme Court proceeding on a phone call.</li>
+    </ul>
+    <p><strong>Confirm with Bradley Haight, Dryland's counsel, which filing is in play and what the deadline is, before the board votes.</strong> Everything else is premature until that answer comes back.</p>
+  </div>
+</section>
+
+<!-- ============ 07 LEGISLATIVE ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 07</span>
+    <h2>The legislative track already failed</h2>
+    <div class="note"><strong>HB26-1278</strong>Postponed indefinitely 7–4, March 5, 2026.</div>
+  </div>
+  <div class="body">
+    <p>This is the piece of the picture most directly in CCGA's lane, and it is not in the news coverage Brian sent.</p>
+    <p>Representative Chris Richardson of Elizabeth, with Senators Rod Pelton of Cheyenne Wells and Marc Snyder of Colorado Springs, ran HB26-1278 — a bill requiring an investor-owned utility to obtain a certificate of public convenience and necessity from the PUC <em>and</em> all local land use approvals before starting any condemnation proceeding for high-voltage transmission. It drew seventeen additional sponsors across both parties and both chambers.</p>
+    <p>The House Energy &amp; Environment Committee adopted four amendments, then refused to refer it, 4–7, and postponed it indefinitely on the reverse roll call, 7–4, on March 5, 2026. The companion notice bill, HB26-1279, died the same way a week later.</p>
+    <p>Two things follow. First, the court is currently the only functioning venue — the legislature declined to act while these same disputes were live. Second, Senator Pelton represents Cheyenne Wells. A 2027 bill is a live prospect, and CCGA's Friday advocacy sessions are the right instrument for it. Whatever the board decides about the brief, the legislative file should be opened now.</p>
+  </div>
+</section>
+
+<!-- ============ 08 FOR / AGAINST ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 08</span>
+    <h2>The case for and against signing</h2>
+    <div class="note"><strong>Both columns</strong>are argued in good faith. The board decides.</div>
+  </div>
+  <div class="body" style="max-width:none">
+    <div class="ledger">
+      <div class="col for">
+        <div class="col-hd"><span class="mark">For</span><h4>Reasons to file</h4></div>
+
+        <div class="arg">
+          <div class="at">We have the one argument nobody else can make</div>
+          <p>Paragraph 25 of the order found that condemnation "would also change the valuation for all future private developers who want to connect to the Goose Creek Substation," and that at under $20,000 Dryland could no longer secure agreements worth millions. Dryland's counsel argues Dryland's case. Only a growers' association can tell the court what a sub-$20,000 condemnation comparable does to every Colorado producer sitting across the table from a wind or solar developer. That is the amicus function exactly: facts the parties cannot supply.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">The field is currently one-sided</div>
+          <p>A state agency and Tri-State are weighing briefs for Xcel. Nothing has been filed for the landowner. A court reading only one set of amici gets one picture of who is affected.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">The mechanism generalizes past this farm</div>
+          <p>The court found PSCo relabeled gen-ties as transmission lines for the first time in litigation. If that works, any developer can convert a negotiated easement market into a condemnation at will. Eastern Colorado ground is where the next decade of interconnection gets built.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">It is precisely the advocacy we tell members we do</div>
+          <p>An independent, volunteer board of practicing farmers, attorneys and political veterans intervening in a Colorado Supreme Court proceeding on behalf of an Eastern Plains family operation is CCGA's stated purpose in its clearest possible form.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">The legislature is closed to us right now</div>
+          <p>HB26-1278 died in committee. There is no bill to lobby this session. The record built in this case is what a 2027 bill would be built on.</p>
+        </div>
+      </div>
+
+      <div class="col against">
+        <div class="col-hd"><span class="mark">Against</span><h4>Reasons to decline</h4></div>
+
+        <div class="arg">
+          <div class="at">Our members are not on one side of this</div>
+          <p>More than a hundred landowners signed easements for these same two tie-lines. Many are growers. Some are glad to have the income. CCGA filing in support of the one holdout implies a membership position that the membership has not taken, and members with signed Xcel easements may reasonably read a brief as arguing their deals were struck under a broken system. That is a governance problem, not a legal one, and it does not go away by drafting carefully.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">We would be attaching our name to a shaky holding</div>
+          <p>The mining limitation on § 38-4-103 is novel and may not survive. If the Supreme Court reverses, CCGA is publicly on the losing side of a property rights case — the opposite of the outcome we want on the record when the 2027 bill is drafted.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">The valuation argument helps a specific landowner more than it helps growers generally</div>
+          <p>Paragraph 25 is about preserving Dryland's ability to command millions for an easement. A brief that leans hard on it can be read as an association arguing for higher easement prices rather than for property rights. Xcel's counsel will make exactly that read, and it lands differently with a court than it does at a county meeting.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">Real cost, volunteer capacity</div>
+          <p>A compliant Supreme Court brief means counsel of record, a motion for leave, certification, and a filing deadline we do not yet control. This is a volunteer board in the middle of harvest.</p>
+        </div>
+
+        <div class="arg">
+          <div class="at">There are lighter instruments</div>
+          <p>A board resolution, a letter of support to Dryland, testimony when a 2027 bill is heard, and coverage on our own channels all register the position without appearing as a party-adjacent filer in a case whose facts we did not develop.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 RECOMMENDATION ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 09</span>
+    <h2>Recommendation</h2>
+    <div class="note"><strong>Not legal advice</strong>This memo was prepared for board discussion. Counsel must review before anything is filed.</div>
+  </div>
+  <div class="body">
+    <div class="rec">
+      <p class="rl">Proposed motion</p>
+      <h4>Authorize participation in principle, conditioned on four things, and open the legislative file regardless.</h4>
+      <p>The strongest reason to file is real and specific: a growers' association can tell the court something about easement markets that no party in this case is positioned to say. The strongest reason to decline is also real: our membership is not uniformly on Dryland's side of this, and a brief speaks for all of them.</p>
+      <p>Those are reconcilable if the brief is <strong>narrow</strong>. Argue that this record does not present a clean statewide legal question and that a condemnation comparable set below market distorts easement negotiations for growers across the Eastern Plains. Do not defend the mining limitation. Do not touch the permit-feasibility argument. Do not argue Dryland's valuation.</p>
+      <ol>
+        <li><strong>Counsel of record.</strong> A Colorado-licensed board attorney agrees to sign and take responsibility for compliance.</li>
+        <li><strong>Posture and deadline confirmed</strong> with Bradley Haight before drafting begins.</li>
+        <li><strong>Draft returns to the board</strong> for approval before filing. No one signs on the board's behalf sight unseen.</li>
+        <li><strong>Scope held to the two arguments above.</strong> If counsel concludes the brief cannot be kept that narrow, CCGA declines and issues a board resolution instead.</li>
+      </ol>
+      <p>Separately and unconditionally: <strong>open the 2027 legislative file on HB26-1278.</strong> Senator Pelton represents Cheyenne Wells and carried it. That work is squarely ours and carries none of the membership risk the brief does.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 DOCUMENTS ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 10</span>
+    <h2>The documents</h2>
+    <div class="note"><strong>Primary source</strong>The order is linked below. Everything else links out.</div>
+  </div>
+  <div class="body">
+    <div class="primary-doc">
+      <div class="ph">
+        <span class="lbl">Primary source — 16 pages</span>
+        <span class="lbl">Filed June 2, 2026 · 2:07 PM</span>
+      </div>
+      <object data="./Order_on_Petitioners_Motion_for_Immediate_Possession.pdf" type="application/pdf">
+        <div class="pdf-fallback">
+          <p><strong>Order on Petitioner's Motion for Immediate Possession</strong> — Case No. 2026 CV 30001, Div. D, Cheyenne County District Court, Judge Mike Davidson.</p>
+          <p>The order is not stored in this folder, and some browsers will not display an embedded PDF in any case. Read it on <a href="https://s3.documentcloud.org/documents/28551553/2662-order-on-petitioners-motion-for-immediate-possession.pdf" target="_blank" rel="noopener">DocumentCloud</a>, or drop a copy named <code>Order_on_Petitioners_Motion_for_Immediate_Possession.pdf</code> beside this page and it will embed here.</p>
+        </div>
+      </object>
+    </div>
+    <p style="font-size:14px;color:var(--ink-2);margin-top:-14px;margin-bottom:26px">Public mirror: <a href="https://s3.documentcloud.org/documents/28551553/2662-order-on-petitioners-motion-for-immediate-possession.pdf" target="_blank" rel="noopener">DocumentCloud</a>.</p>
+
+    <h3>Statutes and rules</h3>
+    <a class="doc" href="https://law.justia.com/codes/colorado/2022/title-40/article-2/part-1/section-40-2-125/" target="_blank" rel="noopener">
+      <div class="dt">C.R.S. § 40-2-125</div>
+      <div class="dn">Eminent Domain Restrictions</div>
+      <div class="dd">The 2004 voter-initiated bar on a qualifying retail utility condemning to site renewable generation facilities. The load-bearing statute in the order.</div>
+    </a>
+    <a class="doc" href="https://www.coloradojudicial.gov/sites/default/files/2023-06/Rule_Change_2015-06.pdf" target="_blank" rel="noopener">
+      <div class="dt">C.A.R. 29</div>
+      <div class="dn">Brief of an Amicus Curiae — rule text and certification form</div>
+      <div class="dd">Leave of court, content and form requirements, word limits, and the timing rule keyed to the supported party's filing.</div>
+    </a>
+
+    <h3>Legislation</h3>
+    <a class="doc" href="https://leg.colorado.gov/bills/HB26-1278" target="_blank" rel="noopener">
+      <div class="dt">HB26-1278 · Status: Lost</div>
+      <div class="dn">Local Government Approval of Transmission Infrastructure</div>
+      <div class="dd">Richardson / Pelton / Snyder. Postponed indefinitely 7–4 in House Energy &amp; Environment, March 5, 2026, after four amendments were adopted.</div>
+    </a>
+    <p style="font-size:13px;color:var(--ink-3);margin:8px 0 18px">Bill files: <a href="https://leg.colorado.gov/bill_files/112364/download" target="_blank" rel="noopener">introduced text</a> &nbsp;·&nbsp; <a href="https://leg.colorado.gov/bill_files/117471/download" target="_blank" rel="noopener">final fiscal note</a></p>
+    <a class="doc" href="https://leg.colorado.gov/bills/HB26-1279" target="_blank" rel="noopener">
+      <div class="dt">HB26-1279 · Status: Lost</div>
+      <div class="dn">Public Utility Notice to Real Property Owner</div>
+      <div class="dd">90-day written notice and one in-person public meeting before construction. Postponed indefinitely March 12, 2026.</div>
+    </a>
+
+    <h3>Reporting</h3>
+    <a class="doc" href="https://kiowacountyindependent.com/news/7497-judge-rejects-xcel-condemnation-bid-in-landmark-cheyenne-county-energy-corridor-dispute" target="_blank" rel="noopener">
+      <div class="dt">Kiowa County Independent · June 9, 2026 · Betsy Barnett</div>
+      <div class="dn">Judge Rejects Xcel Condemnation Bid in Landmark Cheyenne County Energy Corridor Dispute</div>
+      <div class="dd">The fullest account of the ruling and the corridor negotiations, plus the county cease-and-desist over the pedestal set in the County Road 36 right-of-way.</div>
+    </a>
+    <a class="doc" href="https://coloradosun.com/2026/08/20/xcel-condemnation-power-lines-dryland-partners-wind-power/" target="_blank" rel="noopener">
+      <div class="dt">The Colorado Sun · August 20, 2026 · Mark Jaffe</div>
+      <div class="dn">A judge told Xcel it couldn't condemn a farmer's land. Now the utility is headed to the state Supreme Court.</div>
+      <div class="dd">First report that the Colorado Energy Office and Tri-State are weighing amicus briefs for PSCo.</div>
+    </a>
+    <a class="doc" href="https://www.utilitydive.com/news/xcel-asks-colorado-supreme-court-to-facilitate-wind-farm-interconnection/827572/" target="_blank" rel="noopener">
+      <div class="dt">Utility Dive · August 12, 2026</div>
+      <div class="dn">Xcel asks Colorado Supreme Court to facilitate wind farm interconnection</div>
+      <div class="dd">Trade-press account with the July 31 filing language, tie-line lengths, construction status, and Dryland counsel's statement that the landowner remains open to a market-based resolution.</div>
+    </a>
+    <a class="doc" href="https://www.coloradopolitics.com/2026/03/04/colorado-lawmakers-move-to-curb-eminent-domain-powers-after-xcel-dispute/" target="_blank" rel="noopener">
+      <div class="dt">Colorado Politics · March 4, 2026</div>
+      <div class="dn">Colorado lawmakers move to curb eminent domain powers after Xcel dispute</div>
+      <div class="dd">Background on HB26-1278 and the Elbert County condemnations filed before commissioners had even heard the land use application.</div>
+    </a>
+    <a class="doc" href="https://coloradosun.com/2025/06/23/xcel-transmission-line-elbert-county-power-pathway/" target="_blank" rel="noopener">
+      <div class="dt">The Colorado Sun · June 23, 2025</div>
+      <div class="dn">Xcel using eminent domain to clear a route for its Power Pathway transmission line in Elbert County</div>
+      <div class="dd">The parallel Elbert County dispute — same utility, same pattern, different county.</div>
+    </a>
+  </div>
+</section>
+
+<!-- ============ 11 OPEN ITEMS ============ -->
+<section>
+  <div class="rail">
+    <span class="num">Section 11</span>
+    <h2>What we still do not have</h2>
+    <div class="note"><strong>Blocking</strong>The first two items gate the board vote.</div>
+  </div>
+  <div class="body">
+    <ul class="open">
+      <li><strong>PSCo's July 31 Supreme Court filing.</strong> This defines the questions presented and therefore what a brief would have to answer. Not in hand. Nothing should be drafted without it.</li>
+      <li><strong>The filing deadline and the procedural vehicle.</strong> Whether this is a petition-stage or merits-stage brief changes the document completely. Bradley Haight can answer both in one phone call.</li>
+      <li><strong>The Sierra Club amicus brief Brian referenced.</strong> Mentioned in his first email as an attachment; it never arrived, and no such brief in this matter surfaced in research. Worth asking which case it is from — it may be from the Elbert County Power Pathway proceeding rather than this one.</li>
+      <li><strong>Both of Brian's emails arrived without their attachments.</strong> The Kiowa County link was also mangled in transmission. Ask him to resend.</li>
+      <li><strong>The outcome of the June 12 injunction proceeding</strong> on the trespass and drainage claims. Not reported.</li>
+      <li><strong>Whether Dryland's counsel wants amici at all.</strong> Some counsel do not. Ask before assuming a brief is welcome.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p class="org">Colorado Corn Growers Association · Board Decision Memo</p>
+  <p>Prepared August 28, 2026 for board discussion. Assembled from the June 2, 2026 district court order, Colorado General Assembly records, and published reporting; all sources are linked in Section 10. Case status and filing deadlines change — verify current posture with counsel before acting.</p>
+  <p>This document is a briefing summary prepared to support a board decision. It is not legal advice and no part of it substitutes for review by licensed counsel. Any filing must be prepared and signed by a Colorado-licensed attorney of record.</p>
+  <p style="margin-top:14px"><a href="board-portal.html">&larr; Back to Board Portal</a></p>
+</footer>
+
+</div>
+</body>
+</html>
