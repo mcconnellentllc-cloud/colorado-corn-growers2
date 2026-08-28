@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eminent Domain on the Eastern Plains: The Case For and Against — CCGA</title>
+    <meta name="description" content="A Cheyenne County judge blocked Xcel from condemning farmland for a wind gen-tie line. Xcel has appealed to the Colorado Supreme Court. Both sides of the argument, for member discussion.">
+    <meta property="og:title" content="Eminent Domain on the Eastern Plains: The Case For and Against">
+    <meta property="og:description" content="A Cheyenne County judge blocked Xcel from condemning farmland for a wind gen-tie line. Both sides of the argument, laid out for member discussion.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/eminent-domain-discussion.html">
+    <meta property="og:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Eminent Domain on the Eastern Plains: The Case For and Against">
+    <meta name="twitter:description" content="A Cheyenne County judge blocked Xcel from condemning farmland for a wind gen-tie line. Both sides of the argument, laid out for member discussion.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #e0e0e0;
+            background-color: #1a1a1a;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #f7c52d;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #f7c52d;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover { color: #f7c52d; }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-links a.active { color: #f7c52d; }
+        .nav-links a.active::after { width: 100%; }
+
+        .article {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #f7c52d;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #999;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(247, 197, 45, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #e8e8e8;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #f7c52d;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #e0e0e0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p { margin-bottom: 1.25rem; }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "\2192";
+            position: absolute;
+            left: 0;
+            color: #f7c52d;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #f7c52d;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover { color: #ffd95a; }
+
+        .neutral-callout {
+            background: linear-gradient(135deg, rgba(46, 125, 50, 0.25), rgba(74, 124, 89, 0.2));
+            border-left: 4px solid #4a7c59;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 6px;
+            color: #ffffff;
+        }
+
+        .neutral-callout strong { color: #f7c52d; }
+
+        .facts {
+            background: #232323;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            padding: 1.5rem 1.75rem 0.75rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .facts dl {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 0.5rem 1.5rem;
+        }
+
+        .facts dt {
+            color: #999;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-top: 0.15rem;
+        }
+
+        .facts dd { margin-bottom: 0.5rem; }
+
+        .debate-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0 2.5rem;
+            align-items: start;
+        }
+
+        .debate-col {
+            background: #232323;
+            border-radius: 6px;
+            padding: 1.75rem 1.75rem 0.75rem;
+            border-top: 4px solid #4a7c59;
+        }
+
+        .debate-col.against { border-top-color: #b5763a; }
+
+        .debate-col .side-label {
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #999;
+            margin-bottom: 0.35rem;
+        }
+
+        .debate-col h3 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            color: #ffffff;
+            line-height: 1.35;
+            margin-bottom: 1.25rem;
+        }
+
+        .debate-col h4 {
+            color: #f7c52d;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.4rem;
+            line-height: 1.4;
+        }
+
+        .debate-col h4:first-of-type { margin-top: 0; }
+
+        .debate-col p {
+            font-size: 0.97rem;
+            color: #d0d0d0;
+            margin-bottom: 1rem;
+        }
+
+        .questions {
+            background: #232323;
+            border-left: 3px solid #f7c52d;
+            border-radius: 6px;
+            padding: 1.75rem 2rem 1rem;
+            margin: 1.5rem 0 2rem;
+        }
+
+        .questions p:last-of-type { margin-bottom: 1rem; }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #999;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .sources li { font-size: 0.93rem; margin-bottom: 0.5rem; }
+
+        .footer {
+            background: #1a1a1a;
+            color: #888;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(247, 197, 45, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article { padding: 2rem 1.25rem 3rem; }
+            .article h1 { font-size: 1.9rem; }
+            .lede { font-size: 1.1rem; }
+            .article h2 { font-size: 1.4rem; }
+
+            .debate-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+            .debate-col { padding: 1.5rem 1.25rem 0.5rem; }
+            .facts { padding: 1.25rem 1.25rem 0.5rem; }
+            .facts dl { grid-template-columns: 1fr; gap: 0.15rem; }
+            .facts dd { margin-bottom: 0.9rem; }
+            .questions { padding: 1.5rem 1.25rem 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link active" href="announcements.html">Announcements</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>Eminent Domain on the Eastern Plains: The Case For and Against</h1>
+        <p class="dateline">Posted August 28, 2026 &middot; For member discussion</p>
+
+        <p class="lede">On June 2, 2026, a Cheyenne County district judge refused to let Xcel Energy's utility condemn a strip of Cheyenne County farmland for a power line serving two of its own wind farms &mdash; and dismissed the condemnation petition outright. Xcel asked the Colorado Supreme Court on July 31 to overturn that ruling. However the court decides, the answer will shape how much leverage every eastern Colorado landowner has the next time energy infrastructure wants to cross their ground.</p>
+
+        <div class="neutral-callout">
+            <strong>CCGA has not taken a position on this case.</strong> This page lays out the strongest version of each side so members can argue it out before we decide whether the Association should say anything at all. Tell us where you land &mdash; contact details are at the bottom.
+        </div>
+
+        <h2>Why This Lands on Corn Growers</h2>
+        <p>Most of us will never be named in a condemnation suit. That is not the point. Eastern Colorado is now one of the most heavily developed wind and transmission regions in the country, and nearly every quarter of dryland corn out here sits in, next to, or in the path of somebody's energy project. What the Supreme Court says about this 550-foot easement sets the baseline for what a landowner can ask for &mdash; and what a utility can simply take &mdash; in every negotiation that follows.</p>
+        <p>The practical question is not whether the lines get built. It is whether they get built by negotiation or by condemnation, and those two roads pay very differently. A negotiated energy easement is priced off what the location is worth to the developer. A condemnation award is priced off what the dirt appraises for as farm ground. In this case that gap was the difference between an offer of $19,886.36 and a comparable easement the same landowner had already signed with another developer at what the court called a rate worth millions.</p>
+
+        <h2>The Dispute, in Brief</h2>
+        <div class="facts">
+            <dl>
+                <dt>Case</dt>
+                <dd>Public Service Company of Colorado v. Dryland Partners, LLC, No. 2026CV30001, Cheyenne County District Court (Judge Mike Davidson)</dd>
+                <dt>The land</dt>
+                <dd>An easement across Dryland Partners ground in Sections 18 and 19, T12S R45W &mdash; roughly 550 feet, shorter than two football fields</dd>
+                <dt>The project</dt>
+                <dd>Lines connecting Xcel's Singing Grass (603 MW) and Cheyenne Ridge II (450 MW) wind farms &mdash; 1,053 MW combined, both utility-owned &mdash; to the Goose Creek Substation</dd>
+                <dt>The substation</dt>
+                <dd>Sits on land Dryland sold to Xcel in 2022: about 90 acres for $585,000</dd>
+                <dt>The offer</dt>
+                <dd>$19,886.36</dd>
+                <dt>The ruling</dt>
+                <dd>June 2, 2026 &mdash; motion for immediate possession denied, petition in condemnation dismissed, on four independent grounds</dd>
+                <dt>Now</dt>
+                <dd>On appeal to the Colorado Supreme Court, filed July 31, 2026. Nothing is settled.</dd>
+            </dl>
+        </div>
+        <p>The case turned on a single distinction. Colorado gives regulated utilities the power to condemn land for <em>transmission</em> lines &mdash; lines that carry electricity to the public. Xcel argued these were transmission lines. The judge found they were <em>generation tie lines</em>: private, dedicated lines that carry a generator's own output to a point of interconnection. He relied on Xcel's own words &mdash; its conditional use permit application, its 2022 request for proposals, and its federal interconnection agreements, which call the lines "sole use facilities" &mdash; and found the contrary testimony from Xcel's own witness "incredible."</p>
+
+        <h2>The Argument, Both Ways</h2>
+        <p>Below is the best case each side can make. Neither column is CCGA's view.</p>
+
+        <div class="debate-grid">
+            <section class="debate-col">
+                <span class="side-label">The case for</span>
+                <h3>Utilities should be able to condemn easements for lines that connect generation to the grid</h3>
+
+                <h4>One holdout should not be able to strand a gigawatt</h4>
+                <p>Two nearly complete wind farms &mdash; 1,053 MW, roughly enough for 300,000 homes, and an estimated $1.8 billion of construction &mdash; are stuck behind 550 feet of ground. Whatever you think of the price, a system in which any single owner along a route can halt a finished project indefinitely is not a functioning system.</p>
+
+                <h4>Growers are ratepayers too</h4>
+                <p>Delay is not free. While turbines sit idle, replacement power gets bought and the cost lands in rates. Irrigation pumping is one of the larger line items on a lot of operations out here, and the bill for a stalled project does not stop at the county line.</p>
+
+                <h4>The label should not decide the outcome</h4>
+                <p>A gen-tie line and a transmission line do the same physical thing: move electricity from where it is made to the grid. Hanging condemnation authority on which term a utility used in a permit application produces arbitrary results &mdash; two identical lines, different legal treatment, based on paperwork vocabulary.</p>
+
+                <h4>These projects have paid rural Colorado well</h4>
+                <p>The original Cheyenne Ridge wind farm is projected to deliver about $107 million in landowner payments and $29 million in new tax revenue over its life. Cheyenne County's GDP rose 77% between 2019 and 2021, third-highest in the nation. That money funds schools, roads, and ambulance service in counties with thin tax bases.</p>
+
+                <h4>Route review belongs at the PUC</h4>
+                <p>Xcel's resource plan &mdash; roughly 6,100 MW and $12&ndash;13 billion &mdash; was approved by the Public Utilities Commission in January 2024 after a full public proceeding. Prudence and routing are regulated questions with a forum. An individual landowner veto is not a substitute for that review.</p>
+
+                <h4>Holdout risk gets priced into every future project</h4>
+                <p>If the last owner on a route can extract whatever the project is worth, developers will either pay it and pass it through, or route around Colorado. Neither outcome helps the landowners in the middle of the corridor who signed early and reasonably.</p>
+            </section>
+
+            <section class="debate-col against">
+                <span class="side-label">The case against</span>
+                <h3>This taking is outside what the legislature authorized, and the price proves why the limit matters</h3>
+
+                <h4>Condemnation power is delegated, and narrowly</h4>
+                <p>Colorado courts have held for over a century that the power of eminent domain "lies dormant until the legislature speaks," and that authority "can never be implied from doubtful language." The district court walked all four statutes Xcel cited and found none of them reached this taking. That is not a technicality &mdash; it is the whole design of the doctrine.</p>
+
+                <h4>The legislature already drew this exact line</h4>
+                <p>C.R.S. § 40-2-125 says in plain terms that a qualifying retail utility <em>shall not</em> condemn to site the generation facilities of a renewable energy system. And when lawmakers wrote the 2021 Electric Transmission Authority Act, they defined "facilities" to specifically <em>exclude</em> interconnection facilities from a generator. Reading gen-ties as transmission lines reads both of those provisions out of the code.</p>
+
+                <h4>A sole-use line is not a public use</h4>
+                <p>Under Xcel's own federal interconnection agreements these lines are "sole use facilities," owned and operated by Xcel, serving Xcel's wind farms. No other generator can connect without Xcel amending its tariff, which it has not done. The power runs to the Front Range. The court found the benefit to Cheyenne County "nonexistent."</p>
+
+                <h4>Condemnation transfers the value of location</h4>
+                <p>Dryland had already granted a comparable gen-tie easement to NextEra at market rate &mdash; at Xcel's own insistence that all developers be treated equally &mdash; and the court found that easement was worth millions. Xcel then offered $19,886.36. Condemnation does not just move a line; it moves the value of a scarce interconnection point from the landowner to the utility.</p>
+
+                <h4>There was a route, and it was abandoned</h4>
+                <p>The court found Xcel had spent years working with Dryland on a Section 24 corridor, approved it, then walked away and targeted a different segment &mdash; one encumbered by a reserved oil and gas easement. It concluded Xcel picked "a route that maximizes harm to Dryland while a viable, less damaging alternative exists," and called that bad faith.</p>
+
+                <h4>The precedent only runs one direction</h4>
+                <p>If a utility can restore condemnation authority by relabeling a gen-tie a transmission line, § 40-2-125 means nothing and the exclusion in the 2021 Act means nothing. Every grower's ground becomes available on the utility's own say-so, at appraised farm value.</p>
+            </section>
+        </div>
+
+        <div class="neutral-callout">
+            <strong>Keep in mind:</strong> the findings above &mdash; including bad faith, lack of public use, and the gen-tie characterization &mdash; are one district judge's conclusions after two days of hearings. They are exactly what Xcel has asked the Supreme Court to reverse. Nothing here is settled Colorado law.
+        </div>
+
+        <h2>This Is Not an Isolated Fight</h2>
+        <ul>
+            <li><strong>Elbert County.</strong> Commissioners denied Xcel two permits for the $1.7 billion, 550-mile Colorado's Power Pathway line in June 2025 after landowner protests. On April 10, 2026, the PUC voted 3&ndash;0 to override the county under a rarely used backstop siting statute. Xcel had already filed condemnation suits against more than a dozen landowners before it had approval &mdash; conduct one commissioner called "disrespectful to the people of the community."</li>
+            <li><strong>At the Capitol.</strong> HB26-1278, introduced in March 2026, would require an investor-owned utility to hold a PUC certificate of public convenience and necessity <em>and</em> all local land use approvals before filing any condemnation action on high-voltage transmission. Sponsors: Rep. Chris Richardson (R-Elizabeth), Sen. Marc Snyder (D-Colorado Springs), and Sen. Rod Pelton (R-Cheyenne Wells).</li>
+            <li><strong>Federal corridors.</strong> The proposed National Interest Electric Transmission Corridor across Prowers, Baca, and Kiowa counties &mdash; a five- to fifteen-mile-wide swath affecting roughly 325,000 acres &mdash; was reported cancelled in August 2026. The federal authority that created it remains on the books.</li>
+        </ul>
+
+        <h2>Questions for the Membership</h2>
+        <div class="questions">
+            <p>These are the questions the board would find most useful to hear on. There are defensible answers in both directions on every one.</p>
+            <ul>
+                <li>Should CCGA support guardrails like HB26-1278 &mdash; PUC certificate and local permits <em>before</em> any condemnation filing? Or does that hand a veto to whichever county is least willing to host infrastructure?</li>
+                <li>Should Colorado treat public transmission and private generation tie lines differently in law, or is that distinction too easy to game in either direction?</li>
+                <li>Is there a fair statutory floor for energy easement compensation &mdash; for instance, pricing off comparable easements in the area rather than raw agricultural appraisal?</li>
+                <li>Would a landowner pooling or collective bargaining model, like the cooperative approach Rocky Mountain Farmers Union has developed, serve members better than negotiating one operation at a time?</li>
+                <li>If the Supreme Court reverses, what should growers change about how they negotiate before a project reaches their fence line?</li>
+            </ul>
+        </div>
+
+        <h2>Weigh In</h2>
+        <p>Send comments to <a href="mailto:office@cologrowers.com">office@cologrowers.com</a> or call 1-877-CO-GROW-9. If enough members want it, we will put this on the agenda at the next board meeting and consider whether CCGA should take a formal position or submit comment on pending legislation.</p>
+
+        <h2>Sources</h2>
+        <ul class="sources">
+            <li>Order on Petitioner's Motion for Immediate Possession, <em>Public Service Co. of Colorado v. Dryland Partners, LLC</em>, No. 2026CV30001 (Cheyenne Cty. Dist. Ct. June 2, 2026): <a href="https://s3.documentcloud.org/documents/28551553/2662-order-on-petitioners-motion-for-immediate-possession.pdf" target="_blank" rel="noopener">full order (PDF)</a></li>
+            <li>The Colorado Sun, "A judge told Xcel it couldn't condemn a farmer's land. Now the utility is headed to the state Supreme Court" (Aug. 20, 2026): <a href="https://coloradosun.com/2026/08/20/xcel-condemnation-power-lines-dryland-partners-wind-power/" target="_blank" rel="noopener">coloradosun.com</a></li>
+            <li>Utility Dive, "Xcel asks Colorado Supreme Court to facilitate wind farm interconnection": <a href="https://www.utilitydive.com/news/xcel-asks-colorado-supreme-court-to-facilitate-wind-farm-interconnection/827572/" target="_blank" rel="noopener">utilitydive.com</a></li>
+            <li>Colorado Politics, "Colorado lawmakers move to curb eminent domain powers after Xcel dispute" (Mar. 4, 2026): <a href="https://www.coloradopolitics.com/2026/03/04/colorado-lawmakers-move-to-curb-eminent-domain-powers-after-xcel-dispute/" target="_blank" rel="noopener">coloradopolitics.com</a></li>
+            <li>HB26-1278, Local Government Approval of Transmission Infrastructure: <a href="https://leg.colorado.gov/bills/HB26-1278" target="_blank" rel="noopener">leg.colorado.gov</a></li>
+            <li>The Colorado Sun, "Elbert County effort to block Xcel's $1.7B Power Pathway upended by the PUC" (Apr. 15, 2026): <a href="https://coloradosun.com/2026/04/15/power-pathway-elbert-el-paso-puc-transmission-electricity/" target="_blank" rel="noopener">coloradosun.com</a></li>
+            <li>C.R.S. § 40-2-125, Eminent domain restrictions: <a href="https://colorado.public.law/statutes/crs_40-2-125" target="_blank" rel="noopener">colorado.public.law</a></li>
+            <li>Colorado PUC, Electric Resource Plans / Clean Energy Plan: <a href="https://puc.colorado.gov/puc-home/energy-and-water/electric-resource-plans/clean-energy-plan" target="_blank" rel="noopener">puc.colorado.gov</a></li>
+            <li>The Fence Post, "NIETC siting in southeast Colorado counties could utilize eminent domain for 325,000 acres": <a href="https://www.thefencepost.com/news/nietc-siting-in-southeast-colorado-counties-could-utilize-eminent-domain-for-325000-acres/" target="_blank" rel="noopener">thefencepost.com</a></li>
+        </ul>
+
+        <p class="disclosure">This page is informational and is not legal advice. The litigation described is pending before the Colorado Supreme Court and the district court's findings may be affirmed, modified, or reversed. CCGA is not a party to the case and has taken no position on it. Growers facing an easement negotiation or a condemnation action should consult their own attorney.</p>
+    </article>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>
