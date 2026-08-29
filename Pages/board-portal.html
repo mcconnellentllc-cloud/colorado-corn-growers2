@@ -53,15 +53,15 @@
         .portal-header {
             background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
             color: white;
-            padding: 50px 40px;
-            border-radius: 15px;
+            padding: 28px 32px;
+            border-radius: 12px;
             text-align: center;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 24px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
 
-        .portal-header h1 { font-size: 2.4rem; margin-bottom: 10px; }
-        .portal-header p { font-size: 1.1rem; opacity: 0.85; }
+        .portal-header h1 { font-size: 1.7rem; margin-bottom: 4px; }
+        .portal-header p { font-size: 0.95rem; opacity: 0.85; }
 
         .section-label {
             font-size: 0.75rem;
@@ -83,15 +83,15 @@
         .card {
             background: white;
             border-radius: 12px;
-            padding: 30px;
+            padding: 22px 24px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
         .card h2 {
             color: #2c5530;
-            font-size: 1.15rem;
-            margin-bottom: 18px;
-            padding-bottom: 10px;
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #e8f5e8;
         }
 
@@ -155,22 +155,20 @@
         }
 
         /* Contact list */
-        .contact-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 0.9rem;
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
         }
-        .contact-item:last-child { border-bottom: none; }
+        .contact-cell { padding: 5px 0; font-size: 0.88rem; }
         .contact-name { font-weight: 600; color: #333; }
-        .contact-role { color: #888; font-size: 0.8rem; }
+        .contact-role { color: #888; font-size: 0.76rem; }
 
         /* Full-width card */
         .card-full {
             background: white;
             border-radius: 12px;
-            padding: 30px;
+            padding: 22px 24px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             margin-bottom: 24px;
         }
@@ -182,17 +180,9 @@
             border-bottom: 2px solid #e8f5e8;
         }
 
-        /* Placeholder states */
-        .placeholder {
-            text-align: center;
-            padding: 30px 20px;
-            color: #bbb;
-            font-size: 0.9rem;
-        }
-        .placeholder-icon { font-size: 2rem; margin-bottom: 8px; }
-
         @media (max-width: 768px) {
             .portal-grid { grid-template-columns: 1fr; }
+            .contact-grid { grid-template-columns: 1fr; }
             .portal-header h1 { font-size: 1.8rem; }
         }
     </style>
@@ -222,10 +212,6 @@
                     <div class="announcement-date">August 28, 2026</div>
                     Board portal launched. Add announcements here as needed.
                 </div>
-                <div class="placeholder">
-                    <div class="placeholder-icon">📋</div>
-                    More announcements will appear here.
-                </div>
             </div>
 
             <div class="card">
@@ -237,10 +223,6 @@
                         <div style="font-size:0.85rem; color:#666;">Lobbyist / Policy Calls</div>
                     </div>
                     <span class="meeting-type">Weekly</span>
-                </div>
-                <div class="placeholder">
-                    <div class="placeholder-icon">📆</div>
-                    Board meeting dates will be listed here.
                 </div>
             </div>
 
@@ -256,80 +238,51 @@
                     <div class="doc-icon">DOC</div>
                     <div>
                         <div style="font-weight:600; color:#2c5530;">PSCo v. Dryland Partners — Amicus Brief Decision Memo</div>
-                        <div style="font-size:0.8rem; color:#888;">Board decision memo · August 28, 2026</div>
+                        <div style="font-size:0.8rem; color:#888;">Board decision memo · revised August 29, 2026 · 4-min read</div>
                     </div>
                 </a>
-                <div class="placeholder">
-                    <div class="placeholder-icon">📄</div>
-                    Meeting minutes, agendas, and reports will be linked here.
-                </div>
             </div>
 
             <div class="card">
                 <div class="section-label">Board Directory</div>
                 <h2>👥 Contacts</h2>
-                <div class="contact-item">
-                    <div>
+                <div class="contact-grid">
+                    <div class="contact-cell">
                         <div class="contact-name">Jeff Self</div>
-                        <div class="contact-role">President</div>
+                        <div class="contact-role">President · Springfield</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Springfield, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Kyle McConnell</div>
-                        <div class="contact-role">Vice President</div>
+                        <div class="contact-role">Vice President · Haxtun</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Haxtun, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Randy Wenger</div>
-                        <div class="contact-role">Secretary</div>
+                        <div class="contact-role">Secretary · Yuma</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Bruce Unruh</div>
-                        <div class="contact-role">Treasurer</div>
+                        <div class="contact-role">Treasurer · Burlington</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Burlington, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Josh Hasart</div>
-                        <div class="contact-role">Board Member</div>
+                        <div class="contact-role">Board Member · Bethune</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Bethune, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Jeff Cure</div>
-                        <div class="contact-role">Board Member</div>
+                        <div class="contact-role">Board Member · Holyoke</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Holyoke, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Dave Cure</div>
-                        <div class="contact-role">Past President</div>
+                        <div class="contact-role">Past President · Stratton</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Stratton, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Mike Lefever</div>
-                        <div class="contact-role">Board Member</div>
+                        <div class="contact-role">Board Member · Berthoud</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Berthoud, CO</div>
-                </div>
-                <div class="contact-item">
-                    <div>
+                    <div class="contact-cell">
                         <div class="contact-name">Blake Roth</div>
-                        <div class="contact-role">Board Member</div>
+                        <div class="contact-role">Board Member · Yuma</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
                 </div>
             </div>
 
@@ -341,11 +294,7 @@
             <h2>✅ Pending Items</h2>
             <div class="announcement-item">
                 <div class="announcement-date">Board vote pending</div>
-                <strong>PSCo v. Dryland Partners</strong> — decide whether CCGA files an amicus brief in the Colorado Supreme Court. Blocked on confirming the filing posture and deadline with Dryland's counsel. See the <a href="psco-dryland-amicus-memo.html" style="color:#2c5530;">decision memo</a>.
-            </div>
-            <div class="placeholder">
-                <div class="placeholder-icon">📝</div>
-                Board action items and follow-ups will be tracked here.
+                <strong>PSCo v. Dryland Partners</strong> — decide whether CCGA signs on to the amicus brief supporting the landowner. Blocked on obtaining the brief itself and its filing date. See the <a href="psco-dryland-amicus-memo.html" style="color:#2c5530;">decision memo</a>.
             </div>
         </div>
 
