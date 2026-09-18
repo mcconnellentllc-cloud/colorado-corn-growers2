@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three Deadlines in Two Weeks — CCGA</title>
+    <meta name="description" content="Between now and early October: SDRP sign-up closes, the farm bill extension expires, and the largest ARC and PLC payments in years begin. What Colorado corn growers need to do.">
+    <meta property="og:title" content="Three Deadlines in Two Weeks for Colorado Corn Growers">
+    <meta property="og:description" content="Between now and early October: SDRP sign-up closes, the farm bill extension expires, and the largest ARC and PLC payments in years begin. What Colorado corn growers need to do.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/fall-2026-deadlines.html">
+    <meta property="og:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Three Deadlines in Two Weeks for Colorado Corn Growers">
+    <meta name="twitter:description" content="Between now and early October: SDRP sign-up closes, the farm bill extension expires, and the largest ARC and PLC payments in years begin. What Colorado corn growers need to do.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.5rem; }
+            .nav-logo { font-size: 1.3rem; }
+            .nav-links { gap: 1.4rem; }
+            .nav-links a { font-size: 0.93rem; }
+        }
+
+        @media (max-width: 1080px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.15rem; }
+            .nav-links { gap: 1.05rem; }
+            .nav-links a { font-size: 0.88rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>Three Deadlines in Two Weeks</h1>
+        <p class="dateline">Posted September 18, 2026</p>
+
+        <p class="lede">Between now and the first week of October, three things land at once. One needs
+            action from you before the month is out. One decides what the safety net looks like next
+            year. The third is money coming back to the farm. They are easy to confuse with each
+            other, and at least one number making the rounds right now belongs to a program that
+            already paid out.</p>
+
+        <div class="deadline-callout">
+            <p style="margin-bottom:0.5rem;"><strong>September 30</strong> &mdash; SDRP sign-up closes for 2023&ndash;2024 disaster losses. This is the one that needs action.</p>
+            <p style="margin-bottom:0.5rem;"><strong>September 30</strong> &mdash; the current farm bill extension expires.</p>
+            <p style="margin-bottom:0;"><strong>Early October</strong> &mdash; 2025 crop year ARC and PLC payments begin going out.</p>
+        </div>
+
+        <h2>1. SDRP closes September 30</h2>
+        <p>If you had crop losses from a qualifying 2023 or 2024 disaster and have not filed, this is
+            the last date on the calendar. USDA extended the deadline twice &mdash; from April 30 to
+            August 12, then to September 30 &mdash; and there is no indication of a third extension.
+            It applies to both Stage 1 and Stage 2, and the payment factor stands at 70%.</p>
+        <p>Two things worth knowing before you assume you are covered:</p>
+        <ul>
+            <li><strong>Stage 2 applications are not mailed to you.</strong> Filing is on the producer,
+                through your FSA county office. Waiting for paperwork to show up is how this deadline
+                gets missed.</li>
+            <li><strong>If FSA has not generated your Stage 1 quality loss application, file anyway.</strong>
+                Some were never generated because the pre-quality-adjusted production figures were not
+                available. USDA has said that information will not be available before the deadline,
+                and that producers are still required to file by September 30 regardless.</li>
+        </ul>
+        <p><a href="sdrp-update.html">Full SDRP details, including the August quality loss flexibilities &rarr;</a></p>
+
+        <h2>2. The farm bill extension expires September 30</h2>
+        <p>The 2018 farm bill has now been extended three times. The current extension &mdash; passed
+            in November 2025 alongside the legislation that reopened the federal government &mdash;
+            carried the remaining titles and programs at existing funding levels through September 30,
+            2026. That is the same day SDRP closes.</p>
+        <p>A replacement exists on paper but not in law. The House passed the Farm, Food, and National
+            Security Act of 2026 on April 30. The Senate released its own discussion draft, the
+            Agricultural Act of 2026, on June 23, with revised text on August 1. Neither has been
+            enacted. If Congress does not finish reauthorization, the choice is another short-term
+            extension or letting several program authorizations lapse.</p>
+        <p>This is the backdrop for what CCGA leadership took to Washington's doorstep this summer.
+            <a href="announcements.html">President Jeff Self and Past President Dave Cure made the case</a>
+            at an agriculture round table with Rep. Lauren Boebert for writing a <em>permanent</em>
+            disaster program into the farm bill &mdash; a standing program that reaches producers who
+            actually take a loss, without propping up operations that sustain none.</p>
+
+        <h2>3. ARC and PLC payments begin in early October</h2>
+        <p>Payments for the 2025 program year under PLC, ARC-CO and ARC-IC are issued after October 1,
+            with USDA indicating they should begin going out in early October. A USDA official said on
+            September 2 that the payments will be significantly higher than recent years and on time.</p>
+        <p>They are higher because the One Big Beautiful Bill Act raised statutory reference prices and
+            changed the ARC formula:</p>
+        <ul>
+            <li>The 2025 and 2026 benchmark price for corn is <strong>$5.03 per bushel</strong>
+                ($12.17 for soybeans, $6.98 for wheat).</li>
+            <li>The ARC-CO guarantee rose from 86% to <strong>90%</strong> of benchmark revenue.</li>
+        </ul>
+        <p>Projections of the total vary by who is running them. University of Illinois economists at
+            farmdoc put corn, wheat and soybeans together at roughly $9.66 billion; broader estimates
+            using USDA price projections put 2025 ARC and PLC above $13.5 billion across all
+            commodities. Either way it is a larger number than the aid package people are talking
+            about &mdash; which brings us to the one that is causing confusion.</p>
+
+        <h2>About the $12 billion you may have heard about</h2>
+        <p>The figure is real. It is not new, and it has already been paid.</p>
+        <p>On December 8, 2025, the administration announced <strong>$12 billion in one-time Farmer
+            Bridge Payments</strong>, funded out of tariff revenue. Eleven billion went through the
+            Farmer Bridge Assistance program to row crop producers across some twenty commodities; the
+            remaining billion was set aside for specialty crops and sugar. Corn paid
+            <strong>$44.36 per acre</strong>, with a cap of $155,000 per producer. Enrollment ran from
+            February 23 to April 17, 2026, and payments began going out from February 28.</p>
+        <p>The connection to October is direct, and it is the reason the two keep getting mixed up.
+            USDA described the bridge payments as exactly that &mdash; a bridge to carry producers
+            until the One Big Beautiful Bill Act's higher reference prices reached them after
+            October 1, 2026.</p>
+        <p>So if you are hearing that twelve billion dollars is on its way, that money went out last
+            spring. What is coming in October is ARC and PLC, and for most Colorado corn operations it
+            will be the larger of the two.</p>
+
+        <div class="deadline-callout">
+            <p style="margin-bottom:0;"><strong>We have not been able to confirm a December payment
+                date for anything.</strong> If you have heard a specific date from your lender, your
+                FSA office, or farm media, we would like to know where it came from &mdash; contact
+                details are below. Dates that circulate without a source have a way of becoming the
+                reason somebody misses a real one.</p>
+        </div>
+
+        <h2>Why This Is the Argument for a Permanent Program</h2>
+        <p>Look at the last two years from the seat of an operation that took a loss. Disaster help
+            came through SDRP, a program standing up two years after the 2023 losses it covers, with
+            three different deadlines and a payment factor that changed partway through. Market help
+            came through a one-time bridge payment announced in December, paid in spring, explicitly
+            described as a stopgap. Neither is something you can plan against.</p>
+        <p>That is the case CCGA is making. A permanent disaster title does not cost a farmer who had a
+            good year anything, and it means the farmer who had a bad one is not waiting on an ad hoc
+            bill, a new sign-up period, and a payment factor that gets revised while the application
+            window is open.</p>
+
+        <h2>What To Do This Week</h2>
+        <ul>
+            <li><strong>Call your FSA county office</strong> if you have any 2023&ndash;2024 losses that
+                have not been filed. Locator:
+                <a href="https://www.farmers.gov/working-with-us/service-center-locator" target="_blank" rel="noopener">farmers.gov service center locator</a></li>
+            <li><strong>Check that your acreage and production records are current</strong> if you
+                expect an ARC or PLC payment in October.</li>
+            <li><strong>Tell us what you are hearing.</strong> If a date or a dollar figure is going
+                around your county, we would rather chase it down than have it catch somebody out.</li>
+        </ul>
+
+        <h2>Sources</h2>
+        <ul>
+            <li>FSA, Supplemental Disaster Relief Program: <a href="https://www.fsa.usda.gov/resources/disaster-recovery/supplemental-disaster-relief-program-sdrp" target="_blank" rel="noopener">fsa.usda.gov</a></li>
+            <li>USDA, Farmer Bridge Payments announcement (December 8, 2025) and commodity payment rates (December 31, 2025): <a href="https://www.usda.gov/farmers-first" target="_blank" rel="noopener">usda.gov/farmers-first</a></li>
+            <li>FSA, Farmer Bridge Assistance Program: <a href="https://www.fsa.usda.gov/resources/income-support/farmer-bridge-assistance-fba-program" target="_blank" rel="noopener">fsa.usda.gov</a></li>
+            <li>Farm bill extension through September 30, 2026, enacted November 2025 in the appropriations and extensions act</li>
+            <li>ARC and PLC projections: farmdoc daily, University of Illinois</li>
+        </ul>
+
+        <p class="disclosure">This page is informational. CCGA does not administer SDRP, ARC, PLC, or
+            the Farmer Bridge Assistance program, and nothing here is a determination of your
+            eligibility. Payment rates, deadlines, and projections are as reported by USDA and
+            university economists at the time of writing and can change. All applications and
+            questions go through your local FSA office.</p>
+    </article>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>
