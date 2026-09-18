@@ -14,20 +14,21 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #ffffff;
-            background-color: #1b1a17;
+            color: #37342f;
+            background-color: #f5f3ee;
         }
 
         .hero {
             background-image:
                 linear-gradient(180deg,
-                    rgba(18, 17, 14, 0.74) 0%,
-                    rgba(18, 17, 14, 0.52) 42%,
-                    rgba(27, 26, 23, 0.97) 100%),
+                    rgba(18, 17, 14, 0.66) 0%,
+                    rgba(18, 17, 14, 0.44) 45%,
+                    rgba(18, 17, 14, 0.62) 100%),
                 url('hero-corn-field.jpg');
             background-size: cover;
             background-position: center 40%;
             min-height: 76vh;
+            border-bottom: 3px solid #334539;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -157,7 +158,7 @@
             text-align: center;
             font-size: 3rem;
             margin-bottom: 4rem;
-            color: #d3ae5c;
+            color: #334539;
             font-weight: 300;
             letter-spacing: -1px;
         }
@@ -172,11 +173,11 @@
         .text-content {
             font-size: 1.2rem;
             line-height: 1.8;
-            color: #e3dfd6;
+            color: #3f3b34;
         }
 
         .text-content h3 {
-            color: #d3ae5c;
+            color: #334539;
             font-size: 1.8rem;
             margin-bottom: 1.5rem;
             font-weight: 400;
@@ -206,22 +207,22 @@
         }
 
         .image-placeholder {
-            background: rgba(211, 174, 92, 0.1);
+            background: rgba(51, 69, 57, 0.06);
             height: 400px;
             border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #d3ae5c;
+            color: #5b564f;
             font-weight: 400;
             text-align: center;
             padding: 2rem;
-            border: 1px solid rgba(211, 174, 92, 0.2);
+            border: 1px solid rgba(51, 69, 57, 0.16);
             font-size: 1.1rem;
         }
 
         .membership-highlight {
-            background: rgba(60, 90, 67, 0.9);
+            background: #334539;
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -267,7 +268,7 @@
         }
 
         .accomplishments-list {
-            background: rgba(27, 26, 23, 0.6);
+            background: #ffffff;
             padding: 3rem;
             border-radius: 6px;
             margin: 3rem 0;
@@ -275,7 +276,7 @@
         }
 
         .accomplishments-list h3 {
-            color: #d3ae5c;
+            color: #334539;
             font-size: 1.8rem;
             margin-bottom: 2rem;
             font-weight: 400;
@@ -288,16 +289,16 @@
 
         .accomplishments-list li {
             padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
             font-size: 1.1rem;
-            color: #e3dfd6;
+            color: #3f3b34;
             position: relative;
             padding-left: 2rem;
         }
 
         .accomplishments-list li:before {
             content: "→";
-            color: #d3ae5c;
+            color: #6a8971;
             font-weight: bold;
             position: absolute;
             left: 0;
@@ -391,9 +392,9 @@
         }
 
         .contact-section {
-            background: rgba(60, 90, 67, 0.1);
+            background: #eceee9;
             padding: 6rem 0;
-            border-top: 1px solid rgba(211, 174, 92, 0.2);
+            border-top: 1px solid rgba(51, 69, 57, 0.15);
         }
 
         .contact-grid {
@@ -405,11 +406,11 @@
         }
 
         .contact-card {
-            background: rgba(27, 26, 23, 0.8);
+            background: #334539;
             padding: 3rem;
             border-radius: 6px;
             text-align: center;
-            border: 1px solid rgba(211, 174, 92, 0.2);
+            border: 1px solid rgba(211, 174, 92, 0.25);
             transition: transform 0.3s ease;
         }
 
@@ -433,6 +434,10 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.42);
         }
 
+        .contact-card p {
+            color: #e3dfd6;
+        }
+
         .contact-card h3 {
             color: #d3ae5c;
             margin-bottom: 1rem;
@@ -441,7 +446,7 @@
         }
 
         .contact-card a {
-            color: #e3dfd6;
+            color: #e9e5dc;
             text-decoration: none;
             font-size: 1.1rem;
             transition: color 0.3s ease;
@@ -681,7 +686,7 @@
                 
                 <p>This persistent advocacy is why we've secured over $1.2 billion in assistance for Colorado agriculture since 2018. It's not luck - it's hard work by volunteers who understand that survival requires constant vigilance.</p>
                 
-                <p><strong><a href="Pages/meet-our-board.html" style="color: #d3ae5c;">Meet our volunteer board members and learn about their commitment to Colorado corn growers.</a></strong></p>
+                <p><strong><a href="Pages/meet-our-board.html" style="color: #8a6a22;">Meet our volunteer board members and learn about their commitment to Colorado corn growers.</a></strong></p>
             </div>
             <div class="image-container">
                 <img src="board-meeting.jpg" alt="Board Meeting" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Board Meeting Photo<br>[Image: board-meeting.jpg not found]</div>'">
@@ -714,9 +719,9 @@
             </div>
             
             <div style="text-align: center; margin-top: 4rem;">
-                <p style="font-size: 1.2rem; color: #e3dfd6; margin-bottom: 2rem;">
+                <p style="font-size: 1.2rem; color: #3f3b34; margin-bottom: 2rem;">
                     Ready to join the fight for Colorado corn growers? 
-                    <strong style="color: #d3ae5c;">Contact us today to learn how you can get involved!</strong>
+                    <strong style="color: #334539;">Contact us today to learn how you can get involved!</strong>
                 </p>
                 <div style="margin-top: 2rem;">
                     <a href="Pages/become-a-sponsor.html" class="membership-btn" style="margin-right: 1rem;">Sponsor Our Mission</a>
