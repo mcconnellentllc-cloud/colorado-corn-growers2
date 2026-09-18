@@ -17,9 +17,9 @@ window.CCGA_BOARD = {
      * into `url` and the item appears in the portal's reading list; leave it
      * empty and the item stays hidden, so there is never a dead link. */
     MEDIA_LINK: {
-        url: '',
+        url: 'https://khow.iheart.com/featured/the-michael-brown-show/content/2026-08-21-the-situation-on-friday-8-21-26/',
         kind: 'Radio · Background',
         label: 'Xcel and Eminent Domain',
-        detail: 'The Michael Brown Show, August 21, 2026'
+        detail: 'The Michael Brown Show, August 21, 2026 (630 KHOW)'
     }
 };
