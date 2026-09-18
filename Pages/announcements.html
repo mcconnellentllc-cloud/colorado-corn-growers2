@@ -230,6 +230,23 @@
             .nav-links { gap: 1.05rem; }
             .nav-links a { font-size: 0.88rem; }
         }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
     </style>
 </head>
 <body>
@@ -244,6 +261,7 @@
                 <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
                 <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
                 <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
             </ul>
         </div>
     </nav>
@@ -253,6 +271,13 @@
         <p class="subtitle">Updates from CCGA on policy, programs, and Colorado agriculture.</p>
 
         <div class="announcement-list">
+            <article class="announcement-card">
+                <time>September 18, 2026</time>
+                <h2><a href="checkoff-vs-advocacy.html">The Checkoff Cannot Lobby. That Is Why We Exist.</a></h2>
+                <p>Colorado has two corn organizations and growers mix them up constantly. The penny-per-bushel checkoff funds research, markets and education &mdash; and is prohibited by law from spending a cent on policy. Every federal program paying out this fall exists because somebody advocated for it, and that work is funded entirely by growers who choose to pay for it.</p>
+                <a class="read-more" href="checkoff-vs-advocacy.html">The difference, and why it matters &rarr;</a>
+            </article>
+
             <article class="announcement-card">
                 <time>September 18, 2026</time>
                 <h2><a href="fall-2026-deadlines.html">Three Deadlines in Two Weeks &mdash; And the $12 Billion That Already Went Out</a></h2>

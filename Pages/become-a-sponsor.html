@@ -9,15 +9,15 @@
     <meta property="og:title" content="Partner with Colorado Corn Growers Association">
     <meta property="og:description" content="Join the organization that's delivered $1.2 billion in results for Colorado agriculture. Your sponsorship powers advocacy that works.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://coloradocorngrowers.com/Pages/become-a-sponsor.html">
-    <meta property="og:image" content="https://coloradocorngrowers.com/images/ccga-social-share.jpg">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/become-a-sponsor.html">
+    <meta property="og:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
     <meta property="og:site_name" content="Colorado Corn Growers Association">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Partner with Colorado Corn Growers Association">
     <meta name="twitter:description" content="Join the organization that's delivered $1.2 billion in results for Colorado agriculture.">
-    <meta name="twitter:image" content="https://coloradocorngrowers.com/images/ccga-social-share.jpg">
+    <meta name="twitter:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
 
     <!-- General Meta -->
     <meta name="description" content="Become a sponsor of the Colorado Corn Growers Association. Support agricultural advocacy that delivers real results for Colorado farmers.">
@@ -659,6 +659,8 @@
             margin-bottom: 15px;
         }
 
+        /* Kept for a real payment link when one is set up; nothing uses it
+           now that the placeholder Venmo and card buttons are gone. */
         .payment-btn {
             display: inline-block;
             background: #6a8971;
@@ -673,14 +675,6 @@
         .payment-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(51, 69, 57, 0.3);
-        }
-
-        .payment-btn.venmo {
-            background: #0067BF;
-        }
-
-        .payment-btn.stripe {
-            background: #635BFF;
         }
 
         .payment-note {
@@ -815,6 +809,23 @@
             .nav-links { gap: 1.05rem; }
             .nav-links a { font-size: 0.88rem; }
         }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
     </style>
 </head>
 <body>
@@ -829,6 +840,7 @@
                 <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
                 <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank">Become a Member</a></li>
                 <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
             </ul>
         </div>
     </nav>
@@ -959,6 +971,8 @@
             <p><strong>This independence is our strength.</strong> It means we can advocate aggressively for what's right for agriculture without worrying about political sensitivities or bureaucratic constraints. Every dollar we receive is a conscious investment in effective advocacy.</p>
             
             <p>Your sponsorship directly funds the lobbying efforts, policy battles, and coalition building that delivers the billion-dollar results our track record demonstrates.</p>
+            
+            <p><a href="checkoff-vs-advocacy.html" style="color: #8a6a22; font-weight: 600;">Why the corn checkoff cannot do this work &rarr;</a></p>
         </section>
 
         <section class="sponsorship-levels">
@@ -1005,8 +1019,9 @@
 
             <div class="tier">
                 <h3>FRIEND OF AGRICULTURE</h3>
-                <div class="tier-price">Under $2,500</div>
+                <div class="tier-price">Any amount</div>
                 <ul>
+                    <li><strong>$50 goes a long way.</strong> This tier is for individual growers, not just businesses &mdash; give what makes sense for your operation.</li>
                     <li><strong>Recognition</strong> as a CCGA supporter</li>
                     <li><strong>Policy updates</strong> via multiple communication channels</li>
                     <li><strong>Invitations</strong> to select events and gatherings</li>
@@ -1017,24 +1032,10 @@
 
         <!-- Payment Section -->
         <section class="payment-section">
-            <h2>Easy Ways to Support</h2>
-            <p>Choose the payment method that works best for you. All contributions go directly to supporting Colorado agriculture advocacy.</p>
+            <h2>How to Support</h2>
+            <p>Contributions go directly to supporting Colorado agriculture advocacy.</p>
 
             <div class="payment-options">
-                <div class="payment-option">
-                    <h3>Pay with Venmo</h3>
-                    <p>Quick and easy mobile payment</p>
-                    <!-- TODO: Replace with actual Venmo link when ready -->
-                    <a href="#" class="payment-btn venmo" id="venmo-btn">@CCGA-Venmo</a>
-                </div>
-
-                <div class="payment-option">
-                    <h3>Pay with Card</h3>
-                    <p>Secure credit/debit card payment</p>
-                    <!-- TODO: Replace with actual Stripe link when ready -->
-                    <a href="#" class="payment-btn stripe" id="stripe-btn">Pay with Stripe</a>
-                </div>
-
                 <div class="payment-option">
                     <h3>Pay by Check</h3>
                     <p>Mail to: PO Box 340<br>Burlington, CO 80807</p>
@@ -1049,16 +1050,16 @@
         <div class="share-section">
             <h3>Help Spread the Word</h3>
             <div class="share-buttons">
-                <a href="https://www.facebook.com/sharer/sharer.php?u=https://coloradocorngrowers.com/Pages/become-a-sponsor.html" target="_blank" class="share-btn facebook">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.cologrowers.com/Pages/become-a-sponsor.html" target="_blank" class="share-btn facebook">
                     Share on Facebook
                 </a>
-                <a href="https://twitter.com/intent/tweet?url=https://coloradocorngrowers.com/Pages/become-a-sponsor.html&text=Support%20Colorado%20agriculture%20-%20Partner%20with%20the%20Colorado%20Corn%20Growers%20Association" target="_blank" class="share-btn twitter">
+                <a href="https://twitter.com/intent/tweet?url=https://www.cologrowers.com/Pages/become-a-sponsor.html&text=Support%20Colorado%20agriculture%20-%20Partner%20with%20the%20Colorado%20Corn%20Growers%20Association" target="_blank" class="share-btn twitter">
                     Share on X
                 </a>
-                <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://coloradocorngrowers.com/Pages/become-a-sponsor.html&title=Partner%20with%20Colorado%20Corn%20Growers" target="_blank" class="share-btn linkedin">
+                <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://www.cologrowers.com/Pages/become-a-sponsor.html&title=Partner%20with%20Colorado%20Corn%20Growers" target="_blank" class="share-btn linkedin">
                     Share on LinkedIn
                 </a>
-                <a href="mailto:?subject=Support%20Colorado%20Corn%20Growers&body=Check%20out%20sponsorship%20opportunities%20with%20the%20Colorado%20Corn%20Growers%20Association:%20https://coloradocorngrowers.com/Pages/become-a-sponsor.html" class="share-btn email">
+                <a href="mailto:?subject=Support%20Colorado%20Corn%20Growers&body=Check%20out%20sponsorship%20opportunities%20with%20the%20Colorado%20Corn%20Growers%20Association:%20https://www.cologrowers.com/Pages/become-a-sponsor.html" class="share-btn email">
                     Share via Email
                 </a>
             </div>

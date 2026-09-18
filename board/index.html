@@ -28,7 +28,14 @@
 
         <div id="linkError" class="notice notice-error" hidden></div>
 
-        <div class="panel" id="signInPanel">
+        <div id="offlineNotice" class="notice notice-warn" hidden>
+            <p><strong>Voting has not opened yet.</strong></p>
+            <p>The ballot is not accepting sign-ins at the moment. If you were expecting it to be
+                open, contact the association office rather than requesting a link &mdash; nothing
+                would be sent.</p>
+        </div>
+
+        <div class="panel" id="signInPanel" hidden>
             <form id="signInForm" novalidate>
                 <div class="field">
                     <label for="email">Email address</label>
@@ -77,6 +84,8 @@
     (function () {
         'use strict';
 
+        var el = function (id) { return document.getElementById(id); };
+
         var form = document.getElementById('signInForm');
         var emailInput = document.getElementById('email');
         var submitBtn = document.getElementById('submitBtn');
@@ -91,6 +100,32 @@
             expired_link: 'That sign-in link has expired. Links are good for 24 hours. Request a new one below.',
             not_authorized: 'That link is no longer associated with an active board member. Contact the association office.'
         };
+
+        /* The Worker deploys separately from these pages. Until it answers, a
+           submitted address would produce a confirmation and no email, so the
+           form stays hidden and says so. Clears itself once /health responds. */
+        (function gateOnApiHealth() {
+            var offline = el('offlineNotice');
+            var panel = el('signInPanel');
+            var done = false;
+
+            function settle(ok) {
+                if (done) return;
+                done = true;
+                if (ok) { CCGABoard.show(panel); }
+                else { CCGABoard.show(offline); }
+            }
+
+            var timer = setTimeout(function () { settle(false); }, 6000);
+
+            CCGABoard.api('/health').then(function (result) {
+                clearTimeout(timer);
+                settle(Boolean(result && result.ok));
+            }).catch(function () {
+                clearTimeout(timer);
+                settle(false);
+            });
+        })();
 
         var params = new URLSearchParams(window.location.search);
         var errorKey = params.get('error');
