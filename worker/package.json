@@ -1,0 +1,17 @@
+{
+  "name": "ccga-board-vote-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cloudflare Worker API for the CCGA board vote portal",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "db:schema": "wrangler d1 execute ccga_board --remote --file=./schema.sql",
+    "db:seed": "wrangler d1 execute ccga_board --remote --file=./seed.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

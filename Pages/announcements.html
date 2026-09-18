@@ -21,15 +21,15 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.7;
-            color: #e0e0e0;
-            background-color: #1a1a1a;
+            color: #37342f;
+            background-color: #f5f3ee;
         }
 
         .navbar {
             position: sticky;
             top: 0;
             width: 100%;
-            background: rgba(26, 26, 26, 0.95);
+            background: rgba(27, 26, 23, 0.95);
             backdrop-filter: blur(15px);
             z-index: 1000;
             padding: 1.2rem 0;
@@ -47,7 +47,7 @@
 
         .nav-logo {
             font-weight: 600;
-            color: #f7c52d;
+            color: #d3ae5c;
             font-size: 1.6rem;
             letter-spacing: -0.5px;
         }
@@ -75,14 +75,14 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #f7c52d;
+            background: #d3ae5c;
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover { color: #f7c52d; }
+        .nav-links a:hover { color: #d3ae5c; }
         .nav-links a:hover::after { width: 100%; }
 
-        .nav-links a.active { color: #f7c52d; }
+        .nav-links a.active { color: #d3ae5c; }
         .nav-links a.active::after { width: 100%; }
 
         .page-wrap {
@@ -92,7 +92,7 @@
         }
 
         .page-wrap h1 {
-            color: #f7c52d;
+            color: #334539;
             font-size: 2.5rem;
             font-weight: 400;
             letter-spacing: -0.5px;
@@ -100,11 +100,11 @@
         }
 
         .page-wrap .subtitle {
-            color: #999;
+            color: #5b564f;
             font-size: 1.1rem;
             margin-bottom: 2.5rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(247, 197, 45, 0.15);
+            border-bottom: 1px solid rgba(51, 69, 57, 0.18);
         }
 
         .announcement-list {
@@ -114,22 +114,23 @@
         }
 
         .announcement-card {
-            background: #2a2a2a;
-            border-left: 3px solid #4a7c59;
-            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-left: 3px solid #6a8971;
+            border-radius: 4px;
             padding: 1.75rem 2rem;
             transition: border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
         }
 
         .announcement-card:hover {
-            border-color: #f7c52d;
+            border-color: #a5833b;
             transform: translateY(-1px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
         .announcement-card time {
             display: block;
-            color: #999;
+            color: #5b564f;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
@@ -144,20 +145,20 @@
         }
 
         .announcement-card h2 a {
-            color: #ffffff;
+            color: #2b2924;
             text-decoration: none;
             transition: color 0.3s ease;
         }
 
-        .announcement-card h2 a:hover { color: #f7c52d; }
+        .announcement-card h2 a:hover { color: #8a6a22; }
 
         .announcement-card p {
-            color: #d0d0d0;
+            color: #4f4a43;
             margin-bottom: 1rem;
         }
 
         .read-more {
-            color: #f7c52d;
+            color: #8a6a22;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
@@ -166,11 +167,11 @@
         .read-more:hover { text-decoration: underline; }
 
         .footer {
-            background: #1a1a1a;
-            color: #888;
+            background: #1b1a17;
+            color: #8c867b;
             text-align: center;
             padding: 3rem 1rem;
-            border-top: 1px solid rgba(247, 197, 45, 0.1);
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
         }
 
         .footer p {
@@ -199,6 +200,36 @@
             .announcement-card { padding: 1.5rem 1.25rem; }
             .announcement-card h2 { font-size: 1.2rem; }
         }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.5rem; }
+            .nav-logo { font-size: 1.3rem; }
+            .nav-links { gap: 1.4rem; }
+            .nav-links a { font-size: 0.93rem; }
+        }
+
+        @media (max-width: 1080px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.15rem; }
+            .nav-links { gap: 1.05rem; }
+            .nav-links a { font-size: 0.88rem; }
+        }
     </style>
 </head>
 <body>
@@ -222,20 +253,28 @@
         <p class="subtitle">Updates from CCGA on policy, programs, and Colorado agriculture.</p>
 
         <div class="announcement-list">
+
+
+        
+            <article class="announcement-card">
+                <time>Updated September 18, 2026</time>
+                <h2><a href="sdrp-update.html">SDRP Sign-Up Closes September 30 — Last Call for 2023&ndash;2024 Disaster Losses</a></h2>
+                <p>USDA extended the SDRP application deadline a second time, to September 30, 2026, for both Stage 1 and Stage 2. The payment factor holds at 70%. FSA also added flexibility on how 2023&ndash;2024 quality losses can be documented &mdash; and warned that producers still waiting on FSA to generate a Stage 1 quality loss application must file by the deadline anyway.</p>
+                <a class="read-more" href="sdrp-update.html">Read more →</a>
+            </article>
+            <article class="announcement-card">
+                <time>September 18, 2026</time>
+                <h2><a href="https://www.coloradonewsyourway.com/post/boebert-entertained-agriculture-round-table-at-lamar-cow-palace" target="_blank" rel="noopener">CCGA Presses for a Permanent Disaster Program in the Farm Bill</a></h2>
+                <p>CCGA was at the table when Rep. Lauren Boebert convened an agriculture round table at the Cow Palace in Lamar. President Jeff Self and Past President Dave Cure made the case for writing a permanent disaster program into the farm bill &mdash; a standing program that reaches producers who actually take a loss, without propping up operations that sustain none. A permanent program would also give producers something they can plan against, instead of waiting on an ad hoc bill after every disaster.</p>
+                <a class="read-more" href="https://www.coloradonewsyourway.com/post/boebert-entertained-agriculture-round-table-at-lamar-cow-palace" target="_blank" rel="noopener">Read the coverage &rarr;</a>
+            </article>
             <article class="announcement-card">
                 <time>August 28, 2026</time>
                 <h2><a href="eminent-domain-discussion.html">Eminent Domain on the Eastern Plains: The Case For and Against</a></h2>
                 <p>A Cheyenne County judge blocked Xcel from condemning farmland for a power line serving its own wind farms, and dismissed the case. Xcel has appealed to the Colorado Supreme Court. The outcome sets the baseline for what every eastern Colorado landowner can ask for when energy infrastructure crosses their ground. Both sides laid out for member discussion &mdash; CCGA has taken no position.</p>
                 <a class="read-more" href="eminent-domain-discussion.html">Read both sides &rarr;</a>
             </article>
-
-            <article class="announcement-card">
-                <time>April 24, 2026</time>
-                <h2><a href="sdrp-update.html">SDRP Stage 1 Round 2 Payment Expected — Stage 2 Sign-Up Deadline Extended to August 12</a></h2>
-                <p>Producers with approved Stage 1 SDRP applications will receive an additional 35% top-up payment, doubling the payment factor from 35% to 70%. We're hopeful these payments will begin arriving in early May. Stage 2 applications remain open until the extended August 12, 2026 deadline.</p>
-                <a class="read-more" href="sdrp-update.html">Read more →</a>
-            </article>
-        </div>
+</div>
     </div>
 
     <footer class="footer">

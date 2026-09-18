@@ -10,18 +10,18 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #f5f3ee;
             min-height: 100vh;
             padding-top: 100px;
             line-height: 1.7;
-            color: #333;
+            color: #37342f;
         }
 
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(26, 26, 26, 0.97);
+            background: rgba(27, 26, 23, 0.97);
             backdrop-filter: blur(15px);
             z-index: 1000;
             padding: 1.2rem 0;
@@ -37,7 +37,7 @@
             padding: 0 2rem;
         }
 
-        .nav-logo { font-weight: 600; color: #f7c52d; font-size: 1.6rem; }
+        .nav-logo { font-weight: 600; color: #d3ae5c; font-size: 1.6rem; }
 
         .nav-back {
             color: #ccc;
@@ -45,15 +45,15 @@
             font-size: 0.95rem;
             transition: color 0.2s;
         }
-        .nav-back:hover { color: #f7c52d; }
+        .nav-back:hover { color: #d3ae5c; }
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
 
         .portal-header {
-            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            background: #334539;
             color: white;
             padding: 45px 40px;
-            border-radius: 15px;
+            border-radius: 6px;
             margin-bottom: 30px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
@@ -76,35 +76,35 @@
 
         .card {
             background: white;
-            border-radius: 12px;
+            border-radius: 6px;
             padding: 34px 38px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             margin-bottom: 24px;
         }
 
         .card h2 {
-            color: #2c5530;
+            color: #334539;
             font-size: 1.3rem;
             margin-bottom: 18px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #e8f5e8;
+            border-bottom: 2px solid #e5eae4;
         }
 
-        .card p { margin-bottom: 1.1rem; color: #444; }
+        .card p { margin-bottom: 1.1rem; color: #494540; }
         .card p:last-child { margin-bottom: 0; }
 
-        .lede { font-size: 1.1rem; color: #333; }
+        .lede { font-size: 1.1rem; color: #37342f; }
 
         .card ul { margin: 0 0 1.2rem 1.1rem; }
-        .card li { margin-bottom: 0.6rem; color: #444; }
+        .card li { margin-bottom: 0.6rem; color: #494540; }
 
-        .card a { color: #4a7c59; font-weight: 600; }
+        .card a { color: #4f6b57; font-weight: 600; }
 
         .alert {
             background: #fdf3e7;
-            border-left: 4px solid #b5763a;
+            border-left: 4px solid #a3784b;
             padding: 18px 22px;
-            border-radius: 8px;
+            border-radius: 4px;
             margin-bottom: 24px;
         }
         .alert strong { color: #8a5628; }
@@ -112,12 +112,12 @@
 
         .notice {
             background: #eef7ee;
-            border-left: 4px solid #4a7c59;
+            border-left: 4px solid #6a8971;
             padding: 18px 22px;
-            border-radius: 8px;
+            border-radius: 4px;
             margin-bottom: 24px;
         }
-        .notice strong { color: #2c5530; }
+        .notice strong { color: #334539; }
         .notice p { margin-bottom: 0; color: #3b4a3b; }
 
         .facts dl {
@@ -127,22 +127,22 @@
             margin: 0;
         }
         .facts dt {
-            color: #4a7c59;
+            color: #4f6b57;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
             padding-top: 4px;
         }
-        .facts dd { margin: 0; color: #444; }
+        .facts dd { margin: 0; color: #494540; }
 
         .steps { counter-reset: step; }
 
         .step {
             position: relative;
-            border-left: 3px solid #4a7c59;
+            border-left: 3px solid #6a8971;
             background: #f8faf8;
-            border-radius: 8px;
+            border-radius: 4px;
             padding: 20px 24px 20px 66px;
             margin-bottom: 14px;
         }
@@ -156,7 +156,7 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background: #4a7c59;
+            background: #6a8971;
             color: #fff;
             font-weight: 700;
             font-size: 0.9rem;
@@ -165,10 +165,10 @@
             justify-content: center;
         }
 
-        .step.urgent { border-left-color: #b5763a; background: #fdf7f1; }
-        .step.urgent::before { background: #b5763a; }
+        .step.urgent { border-left-color: #a3784b; background: #fdf7f1; }
+        .step.urgent::before { background: #a3784b; }
 
-        .step h3 { color: #2c5530; font-size: 1.05rem; margin-bottom: 6px; line-height: 1.4; }
+        .step h3 { color: #334539; font-size: 1.05rem; margin-bottom: 6px; line-height: 1.4; }
         .step p { font-size: 0.95rem; margin-bottom: 0; }
 
         .who {
@@ -177,7 +177,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            color: #7a7a7a;
+            color: #66625c;
             margin-top: 10px;
         }
 
@@ -187,7 +187,7 @@
             font-style: italic;
             padding: 22px 26px;
             background: #f1f1f1;
-            border-radius: 10px;
+            border-radius: 6px;
             margin-bottom: 40px;
         }
 
@@ -205,6 +205,16 @@
             .step { padding: 18px 18px; }
             .step::before { position: static; margin-bottom: 10px; }
         }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
     </style>
 </head>
 <body>

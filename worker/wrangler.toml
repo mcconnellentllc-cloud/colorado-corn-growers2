@@ -1,0 +1,47 @@
+# CCGA Board Vote Portal — Worker configuration.
+#
+# Secrets are NOT in this file and must never be added to it. Set them with
+# `wrangler secret put` (see .env.example and README.md):
+#   RESEND_API_KEY
+#   SESSION_SECRET
+
+name = "ccga-board-vote"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+# The Worker must be reachable at a cologrowers.com subdomain, not a
+# *.workers.dev hostname. The session cookie is SameSite=Lax, so the browser
+# only returns it to a host that is same-site with the pages calling the API.
+# Fill this in after adding the custom domain (README step 6).
+[[routes]]
+pattern = "board-api.cologrowers.com"
+custom_domain = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ccga_board"
+# Replace with the id printed by `wrangler d1 create ccga_board`.
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+
+[vars]
+# When voting closes. ISO 8601 with an explicit offset. Changing the deadline
+# is a config edit plus `wrangler deploy` — it is never hardcoded in the code.
+# The example below is 5:00 PM Mountain Daylight Time.
+VOTE_DEADLINE = "2026-09-15T17:00:00-06:00"
+
+# Timezone used when the deadline is written out in emails and on the portal.
+VOTE_TIMEZONE = "America/Denver"
+
+# Where /auth/verify redirects after signing a member in, and the origin the
+# static pages are served from.
+SITE_ORIGIN = "https://www.cologrowers.com"
+
+# This Worker's own public origin, used to build the magic-link URL.
+API_ORIGIN = "https://board-api.cologrowers.com"
+
+# Verified Resend sender. The domain must be verified in Resend first.
+MAIL_FROM = "CCGA Board <board@cologrowers.com>"
+MAIL_REPLY_TO = "board@cologrowers.com"
+
+[observability]
+enabled = true
