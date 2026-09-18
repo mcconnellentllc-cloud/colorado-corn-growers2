@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Amicus Brief Action Plan - CCGA Board Portal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding-top: 100px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.97);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo { font-weight: 600; color: #f7c52d; font-size: 1.6rem; }
+
+        .nav-back {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: #f7c52d; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+
+        .portal-header {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 45px 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .portal-header h1 { font-size: 2.1rem; margin-bottom: 10px; line-height: 1.25; }
+        .portal-header p { font-size: 1.05rem; opacity: 0.9; margin: 0; }
+
+        .internal-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.18);
+            border: 1px solid rgba(255,255,255,0.35);
+            border-radius: 4px;
+            padding: 3px 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 34px 38px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            margin-bottom: 24px;
+        }
+
+        .card h2 {
+            color: #2c5530;
+            font-size: 1.3rem;
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e8f5e8;
+        }
+
+        .card p { margin-bottom: 1.1rem; color: #444; }
+        .card p:last-child { margin-bottom: 0; }
+
+        .lede { font-size: 1.1rem; color: #333; }
+
+        .card ul { margin: 0 0 1.2rem 1.1rem; }
+        .card li { margin-bottom: 0.6rem; color: #444; }
+
+        .card a { color: #4a7c59; font-weight: 600; }
+
+        .alert {
+            background: #fdf3e7;
+            border-left: 4px solid #b5763a;
+            padding: 18px 22px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        .alert strong { color: #8a5628; }
+        .alert p { margin-bottom: 0; color: #4a3520; }
+
+        .notice {
+            background: #eef7ee;
+            border-left: 4px solid #4a7c59;
+            padding: 18px 22px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+        }
+        .notice strong { color: #2c5530; }
+        .notice p { margin-bottom: 0; color: #3b4a3b; }
+
+        .facts dl {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 10px 24px;
+            margin: 0;
+        }
+        .facts dt {
+            color: #4a7c59;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding-top: 4px;
+        }
+        .facts dd { margin: 0; color: #444; }
+
+        .steps { counter-reset: step; }
+
+        .step {
+            position: relative;
+            border-left: 3px solid #4a7c59;
+            background: #f8faf8;
+            border-radius: 8px;
+            padding: 20px 24px 20px 66px;
+            margin-bottom: 14px;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #4a7c59;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step.urgent { border-left-color: #b5763a; background: #fdf7f1; }
+        .step.urgent::before { background: #b5763a; }
+
+        .step h3 { color: #2c5530; font-size: 1.05rem; margin-bottom: 6px; line-height: 1.4; }
+        .step p { font-size: 0.95rem; margin-bottom: 0; }
+
+        .who {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #7a7a7a;
+            margin-top: 10px;
+        }
+
+        .disclosure {
+            font-size: 0.88rem;
+            color: #6b6b6b;
+            font-style: italic;
+            padding: 22px 26px;
+            background: #f1f1f1;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+
+        .sources li { font-size: 0.9rem; }
+
+        @media (max-width: 768px) {
+            body { padding-top: 130px; }
+            .nav-container { flex-direction: column; gap: 0.6rem; padding: 0 1rem; }
+            .container { padding: 12px; }
+            .portal-header { padding: 30px 22px; }
+            .portal-header h1 { font-size: 1.6rem; }
+            .card { padding: 24px 20px; }
+            .facts dl { grid-template-columns: 1fr; gap: 2px; }
+            .facts dd { margin-bottom: 14px; }
+            .step { padding: 18px 18px; }
+            .step::before { position: static; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">CCGA Board Portal</div>
+            <a href="board-portal.html" class="nav-back">&larr; Back to Board Portal</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="portal-header">
+            <span class="internal-tag">Internal &mdash; Board Only</span>
+            <h1>Amicus Brief: What CCGA Has to Do</h1>
+            <p>Xcel/PSCo v. Dryland Partners &mdash; Colorado Supreme Court &middot; Prepared August 28, 2026</p>
+        </div>
+
+        <div class="alert">
+            <p><strong>The short version.</strong> The window to file will be measured in days, it opens on the court's timetable and not ours, and it may never open at all. By the time the court acts, a brief that isn't already drafted, funded, and in a Colorado appellate lawyer's hands is a brief that doesn't get filed. Everything below is about being ready before the trigger, not reacting after it.</p>
+        </div>
+
+        <div class="card facts">
+            <h2>Where the Case Stands</h2>
+            <dl>
+                <dt>Below</dt>
+                <dd>Petition in condemnation dismissed June 2, 2026, Cheyenne County District Court (Judge Mike Davidson), No. 2026CV30001</dd>
+                <dt>Now</dt>
+                <dd>Xcel's utility filed with the Colorado Supreme Court on July 31, 2026, asking it to let the condemnation go forward</dd>
+                <dt>Which side</dt>
+                <dd>A grower association would be supporting the respondent landowner, not the utility &mdash; and that side's deadline is the later of the two</dd>
+                <dt>Needs confirming</dt>
+                <dd>The Supreme Court case number and the exact procedural vehicle. Every deadline below hangs on this, and it should not be assumed</dd>
+            </dl>
+        </div>
+
+        <div class="card">
+            <h2>Why the Timing Is the Whole Problem</h2>
+            <p>Colorado does not work like federal court, where the parties can consent to an amicus brief and it gets filed. Under the Colorado Appellate Rules an amicus may file <strong>only by leave of the court</strong>, and the proposed brief is tendered together with the motion asking for permission. There is no filing without a completed brief in hand.</p>
+            <p>The sequence then runs off a single event: whether the Supreme Court issues a rule to show cause. Reported practice under the rules works out roughly like this:</p>
+            <ul>
+                <li>Before any show cause order, a brief supporting the petitioner &mdash; Xcel's side &mdash; may be tendered. But the court can act on the petition at any time, including denying it outright before any amicus is ever submitted.</li>
+                <li>If the court issues a rule to show cause, a brief supporting the petitioner or supporting neither party is due within roughly <strong>seven days</strong> of that order.</li>
+                <li>A brief supporting the respondent &mdash; the landowner's side &mdash; comes due when the response to the show cause order is due.</li>
+            </ul>
+            <p>Two consequences fall out of that, and both matter more than anything else in this document.</p>
+            <p><strong>First, there may be no brief to file.</strong> If the court simply declines to take the case, the district court ruling stands, Dryland wins, and no amicus was ever needed. That is a good outcome and it costs CCGA nothing but preparation.</p>
+            <p><strong>Second, if the court does take it, the clock is already running when we find out.</strong> A board that starts talking about retaining counsel the week the show cause order issues will not make the deadline. The only version of this that works is a brief that is substantially written and paid for before the order lands.</p>
+        </div>
+
+        <div class="card">
+            <h2>What Has to Happen</h2>
+            <div class="steps">
+                <div class="step urgent">
+                    <h3>Confirm the docket and the procedural posture</h3>
+                    <p>Get the actual Supreme Court case number and confirm what kind of filing Xcel made on July 31. News coverage says the utility "asked the Supreme Court" without specifying the vehicle, and the answer determines every date that follows. This is a phone call to the clerk or twenty minutes of a lawyer's time, and nothing else on this list should start before it is answered.</p>
+                    <span class="who">Owner: office &mdash; this week</span>
+                </div>
+                <div class="step">
+                    <h3>Get a board decision on the record</h3>
+                    <p>A recorded vote answering three questions: does CCGA file at all, which side does it support, and what is the spending ceiling. An amicus brief goes in under the Association's name and commits it to a public legal position, so it should not rest on an informal read of the room.</p>
+                    <span class="who">Owner: board</span>
+                </div>
+                <div class="step">
+                    <h3>Retain Colorado appellate counsel</h3>
+                    <p>An amicus brief has to be filed by a lawyer licensed and admitted in Colorado, and appellate work is a specialty. Ask for a fixed fee rather than an hourly estimate, and ask specifically whether they have filed amicus briefs in the Colorado Supreme Court before. Counsel also becomes the person watching the docket for the trigger.</p>
+                    <span class="who">Owner: board / officers</span>
+                </div>
+                <div class="step">
+                    <h3>Decide the one argument only CCGA can make</h3>
+                    <p>Courts do not want a second copy of the landowner's brief, and an amicus that just agrees with a party is wasted money. Dryland's lawyers will argue Dryland's case. What no party to this lawsuit can speak to is the position every other grower in eastern Colorado is put in by the rule the court adopts &mdash; what it does to a producer's ability to negotiate when the next line comes through, and what an appraised-farm-value standard means when the thing being taken is a scarce interconnection point. That is the association's contribution and the reason for standing.</p>
+                    <span class="who">Owner: counsel, with board input</span>
+                </div>
+                <div class="step">
+                    <h3>Draft it now and hold it</h3>
+                    <p>The brief and the motion for leave get written on our schedule, then sit finished until the docket moves. Note the constraint while drafting: an amicus brief is capped at one-half the maximum length of a party's principal brief, so it has to be short and it has to pick one thing.</p>
+                    <span class="who">Owner: counsel</span>
+                </div>
+                <div class="step">
+                    <h3>Line up co-signers</h3>
+                    <p>A brief joined by several agricultural and landowner organizations carries more weight than one association speaking alone, and it splits the cost several ways. Farm Bureau, Rocky Mountain Farmers Union, affected county commissioners, and other producer groups are the obvious calls. This takes the longest of anything on the list, so it starts early or not at all.</p>
+                    <span class="who">Owner: officers</span>
+                </div>
+                <div class="step">
+                    <h3>Watch the docket</h3>
+                    <p>The rule to show cause is the trigger. Somebody &mdash; realistically counsel &mdash; has to be checking, because nobody sends a notice to organizations that are not parties to the case.</p>
+                    <span class="who">Owner: counsel</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>What an Amicus Brief Cannot Do</h2>
+            <p>Worth knowing before the board spends money on one, because these limits surprise people:</p>
+            <ul>
+                <li>It cannot introduce facts that are not in the trial court record. An amicus argues law and consequences, not new evidence about what happened between these parties.</li>
+                <li>It cannot be filed as of right. Leave of court is required, and leave can be denied.</li>
+                <li>It is capped at half the length of a party's principal brief.</li>
+                <li>There is no amicus reply brief, and no oral argument without the court's permission.</li>
+                <li>It does not make CCGA a party. The Association takes on no liability for the outcome and has no control over how the case is litigated.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>What to Collect From Members</h2>
+            <p>The most useful thing growers can send in is their own experience with energy easements: what they were first offered, what they settled for, what the developer said about eminent domain if they declined, and whether a negotiated agreement in the area was priced anywhere near what a condemnation appraisal would have produced.</p>
+            <p>Counsel cannot put private correspondence in a brief, but that record is what tells the board whether this case is an outlier or the pattern &mdash; and that shapes whether CCGA files at all. Route to <a href="mailto:office@cologrowers.com">office@cologrowers.com</a>.</p>
+        </div>
+
+        <div class="notice">
+            <p><strong>CCGA has not voted to file anything.</strong> This document describes what would be required if the board decides to act, and the preparation that has to happen in advance to keep that option open. The public <a href="eminent-domain-discussion.html">for-and-against discussion</a> of the underlying case takes no position and is open for member comment.</p>
+        </div>
+
+        <div class="card">
+            <h2>Sources</h2>
+            <ul class="sources">
+                <li>Order on Petitioner's Motion for Immediate Possession, <em>Public Service Co. of Colorado v. Dryland Partners, LLC</em>, No. 2026CV30001 (Cheyenne Cty. Dist. Ct. June 2, 2026): <a href="https://s3.documentcloud.org/documents/28551553/2662-order-on-petitioners-motion-for-immediate-possession.pdf" target="_blank" rel="noopener">full order (PDF)</a></li>
+                <li>The Colorado Sun, "A judge told Xcel it couldn't condemn a farmer's land. Now the utility is headed to the state Supreme Court" (Aug. 20, 2026): <a href="https://coloradosun.com/2026/08/20/xcel-condemnation-power-lines-dryland-partners-wind-power/" target="_blank" rel="noopener">coloradosun.com</a></li>
+                <li>Colorado Appellate Rules (C.A.R. 29 governs amicus briefs; C.A.R. 21 and 53 govern the proceedings they attach to): <a href="https://www.coloradojudicial.gov/sites/default/files/2024-05/Rule%20Change%202024(11).pdf" target="_blank" rel="noopener">coloradojudicial.gov</a></li>
+                <li>Bergman &amp; Reid, "What Amici Curiae Can and Cannot Do with Amicus Briefs," <em>The Colorado Lawyer</em> (April 2017): <a href="https://www.hollandhart.com/what-amici-curiae-can-and-cannot-do-with-amicus-briefs" target="_blank" rel="noopener">hollandhart.com</a></li>
+            </ul>
+        </div>
+
+        <p class="disclosure">Internal board working document. Not legal advice. Prepared from public reporting and secondary summaries of the Colorado Appellate Rules, not from the court's docket in this case; the procedural posture of Xcel's July 31 filing has not been independently confirmed. Deadlines, length limits, and filing requirements must be verified with Colorado appellate counsel before CCGA relies on any of them. CCGA is not a party to this case.</p>
+
+    </div>
+</body>
+</html>
