@@ -205,6 +205,53 @@
 
         .nav-logo { font-weight: 600; }
         .logo { font-weight: 400; }
+    
+        /* --- Open vote callout -------------------------------------------- */
+        .vote-callout {
+            background: #334539;
+            border-radius: 6px;
+            padding: 30px 32px;
+            margin-bottom: 24px;
+            color: #ffffff;
+        }
+
+        .vote-callout .section-label { color: #d3ae5c; }
+
+        .vote-callout h2 {
+            color: #ffffff;
+            font-size: 1.35rem;
+            margin-bottom: 10px;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .vote-callout p {
+            color: #e3dfd6;
+            font-size: 0.98rem;
+            line-height: 1.65;
+            margin-bottom: 18px;
+        }
+
+        .vote-callout .vote-btn {
+            display: inline-block;
+            background: #d3ae5c;
+            color: #1b1a17;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 26px;
+            border-radius: 4px;
+            transition: background 0.25s ease;
+        }
+
+        .vote-callout .vote-btn:hover { background: #bd9846; }
+
+        .vote-callout .vote-note {
+            display: block;
+            margin-top: 14px;
+            margin-bottom: 0;
+            font-size: 0.87rem;
+            color: #bdb6a8;
+        }
     </style>
 </head>
 <body>
@@ -220,6 +267,17 @@
         <div class="portal-header">
             <h1>Board Member Portal</h1>
             <p>Colorado Corn Growers Association &mdash; Internal Board Resources</p>
+        </div>
+
+        <div class="vote-callout">
+            <div class="section-label">Action Required</div>
+            <h2>Board Vote: Amicus Curiae Participation</h2>
+            <p>A motion is before the board on whether CCGA participates as amicus curiae in
+                <em>Public Service Company of Colorado v. Dryland Partners, LLC</em> &mdash; the
+                Dickey case. Sign in to read the decision memo and the court order, and to cast your
+                vote. You will receive a sign-in link by email; there is no password.</p>
+            <a class="vote-btn" href="../board/index.html">Sign in to vote</a>
+            <span class="vote-note">One vote per member. You can change your vote until the deadline.</span>
         </div>
 
         <!-- Announcements & Meetings Row -->
