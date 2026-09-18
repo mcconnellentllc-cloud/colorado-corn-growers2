@@ -21,15 +21,15 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.7;
-            color: #e0e0e0;
-            background-color: #1a1a1a;
+            color: #e3dfd6;
+            background-color: #1b1a17;
         }
 
         .navbar {
             position: sticky;
             top: 0;
             width: 100%;
-            background: rgba(26, 26, 26, 0.95);
+            background: rgba(27, 26, 23, 0.95);
             backdrop-filter: blur(15px);
             z-index: 1000;
             padding: 1.2rem 0;
@@ -47,7 +47,7 @@
 
         .nav-logo {
             font-weight: 600;
-            color: #f7c52d;
+            color: #d3ae5c;
             font-size: 1.6rem;
             letter-spacing: -0.5px;
         }
@@ -75,14 +75,14 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: #f7c52d;
+            background: #d3ae5c;
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover { color: #f7c52d; }
+        .nav-links a:hover { color: #d3ae5c; }
         .nav-links a:hover::after { width: 100%; }
 
-        .nav-links a.active { color: #f7c52d; }
+        .nav-links a.active { color: #d3ae5c; }
         .nav-links a.active::after { width: 100%; }
 
         .page-wrap {
@@ -92,7 +92,7 @@
         }
 
         .page-wrap h1 {
-            color: #f7c52d;
+            color: #d3ae5c;
             font-size: 2.5rem;
             font-weight: 400;
             letter-spacing: -0.5px;
@@ -100,11 +100,11 @@
         }
 
         .page-wrap .subtitle {
-            color: #999;
+            color: #9c958a;
             font-size: 1.1rem;
             margin-bottom: 2.5rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(247, 197, 45, 0.15);
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
         }
 
         .announcement-list {
@@ -114,22 +114,22 @@
         }
 
         .announcement-card {
-            background: #2a2a2a;
-            border-left: 3px solid #4a7c59;
-            border-radius: 6px;
+            background: #252421;
+            border-left: 3px solid #6a8971;
+            border-radius: 4px;
             padding: 1.75rem 2rem;
             transition: border-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
         }
 
         .announcement-card:hover {
-            border-color: #f7c52d;
+            border-color: #d3ae5c;
             transform: translateY(-1px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
         }
 
         .announcement-card time {
             display: block;
-            color: #999;
+            color: #9c958a;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
             text-transform: uppercase;
@@ -149,7 +149,7 @@
             transition: color 0.3s ease;
         }
 
-        .announcement-card h2 a:hover { color: #f7c52d; }
+        .announcement-card h2 a:hover { color: #d3ae5c; }
 
         .announcement-card p {
             color: #d0d0d0;
@@ -157,7 +157,7 @@
         }
 
         .read-more {
-            color: #f7c52d;
+            color: #d3ae5c;
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
@@ -166,11 +166,11 @@
         .read-more:hover { text-decoration: underline; }
 
         .footer {
-            background: #1a1a1a;
-            color: #888;
+            background: #1b1a17;
+            color: #8c867b;
             text-align: center;
             padding: 3rem 1rem;
-            border-top: 1px solid rgba(247, 197, 45, 0.1);
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
         }
 
         .footer p {
@@ -198,6 +198,36 @@
             .page-wrap h1 { font-size: 1.9rem; }
             .announcement-card { padding: 1.5rem 1.25rem; }
             .announcement-card h2 { font-size: 1.2rem; }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.5rem; }
+            .nav-logo { font-size: 1.3rem; }
+            .nav-links { gap: 1.4rem; }
+            .nav-links a { font-size: 0.93rem; }
+        }
+
+        @media (max-width: 1080px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.15rem; }
+            .nav-links { gap: 1.05rem; }
+            .nav-links a { font-size: 0.88rem; }
         }
     </style>
 </head>

@@ -9,7 +9,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #f5f3ee;
             min-height: 100vh;
             padding-top: 100px;
         }
@@ -18,7 +18,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(26, 26, 26, 0.97);
+            background: rgba(27, 26, 23, 0.97);
             backdrop-filter: blur(15px);
             z-index: 1000;
             padding: 1.2rem 0;
@@ -34,7 +34,7 @@
             padding: 0 2rem;
         }
 
-        .nav-logo { font-weight: 600; color: #f7c52d; font-size: 1.6rem; }
+        .nav-logo { font-weight: 600; color: #d3ae5c; font-size: 1.6rem; }
 
         .nav-back {
             color: #ccc;
@@ -42,7 +42,7 @@
             font-size: 0.95rem;
             transition: color 0.2s;
         }
-        .nav-back:hover { color: #f7c52d; }
+        .nav-back:hover { color: #d3ae5c; }
 
         .container {
             max-width: 1100px;
@@ -51,10 +51,10 @@
         }
 
         .portal-header {
-            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            background: #334539;
             color: white;
             padding: 50px 40px;
-            border-radius: 15px;
+            border-radius: 6px;
             text-align: center;
             margin-bottom: 40px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -68,7 +68,7 @@
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: #4a7c59;
+            color: #6a8971;
             margin-bottom: 16px;
         }
 
@@ -82,30 +82,30 @@
 
         .card {
             background: white;
-            border-radius: 12px;
+            border-radius: 6px;
             padding: 30px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
         .card h2 {
-            color: #2c5530;
+            color: #334539;
             font-size: 1.15rem;
             margin-bottom: 18px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #e8f5e8;
+            border-bottom: 2px solid #e5eae4;
         }
 
         /* Announcements */
         .announcement-item {
             padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #ece9e2;
             font-size: 0.95rem;
-            color: #444;
+            color: #494540;
         }
         .announcement-item:last-child { border-bottom: none; }
         .announcement-date {
             font-size: 0.78rem;
-            color: #999;
+            color: #9c958a;
             margin-bottom: 3px;
         }
 
@@ -115,21 +115,21 @@
             align-items: center;
             gap: 12px;
             padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #ece9e2;
             font-size: 0.95rem;
-            color: #444;
+            color: #494540;
             text-decoration: none;
         }
         .doc-item:last-child { border-bottom: none; }
         .doc-icon {
             width: 32px;
             height: 32px;
-            background: #e8f5e8;
-            border-radius: 6px;
+            background: #e5eae4;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #2c5530;
+            color: #334539;
             font-size: 0.75rem;
             font-weight: 700;
             flex-shrink: 0;
@@ -141,17 +141,17 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #ece9e2;
             font-size: 0.95rem;
         }
         .meeting-item:last-child { border-bottom: none; }
-        .meeting-date { color: #2c5530; font-weight: 600; }
+        .meeting-date { color: #334539; font-weight: 600; }
         .meeting-type {
             font-size: 0.8rem;
-            background: #e8f5e8;
-            color: #2c5530;
+            background: #e5eae4;
+            color: #334539;
             padding: 3px 10px;
-            border-radius: 20px;
+            border-radius: 6px;
         }
 
         /* Contact list */
@@ -159,27 +159,27 @@
             display: flex;
             justify-content: space-between;
             padding: 10px 0;
-            border-bottom: 1px solid #f0f0f0;
+            border-bottom: 1px solid #ece9e2;
             font-size: 0.9rem;
         }
         .contact-item:last-child { border-bottom: none; }
-        .contact-name { font-weight: 600; color: #333; }
-        .contact-role { color: #888; font-size: 0.8rem; }
+        .contact-name { font-weight: 600; color: #37342f; }
+        .contact-role { color: #8c867b; font-size: 0.8rem; }
 
         /* Full-width card */
         .card-full {
             background: white;
-            border-radius: 12px;
+            border-radius: 6px;
             padding: 30px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
             margin-bottom: 24px;
         }
         .card-full h2 {
-            color: #2c5530;
+            color: #334539;
             font-size: 1.15rem;
             margin-bottom: 18px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #e8f5e8;
+            border-bottom: 2px solid #e5eae4;
         }
 
         /* Placeholder states */
@@ -195,6 +195,16 @@
             .portal-grid { grid-template-columns: 1fr; }
             .portal-header h1 { font-size: 1.8rem; }
         }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
     </style>
 </head>
 <body>
@@ -220,7 +230,7 @@
                 <h2>📢 Board Announcements</h2>
                 <div class="announcement-item">
                     <div class="announcement-date">August 28, 2026</div>
-                    <strong>Action needed &mdash; Xcel/Dryland amicus.</strong> Xcel has asked the Colorado Supreme Court to overturn the Cheyenne County condemnation ruling. The amicus window will be days long and opens on the court's schedule. First step is confirming the docket and posture. <a href="amicus-brief.html" style="color:#4a7c59; font-weight:600;">What CCGA has to do &rarr;</a>
+                    <strong>Action needed &mdash; Xcel/Dryland amicus.</strong> Xcel has asked the Colorado Supreme Court to overturn the Cheyenne County condemnation ruling. The amicus window will be days long and opens on the court's schedule. First step is confirming the docket and posture. <a href="amicus-brief.html" style="color:#6a8971; font-weight:600;">What CCGA has to do &rarr;</a>
                 </div>
                 <div class="announcement-item">
                     <div class="announcement-date">August 28, 2026</div>
@@ -238,7 +248,7 @@
                 <div class="meeting-item">
                     <div>
                         <div class="meeting-date">Every Friday</div>
-                        <div style="font-size:0.85rem; color:#666;">Lobbyist / Policy Calls</div>
+                        <div style="font-size:0.85rem; color:#6c665e;">Lobbyist / Policy Calls</div>
                     </div>
                     <span class="meeting-type">Weekly</span>
                 </div>
@@ -258,7 +268,7 @@
                 <h2>📁 Documents</h2>
                 <div class="announcement-item">
                     <div class="announcement-date">August 28, 2026 &middot; Action plan</div>
-                    <a href="amicus-brief.html" style="color:#4a7c59; font-weight:600;">Amicus Brief: What CCGA Has to Do &rarr;</a><br>
+                    <a href="amicus-brief.html" style="color:#6a8971; font-weight:600;">Amicus Brief: What CCGA Has to Do &rarr;</a><br>
                     Xcel/PSCo v. Dryland Partners, Colorado Supreme Court. Steps, owners, and the filing window.
                 </div>
                 <div class="placeholder">
@@ -275,56 +285,56 @@
                         <div class="contact-name">Jeff Self</div>
                         <div class="contact-role">President</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Springfield, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Springfield, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Kyle McConnell</div>
                         <div class="contact-role">Vice President</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Haxtun, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Haxtun, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Randy Wenger</div>
                         <div class="contact-role">Secretary</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Yuma, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Bruce Unruh</div>
                         <div class="contact-role">Treasurer</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Burlington, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Burlington, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Josh Hasart</div>
                         <div class="contact-role">Board Member</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Bethune, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Bethune, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Dave Cure</div>
                         <div class="contact-role">Past President</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Stratton, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Stratton, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Mike Lefever</div>
                         <div class="contact-role">Board Member</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Berthoud, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Berthoud, CO</div>
                 </div>
                 <div class="contact-item">
                     <div>
                         <div class="contact-name">Blake Roth</div>
                         <div class="contact-role">Board Member</div>
                     </div>
-                    <div style="color:#4a7c59; font-size:0.85rem;">Yuma, CO</div>
+                    <div style="color:#6a8971; font-size:0.85rem;">Yuma, CO</div>
                 </div>
             </div>
 

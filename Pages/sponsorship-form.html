@@ -14,7 +14,7 @@
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.4;
-            color: #333;
+            color: #37342f;
             background: white;
             padding: 20px;
         }
@@ -23,11 +23,11 @@
             max-width: 800px;
             margin: 0 auto;
             background: white;
-            border: 2px solid #2c5530;
+            border: 2px solid #334539;
         }
         
         .header {
-            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            background: #334539;
             color: white;
             padding: 30px;
             text-align: center;
@@ -49,8 +49,8 @@
         }
         
         .funding-statement {
-            background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
-            color: #1a1a1a;
+            background: #c0a257;
+            color: #1b1a17;
             padding: 20px;
             margin-bottom: 30px;
             border-radius: 5px;
@@ -61,7 +61,7 @@
         
         .section {
             margin-bottom: 30px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e3dfd6;
             padding-bottom: 20px;
         }
         
@@ -70,7 +70,7 @@
         }
         
         .section-title {
-            background: #2c5530;
+            background: #334539;
             color: white;
             padding: 10px 15px;
             margin: -10px -10px 20px -10px;
@@ -102,7 +102,7 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
-            color: #2c5530;
+            color: #334539;
         }
         
         input[type="text"], input[type="email"], input[type="tel"], textarea, select {
@@ -115,7 +115,7 @@
         }
         
         input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus, select:focus {
-            border-color: #4a7c59;
+            border-color: #6a8971;
             outline: none;
         }
         
@@ -125,7 +125,7 @@
         }
         
         .sponsorship-tiers {
-            background: #f8f9fa;
+            background: #f7f5f0;
             padding: 20px;
             border-radius: 5px;
             margin-bottom: 20px;
@@ -142,7 +142,7 @@
         }
         
         .tier-option.premium {
-            border-color: #d4af37;
+            border-color: #c0a257;
             background: #fff8dc;
         }
         
@@ -152,7 +152,7 @@
         }
         
         .tier-details h4 {
-            color: #2c5530;
+            color: #334539;
             font-size: 1.1rem;
             margin-bottom: 8px;
         }
@@ -198,27 +198,27 @@
         }
         
         .instructions {
-            background: #e8f5e8;
+            background: #e5eae4;
             padding: 20px;
             border-left: 4px solid #28a745;
             margin-bottom: 20px;
         }
         
         .instructions h3 {
-            color: #155724;
+            color: #2e4533;
             margin-bottom: 10px;
         }
         
         .tear-off {
-            border-top: 2px dashed #666;
+            border-top: 2px dashed #6c665e;
             margin-top: 30px;
             padding-top: 20px;
-            background: #f8f9fa;
+            background: #f7f5f0;
         }
         
         .tear-off h3 {
             text-align: center;
-            color: #2c5530;
+            color: #334539;
             margin-bottom: 15px;
         }
         
@@ -240,17 +240,17 @@
             }
             
             .header {
-                background: #2c5530 !important;
+                background: #334539 !important;
                 -webkit-print-color-adjust: exact;
             }
             
             .funding-statement {
-                background: #d4af37 !important;
+                background: #c0a257 !important;
                 -webkit-print-color-adjust: exact;
             }
             
             .section-title {
-                background: #2c5530 !important;
+                background: #334539 !important;
                 -webkit-print-color-adjust: exact;
             }
             
@@ -278,6 +278,16 @@
                 gap: 10px;
             }
         }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
     </style>
 </head>
 <body>
@@ -414,7 +424,7 @@
                         <input type="radio" id="friend" name="tier" value="friend">
                         <div class="tier-details">
                             <h4>FRIEND OF CCGA - Any amount below $2,500</h4>
-                            <p style="font-style: italic; color: #2c5530; margin-bottom: 8px;">Even a small donation goes a tremendously long way in supporting our volunteer advocacy efforts.</p>
+                            <p style="font-style: italic; color: #334539; margin-bottom: 8px;">Even a small donation goes a tremendously long way in supporting our volunteer advocacy efforts.</p>
                             <ul>
                                 <li>Recognition as a CCGA supporter</li>
                                 <li>Policy updates via email, social media, landing pages and website</li>
@@ -503,7 +513,7 @@
                 <p><strong>Questions?</strong> Call 1-877-CO-GROW-9 or email office@cologrowers.com</p>
                 
                 <div style="text-align: center; margin-top: 20px;">
-                    <button onclick="window.print()" style="background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%); color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">PRINT NOW</button>
+                    <button onclick="window.print()" style="background: #334539; color: white; padding: 15px 30px; border: none; border-radius: 4px; font-size: 1.2rem; font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">PRINT NOW</button>
                 </div>
             </div>
             
