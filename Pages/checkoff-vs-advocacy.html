@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Checkoff Cannot Lobby — CCGA</title>
+    <meta name="description" content="Colorado has two corn organizations. The checkoff funds research and promotion and is barred by law from policy work. CCGA does the advocacy, funded entirely by voluntary support.">
+    <meta property="og:title" content="The Checkoff Cannot Lobby. That Is Why We Exist.">
+    <meta property="og:description" content="Colorado has two corn organizations. The checkoff funds research and promotion and is barred by law from policy work. CCGA does the advocacy, funded entirely by voluntary support.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/checkoff-vs-advocacy.html">
+    <meta property="og:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Checkoff Cannot Lobby. That Is Why We Exist.">
+    <meta name="twitter:description" content="Colorado has two corn organizations. The checkoff funds research and promotion and is barred by law from policy work. CCGA does the advocacy, funded entirely by voluntary support.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/colorado-corn-field.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.5rem; }
+            .nav-logo { font-size: 1.3rem; }
+            .nav-links { gap: 1.4rem; }
+            .nav-links a { font-size: 0.93rem; }
+        }
+
+        @media (max-width: 1080px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.15rem; }
+            .nav-links { gap: 1.05rem; }
+            .nav-links a { font-size: 0.88rem; }
+        }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
+    
+        /* --- Two-column comparison ----------------------------------------- */
+        .compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            margin: 1.75rem 0 2.25rem;
+        }
+
+        .compare-col {
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.09);
+            border-top: 3px solid #6a8971;
+            border-radius: 4px;
+            padding: 1.5rem 1.6rem 1.25rem;
+        }
+
+        .compare-col.ours { border-top-color: #a5833b; }
+
+        .compare-col h3 {
+            margin-top: 0;
+            font-size: 1.15rem;
+            color: #334539;
+            margin-bottom: 0.2rem;
+        }
+
+        .compare-col .who {
+            display: block;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #5b564f;
+            margin-bottom: 1rem;
+        }
+
+        .compare-col dl {
+            display: grid;
+            grid-template-columns: max-content 1fr;
+            gap: 0.45rem 1.1rem;
+            font-size: 0.94rem;
+        }
+
+        .compare-col dt { color: #5b564f; }
+        .compare-col dd { margin: 0; color: #37342f; }
+
+        .ask-box {
+            background: #334539;
+            color: #ffffff;
+            border-radius: 6px;
+            padding: 1.75rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .ask-box h3 { color: #ffffff; margin-top: 0; }
+        .ask-box p { color: #e3dfd6; }
+        .ask-box p:last-child { margin-bottom: 0; }
+        .ask-box strong { color: #d3ae5c; }
+
+        .article a.ask-btn {
+            display: inline-block;
+            background: #d3ae5c;
+            color: #1b1a17;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 4px;
+            margin-top: 0.4rem;
+        }
+
+        .article a.ask-btn:hover { background: #bd9846; color: #1b1a17; }
+
+        @media (max-width: 700px) {
+            .compare { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>The Checkoff Cannot Lobby. That Is Why We Exist.</h1>
+        <p class="dateline">Posted September 18, 2026</p>
+
+        <p class="lede">Colorado has two corn organizations, and growers mix them up constantly. It is
+            an easy mistake &mdash; similar names, same crop, same people at the same meetings. But
+            they are funded differently, governed differently, and one of them is barred by law from
+            doing the thing most growers assume it does.</p>
+
+        <div class="compare">
+            <div class="compare-col">
+                <h3>Colorado Corn Council</h3>
+                <span class="who">The checkoff</span>
+                <dl>
+                    <dt>Funded by</dt>
+                    <dd>One cent per bushel, collected automatically</dd>
+                    <dt>Who pays</dt>
+                    <dd>Every Colorado corn grower. It is not optional.</dd>
+                    <dt>Collected by</dt>
+                    <dd>Your first handler &mdash; the elevator or feeder</dd>
+                    <dt>Does</dt>
+                    <dd>Research, market development, outreach, education, promotion</dd>
+                    <dt>Cannot do</dt>
+                    <dd><strong>Policy work.</strong> Checkoff dollars are prohibited from lobbying for or against any bill.</dd>
+                </dl>
+            </div>
+
+            <div class="compare-col ours">
+                <h3>Colorado Corn Growers Association</h3>
+                <span class="who">The advocacy</span>
+                <dl>
+                    <dt>Funded by</dt>
+                    <dd>Voluntary memberships and sponsorships. Nothing automatic.</dd>
+                    <dt>Who pays</dt>
+                    <dd>Only people who choose to</dd>
+                    <dt>Founded</dt>
+                    <dd>1979, by its own members</dd>
+                    <dt>Does</dt>
+                    <dd>Public policy. Lobbying in Denver and Washington.</dd>
+                    <dt>Governed by</dt>
+                    <dd>A board of working farmers, elected by the membership</dd>
+                </dl>
+            </div>
+        </div>
+
+        <p>That last row on the left is the whole point. The penny per bushel you already pay does
+            real work &mdash; research, markets, education &mdash; but it is legally prohibited from
+            being spent on a bill. Not discouraged. Prohibited. When a piece of legislation threatens
+            your operation, not one cent of checkoff money can be used to fight it.</p>
+
+        <p>Everything on the policy side is paid for by growers who volunteer to fund it. That is a
+            few hundred people covering the cost of advocacy that benefits every corn grower in the
+            state, including the ones who never contribute a dollar.</p>
+
+        <h2>If You Are Getting a Payment, That Is Growers at Work</h2>
+        <p>This is the part worth sitting with. Every federal program putting money into Colorado corn
+            operations exists because somebody advocated for it. Programs do not write themselves,
+            deadlines do not get extended on their own, and eligibility rules do not expand by
+            accident.</p>
+        <p>The checkoff could not have worked on any of it.</p>
+        <ul>
+            <li><strong>Over $100 million</strong> through Market Facilitation Programs during the China trade war</li>
+            <li><strong>Over $400 million</strong> in CFAP 1 and 2 COVID-19 relief for Colorado agriculture</li>
+            <li><strong>Over $300 million</strong> in ARC and PLC farm bill safety net payments</li>
+            <li><strong>Over $200 million</strong> in PPP loans that kept Colorado farms going</li>
+            <li><strong>SDRP eligibility</strong> &mdash; our Southwest Council of Agribusiness partnership pushed "excessive heat" as a qualifying condition, which took Colorado from 24 drought counties to statewide coverage</li>
+            <li><strong>Regulatory relief</strong> &mdash; SB-021's labor regulations fought off</li>
+            <li><strong>Ethanol markets</strong> &mdash; the Renewable Fuel Standard defended</li>
+        </ul>
+        <p>That is more than <strong>$1.2 billion</strong> in assistance for Colorado agriculture
+            since 2018, secured by volunteers on Friday morning phone calls.</p>
+        <p>The statewide SDRP change is the clearest example. Colorado's initial eligibility covered
+            24 counties on drought. Somebody had to make the case that excessive heat belonged in the
+            rule. That argument is the reason a grower outside those 24 counties can file before
+            <a href="fall-2026-deadlines.html">this month's September 30 deadline</a> at all.</p>
+
+        <h2>Why We Keep Asking</h2>
+        <p>We collect no automatic funding. There is no assessment, no mandated fee, no line item on
+            your settlement sheet that comes to us. That independence is genuinely useful &mdash; it
+            means nobody can quietly defund us for taking an unpopular position, and we can push
+            aggressively without clearing it through a bureaucracy.</p>
+        <p>It also means the work stops if growers stop paying for it. There is no reserve to fall
+            back on. The lobbyists, the travel to Washington, the legal work, the coalition
+            building &mdash; all of it runs on voluntary dollars.</p>
+
+        <div class="ask-box">
+            <h3>Fifty dollars goes a long way</h3>
+            <p>Sponsorship tiers start in the thousands, and the operations that can write those
+                checks are the backbone of what we do. But this is not only a corporate ask.</p>
+            <p>If you farm and you have benefited from any program on the list above, <strong>$50
+                matters</strong>. It is a rounding error against what a single policy win returns to
+                a Colorado corn operation, and enough of them together is what keeps somebody on the
+                phone Friday morning.</p>
+            <p>Give what makes sense for your operation. Every amount is a Friend of Agriculture
+                contribution and every amount is put to the same use.</p>
+            <p><a class="ask-btn" href="become-a-sponsor.html">Support the advocacy</a></p>
+        </div>
+
+        <h2>The Short Version</h2>
+        <ul>
+            <li>You already pay the checkoff. It funds research and promotion and <strong>cannot touch policy</strong>.</li>
+            <li>Advocacy is a separate organization funded entirely by choice.</li>
+            <li>The programs paying out this fall exist because that advocacy happened.</li>
+            <li>If you are not contributing, someone else is covering your share of it.</li>
+        </ul>
+
+        <p class="disclosure">CCGA and the Colorado Corn Council are separate organizations with
+            separate boards, separate funding, and separate mandates. Nothing here is a criticism of
+            the checkoff, which does work this association supports and does not duplicate. The
+            restriction on using checkoff funds for policy is a matter of law, not preference.
+            Questions about the corn assessment itself should go to the Council; questions about
+            membership or sponsorship come to us.</p>
+    </article>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>
