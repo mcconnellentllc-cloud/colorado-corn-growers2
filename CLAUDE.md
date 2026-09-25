@@ -93,8 +93,19 @@ browser silently drops it and every `/me` returns 401. Deploy steps are in
 ## Known issues
 
 - `Pages/meet-our-board.html` gates the board portal behind a password checked
-  in client-side JavaScript. It is readable in page source and
-  `board-portal.html` opens by direct URL anyway. The magic-link portal is the
-  replacement; remove the password box once the Worker is live.
+  in client-side JavaScript. **This is deliberate. Leave it.** The board wants
+  a quiet way in and it is theirs to keep.
+
+  Understand what it is, though, so nothing sensitive gets put behind it on the
+  assumption that it is a lock. The password sits in the page source in plain
+  text, and `board-portal.html` opens by direct URL without it, so the gate
+  keeps out casual browsing and nothing more. Everything on that page is
+  readable by anyone who has the URL. The page is `noindex, nofollow` so it
+  stays out of search results, which is the part that actually does work.
+
+  Genuinely private board material belongs behind the magic-link portal in
+  `/board/`, which authenticates against a roster. The two can coexist: the
+  hub stays as the quiet front door, and anything confidential moves behind the
+  session.
 - `Pages/board-portal.html` still uses emoji headings, which the rest of the
   site has moved away from.
