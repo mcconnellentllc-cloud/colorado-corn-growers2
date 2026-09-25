@@ -49,6 +49,14 @@ If the county is decoration rather than a fact, cut it and say Colorado.
   take a position on candidates or elections; several of the officials named on
   this site appear on ballots.
 
+  Naming a candidacy is not taking a position. Where a speaker or official
+  holds one, describe it factually and as the source document does &mdash; a
+  meeting programme listing someone as a party's nominee can be repeated
+  straight. What the site does not do is praise, endorse, urge support, or
+  frame a candidacy as good for growers. Where a candidate appears in
+  coverage, carry the standing line that CCGA takes no position on candidates
+  or elections.
+
 ## Palette and contrast
 
 Warm light theme sitewide. Dark navbar and footer over a cream page.
