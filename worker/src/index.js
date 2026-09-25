@@ -21,6 +21,7 @@
 // Mailing list (admin session required):
 //   GET  /admin/list/stats      counts by status
 //   GET  /admin/mailings        every draft and sent mailing
+//   GET  /admin/mailings/get    one mailing, including its bodies
 //   POST /admin/mailings        create a draft
 //   POST /admin/mailings/save   edit a draft that has not been sent
 //   POST /admin/mailings/test   send one copy to the signed-in admin
@@ -619,6 +620,17 @@ async function handleAdminMailingsList(request, env) {
   return json(request, { ok: true, mailings: results ?? [] });
 }
 
+async function handleAdminMailingGet(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const id = new URL(request.url).searchParams.get('id');
+  const row = await env.DB.prepare('SELECT * FROM mailings WHERE id = ?').bind(String(id ?? '')).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  return json(request, { ok: true, mailing: row });
+}
+
 async function handleAdminMailingCreate(request, env) {
   const auth = await requireAdmin(request, env);
   if (auth.error) return auth.error;
@@ -802,6 +814,7 @@ const ROUTES = [
 
   ['GET', '/admin/list/stats', handleAdminListStats],
   ['GET', '/admin/mailings', handleAdminMailingsList],
+  ['GET', '/admin/mailings/get', handleAdminMailingGet],
   ['POST', '/admin/mailings', handleAdminMailingCreate],
   ['POST', '/admin/mailings/save', handleAdminMailingSave],
   ['POST', '/admin/mailings/test', handleAdminMailingTest],
