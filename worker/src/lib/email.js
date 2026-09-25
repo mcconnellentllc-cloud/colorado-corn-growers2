@@ -137,3 +137,121 @@ export async function sendSignInEmail(env, { to, fullName, link, deadlineIso }) 
     return { ok: false, error: err?.message || 'network_error' };
   }
 }
+
+// ---------------------------------------------------------------------------
+// Mailing list email.
+//
+// These go to a public list rather than the board roster, which changes two
+// things. They are sent from LIST_MAIL_FROM — a separate sending identity, so
+// a newsletter's bounces and complaints can never damage the reputation that
+// carries board sign-in links. And every one carries List-Unsubscribe headers,
+// which Gmail and Yahoo require of bulk senders and which put a one-click
+// unsubscribe in the mail client's own chrome.
+// ---------------------------------------------------------------------------
+
+function listFrom(env) {
+  return env.LIST_MAIL_FROM || env.MAIL_FROM;
+}
+
+async function sendListEmail(env, { to, subject, text, html, unsubscribeUrl }) {
+  const headers = unsubscribeUrl
+    ? {
+        'List-Unsubscribe': `<${unsubscribeUrl}>`,
+        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+      }
+    : undefined;
+
+  try {
+    const response = await fetch(RESEND_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: listFrom(env),
+        reply_to: env.MAIL_REPLY_TO || undefined,
+        to: [to],
+        subject,
+        text,
+        html,
+        headers,
+      }),
+    });
+
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return { ok: false, error: payload?.message || `resend_http_${response.status}` };
+    }
+    return { ok: true, id: payload?.id };
+  } catch (err) {
+    return { ok: false, error: String(err?.message || err) };
+  }
+}
+
+function shell(bodyHtml, footerHtml) {
+  return `<!doctype html><html><body style="margin:0;padding:24px;background:#f5f3ee;
+    font-family:Georgia,'Times New Roman',serif;color:#37342f;">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e3ded4;
+       border-radius:8px;padding:32px;">
+    ${bodyHtml}
+  </div>
+  <div style="max-width:560px;margin:16px auto 0;font-family:Arial,sans-serif;font-size:12px;
+       color:#5b564f;line-height:1.5;">
+    ${footerHtml}
+  </div>
+</body></html>`;
+}
+
+/** The one message a sign-up produces. Nothing else goes out until it is clicked. */
+export async function sendConfirmEmail(env, { to, fullName, link }) {
+  const greeting = fullName ? `${escapeHtml(fullName)},` : 'Hello,';
+  const text = [
+    fullName ? `${fullName},` : 'Hello,',
+    '',
+    'Please confirm you want updates from the Colorado Corn Growers Association.',
+    '',
+    link,
+    '',
+    'If you did not ask for this, ignore this message. Nothing will be sent to this',
+    'address unless the link above is clicked.',
+    '',
+    'Colorado Corn Growers Association',
+    'PO Box 340, Burlington, CO 80807',
+  ].join('\n');
+
+  const html = shell(
+    `<p style="margin:0 0 16px;font-size:17px;">${greeting}</p>
+     <p style="margin:0 0 20px;font-size:16px;line-height:1.55;">Please confirm you want updates
+       from the Colorado Corn Growers Association &mdash; deadlines, program changes and what we
+       are working on in Denver and Washington.</p>
+     <p style="margin:0 0 24px;">
+       <a href="${escapeHtml(link)}" style="display:inline-block;background:#334539;color:#ffffff;
+          text-decoration:none;padding:12px 22px;border-radius:6px;font-family:Arial,sans-serif;
+          font-size:15px;">Confirm my email</a></p>
+     <p style="margin:0;font-size:14px;color:#5b564f;line-height:1.5;">If you did not ask for this,
+       ignore this message. Nothing will be sent to this address unless that link is clicked.</p>`,
+    'Colorado Corn Growers Association &middot; PO Box 340, Burlington, CO 80807',
+  );
+
+  return sendListEmail(env, {
+    to,
+    subject: 'Confirm your email - Colorado Corn Growers',
+    text,
+    html,
+  });
+}
+
+/** One campaign to one subscriber. */
+export async function sendCampaignEmail(env, { to, subject, bodyHtml, bodyText, unsubscribeUrl }) {
+  const text = `${bodyText}\n\n---\nColorado Corn Growers Association\nPO Box 340, Burlington, CO 80807\n\nUnsubscribe: ${unsubscribeUrl}`;
+
+  const html = shell(
+    bodyHtml,
+    `Colorado Corn Growers Association &middot; PO Box 340, Burlington, CO 80807<br>
+     You are receiving this because you confirmed your email address.
+     <a href="${escapeHtml(unsubscribeUrl)}" style="color:#5b564f;">Unsubscribe</a>.`,
+  );
+
+  return sendListEmail(env, { to, subject, text, html, unsubscribeUrl });
+}

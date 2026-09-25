@@ -43,5 +43,14 @@ API_ORIGIN = "https://board-api.cologrowers.com"
 MAIL_FROM = "CCGA Board <board@cologrowers.com>"
 MAIL_REPLY_TO = "board@cologrowers.com"
 
+# Sending identity for the public mailing list, kept separate from MAIL_FROM on
+# purpose. A newsletter collects bounces and spam complaints that a board
+# sign-in link never will; sending both from one identity lets the newsletter's
+# reputation decide whether a credential reaches an inbox. Verify a subdomain
+# such as mail.cologrowers.com in Resend and send list mail from it. If this is
+# unset the list falls back to MAIL_FROM, which works but gives up that
+# separation.
+LIST_MAIL_FROM = "Colorado Corn Growers <news@mail.cologrowers.com>"
+
 [observability]
 enabled = true

@@ -11,6 +11,21 @@
 //   GET  /results          tally (members after close, admins any time)
 //   POST /admin/send-all   broadcast a fresh link to every active member
 //   POST /auth/logout      destroy the session
+//
+// Mailing list (public, no session):
+//   POST /list/subscribe        start a sign-up, send one confirmation email
+//   GET  /list/confirm          complete a double opt-in sign-up
+//   GET  /list/unsubscribe      one-click unsubscribe from a signed link
+//   POST /list/unsubscribe      same, for List-Unsubscribe-Post one-click
+//
+// Mailing list (admin session required):
+//   GET  /admin/list/stats      counts by status
+//   GET  /admin/mailings        every draft and sent mailing
+//   POST /admin/mailings        create a draft
+//   POST /admin/mailings/save   edit a draft that has not been sent
+//   POST /admin/mailings/test   send one copy to the signed-in admin
+//   POST /admin/mailings/send   send a draft to the active list
+//   POST /admin/mailings/resend retry only the addresses that failed
 
 import { corsHeaders, preflight } from './lib/cors.js';
 import { uuid } from './lib/crypto.js';
@@ -22,7 +37,17 @@ import {
   nowIso,
   normalizeEmail,
 } from './lib/db.js';
-import { sendSignInEmail, MOTION_TITLE } from './lib/email.js';
+import { sendSignInEmail, sendConfirmEmail, sendCampaignEmail, MOTION_TITLE } from './lib/email.js';
+import {
+  activeSubscribers,
+  checkSignupLimit,
+  confirmSignup,
+  listStats,
+  looksLikeEmail,
+  startSignup,
+  unsubscribe,
+  unsubscribeLink,
+} from './lib/subscribers.js';
 import { checkAuthRequestLimits, checkBroadcastCooldown } from './lib/ratelimit.js';
 import {
   clearedCookieHeader,
@@ -448,6 +473,319 @@ async function handleLogout(request, env) {
 // Router
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// Mailing list — public
+// ---------------------------------------------------------------------------
+
+/** A short HTML page, for the links people click from an email client. */
+function page(title, heading, body) {
+  return new Response(
+    `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${title} - Colorado Corn Growers</title>
+<style>body{margin:0;padding:48px 20px;background:#f5f3ee;color:#37342f;
+font-family:Georgia,'Times New Roman',serif;line-height:1.6}
+.card{max-width:540px;margin:0 auto;background:#fff;border:1px solid #e3ded4;
+border-radius:8px;padding:36px}h1{margin:0 0 16px;font-weight:400;color:#334539;font-size:1.6rem}
+p{margin:0 0 14px}a{color:#8a6a22}
+.foot{max-width:540px;margin:18px auto 0;font-family:Arial,sans-serif;font-size:12px;color:#5b564f}
+</style></head><body><div class="card"><h1>${heading}</h1>${body}</div>
+<div class="foot">Colorado Corn Growers Association &middot; PO Box 340, Burlington, CO 80807</div>
+</body></html>`,
+    { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } },
+  );
+}
+
+async function handleListSubscribe(request, env, ctx) {
+  const ip = clientIp(request);
+  const body = await request.json().catch(() => ({}));
+  const email = normalizeEmail(body.email);
+  const fullName = String(body.full_name ?? '').trim().slice(0, 120) || null;
+  const source = String(body.source ?? '').trim().slice(0, 60) || null;
+
+  if (!looksLikeEmail(email)) {
+    return json(request, { error: 'invalid_email' }, { status: 400 });
+  }
+
+  // Everything below returns the same body. A sign-up form must never become a
+  // way to ask whether an address is already on the list.
+  const ok = json(request, { ok: true });
+
+  if (!(await checkSignupLimit(env, ip))) return ok;
+
+  const { confirmToken } = await startSignup(env, { email, fullName, source, ip });
+  if (!confirmToken) return ok;
+
+  const link = `${env.API_ORIGIN}/list/confirm?token=${encodeURIComponent(confirmToken)}`;
+  const send = sendConfirmEmail(env, { to: email, fullName, link });
+  if (ctx?.waitUntil) ctx.waitUntil(send);
+  else await send;
+
+  await audit(env, { actorEmail: email, action: 'list.signup', ip });
+  return ok;
+}
+
+async function handleListConfirm(request, env) {
+  const url = new URL(request.url);
+  const result = await confirmSignup(env, url.searchParams.get('token'));
+
+  if (!result.ok) {
+    return page(
+      'Link not valid',
+      'That link did not work',
+      `<p>It may have expired, or already been replaced by a newer one.</p>
+       <p><a href="${env.SITE_ORIGIN}/Pages/announcements.html">Sign up again</a> and we will send a fresh confirmation.</p>`,
+    );
+  }
+
+  await audit(env, { actorEmail: result.email, action: 'list.confirm' });
+  return page(
+    'Confirmed',
+    result.already ? 'You are already on the list' : 'You are on the list',
+    `<p>We will send deadlines, program changes and what we are working on. Not often, and never
+        anything we would not want to read ourselves.</p>
+     <p>Every message carries an unsubscribe link, and it works.</p>
+     <p><a href="${env.SITE_ORIGIN}/index.html">Back to cologrowers.com</a></p>`,
+  );
+}
+
+async function handleListUnsubscribe(request, env) {
+  const url = new URL(request.url);
+  let id = url.searchParams.get('id');
+  let sig = url.searchParams.get('sig');
+
+  // One-click unsubscribe posts an empty body to the same URL.
+  if (request.method === 'POST' && (!id || !sig)) {
+    const form = await request.formData().catch(() => null);
+    id = id || form?.get('id');
+    sig = sig || form?.get('sig');
+  }
+
+  const result = await unsubscribe(env, { id, sig });
+
+  if (!result.ok) {
+    return page(
+      'Link not valid',
+      'That link did not work',
+      `<p>If you are still receiving mail you do not want, reply to any message or write to
+        <a href="mailto:office@cologrowers.com">office@cologrowers.com</a> and we will take you off by hand.</p>`,
+    );
+  }
+
+  await audit(env, { actorEmail: result.email, action: 'list.unsubscribe' });
+  return page(
+    'Unsubscribed',
+    'You are off the list',
+    `<p>No further mailings will go to that address. Nothing else is required of you.</p>
+     <p>If this was a mistake you can <a href="${env.SITE_ORIGIN}/Pages/announcements.html">sign up again</a>.</p>`,
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Mailing list — admin
+// ---------------------------------------------------------------------------
+
+/** Every admin route starts here. Returns { member } or a Response to return. */
+async function requireAdmin(request, env) {
+  const session = await getSession(env, request);
+  if (!session) return { error: json(request, { error: 'unauthenticated' }, { status: 401 }) };
+  if (!session.member.is_admin) {
+    await audit(env, {
+      actorEmail: session.member.email,
+      action: 'admin.forbidden',
+      detail: new URL(request.url).pathname,
+      ip: clientIp(request),
+    });
+    return { error: json(request, { error: 'forbidden' }, { status: 403 }) };
+  }
+  return { member: session.member };
+}
+
+async function handleAdminListStats(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+  return json(request, { ok: true, subscribers: await listStats(env) });
+}
+
+async function handleAdminMailingsList(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const { results } = await env.DB.prepare(
+    `SELECT id, subject, created_at, created_by, sent_at, sent_count, failed_count
+       FROM mailings ORDER BY created_at DESC`,
+  ).all();
+
+  return json(request, { ok: true, mailings: results ?? [] });
+}
+
+async function handleAdminMailingCreate(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const subject = String(body.subject ?? '').trim();
+  const bodyHtml = String(body.body_html ?? '').trim();
+  const bodyText = String(body.body_text ?? '').trim();
+
+  if (!subject || !bodyHtml || !bodyText) {
+    return json(request, { error: 'subject_and_body_required' }, { status: 400 });
+  }
+
+  const id = uuid();
+  await env.DB.prepare(
+    `INSERT INTO mailings (id, subject, body_html, body_text, created_at, created_by, sent_at, sent_count, failed_count)
+     VALUES (?, ?, ?, ?, ?, ?, NULL, 0, 0)`,
+  )
+    .bind(id, subject, bodyHtml, bodyText, nowIso(), auth.member.email)
+    .run();
+
+  await audit(env, { actorEmail: auth.member.email, action: 'mailing.create', detail: id, ip: clientIp(request) });
+  return json(request, { ok: true, id });
+}
+
+async function handleAdminMailingSave(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const id = String(body.id ?? '');
+  const row = await env.DB.prepare('SELECT * FROM mailings WHERE id = ?').bind(id).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  // A sent mailing is a record of what went out. Editing it would make the
+  // record a lie, so it is frozen.
+  if (row.sent_at) return json(request, { error: 'already_sent' }, { status: 409 });
+
+  await env.DB.prepare(
+    'UPDATE mailings SET subject = ?, body_html = ?, body_text = ? WHERE id = ?',
+  )
+    .bind(
+      String(body.subject ?? row.subject).trim(),
+      String(body.body_html ?? row.body_html).trim(),
+      String(body.body_text ?? row.body_text).trim(),
+      id,
+    )
+    .run();
+
+  await audit(env, { actorEmail: auth.member.email, action: 'mailing.save', detail: id, ip: clientIp(request) });
+  return json(request, { ok: true });
+}
+
+async function handleAdminMailingTest(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const row = await env.DB.prepare('SELECT * FROM mailings WHERE id = ?').bind(String(body.id ?? '')).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  const result = await sendCampaignEmail(env, {
+    to: auth.member.email,
+    subject: `[TEST] ${row.subject}`,
+    bodyHtml: row.body_html,
+    bodyText: row.body_text,
+    unsubscribeUrl: `${env.API_ORIGIN}/list/unsubscribe?id=test&sig=test`,
+  });
+
+  await audit(env, { actorEmail: auth.member.email, action: 'mailing.test', detail: row.id, ip: clientIp(request) });
+  return json(request, { ok: result.ok, error: result.error });
+}
+
+/**
+ * Send a draft to the active list.
+ *
+ * `mailing_deliveries` has a primary key of (mailing_id, subscriber_id), and
+ * every recipient is recorded before the next one is attempted. A resend
+ * therefore skips anyone already marked sent, which is what makes "send" safe
+ * to press twice.
+ */
+async function deliverMailing(env, { mailing, admin, onlyFailed }) {
+  const subscribers = await activeSubscribers(env);
+  const { results: already } = await env.DB.prepare(
+    'SELECT subscriber_id, status FROM mailing_deliveries WHERE mailing_id = ?',
+  )
+    .bind(mailing.id)
+    .all();
+
+  const seen = new Map((already ?? []).map((r) => [r.subscriber_id, r.status]));
+  let sent = 0;
+  let failed = 0;
+
+  for (const sub of subscribers) {
+    const prior = seen.get(sub.id);
+    if (prior === 'sent') continue;
+    if (onlyFailed && prior !== 'failed') continue;
+
+    const result = await sendCampaignEmail(env, {
+      to: sub.email,
+      subject: mailing.subject,
+      bodyHtml: mailing.body_html,
+      bodyText: mailing.body_text,
+      unsubscribeUrl: await unsubscribeLink(env, sub),
+    });
+
+    await env.DB.prepare(
+      `INSERT INTO mailing_deliveries (mailing_id, subscriber_id, email, status, error, attempted_at)
+       VALUES (?, ?, ?, ?, ?, ?)
+       ON CONFLICT (mailing_id, subscriber_id)
+       DO UPDATE SET status = excluded.status, error = excluded.error, attempted_at = excluded.attempted_at`,
+    )
+      .bind(mailing.id, sub.id, sub.email, result.ok ? 'sent' : 'failed', result.error ?? null, nowIso())
+      .run();
+
+    if (result.ok) sent += 1;
+    else failed += 1;
+  }
+
+  const totals = await env.DB.prepare(
+    `SELECT
+       SUM(CASE WHEN status = 'sent' THEN 1 ELSE 0 END) AS sent,
+       SUM(CASE WHEN status = 'failed' THEN 1 ELSE 0 END) AS failed
+     FROM mailing_deliveries WHERE mailing_id = ?`,
+  )
+    .bind(mailing.id)
+    .first();
+
+  await env.DB.prepare(
+    'UPDATE mailings SET sent_at = COALESCE(sent_at, ?), sent_count = ?, failed_count = ? WHERE id = ?',
+  )
+    .bind(nowIso(), totals?.sent ?? 0, totals?.failed ?? 0, mailing.id)
+    .run();
+
+  await audit(env, {
+    actorEmail: admin.email,
+    action: onlyFailed ? 'mailing.resend' : 'mailing.send',
+    detail: `${mailing.id} sent=${sent} failed=${failed}`,
+  });
+
+  return { sent, failed, total: totals?.sent ?? 0, totalFailed: totals?.failed ?? 0 };
+}
+
+async function handleAdminMailingSend(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const row = await env.DB.prepare('SELECT * FROM mailings WHERE id = ?').bind(String(body.id ?? '')).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  const result = await deliverMailing(env, { mailing: row, admin: auth.member, onlyFailed: false });
+  return json(request, { ok: true, ...result });
+}
+
+async function handleAdminMailingResend(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const row = await env.DB.prepare('SELECT * FROM mailings WHERE id = ?').bind(String(body.id ?? '')).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  const result = await deliverMailing(env, { mailing: row, admin: auth.member, onlyFailed: true });
+  return json(request, { ok: true, ...result });
+}
+
 const ROUTES = [
   ['POST', '/auth/request', handleAuthRequest],
   ['GET', '/auth/verify', handleAuthVerify],
@@ -456,6 +794,19 @@ const ROUTES = [
   ['POST', '/vote', handleVote],
   ['GET', '/results', handleResults],
   ['POST', '/admin/send-all', handleAdminSendAll],
+
+  ['POST', '/list/subscribe', handleListSubscribe],
+  ['GET', '/list/confirm', handleListConfirm],
+  ['GET', '/list/unsubscribe', handleListUnsubscribe],
+  ['POST', '/list/unsubscribe', handleListUnsubscribe],
+
+  ['GET', '/admin/list/stats', handleAdminListStats],
+  ['GET', '/admin/mailings', handleAdminMailingsList],
+  ['POST', '/admin/mailings', handleAdminMailingCreate],
+  ['POST', '/admin/mailings/save', handleAdminMailingSave],
+  ['POST', '/admin/mailings/test', handleAdminMailingTest],
+  ['POST', '/admin/mailings/send', handleAdminMailingSend],
+  ['POST', '/admin/mailings/resend', handleAdminMailingResend],
 ];
 
 export default {
