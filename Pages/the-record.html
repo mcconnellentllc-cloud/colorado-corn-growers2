@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulling the Plow for Colorado Corn — CCGA</title>
+    <meta name="description" content="Colorado grows under two percent of America's corn. CCGA's affiliation with the Southwest Council of Agribusiness is how a small share of the acres gets heard where farm bills are written.">
+    <meta property="og:title" content="Pulling the Plow for Colorado Corn">
+    <meta property="og:description" content="Colorado grows under two percent of America's corn. CCGA's affiliation with the Southwest Council of Agribusiness is how a small share of the acres gets heard where farm bills are written.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/the-record.html">
+    <meta property="og:image" content="https://www.cologrowers.com/images/swca-2026-commodity-panel.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pulling the Plow for Colorado Corn">
+    <meta name="twitter:description" content="Colorado grows under two percent of America's corn. CCGA's affiliation with the Southwest Council of Agribusiness is how a small share of the acres gets heard where farm bills are written.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/images/swca-2026-commodity-panel.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.5rem; }
+            .nav-logo { font-size: 1.3rem; }
+            .nav-links { gap: 1.4rem; }
+            .nav-links a { font-size: 0.93rem; }
+        }
+
+        @media (max-width: 1080px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.15rem; }
+            .nav-links { gap: 1.05rem; }
+            .nav-links a { font-size: 0.88rem; }
+        }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
+    
+        /* --- Meeting photographs -------------------------------------------- */
+        figure.shot {
+            margin: 1.75rem 0 2rem;
+        }
+
+        figure.shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+        }
+
+        figure.shot figcaption {
+            font-size: 0.88rem;
+            color: #5b564f;
+            line-height: 1.55;
+            margin-top: 0.6rem;
+        }
+
+        figure.shot.doc img {
+            max-width: 420px;
+            margin: 0 auto;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .standing-note {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: #5b564f;
+            border-top: 1px solid rgba(0, 0, 0, 0.10);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>Pulling the Plow for Colorado Corn</h1>
+        <p class="dateline">Posted September 25, 2026 &middot; Updated as the work continues</p>
+
+        <p class="lede">Growers ask us who is actually fighting for them. These are the officials who
+            have shown up for Colorado corn &mdash; who took the meetings, moved the bills and did the
+            unglamorous committee work that decides whether a farm program reaches this state or
+            stops at the Kansas line. We are glad to say so publicly, and we stand behind their work.</p>
+
+        <h2>Colorado&rsquo;s Delegation</h2>
+
+        <p><strong>Rep. Lauren Boebert, 4th District.</strong> The 4th carries the eastern plains and
+            most of Colorado&rsquo;s corn ground, and she has treated that as the assignment it is.
+            She brought growers to the table at the
+            <a href="https://www.coloradonewsyourway.com/post/boebert-entertained-agriculture-round-table-at-lamar-cow-palace" target="_blank" rel="noopener">agriculture
+            round table at the Cow Palace in Lamar</a> and listened to the case for a permanent
+            disaster program written into the farm bill &mdash; aid that reaches producers who take a
+            real loss without propping up producers who do not. That is a hard argument to make in
+            Washington and she has carried it. Colorado corn is better represented for it.</p>
+
+        <p><strong>Sen. Michael Bennet.</strong> Few members of the Senate know the farm bill file the
+            way he does. He is a longstanding member of the Senate Committee on Agriculture, Nutrition
+            and Forestry, chairs its Subcommittee on Conservation, Climate, Forestry and Natural
+            Resources, helped negotiate two bipartisan farm bills, and has held more farm bill
+            listening sessions across this state than anyone could reasonably ask of a senator. He has
+            put in the work to understand what Colorado ground actually needs, and Colorado corn has
+            been heard in rooms it would otherwise have missed.</p>
+
+        <p>We do not line up on every vote &mdash; he voted against the Agricultural Act of 2026 in
+            committee this month, and this association wants a bill moved. We say that plainly because
+            growers deserve the whole picture, and because a working relationship that survives
+            disagreement is worth more than one that depends on never having any.</p>
+
+        <h2>The Colorado General Assembly</h2>
+
+        <p><strong>Sen. Cleave Simpson.</strong> A fourth-generation San Luis Valley farmer and
+            rancher who runs the Rio Grande Water Conservation District for a living &mdash; which
+            means when he talks about water, he is describing his own working life, not a briefing
+            memo. He sits on the Senate Agriculture and Natural Resources Committee, where
+            Colorado&rsquo;s pesticide and seed bills get decided, and he carried Colorado
+            agriculture&rsquo;s case to the <em>United States</em> Senate Agriculture Committee when it
+            held its farm bill field hearing in this state. Producers here are fortunate to have
+            somebody in that seat who has actually farmed.</p>
+
+        <h2>Beyond Colorado</h2>
+        <p>Corn policy is not written in Colorado. These are offices whose decisions land squarely on
+            our ground, and whose doors our affiliation with <a href="swca-affiliation.html">SWCA</a>
+            helps open.</p>
+
+        <p><strong>Sen. John Boozman of Arkansas, Chairman of the Senate Agriculture Committee.</strong>
+            He has spent this Congress trying to get a farm bill across a chamber that has not made it
+            easy. He authored the Agricultural Act of 2026 and brought it out of committee on
+            September 16 after an August attempt fell short &mdash; the kind of persistence that
+            separates a bill that passes from a bill that gets talked about. Inside it is the piece
+            that matters most to corn: <strong>permanent, year-round, nationwide E15</strong>, which
+            turns ethanol demand into law instead of a favor granted one summer at a time. Corn
+            growers in this state owe that effort real thanks.</p>
+
+        <p><strong>Sen. John Hoeven of North Dakota.</strong> A consistent friend of the ethanol
+            industry and of the growers who supply it. He cosponsored legislation to allow year-round
+            E15 sales and end the annual waiver scramble that has made retailers skittish about
+            carrying the blend at all. Demand certainty is worth more to a grower than most of what
+            gets called help.</p>
+
+        <p><strong>Rep. G.T. Thompson of Pennsylvania, Chairman of the House Agriculture Committee.</strong>
+            He took on a fight most members leave alone. <strong>H.R. 9535</strong>, the Securing
+            Agriculture&rsquo;s Workforce Act of 2026, would be the first statutory reform of the H-2A
+            program in forty years, and it removes the seasonal requirement that has locked year-round
+            operations out of the program. That provision reaches Colorado dairies and feedyards
+            directly &mdash; and feedyards are corn customers. Labor that keeps a feedyard staffed
+            keeps a buyer for our crop.</p>
+
+        <h2>Where the Board Has Pledged Support</h2>
+        <p>Everything above is about work already done in office. This section is different, and we
+            want members to see the difference plainly.</p>
+
+        <p>The CCGA board voted to pledge this association&rsquo;s support to two candidates for
+            office. That is a decision the board made deliberately, and it is an endorsement &mdash;
+            not a description of a record, and not neutral commentary. We are stating it openly
+            rather than implying it.</p>
+
+        <p><strong>Tom Sell</strong>, Republican nominee for Texas&rsquo; 19th Congressional District.
+            Growers here know his work whether they know his name or not. He co-founded
+            <a href="https://combest-sell.com/" target="_blank" rel="noopener">Combest, Sell &amp;
+            Associates</a>, the firm that carries <a href="swca-affiliation.html">SWCA&rsquo;s</a>
+            case in Washington &mdash; the same representation that took Colorado&rsquo;s T-yield
+            problem to RMA and made the excessive heat argument that expanded our disaster
+            eligibility statewide. Before that he served as deputy chief of staff to the House
+            Agriculture Committee and as director of intergovernmental affairs at USDA. He opened
+            this year&rsquo;s SWCA annual meeting. A fifth-generation West Texan who has spent his
+            career on farm policy would arrive in Congress already knowing where the language gets
+            written.</p>
+
+        <p><strong>Victor Marx</strong>, Republican nominee for Governor of Colorado. The governor
+            signs or vetoes what the legislature sends, appoints the Department of Agriculture and
+            sets the tone for every rulemaking that follows. Growers spent this session fighting a
+            bill that would have required third-party certification before treated seed could go in
+            the ground, and are watching a pollinator executive order that reaches state lands today.
+            Who holds that office matters to the eastern plains.</p>
+
+        <p class="standing-note">We would rather say what we know than pad this out. If you want
+            specifics on either candidate&rsquo;s agricultural commitments, ask the board &mdash;
+            these are the association&rsquo;s positions, arrived at by a vote of its directors, and
+            the directors will stand behind them.</p>
+
+        <h2>Tell Them It Matters</h2>
+        <p>Officials hear from growers when something goes wrong and almost never when something goes
+            right, which is a poor way to encourage more of the second thing. If one of these offices
+            has done something that helped your operation, call and say so. Thank them, and then ask
+            them to finish the job &mdash; a farm bill moved, E15 made permanent, a disaster title
+            written in rather than bolted on after the fact.</p>
+
+        <p>That call takes four minutes and it is the cheapest advocacy any member of this association
+            will ever do.</p>
+
+        <h2>Tell Us Who We Have Missed</h2>
+        <p>This page is maintained, not carved. If an official has gone to bat for Colorado corn
+            &mdash; a vote, a bill, a letter, a hearing, a meeting that mattered &mdash; send it to
+            <a href="mailto:office@cologrowers.com">office@cologrowers.com</a> and we will add them.
+            We would rather this page be too long than too short.</p>
+
+        <p class="standing-note">A note on how to read this page. The sections above &ldquo;Where the
+            Board Has Pledged Support&rdquo; describe officials&rsquo; work in office and are not
+            endorsements; committee assignments, bill numbers and votes in them are from the public
+            record. The support pledged to the two candidates named in that section is an endorsement
+            by vote of the CCGA board, and is identified as such. CCGA administers no USDA program.</p>
+    </article>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>

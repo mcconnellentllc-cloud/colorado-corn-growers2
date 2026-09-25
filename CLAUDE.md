@@ -45,17 +45,23 @@ If the county is decoration rather than a fact, cut it and say Colorado.
 - **Do not publish internal material** — SWCA board minutes, staff work
   product, board packets, panel questions. Use the public underlying data
   instead.
-- **Issue advocacy only.** Ask legislators to act on pending legislation. Never
-  take a position on candidates or elections; several of the officials named on
-  this site appear on ballots.
+- **Endorsements exist, and they are made by the board, not by a page.** As of
+  September 2026 the board voted to pledge CCGA's support to named candidates.
+  That changed a rule this file used to state absolutely, so treat it carefully:
 
-  Naming a candidacy is not taking a position. Where a speaker or official
-  holds one, describe it factually and as the source document does &mdash; a
-  meeting programme listing someone as a party's nominee can be repeated
-  straight. What the site does not do is praise, endorse, urge support, or
-  frame a candidacy as good for growers. Where a candidate appears in
-  coverage, carry the standing line that CCGA takes no position on candidates
-  or elections.
+  - Only the board endorses. Never add, imply, or extend an endorsement to a
+    candidate the board has not voted on, and never soften one it has.
+  - Say it plainly where it appears. An endorsement is labelled as an
+    endorsement, on the page that carries it, and is never left to implication
+    or to a warm adjective.
+  - Keep the two kinds of writing separate. Describing what an officeholder
+    did &mdash; a vote, a bill, a hearing &mdash; is reporting and stays sourced
+    to the public record. Supporting a candidacy is a position and is marked as
+    one.
+  - Do not put a "CCGA takes no position on candidates" line on any page. It is
+    no longer true, and a false disclaimer is worse than none.
+  - Everything else is still issue advocacy: ask legislators to act on pending
+    legislation, and keep the case about the legislation.
 
 ## Palette and contrast
 
