@@ -81,3 +81,60 @@ CREATE TABLE IF NOT EXISTS audit_log (
 
 CREATE INDEX IF NOT EXISTS idx_audit_action_created ON audit_log (action, created_at);
 CREATE INDEX IF NOT EXISTS idx_audit_created        ON audit_log (created_at);
+
+-- ---------------------------------------------------------------------------
+-- Mailing list.
+--
+-- Separate from `members`: that table is the board roster and controls who may
+-- vote. This one is the public list anyone may join and leave. Nothing here
+-- grants access to anything.
+--
+-- A row is only mailable when status = 'active'. Signing up creates a
+-- 'pending' row and sends one confirmation email; the row becomes 'active'
+-- only when the recipient clicks the link in it. That is double opt-in, and it
+-- is what keeps a list deliverable.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS subscribers (
+  id               TEXT PRIMARY KEY,
+  email            TEXT NOT NULL UNIQUE,
+  full_name        TEXT,
+  status           TEXT NOT NULL CHECK (status IN ('pending', 'active', 'unsubscribed')),
+  -- SHA-256 of the confirmation secret, never the secret itself.
+  confirm_hash     TEXT,
+  confirm_expires  TEXT,
+  -- Stable per-subscriber secret used to sign unsubscribe links, so an
+  -- unsubscribe link keeps working without being guessable from the address.
+  unsub_secret     TEXT NOT NULL,
+  source           TEXT,
+  created_at       TEXT NOT NULL,
+  created_ip       TEXT,
+  confirmed_at     TEXT,
+  unsubscribed_at  TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_subscribers_status ON subscribers (status);
+CREATE INDEX IF NOT EXISTS idx_subscribers_created ON subscribers (created_at);
+
+-- Every send, recorded. One row per address per campaign, which also makes it
+-- impossible to send the same campaign to the same person twice.
+CREATE TABLE IF NOT EXISTS mailings (
+  id           TEXT PRIMARY KEY,
+  subject      TEXT NOT NULL,
+  body_html    TEXT NOT NULL,
+  body_text    TEXT NOT NULL,
+  created_at   TEXT NOT NULL,
+  created_by   TEXT,
+  sent_at      TEXT,
+  sent_count   INTEGER NOT NULL DEFAULT 0,
+  failed_count INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS mailing_deliveries (
+  mailing_id    TEXT NOT NULL,
+  subscriber_id TEXT NOT NULL,
+  email         TEXT NOT NULL,
+  status        TEXT NOT NULL CHECK (status IN ('sent', 'failed')),
+  error         TEXT,
+  attempted_at  TEXT NOT NULL,
+  PRIMARY KEY (mailing_id, subscriber_id)
+);

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Console — CCGA</title>
+    <link rel="stylesheet" href="../board/board.css">
+    <style>
+        .console { max-width: 960px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+        .stat-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+        .stat { flex: 1 1 140px; background: #ffffff; border: 1px solid #e3ded4;
+                border-radius: 8px; padding: 1rem 1.15rem; }
+        .stat .n { font-size: 2rem; color: #334539; line-height: 1.1; }
+        .stat .k { font-family: Arial, sans-serif; font-size: 0.8rem; letter-spacing: .08em;
+                   text-transform: uppercase; color: #5b564f; margin-top: .35rem; }
+        .panel { background: #ffffff; border: 1px solid #e3ded4; border-radius: 8px;
+                 padding: 1.5rem; margin-bottom: 1.75rem; }
+        .panel h2 { margin: 0 0 1rem; font-weight: 400; color: #334539; font-size: 1.3rem; }
+        label { display: block; font-family: Arial, sans-serif; font-size: .85rem;
+                color: #5b564f; margin: 0 0 .35rem; }
+        input[type=text], input[type=email], textarea {
+            width: 100%; padding: .6rem .7rem; border: 1px solid #cfc8bb; border-radius: 5px;
+            font-family: inherit; font-size: 1rem; color: #37342f; background: #fdfcfa;
+            margin-bottom: 1rem; }
+        textarea { min-height: 150px; font-family: ui-monospace, Menlo, monospace; font-size: .9rem; }
+        .row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; }
+        table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+        th, td { text-align: left; padding: .55rem .5rem; border-bottom: 1px solid #ece7dd;
+                 vertical-align: top; }
+        th { font-family: Arial, sans-serif; font-size: .75rem; letter-spacing: .07em;
+             text-transform: uppercase; color: #5b564f; }
+        .muted { color: #5b564f; font-size: .88rem; }
+        .danger-note { background: #fdf6e3; border-left: 4px solid #8a6a22; padding: .85rem 1rem;
+                       border-radius: 5px; color: #5a4415; font-size: .92rem; margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <header class="portal-head">
+        <div class="portal-head-inner">
+            <span class="wordmark">CCGA Staff Console</span>
+            <span id="whoami" class="who" hidden></span>
+        </div>
+    </header>
+
+    <main class="console">
+        <div id="notice" class="notice" hidden></div>
+
+        <!-- Not signed in -->
+        <section id="signInPanel" class="panel" hidden>
+            <h2>Sign in</h2>
+            <p class="muted" style="margin-bottom:1rem;">This console uses the same sign-in link as
+                the board portal. Enter the address on your board record and we will email you a
+                link. Nothing is sent to an address that is not on the roster, and the response
+                looks the same either way.</p>
+            <label for="email">Email address</label>
+            <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
+            <button class="btn" id="sendLink">Email me a sign-in link</button>
+        </section>
+
+        <!-- Signed in, not an admin -->
+        <section id="notAdminPanel" class="panel" hidden>
+            <h2>Signed in, but not a staff account</h2>
+            <p class="muted">Your board account does not carry admin rights, which is what this
+                console requires. If that is wrong, ask another admin to set the flag on your
+                record.</p>
+            <p style="margin-top:1rem;"><a href="../board/portal.html">Go to the board portal</a></p>
+        </section>
+
+        <!-- Admin console -->
+        <section id="console" hidden>
+            <div class="stat-row">
+                <div class="stat"><div class="n" id="statActive">–</div><div class="k">Confirmed</div></div>
+                <div class="stat"><div class="n" id="statPending">–</div><div class="k">Awaiting confirmation</div></div>
+                <div class="stat"><div class="n" id="statUnsub">–</div><div class="k">Unsubscribed</div></div>
+            </div>
+
+            <section class="panel">
+                <h2 id="editorTitle">New mailing</h2>
+                <input type="hidden" id="mailingId">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" placeholder="What the subject line says in an inbox">
+                <label for="bodyText">Plain text version</label>
+                <textarea id="bodyText" placeholder="The message as plain text. Every mail client can read this one."></textarea>
+                <label for="bodyHtml">HTML version</label>
+                <textarea id="bodyHtml" placeholder="&lt;p&gt;The same message, with paragraphs.&lt;/p&gt;"></textarea>
+                <div class="row">
+                    <button class="btn" id="saveDraft">Save draft</button>
+                    <button class="btn btn-quiet" id="sendTest">Send test to me</button>
+                    <button class="btn btn-quiet" id="newDraft">Start a new one</button>
+                </div>
+                <p class="muted" style="margin:1rem 0 0;">Write both versions. The plain text one is
+                    what reaches people whose mail client blocks HTML, and a message with only one of
+                    the two is more likely to be filtered.</p>
+            </section>
+
+            <section class="panel">
+                <h2>Mailings</h2>
+                <div class="danger-note">Sending is not reversible. Send a test to yourself first and
+                    read it in a real inbox. A mailing that has gone out cannot be edited, because it
+                    is the record of what was sent.</div>
+                <table>
+                    <thead>
+                        <tr><th>Subject</th><th>Created</th><th>Sent</th><th>Delivered</th><th></th></tr>
+                    </thead>
+                    <tbody id="mailingRows">
+                        <tr><td colspan="5" class="muted">Loading…</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <p class="muted"><a href="../board/portal.html">Board portal</a> ·
+                <a href="#" id="signOut">Sign out</a></p>
+        </section>
+    </main>
+
+    <script src="../board/config.js"></script>
+    <script src="../board/board.js"></script>
+    <script src="staff.js"></script>
+</body>
+</html>
