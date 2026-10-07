@@ -367,7 +367,11 @@
         }
 
         .sponsor-highlight strong {
-            color: #d3ae5c;
+            /* The band under this is #334539 washed with 10% white, which lands
+               at rgb(71,88,77) -- light enough that the standard #d3ae5c gold
+               falls to 3.62:1. A lighter gold restores AA on this one surface
+               without touching the gold used everywhere else. */
+            color: #e3c782;
         }
 
         .sponsor-btn {
