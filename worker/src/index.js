@@ -27,6 +27,11 @@
 //   POST /admin/mailings/test   send one copy to the signed-in admin
 //   POST /admin/mailings/send   send a draft to the active list
 //   POST /admin/mailings/resend retry only the addresses that failed
+//
+// The wire (admin session required). Inbound newsletters arrive on the email()
+// handler at the bottom of this file, not over HTTP:
+//   GET  /admin/wire/leads      assignments derived from inbound mail
+//   POST /admin/wire/leads/save update a lead's source, angle, notes, status
 
 import { corsHeaders, preflight } from './lib/cors.js';
 import { uuid } from './lib/crypto.js';
@@ -50,6 +55,8 @@ import {
   unsubscribeLink,
 } from './lib/subscribers.js';
 import { checkAuthRequestLimits, checkBroadcastCooldown } from './lib/ratelimit.js';
+import { streamToString } from './lib/mime.js';
+import { createLead, recentLeads, storeEmail } from './lib/wire.js';
 import {
   clearedCookieHeader,
   createSession,
@@ -798,6 +805,61 @@ async function handleAdminMailingResend(request, env) {
   return json(request, { ok: true, ...result });
 }
 
+async function handleAdminWireLeads(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+  return json(request, { ok: true, leads: await recentLeads(env) });
+}
+
+async function handleAdminWireLeadSave(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const id = String(body.id ?? '');
+  const row = await env.DB.prepare('SELECT * FROM leads WHERE id = ?').bind(id).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  const sourceUrl = body.source_url === undefined ? row.source_url : (String(body.source_url).trim() || null);
+  const status = String(body.status ?? row.status);
+
+  // The no-plagiarism rule, enforced where it cannot be skipped. A lead only
+  // becomes publishable once somebody actually went and read the source.
+  if ((status === 'ready' || status === 'published') && !(sourceUrl && row.source_fetched_at)) {
+    return json(
+      request,
+      { error: 'source_required', detail: 'A lead needs a primary source that has been fetched before it can be marked ready.' },
+      { status: 409 },
+    );
+  }
+
+  let domain = row.source_domain;
+  if (sourceUrl && sourceUrl !== row.source_url) {
+    try { domain = new URL(sourceUrl).hostname.replace(/^www\./, ''); } catch { domain = null; }
+  }
+
+  await env.DB.prepare(
+    `UPDATE leads
+        SET topic = ?, source_url = ?, source_domain = ?, colorado_angle = ?,
+            notes = ?, status = ?, updated_at = ?
+      WHERE id = ?`,
+  )
+    .bind(
+      String(body.topic ?? row.topic).slice(0, 300),
+      sourceUrl,
+      domain,
+      body.colorado_angle === undefined ? row.colorado_angle : String(body.colorado_angle).slice(0, 2000),
+      body.notes === undefined ? row.notes : String(body.notes).slice(0, 2000),
+      status,
+      nowIso(),
+      id,
+    )
+    .run();
+
+  await audit(env, { actorEmail: auth.member.email, action: 'wire.lead.save', detail: id, ip: clientIp(request) });
+  return json(request, { ok: true });
+}
+
 const ROUTES = [
   ['POST', '/auth/request', handleAuthRequest],
   ['GET', '/auth/verify', handleAuthVerify],
@@ -820,9 +882,57 @@ const ROUTES = [
   ['POST', '/admin/mailings/test', handleAdminMailingTest],
   ['POST', '/admin/mailings/send', handleAdminMailingSend],
   ['POST', '/admin/mailings/resend', handleAdminMailingResend],
+
+  ['GET', '/admin/wire/leads', handleAdminWireLeads],
+  ['POST', '/admin/wire/leads/save', handleAdminWireLeadSave],
 ];
 
 export default {
+  /**
+   * Inbound mail, via Cloudflare Email Routing.
+   *
+   * What arrives here is somebody else's paid newsletter, forwarded by a board
+   * member. It is stored as an assignment and never as copy: see the comment at
+   * the top of lib/wire.js and the CHECK constraint on `leads`.
+   *
+   * Only addresses on WIRE_ALLOWED_SENDERS are accepted. An open ingest address
+   * is an open door into the association's publishing pipeline.
+   */
+  async email(message, env, ctx) {
+    const from = String(message.from || '').toLowerCase();
+    const allowed = String(env.WIRE_ALLOWED_SENDERS || '')
+      .split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+
+    if (allowed.length && !allowed.includes(from)) {
+      console.log(`wire: rejected mail from ${from}`);
+      message.setReject('Address not accepted at this endpoint');
+      return;
+    }
+
+    try {
+      const raw = await streamToString(message.raw);
+      const stored = await storeEmail(env, { raw, from, to: message.to });
+
+      if (stored.duplicate) {
+        console.log(`wire: duplicate message, stored once as ${stored.id}`);
+        return;
+      }
+
+      const lead = await createLead(env, {
+        emailId: stored.id,
+        subject: stored.subject,
+        text: stored.text,
+      });
+
+      console.log(`wire: stored ${stored.id}, lead ${lead.id}, ${lead.primary.length} primary source(s)`);
+      await audit(env, { actorEmail: from, action: 'wire.received', detail: stored.subject || stored.id });
+    } catch (err) {
+      // Never reject on a parse failure: losing the mail is worse than storing
+      // it badly, and a human can always read it in the console.
+      console.error('wire: ingest failed', err);
+    }
+  },
+
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, '') || '/';

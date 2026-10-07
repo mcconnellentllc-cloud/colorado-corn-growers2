@@ -138,3 +138,67 @@ CREATE TABLE IF NOT EXISTS mailing_deliveries (
   attempted_at  TEXT NOT NULL,
   PRIMARY KEY (mailing_id, subscriber_id)
 );
+
+-- ---------------------------------------------------------------------------
+-- The wire: inbound policy newsletters, treated as assignments.
+--
+-- READ THIS BEFORE WRITING ANYTHING THAT SELECTS FROM wire_emails.
+--
+-- These rows hold third-party newsletter content -- Jim Wiesemeyer's Pro Farmer
+-- analysis, forwarded to us by a board member. It is paid subscriber material.
+-- Facts in it are not ours to own and not his to own either, but his expression
+-- and his selection of the day's items are his.
+--
+-- So: wire_emails is an INPUT, never an output. Nothing in body_text or
+-- body_html is ever published, quoted, or paraphrased onto the site. What the
+-- email does is tell us what to go look at. The story gets written from the
+-- primary source in `leads.source_url`, in our own words, with the Colorado
+-- angle that a national newsletter would not carry.
+--
+-- The schema enforces the habit: a lead cannot reach 'ready' without a
+-- source_url that was actually fetched.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS wire_emails (
+  id            TEXT PRIMARY KEY,
+  message_id    TEXT UNIQUE,
+  from_address  TEXT NOT NULL,
+  to_address    TEXT,
+  subject       TEXT,
+  sent_at       TEXT,
+  received_at   TEXT NOT NULL,
+  -- Who the forward originally came from, pulled out of the forwarded header
+  -- block. Recorded so attribution is never guesswork.
+  original_from TEXT,
+  body_text     TEXT,
+  raw_size      INTEGER,
+  status        TEXT NOT NULL CHECK (status IN ('new', 'triaged', 'ignored'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_wire_emails_received ON wire_emails (received_at);
+CREATE INDEX IF NOT EXISTS idx_wire_emails_status ON wire_emails (status);
+
+-- One assignment. Derived from an email, but it is not the email.
+CREATE TABLE IF NOT EXISTS leads (
+  id            TEXT PRIMARY KEY,
+  email_id      TEXT,
+  -- Our own words for what to go investigate, never the newsletter's headline
+  -- verbatim where that can be avoided.
+  topic         TEXT NOT NULL,
+  -- The primary source: USDA, EPA, Federal Register, a committee page. A lead
+  -- with no source_url is a rumour, and the status check below keeps it one.
+  source_url    TEXT,
+  source_domain TEXT,
+  source_fetched_at TEXT,
+  source_title  TEXT,
+  colorado_angle TEXT,
+  status        TEXT NOT NULL CHECK (status IN ('candidate', 'sourced', 'ready', 'published', 'dropped')),
+  created_at    TEXT NOT NULL,
+  updated_at    TEXT NOT NULL,
+  notes         TEXT,
+  -- A lead is only publishable once somebody or something actually retrieved
+  -- the primary source. This is the structural half of the no-plagiarism rule.
+  CHECK (status NOT IN ('ready', 'published') OR (source_url IS NOT NULL AND source_fetched_at IS NOT NULL))
+);
+
+CREATE INDEX IF NOT EXISTS idx_leads_status ON leads (status);
+CREATE INDEX IF NOT EXISTS idx_leads_email ON leads (email_id);

@@ -52,5 +52,10 @@ MAIL_REPLY_TO = "board@cologrowers.com"
 # separation.
 LIST_MAIL_FROM = "Colorado Corn Growers <news@mail.cologrowers.com>"
 
+# The wire: who may send mail into the ingest address. Comma separated, matched
+# against the envelope sender. An ingest address that accepts mail from anyone
+# is an open door into the association's publishing pipeline, so leave this set.
+WIRE_ALLOWED_SENDERS = "dave@example.com"
+
 [observability]
 enabled = true
