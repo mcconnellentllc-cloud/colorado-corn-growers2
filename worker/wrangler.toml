@@ -4,6 +4,7 @@
 # `wrangler secret put` (see .env.example and README.md):
 #   RESEND_API_KEY
 #   SESSION_SECRET
+#   WIRE_INBOUND_SECRET   (only if Power Automate pushes to /wire/inbound)
 
 name = "ccga-board-vote"
 main = "src/index.js"
@@ -56,6 +57,10 @@ LIST_MAIL_FROM = "Colorado Corn Growers <news@mail.cologrowers.com>"
 # against the envelope sender. An ingest address that accepts mail from anyone
 # is an open door into the association's publishing pipeline, so leave this set.
 WIRE_ALLOWED_SENDERS = "dave@example.com"
+
+# Label recorded as the "to" address on items pushed over HTTP rather than
+# routed as mail. Cosmetic; it just makes the audit trail readable.
+WIRE_INBOUND_LABEL = "wire@cologrowers.com"
 
 [observability]
 enabled = true

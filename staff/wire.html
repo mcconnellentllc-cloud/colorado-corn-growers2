@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wire — CCGA Staff</title>
+    <link rel="stylesheet" href="../board/board.css">
+    <link rel="stylesheet" href="staff.css">
+    <style>
+        .console { max-width: 1040px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+        .rule-note { background: #fdf6e3; border-left: 4px solid #8a6a22; padding: 1rem 1.15rem;
+                     border-radius: 5px; color: #5a4415; font-size: .95rem; margin-bottom: 1.75rem;
+                     line-height: 1.55; }
+        .rule-note strong { color: #4a3610; }
+        .lead { background: #ffffff; border: 1px solid #e3ded4; border-radius: 8px;
+                padding: 1.35rem 1.5rem; margin-bottom: 1.15rem; }
+        .lead h3 { margin: 0 0 .5rem; font-weight: 400; color: #334539; font-size: 1.18rem; }
+        .meta { font-family: Arial, sans-serif; font-size: .8rem; color: #5b564f; margin-bottom: .9rem; }
+        .pill { display: inline-block; font-family: Arial, sans-serif; font-size: .7rem;
+                letter-spacing: .07em; text-transform: uppercase; padding: .2rem .5rem;
+                border-radius: 3px; margin-right: .4rem; }
+        .pill-candidate { background: #efe9dc; color: #5b564f; }
+        .pill-sourced   { background: #dde8de; color: #2f4535; }
+        .pill-ready     { background: #334539; color: #ffffff; }
+        .pill-published { background: #6a8971; color: #ffffff; }
+        .pill-dropped   { background: #e8e4dc; color: #7a7468; }
+        .pill-nosource  { background: #f6e0c8; color: #6b3f1d; }
+        label { display: block; font-family: Arial, sans-serif; font-size: .8rem;
+                color: #5b564f; margin: .75rem 0 .3rem; }
+        input[type=text], input[type=email], textarea, select {
+            width: 100%; padding: .55rem .65rem; border: 1px solid #cfc8bb; border-radius: 5px;
+            font-family: inherit; font-size: .95rem; color: #37342f; background: #fdfcfa; }
+        textarea { min-height: 70px; }
+        .row { display: flex; gap: .6rem; flex-wrap: wrap; align-items: center; margin-top: .9rem; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+        @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+        .muted { color: #5b564f; font-size: .88rem; }
+        details { margin-top: .9rem; }
+        summary { cursor: pointer; font-family: Arial, sans-serif; font-size: .82rem; color: #5b564f; }
+        .source-text { background: #f7f5f0; border: 1px solid #e8e3d9; border-radius: 5px;
+                       padding: .85rem 1rem; margin-top: .6rem; font-size: .9rem;
+                       white-space: pre-wrap; max-height: 260px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <header class="portal-head">
+        <div class="portal-head-inner">
+            <span class="wordmark">The Wire</span>
+            <span id="whoami" class="who" hidden></span>
+        </div>
+    </header>
+
+    <main class="console">
+        <div id="notice" class="notice" hidden></div>
+
+        <section id="signInPanel" class="lead" hidden>
+            <h3>Sign in</h3>
+            <p class="muted">Same sign-in link as the board portal. Enter the address on your board
+                record.</p>
+            <label for="email">Email address</label>
+            <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
+            <div class="row"><button class="btn" id="sendLink">Email me a sign-in link</button></div>
+        </section>
+
+        <section id="notAdminPanel" class="lead" hidden>
+            <h3>Signed in, but not a staff account</h3>
+            <p class="muted">This console needs admin rights on your board record.</p>
+        </section>
+
+        <section id="console" hidden>
+            <div class="rule-note">
+                <strong>These are assignments, not copy.</strong> The newsletter tells us what
+                happened; it is somebody else's paid analysis and nothing from it goes on the site.
+                Open the primary source, read it, and write the Colorado angle in our own words.
+                A lead cannot be marked ready until a source has actually been fetched &mdash; the
+                database refuses it.
+            </div>
+
+            <div id="leadRows"><p class="muted">Loading…</p></div>
+
+            <p class="muted" style="margin-top:2rem;">
+                <a href="index.html">Mailing list console</a> ·
+                <a href="../board/portal.html">Board portal</a> ·
+                <a href="#" id="signOut">Sign out</a></p>
+        </section>
+    </main>
+
+    <script src="../board/config.js"></script>
+    <script src="../board/board.js"></script>
+    <script src="wire.js"></script>
+</body>
+</html>

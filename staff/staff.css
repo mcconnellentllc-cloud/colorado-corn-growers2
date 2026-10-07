@@ -1,0 +1,46 @@
+/* Chrome shared by the staff consoles.
+ *
+ * /board/board.css carries the portal's look and the .btn and .notice styles
+ * these pages reuse. The header bar here is staff-specific, so it lives in its
+ * own file rather than being bolted onto the board stylesheet.
+ */
+
+.portal-head {
+    background: #1b1a17;
+    border-bottom: 1px solid rgba(211, 174, 92, 0.25);
+    padding: 0.9rem 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.portal-head-inner {
+    max-width: 1040px;
+    margin: 0 auto;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.portal-head .wordmark {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.15rem;
+    color: #d3ae5c;
+    letter-spacing: 0.01em;
+}
+
+.portal-head .who {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.82rem;
+    color: #b8b1a4;
+}
+
+.btn-quiet {
+    background: transparent;
+    color: #d3ae5c;
+    border: 1px solid rgba(211, 174, 92, 0.45);
+}
+
+.btn-quiet:hover {
+    background: rgba(211, 174, 92, 0.12);
+}
