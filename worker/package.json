@@ -10,7 +10,7 @@
     "tail": "wrangler tail",
     "db:schema": "wrangler d1 execute ccga_board --remote --file=./schema.sql",
     "db:seed": "wrangler d1 execute ccga_board --remote --file=./seed.sql",
-    "test": "node --test test/"
+    "test": "node --test"
   },
   "devDependencies": {
     "wrangler": "^4.0.0"
