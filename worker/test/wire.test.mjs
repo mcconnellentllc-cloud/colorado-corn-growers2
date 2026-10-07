@@ -164,3 +164,13 @@ test('htmlToText keeps hrefs so links survive', () => {
   const out = htmlToText('<p>See <a href="https://www.fsa.usda.gov/x">the notice</a>.</p>');
   assert.match(out, /fsa\.usda\.gov\/x/);
 });
+
+test('an HTML email body flattens to text with its links intact', () => {
+  const html = '<html><body><p>EPA sent the plan to OMB.</p>'
+    + '<p>See <a href="https://www.epa.gov/rfs/notice">the notice</a>.</p></body></html>';
+  const out = htmlToText(html);
+  assert.match(out, /EPA sent the plan to OMB/);
+  assert.match(out, /epa\.gov\/rfs\/notice/, 'the href must survive flattening');
+  assert.doesNotMatch(out, /<p>|<a /, 'no markup should remain');
+  assert.ok(extractUrls(out).some((u) => u.includes('epa.gov')), 'the URL must still be extractable');
+});

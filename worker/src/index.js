@@ -57,7 +57,7 @@ import {
   unsubscribeLink,
 } from './lib/subscribers.js';
 import { checkAuthRequestLimits, checkBroadcastCooldown } from './lib/ratelimit.js';
-import { streamToString } from './lib/mime.js';
+import { htmlToText, streamToString } from './lib/mime.js';
 import { createLead, isPrimary, recentLeads, storeEmail } from './lib/wire.js';
 import {
   clearedCookieHeader,
@@ -830,8 +830,14 @@ async function handleWireInbound(request, env) {
 
   const body = await request.json().catch(() => ({}));
   const subject = String(body.subject ?? '').trim();
-  const text = String(body.body ?? body.body_text ?? '').trim();
   const from = normalizeEmail(body.from ?? '');
+
+  // Outlook hands Power Automate an HTML body by default, so what arrives here
+  // is usually markup rather than text. Detect and flatten it instead of
+  // storing tags and calling them a newsletter.
+  const rawBody = String(body.body ?? body.body_text ?? '').trim();
+  const looksHtml = /<\/?(html|body|div|p|br|table|span|a)\b/i.test(rawBody);
+  const text = looksHtml ? htmlToText(rawBody).trim() : rawBody;
 
   if (!subject && !text) {
     return json(request, { error: 'subject_or_body_required' }, { status: 400 });
