@@ -533,21 +533,29 @@
         /* --- Navigation ------------------------------------------------- */
         /* Between the mobile breakpoint and roughly 1360px the wordmark ran
            straight into the first link ("Colorado Corn GrowersHome"). Tighten
-           the spacing through that band instead of stacking the bar early. */
+           the spacing through that band instead of stacking the bar early.
+           Re-measured at nine items across 769-1920px when The Record was
+           added; the gaps below are what keeps the bar on one row. */
         .nav-container { gap: 2rem; }
-        .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; gap: 1.5rem; }
 
         @media (max-width: 1360px) and (min-width: 769px) {
-            .nav-container { padding: 0 1.5rem; gap: 1.5rem; }
-            .nav-logo { font-size: 1.3rem; }
-            .nav-links { gap: 1.4rem; }
-            .nav-links a { font-size: 0.93rem; }
+            .nav-container { padding: 0 1.5rem; gap: 1.25rem; }
+            .nav-logo { font-size: 1.25rem; }
+            .nav-links { gap: 1.1rem; }
+            .nav-links a { font-size: 0.9rem; }
         }
 
-        @media (max-width: 1080px) and (min-width: 769px) {
-            .nav-logo { font-size: 1.15rem; }
-            .nav-links { gap: 1.05rem; }
-            .nav-links a { font-size: 0.88rem; }
+        @media (min-width: 1361px) {
+            .nav-logo { font-size: 1.45rem; }
+            .nav-links { gap: 1.2rem; }
+            .nav-links a { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 1200px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.1rem; }
+            .nav-links { gap: 0.85rem; }
+            .nav-links a { font-size: 0.85rem; }
         }
     
         /* --- Board Portal link -------------------------------------------- */
@@ -667,6 +675,7 @@
                 <li><a href="Pages/about.html">About</a></li>
                 <li><a href="Pages/meet-our-board.html">Meet Our Board</a></li>
                 <li><a class="nav-link" href="Pages/announcements.html">Announcements</a></li>
+                <li><a href="Pages/the-record.html">The Record</a></li>
                 <li><a href="Pages/become-a-sponsor.html">Become a Sponsor</a></li>
                 <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank">Become a Member</a></li>
                 <li><a href="#contact">Contact Us</a></li>
