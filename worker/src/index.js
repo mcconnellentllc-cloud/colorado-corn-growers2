@@ -27,9 +27,16 @@
 //   POST /admin/mailings/test   send one copy to the signed-in admin
 //   POST /admin/mailings/send   send a draft to the active list
 //   POST /admin/mailings/resend retry only the addresses that failed
+//
+// The wire (admin session required). Inbound newsletters arrive on the email()
+// handler at the bottom of this file, not over HTTP:
+//   POST /wire/inbound          Power Automate / Outlook push (shared secret)
+//   GET  /admin/wire/leads      assignments derived from inbound mail
+//   POST /admin/wire/leads/save update a lead's source, angle, notes, status
+//   POST /admin/wire/leads/fetch retrieve the primary source and record it
 
 import { corsHeaders, preflight } from './lib/cors.js';
-import { uuid } from './lib/crypto.js';
+import { timingSafeEqual, uuid } from './lib/crypto.js';
 import {
   audit,
   clientIp,
@@ -50,6 +57,8 @@ import {
   unsubscribeLink,
 } from './lib/subscribers.js';
 import { checkAuthRequestLimits, checkBroadcastCooldown } from './lib/ratelimit.js';
+import { htmlToText, streamToString } from './lib/mime.js';
+import { createLead, isPrimary, recentLeads, storeEmail } from './lib/wire.js';
 import {
   clearedCookieHeader,
   createSession,
@@ -798,6 +807,211 @@ async function handleAdminMailingResend(request, env) {
   return json(request, { ok: true, ...result });
 }
 
+/**
+ * Inbound from Outlook, via Power Automate.
+ *
+ * The email() handler below takes mail that Cloudflare routes to us. This takes
+ * the same content pushed over HTTPS instead, which is what a Power Automate
+ * flow on the office mailbox can do without any forwarding rule.
+ *
+ * Authenticated by a shared secret in a header, compared in constant time. It
+ * is a bearer secret and nothing more: it authorises adding an assignment to
+ * the queue, which a human still has to triage and source before anything can
+ * be published.
+ */
+async function handleWireInbound(request, env) {
+  const presented = request.headers.get('X-Wire-Secret') || '';
+  const expected = env.WIRE_INBOUND_SECRET || '';
+
+  if (!expected) return json(request, { error: 'not_configured' }, { status: 503 });
+  if (!timingSafeEqual(presented, expected)) {
+    return json(request, { error: 'unauthorized' }, { status: 401 });
+  }
+
+  const body = await request.json().catch(() => ({}));
+  const subject = String(body.subject ?? '').trim();
+  const from = normalizeEmail(body.from ?? '');
+
+  // Outlook hands Power Automate an HTML body by default, so what arrives here
+  // is usually markup rather than text. Detect and flatten it instead of
+  // storing tags and calling them a newsletter.
+  const rawBody = String(body.body ?? body.body_text ?? '').trim();
+  const looksHtml = /<\/?(html|body|div|p|br|table|span|a)\b/i.test(rawBody);
+  const text = looksHtml ? htmlToText(rawBody).trim() : rawBody;
+
+  if (!subject && !text) {
+    return json(request, { error: 'subject_or_body_required' }, { status: 400 });
+  }
+
+  // Rebuild a minimal RFC 822 message so this path and the email() path share
+  // exactly one parser. Two parsers would drift, and the drift would be silent.
+  const raw = [
+    `Message-ID: ${body.message_id || `<${uuid()}@wire.cologrowers.com>`}`,
+    `From: ${from || 'unknown@unknown'}`,
+    `To: ${env.WIRE_INBOUND_LABEL || 'wire@cologrowers.com'}`,
+    `Subject: ${subject}`,
+    `Date: ${body.received_at || new Date().toUTCString()}`,
+    'Content-Type: text/plain; charset="utf-8"',
+    '',
+    text,
+  ].join('\r\n');
+
+  const stored = await storeEmail(env, { raw, from, to: env.WIRE_INBOUND_LABEL || 'wire@cologrowers.com' });
+  if (stored.duplicate) return json(request, { ok: true, duplicate: true, id: stored.id });
+
+  const lead = await createLead(env, { emailId: stored.id, subject: stored.subject, text: stored.text });
+  await audit(env, { actorEmail: from || 'wire', action: 'wire.received.http', detail: stored.subject || stored.id });
+
+  return json(request, {
+    ok: true,
+    id: stored.id,
+    lead_id: lead.id,
+    primary_sources: lead.primary.length,
+  });
+}
+
+async function handleAdminWireLeads(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+  return json(request, { ok: true, leads: await recentLeads(env) });
+}
+
+async function handleAdminWireLeadSave(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const id = String(body.id ?? '');
+  const row = await env.DB.prepare('SELECT * FROM leads WHERE id = ?').bind(id).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  const sourceUrl = body.source_url === undefined ? row.source_url : (String(body.source_url).trim() || null);
+  const status = String(body.status ?? row.status);
+
+  // The no-plagiarism rule, enforced where it cannot be skipped. A lead only
+  // becomes publishable once somebody actually went and read the source.
+  if ((status === 'ready' || status === 'published') && !(sourceUrl && row.source_fetched_at)) {
+    return json(
+      request,
+      { error: 'source_required', detail: 'A lead needs a primary source that has been fetched before it can be marked ready.' },
+      { status: 409 },
+    );
+  }
+
+  let domain = row.source_domain;
+  if (sourceUrl && sourceUrl !== row.source_url) {
+    try { domain = new URL(sourceUrl).hostname.replace(/^www\./, ''); } catch { domain = null; }
+  }
+
+  await env.DB.prepare(
+    `UPDATE leads
+        SET topic = ?, source_url = ?, source_domain = ?, colorado_angle = ?,
+            notes = ?, status = ?, updated_at = ?
+      WHERE id = ?`,
+  )
+    .bind(
+      String(body.topic ?? row.topic).slice(0, 300),
+      sourceUrl,
+      domain,
+      body.colorado_angle === undefined ? row.colorado_angle : String(body.colorado_angle).slice(0, 2000),
+      body.notes === undefined ? row.notes : String(body.notes).slice(0, 2000),
+      status,
+      nowIso(),
+      id,
+    )
+    .run();
+
+  await audit(env, { actorEmail: auth.member.email, action: 'wire.lead.save', detail: id, ip: clientIp(request) });
+  return json(request, { ok: true });
+}
+
+/**
+ * Retrieve a lead's primary source.
+ *
+ * This is what makes source_fetched_at mean something. The Worker actually goes
+ * and gets the page: if the URL is dead, or is not on an agency domain, the
+ * lead does not become publishable. A button that simply set a timestamp would
+ * be a honour system with extra steps.
+ */
+async function handleAdminWireLeadFetch(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const body = await request.json().catch(() => ({}));
+  const id = String(body.id ?? '');
+  const row = await env.DB.prepare('SELECT * FROM leads WHERE id = ?').bind(id).first();
+  if (!row) return json(request, { error: 'not_found' }, { status: 404 });
+
+  const url = String(body.source_url ?? row.source_url ?? '').trim();
+  if (!url) return json(request, { error: 'source_url_required' }, { status: 400 });
+
+  let parsed;
+  try { parsed = new URL(url); } catch {
+    return json(request, { error: 'bad_url', detail: 'That is not a URL.' }, { status: 400 });
+  }
+  if (parsed.protocol !== 'https:') {
+    return json(request, { error: 'https_required', detail: 'Primary sources are fetched over HTTPS only.' }, { status: 400 });
+  }
+
+  let response;
+  try {
+    response = await fetch(parsed.toString(), {
+      redirect: 'follow',
+      headers: { 'User-Agent': 'CCGA-wire/1.0 (+https://www.cologrowers.com)' },
+      signal: AbortSignal.timeout(15000),
+    });
+  } catch (err) {
+    return json(
+      request,
+      { error: 'fetch_failed', detail: `Could not retrieve that page: ${String(err?.message || err)}` },
+      { status: 502 },
+    );
+  }
+
+  if (!response.ok) {
+    return json(
+      request,
+      { error: 'fetch_failed', detail: `The source returned ${response.status}. A dead link is not a source.` },
+      { status: 502 },
+    );
+  }
+
+  // Title is a convenience for the triage screen, not content for the site.
+  const html = (await response.text()).slice(0, 200000);
+  const titleMatch = html.match(/<title[^>]*>([\s\S]{0,300}?)<\/title>/i);
+  const title = titleMatch ? titleMatch[1].replace(/\s+/g, ' ').trim().slice(0, 300) : null;
+
+  const domain = parsed.hostname.replace(/^www\./, '');
+  const primary = isPrimary(parsed.toString());
+
+  await env.DB.prepare(
+    `UPDATE leads
+        SET source_url = ?, source_domain = ?, source_fetched_at = ?, source_title = ?,
+            status = CASE WHEN status = 'candidate' THEN 'sourced' ELSE status END,
+            updated_at = ?
+      WHERE id = ?`,
+  )
+    .bind(parsed.toString(), domain, nowIso(), title, nowIso(), id)
+    .run();
+
+  await audit(env, {
+    actorEmail: auth.member.email,
+    action: 'wire.lead.fetch',
+    detail: `${id} ${domain} primary=${primary}`,
+    ip: clientIp(request),
+  });
+
+  return json(request, {
+    ok: true,
+    title,
+    domain,
+    primary,
+    // Said plainly rather than silently allowed: a non-agency source is not
+    // forbidden, but somebody should know they are leaning on one.
+    warning: primary ? null : `${domain} is not on the primary-source list. Prefer an agency page where one exists.`,
+  });
+}
+
 const ROUTES = [
   ['POST', '/auth/request', handleAuthRequest],
   ['GET', '/auth/verify', handleAuthVerify],
@@ -820,9 +1034,59 @@ const ROUTES = [
   ['POST', '/admin/mailings/test', handleAdminMailingTest],
   ['POST', '/admin/mailings/send', handleAdminMailingSend],
   ['POST', '/admin/mailings/resend', handleAdminMailingResend],
+
+  ['POST', '/wire/inbound', handleWireInbound],
+  ['GET', '/admin/wire/leads', handleAdminWireLeads],
+  ['POST', '/admin/wire/leads/save', handleAdminWireLeadSave],
+  ['POST', '/admin/wire/leads/fetch', handleAdminWireLeadFetch],
 ];
 
 export default {
+  /**
+   * Inbound mail, via Cloudflare Email Routing.
+   *
+   * What arrives here is somebody else's paid newsletter, forwarded by a board
+   * member. It is stored as an assignment and never as copy: see the comment at
+   * the top of lib/wire.js and the CHECK constraint on `leads`.
+   *
+   * Only addresses on WIRE_ALLOWED_SENDERS are accepted. An open ingest address
+   * is an open door into the association's publishing pipeline.
+   */
+  async email(message, env, ctx) {
+    const from = String(message.from || '').toLowerCase();
+    const allowed = String(env.WIRE_ALLOWED_SENDERS || '')
+      .split(',').map((s) => s.trim().toLowerCase()).filter(Boolean);
+
+    if (allowed.length && !allowed.includes(from)) {
+      console.log(`wire: rejected mail from ${from}`);
+      message.setReject('Address not accepted at this endpoint');
+      return;
+    }
+
+    try {
+      const raw = await streamToString(message.raw);
+      const stored = await storeEmail(env, { raw, from, to: message.to });
+
+      if (stored.duplicate) {
+        console.log(`wire: duplicate message, stored once as ${stored.id}`);
+        return;
+      }
+
+      const lead = await createLead(env, {
+        emailId: stored.id,
+        subject: stored.subject,
+        text: stored.text,
+      });
+
+      console.log(`wire: stored ${stored.id}, lead ${lead.id}, ${lead.primary.length} primary source(s)`);
+      await audit(env, { actorEmail: from, action: 'wire.received', detail: stored.subject || stored.id });
+    } catch (err) {
+      // Never reject on a parse failure: losing the mail is worse than storing
+      // it badly, and a human can always read it in the console.
+      console.error('wire: ingest failed', err);
+    }
+  },
+
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const path = url.pathname.replace(/\/+$/, '') || '/';
