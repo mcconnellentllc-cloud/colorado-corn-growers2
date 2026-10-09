@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Make the Higher-Of Permanent — CCGA</title>
+    <meta name="description" content="Colorado grows under two percent of America's corn. CCGA's affiliation with the Southwest Council of Agribusiness is how a small share of the acres gets heard where farm bills are written.">
+    <meta property="og:title" content="Make the Higher-Of Permanent">
+    <meta property="og:description" content="Colorado grows under two percent of America's corn. CCGA's affiliation with the Southwest Council of Agribusiness is how a small share of the acres gets heard where farm bills are written.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/permanent-higher-of.html">
+    <meta property="og:image" content="https://www.cologrowers.com/images/swca-2026-commodity-panel.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Make the Higher-Of Permanent">
+    <meta name="twitter:description" content="Colorado grows under two percent of America's corn. CCGA's affiliation with the Southwest Council of Agribusiness is how a small share of the acres gets heard where farm bills are written.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/images/swca-2026-commodity-panel.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.5rem; }
+            .nav-logo { font-size: 1.3rem; }
+            .nav-links { gap: 1.4rem; }
+            .nav-links a { font-size: 0.93rem; }
+        }
+
+        @media (max-width: 1080px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.15rem; }
+            .nav-links { gap: 1.05rem; }
+            .nav-links a { font-size: 0.88rem; }
+        }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
+    
+        /* --- Meeting photographs -------------------------------------------- */
+        figure.shot {
+            margin: 1.75rem 0 2rem;
+        }
+
+        figure.shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+        }
+
+        figure.shot figcaption {
+            font-size: 0.88rem;
+            color: #5b564f;
+            line-height: 1.55;
+            margin-top: 0.6rem;
+        }
+
+        figure.shot.doc img {
+            max-width: 420px;
+            margin: 0 auto;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .standing-note {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: #5b564f;
+            border-top: 1px solid rgba(0, 0, 0, 0.10);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>Make the Higher-Of Permanent</h1>
+        <p class="dateline">A CCGA advocacy position &middot; October 9, 2026</p>
+
+        <p class="lede">For the 2025 crop year, producers receive the higher of their ARC-CO or PLC
+            payment regardless of which one they elected. It is the single most sensible thing to
+            happen to the commodity title in years, and it expires after one season. CCGA is working
+            to make it permanent.</p>
+
+        <h2>What the Provision Does</h2>
+        <p>Under the reconciliation law, the 2025 payment is calculated both ways &mdash; ARC-County
+            and Price Loss Coverage &mdash; and the producer receives whichever is larger, without
+            having made a new election. No forms, no guessing, no penalty for having chosen the
+            wrong tool.</p>
+
+        <p><strong>It applies to 2025 and only to 2025.</strong> For the 2026 crop year, which is the
+            election closing <a href="october-payments.html">December 11</a>, growers are back to
+            choosing one or the other.</p>
+
+        <h2>Why the Choice Is Unfair in the First Place</h2>
+        <p>ARC and PLC protect against different things. PLC answers a price collapse. ARC-CO answers
+            a revenue collapse in your county, which can come from price or from yield. They are not
+            two flavours of the same product; they are two different insurance policies against two
+            different bad years.</p>
+
+        <p>And the election is made <em>before the year happens</em>. Before planting, before the
+            weather, before the market does whatever it is going to do. A producer picks the tool
+            they think fits a season nobody has seen yet.</p>
+
+        <div class="formula">
+            <strong>Guess right and you are covered. Guess wrong and you are not.</strong> That
+            outcome has nothing to do with how well the farm was managed, how the crop was marketed,
+            or anything else inside a producer&rsquo;s control. It is a coin flip taken in February
+            that pays out in October.
+        </div>
+
+        <h2>Why This Cuts Deeper in Colorado</h2>
+        <p>The gap between the two programs is wider on our ground than it is in the Corn Belt, and
+            the reason is dryland.</p>
+
+        <p>A Corn Belt operation with reliable rainfall sees yields that move within a fairly narrow
+            band. For them, price is the dominant variable, and the ARC-versus-PLC question is closer
+            to a toss-up with modest consequences either way.</p>
+
+        <p>Colorado dryland corn does not work like that. Our yields swing hard, and they swing on
+            weather we do not control. That means we get years where the county revenue trigger fires
+            and price alone never would, and other years where price craters while county yield holds
+            up. The two programs diverge much further here &mdash; so the penalty for electing the
+            wrong one is correspondingly larger.</p>
+
+        <p>The producers most exposed to the guess are the ones with the least predictable ground.
+            That is backwards.</p>
+
+        <h2>What We Are Asking For</h2>
+        <div class="figures">
+            <dl>
+                <dt>The ask</dt>
+                <dd>Extend the higher-of provision through the life of the farm bill, so producers
+                    receive the better of ARC-CO or PLC every year rather than for one.</dd>
+
+                <dt>Why it is reasonable</dt>
+                <dd>It is not a new program and it does not raise a reference price. It removes a
+                    penalty for guessing about the weather. The programs, the formulas and the
+                    payment limits all stay exactly as Congress already wrote them.</dd>
+
+                <dt>Where it has to happen</dt>
+                <dd>In the farm bill. The House passed its version in April; the Senate Agriculture
+                    Committee reported the Agricultural Act of 2026 on September 16. The two have to
+                    be reconciled in conference, and that is the moment this language either goes in
+                    or does not.</dd>
+            </dl>
+        </div>
+
+        <h2>Why Now</h2>
+        <p>Conference is where a provision like this gets added or quietly dropped, and it is weeks
+            away rather than months. Chairman Boozman has said publicly that the next several weeks
+            decide whether there is a farm bill this year at all. Language that is not being asked
+            for during that window does not appear in the bill that comes out of it.</p>
+
+        <p>CCGA is making this case through our <a href="swca-affiliation.html">SWCA affiliation</a>,
+            which is how a state with under two percent of the nation&rsquo;s corn acres gets heard
+            in a room sized by acres and votes. It is the same route that moved Colorado&rsquo;s
+            T-yields and won the excessive heat argument.</p>
+
+        <h2>What You Can Do</h2>
+        <p>Call your delegation and ask for one specific thing: <strong>make the higher-of ARC-CO or
+            PLC provision permanent in the farm bill.</strong> Name it that way. Staff recognise a
+            specific ask and can act on it; a general request to help farmers goes in a pile.</p>
+
+        <p>If it helps, say what it is worth on your own operation &mdash; the years you elected one
+            and watched the other pay. That is the argument nobody in Washington can make for you.</p>
+
+        <p><a href="the-record.html">Who has gone to bat for Colorado corn &rarr;</a><br>
+            <a href="october-payments.html">The December 11 election, and how the two programs
+            differ &rarr;</a></p>
+
+        <p class="standing-note">This is issue advocacy on pending legislation. Program descriptions
+            are USDA&rsquo;s. CCGA administers no USDA program, and nothing here is a determination
+            of your eligibility or your payment.</p>
+    </article>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>
