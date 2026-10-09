@@ -566,12 +566,95 @@
         }
 
         .nav-links a.nav-portal::after { display: none; }
+
+        /* --- Front-page record card ---------------------------------------- */
+        /* The officials page used to be reachable only by scrolling to the
+           bottom of the front page, and it is not in the nav (eight items is
+           already the limit through the 768-1360px band). It gets a card near
+           the top instead. */
+        .record-card {
+            background: #ffffff;
+            border: 1px solid #6a8971;
+            border-top: 4px solid #d3ae5c;
+            border-radius: 6px;
+            padding: 2.75rem;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(55, 52, 47, 0.07);
+        }
+
+        .record-card .eyebrow {
+            font-size: 0.82rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #5b564f;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+        }
+
+        .record-card h2 {
+            color: #334539;
+            font-size: 2rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+        }
+
+        .record-card p {
+            color: #37342f;
+            font-size: 1.05rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+
+        .record-card .endorse-note {
+            border-left: 3px solid #6a8971;
+            padding-left: 1rem;
+            color: #5b564f;
+            font-size: 1rem;
+        }
+
+        .record-card-btn {
+            display: inline-block;
+            background: #334539;
+            color: #ffffff;
+            padding: 0.8rem 1.6rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .record-card-btn:hover { background: #28362c; }
+
+        .record-card img {
+            width: 100%;
+            height: 100%;
+            max-height: 340px;
+            object-fit: cover;
+            border-radius: 4px;
+            display: block;
+        }
+
+        @media (max-width: 860px) {
+            .record-card {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.75rem;
+            }
+
+            .record-card-media { order: -1; }
+            .record-card h2 { font-size: 1.7rem; }
+        }
     </style>
 </head>
 <body>
     <div class="alert-banner" role="alert" style="background: #232220; color: #e3dfd6; border-bottom: 1px solid rgba(211, 174, 92, 0.28); padding: 0.8rem 1rem; text-align: center; position: relative; z-index: 1001; font-weight: 400; font-size: 0.95rem;">
-        <a href="Pages/sdrp-update.html" style="color: #e3dfd6; text-decoration: none; display: inline-block;">
-            <strong style="color: #d3ae5c;">USDA Disaster Relief Sign-Up Closes September 30</strong> — Final deadline to apply for 2023&ndash;2024 crop losses.
+        <a href="Pages/october-payments.html" style="color: #e3dfd6; text-decoration: none; display: inline-block;">
+            <strong style="color: #d3ae5c;">ARC/PLC Enrollment Closes December 11</strong> — Enrolling is required even if you change nothing. An unenrolled farm gets no 2026 payment.
             <span style="text-decoration: underline; margin-left: 0.5rem;">What Colorado farmers need to do →</span>
         </a>
     </div>
@@ -610,6 +693,37 @@
                     </svg>
                     <span>Listen: &ldquo;Colorado Corn Growers (Standin&rsquo; Strong)&rdquo;</span>
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who has shown up for us. Promoted out of the old #allies section at the
+         bottom of the page, which this replaces. -->
+    <section class="section" style="padding-bottom: 0;">
+        <div class="record-card">
+            <div>
+                <p class="eyebrow">The Record</p>
+                <h2>Pulling the Plow for Colorado Corn</h2>
+                <p>Growers ask us who is actually fighting for them. The honest answer has names in
+                    it &mdash; the officials who took the meetings, moved the bills, and did the
+                    unglamorous committee work that decides whether a farm program reaches this
+                    state or stops at the Kansas line.</p>
+
+                <p>Rep. Boebert carrying the case for a permanent disaster title out of the Lamar
+                    round table. Sen. Bennet on two bipartisan farm bills. Rep. Gabe Evans, who
+                    farms in Weld County himself, getting a Farm Service Agency office brought back
+                    to Greeley. Sen. Cleave Simpson, who runs a water conservation district for a
+                    living. Chairman Boozman and Sen. Hoeven on permanent year-round E15, and
+                    Chairman Thompson on the first H-2A reform in forty years.</p>
+
+                <p class="endorse-note">The same page carries the candidates the CCGA board voted to
+                    support. That is an endorsement, it is labelled as one, and it is kept separate
+                    from the record of work done in office.</p>
+
+                <a href="Pages/the-record.html" class="record-card-btn">See the record &rarr;</a>
+            </div>
+            <div class="record-card-media">
+                <img src="images/boebert-roundtable.jpg" alt="CCGA producers at the agriculture round table at the Cow Palace in Lamar" onerror="this.closest('.record-card-media').style.display='none'">
             </div>
         </div>
     </section>
@@ -713,37 +827,6 @@
             </div>
             <div class="image-container">
                 <img src="board-meeting.jpg" alt="Board Meeting" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Board Meeting Photo<br>[Image: board-meeting.jpg not found]</div>'">
-            </div>
-        </div>
-    </section>
-
-    <section id="allies" class="section">
-        <h2 class="section-title">Pulling the Plow for Colorado Corn</h2>
-
-        <div class="content-grid">
-            <div class="text-content">
-                <h3>Who Has Shown Up for Us</h3>
-                <p>Growers ask us who is actually fighting for them. The honest answer has names in
-                    it &mdash; the officials who took the meetings, moved the bills, and did the
-                    unglamorous committee work that decides whether a farm program reaches this state
-                    or stops at the Kansas line.</p>
-
-                <p>Rep. Boebert carrying the case for a permanent disaster title out of the Lamar
-                    round table. Sen. Bennet on two bipartisan farm bills and more Colorado listening
-                    sessions than anyone could reasonably ask of a senator. Sen. Cleave Simpson, who
-                    runs a water conservation district for a living. Chairman Boozman on the bill
-                    carrying permanent year-round E15, Sen. Hoeven alongside him on the same fight,
-                    and Chairman Thompson taking on the first H-2A reform in forty years.</p>
-
-                <p>These offices hear from growers when something goes wrong and almost never when
-                    something goes right, which is a poor way to encourage more of the second thing.
-                    If one of them helped your operation, call and say so &mdash; then ask them to
-                    finish the job.</p>
-
-                <p><strong><a href="Pages/the-record.html" style="color: #8a6a22;">See who has gone to bat for Colorado corn, and what each of them did.</a></strong></p>
-            </div>
-            <div class="image-container">
-                <img src="images/boebert-roundtable.jpg" alt="CCGA producers at the agriculture round table at the Cow Palace in Lamar" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Round Table Photo</div>'">
             </div>
         </div>
     </section>
