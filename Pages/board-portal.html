@@ -167,6 +167,26 @@
         .contact-name { font-weight: 600; color: #37342f; }
         .contact-role { color: #8c867b; font-size: 0.8rem; }
 
+        /* Member packets programme */
+        .pk { border-bottom: 1px solid #ece9e2; padding: 16px 0; }
+        .pk:last-of-type { border-bottom: none; }
+        .pk-top { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+        .pk-title { font-weight: 600; color: #334539; font-size: 1rem; }
+        .pk-status {
+            font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+            font-weight: 700; padding: 3px 9px; border-radius: 3px; white-space: nowrap;
+        }
+        .pk-draft   { background: #f2e9d2; color: #6b5214; }
+        .pk-blocked { background: #efdede; color: #7d3030; }
+        .pk-idea    { background: #e5eae4; color: #3f5245; }
+        .pk p { font-size: 0.92rem; color: #494540; margin-top: 7px; line-height: 1.6; }
+        .pk-facts { font-size: 0.85rem; color: #6a645c; margin-top: 8px; line-height: 1.6; }
+        .pk-facts b { color: #334539; }
+        .pk-gate {
+            margin-top: 18px; padding: 14px 16px; border-left: 3px solid #6a8971;
+            background: #f6f8f5; font-size: 0.89rem; color: #494540; line-height: 1.65;
+        }
+
         /* Full-width card */
         .card-full {
             background: white;
@@ -397,6 +417,69 @@
                 </div>
             </div>
 
+        </div>
+
+        <!-- Member packets -->
+        <div class="card-full">
+            <div class="section-label">Revenue Programme</div>
+            <h2>Member Packets</h2>
+
+            <p style="font-size:0.95rem;color:#494540;line-height:1.7;margin-bottom:6px;">
+                Paid how-to packets for the general membership. <b>$50 each, one-time.</b>
+                Status of each packet is below. Nothing here has been offered for sale yet.</p>
+
+            <div class="pk">
+                <div class="pk-top">
+                    <span class="pk-title">1. Pass-Through Entities and Payment Limits</span>
+                    <span class="pk-status pk-draft">Draft &mdash; unverified</span>
+                </div>
+                <p>How USDA&rsquo;s 2026 rule treats qualifying LLCs and S-corps as pass-through
+                    entities, so the payment limit is multiplied by the number of members who are
+                    actively engaged, rather than the single limit those entities carried before.
+                    Covers what &ldquo;actively engaged&rdquo; now requires, AGI tested at member
+                    level, and the ways a wrong structure costs eligibility.</p>
+                <div class="pk-facts">
+                    <b>Before it can be sold:</b> somebody has to read 7 CFR 1400 as amended and
+                    confirm the figures against the rule itself. The draft was written from
+                    secondary summaries. <b>Also open:</b> the 2026 farm operating plan deadline
+                    appears to have passed on September 15, so confirm with FSA what late filers
+                    can do &mdash; that answer changes what the packet is worth.
+                </div>
+            </div>
+
+            <div class="pk">
+                <div class="pk-top">
+                    <span class="pk-title">Programme go-live</span>
+                    <span class="pk-status pk-blocked">Blocked</span>
+                </div>
+                <p>Waiting on the written USDA ethics opinion before anything is offered for sale,
+                    because a director sits on the State FSA Committee. Revenue going to the
+                    association rather than to individuals is the favourable fact, and it should be
+                    the first thing the request states.</p>
+                <div class="pk-facts">
+                    <b>Also undecided:</b> how membership gets verified at checkout. Membership runs
+                    through NCGA, so CCGA may not hold a roster of its own. Simplest start is a code
+                    in the member newsletter.
+                </div>
+            </div>
+
+            <div class="pk">
+                <div class="pk-top">
+                    <span class="pk-title">Later packets</span>
+                    <span class="pk-status pk-idea">Ideas</span>
+                </div>
+                <p>ARC against PLC election mechanics. Base acre reconstitution. Disaster programme
+                    stacking. Each one its own packet, each sourced to the rule it describes.</p>
+            </div>
+
+            <div class="pk-gate">
+                <b>Why the packet text is not on this page.</b> This site is served from a public
+                GitHub repository, so anything committed here can be read by anyone and stays in the
+                history permanently. A packet published here is a packet given away. Drafts stay off
+                the repo until there is something that checks who is asking &mdash; the magic-link
+                portal at <code>/board/</code> once the Worker is deployed, or the storefront that
+                sells them.
+            </div>
         </div>
 
         <!-- Notes / Action Items -->
