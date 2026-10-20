@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Into Your USDA Account &mdash; CCGA</title>
+    <meta name="description" content="Linking a Login.gov account to USDA is the one thing a Colorado producer can do today that makes every future programme easier — including Harvest Fuel Relief. Three steps, and what to do when the record will not link.">
+    <meta property="og:title" content="Get Into Your USDA Account">
+    <meta property="og:description" content="Linking a Login.gov account to USDA is the one thing a Colorado producer can do today that makes every future programme easier — including Harvest Fuel Relief. Three steps, and what to do when the record will not link.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/usda-account.html">
+    <meta property="og:image" content="https://www.cologrowers.com/images/og-home.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Get Into Your USDA Account">
+    <meta name="twitter:description" content="Linking a Login.gov account to USDA is the one thing a Colorado producer can do today that makes every future programme easier — including Harvest Fuel Relief. Three steps, and what to do when the record will not link.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/images/og-home.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early.
+           Re-measured at nine items across 769-1920px when The Record was
+           added; the gaps below are what keeps the bar on one row. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; gap: 1.5rem; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.25rem; }
+            .nav-logo { font-size: 1.25rem; }
+            .nav-links { gap: 1.1rem; }
+            .nav-links a { font-size: 0.9rem; }
+        }
+
+        @media (min-width: 1361px) {
+            .nav-logo { font-size: 1.45rem; }
+            .nav-links { gap: 1.2rem; }
+            .nav-links a { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 1200px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.1rem; }
+            .nav-links { gap: 0.85rem; }
+            .nav-links a { font-size: 0.85rem; }
+        }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
+    
+        /* --- Meeting photographs -------------------------------------------- */
+        figure.shot {
+            margin: 1.75rem 0 2rem;
+        }
+
+        figure.shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+        }
+
+        figure.shot figcaption {
+            font-size: 0.88rem;
+            color: #5b564f;
+            line-height: 1.55;
+            margin-top: 0.6rem;
+        }
+
+        figure.shot.doc img {
+            max-width: 420px;
+            margin: 0 auto;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .standing-note {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: #5b564f;
+            border-top: 1px solid rgba(0, 0, 0, 0.10);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="the-record.html">The Record</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>Get Into Your USDA Account</h1>
+        <p class="dateline">Posted October 20, 2026</p>
+
+        <p class="lede">There is one piece of paperwork that makes every future program easier, and
+            almost nobody does it until they need it. Linking a <strong>Login.gov</strong> account to
+            your USDA customer record takes a few minutes, costs nothing, and is the difference
+            between a pre-filled application and a blank form at the county office.</p>
+
+        <p>USDA said exactly that when it announced
+            <a href="harvest-fuel-relief.html">Harvest Fuel Relief</a>. Rates are not out and the
+            application window is not open, so this is the only useful thing anyone can do about that
+            program today. It is also what gets you into ARC/PLC enrollment, your farm records and
+            your payment history without a drive to town.</p>
+
+        <h2>What the Account Actually Gets You</h2>
+
+        <p>An authenticated <strong>farmers.gov</strong> account is not a brochure login. Inside it
+            you can see your farm records and maps, view your FSA payment history, check conservation
+            practices and loan status, sign documents, and apply for programs online instead of by
+            appointment.</p>
+
+        <p>That last one matters more each year. Programs increasingly open online first, and the
+            producers already set up are the ones who are not waiting on a county appointment in a
+            week when every other producer wants the same slot.</p>
+
+        <h2>Three Steps, in This Order</h2>
+
+        <p>The order matters. Most of the frustration people report comes from doing step two before
+            step one.</p>
+
+        <p><strong>Step 1. Make sure USDA has a customer record for you.</strong> A customer record is
+            what USDA already holds on you &mdash; name, address, phone, and any legal representative
+            relationships. If you have done business with FSA you almost certainly have one, but it
+            may be out of date, and an out-of-date record is the usual reason the link fails later.
+            Call or visit your local USDA Service Center and ask them to confirm it exists and that
+            the details are current. Do this first.</p>
+
+        <p><strong>Step 2. Create a Login.gov account and verify your identity.</strong> Login.gov is
+            the government-wide sign-in service, not a USDA system, and the same account works across
+            other federal agencies. Verification can be done online, which USDA recommends, or in
+            person. Requirements change, so check
+            <a href="https://login.gov/help/" target="_blank" rel="noopener">login.gov/help</a> for
+            what is accepted today rather than taking anyone&rsquo;s word for it, including ours.</p>
+
+        <p><strong>Step 3. Link it at farmers.gov.</strong> Go to
+            <a href="https://www.farmers.gov/account" target="_blank" rel="noopener">farmers.gov/account</a>,
+            click <strong>Log In</strong>, choose <strong>Customer</strong> on the landing page, and
+            then select the <strong>Login.gov</strong> option. The system will try to connect your
+            Login.gov account to your USDA customer record automatically.</p>
+
+        <h2>When the Record Will Not Link</h2>
+
+        <p>This happens to people who have farmed with FSA for thirty years, so do not assume you have
+            done something wrong. USDA says plainly that in some circumstances the system cannot
+            connect the two even when you have worked with USDA before.</p>
+
+        <p>When that happens you are routed to a page offering <strong>Start Customer Data
+            Worksheet</strong> or <strong>Check for Record</strong>. Use <em>Check for Record</em>
+            first. If that fails, the worksheet is how you give USDA what it needs to match you, and
+            then the Service Center finishes it from their side. A phone call to the county office at
+            that point saves more time than another hour of clicking.</p>
+
+        <h2>If You Still Use eAuth</h2>
+
+        <p>The old eAuth username and password are being retired for this purpose. If that is still
+            how you sign in to farmers.gov, <strong>you will have to switch to Login.gov</strong>.
+            Doing it now, on a quiet afternoon, is considerably better than doing it on the day a
+            sign-up opens.</p>
+
+        <h2>What Is Coming: One Farmer, One File</h2>
+
+        <p>USDA announced an initiative in February 2026 called <strong>One Farmer, One File</strong>
+            &mdash; a single record that follows a producer across FSA, NRCS and RMA, with one sign-in
+            for enrolling in programs at more than one agency. The idea is that you stop re-supplying
+            the same information to three agencies that already have it.</p>
+
+        <p>USDA anticipates completing that work in <strong>2028</strong>, so it is a direction of
+            travel rather than something to wait for. The Login.gov account you set up today is the
+            front door to it either way.</p>
+
+        <h2>Where to Get Help</h2>
+
+        <p>The two kinds of problem have two different places to go, and sending the wrong one to the
+            wrong place is how afternoons disappear.</p>
+
+        <p><strong>Trouble creating or verifying the Login.gov account itself</strong> &mdash; that is
+            Login.gov, not USDA. Start at
+            <a href="https://login.gov/help/" target="_blank" rel="noopener">login.gov/help</a>.</p>
+
+        <p><strong>Trouble with your USDA record, or the link between them</strong> &mdash; that is
+            your local USDA Service Center. They can see your customer record; Login.gov support
+            cannot.</p>
+
+        <p><a href="harvest-fuel-relief.html">Harvest Fuel Relief: what is known and what is not
+            &rarr;</a><br>
+            <a href="october-payments.html">The December 11 ARC/PLC enrollment deadline &rarr;</a></p>
+
+        <p class="standing-note">Steps are as described by USDA at farmers.gov and by Login.gov at the
+            time of writing. Both change their sign-in flows from time to time, so farmers.gov/account
+            and login.gov/help are the authorities, not this page. CCGA administers no USDA program
+            and cannot access, create or repair anyone&rsquo;s USDA account; enrollment and
+            eligibility are determined by FSA.</p>
+    </article>
+    
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>
