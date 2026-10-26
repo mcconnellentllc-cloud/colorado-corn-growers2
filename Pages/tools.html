@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools for Colorado Growers &mdash; CCGA</title>
+    <meta name="description" content="The decision aids, accounts and deadlines a Colorado corn grower actually needs, in one place — starting with the free ARC/PLC decision tool for the December 11 election.">
+    <meta property="og:title" content="Tools for Colorado Growers">
+    <meta property="og:description" content="The decision aids, accounts and deadlines a Colorado corn grower actually needs, in one place — starting with the free ARC/PLC decision tool for the December 11 election.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/tools.html">
+    <meta property="og:image" content="https://www.cologrowers.com/images/og-home.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tools for Colorado Growers">
+    <meta name="twitter:description" content="The decision aids, accounts and deadlines a Colorado corn grower actually needs, in one place — starting with the free ARC/PLC decision tool for the December 11 election.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/images/og-home.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early.
+           Re-measured at nine items across 769-1920px when The Record was
+           added; the gaps below are what keeps the bar on one row. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; gap: 1.5rem; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.25rem; }
+            .nav-logo { font-size: 1.25rem; }
+            .nav-links { gap: 1.1rem; }
+            .nav-links a { font-size: 0.9rem; }
+        }
+
+        @media (min-width: 1361px) {
+            .nav-logo { font-size: 1.45rem; }
+            .nav-links { gap: 1.2rem; }
+            .nav-links a { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 1270px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.05rem; }
+            .nav-links { gap: 0.72rem; }
+            .nav-links a { font-size: 0.83rem; }
+        }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
+    
+        /* --- Meeting photographs -------------------------------------------- */
+        figure.shot {
+            margin: 1.75rem 0 2rem;
+        }
+
+        figure.shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+        }
+
+        figure.shot figcaption {
+            font-size: 0.88rem;
+            color: #5b564f;
+            line-height: 1.55;
+            margin-top: 0.6rem;
+        }
+
+        figure.shot.doc img {
+            max-width: 420px;
+            margin: 0 auto;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .standing-note {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: #5b564f;
+            border-top: 1px solid rgba(0, 0, 0, 0.10);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Tools list */
+        .tool {
+            background: #ffffff; border: 1px solid #d8d3c8; border-radius: 6px;
+            padding: 26px 28px; margin-bottom: 20px;
+        }
+        .tool.featured { border: 1px solid #6a8971; border-top: 4px solid #d3ae5c; }
+        .tool h3 { color: #334539; font-size: 1.3rem; font-weight: 400; margin-bottom: 4px; }
+        .tool .who {
+            font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+            color: #5b564f; font-weight: 600; margin-bottom: 12px;
+        }
+        .tool p { margin-bottom: 12px; }
+        .tool ul { margin: 0 0 14px 1.1rem; }
+        .tool li { margin-bottom: 7px; }
+        .tool .go {
+            display: inline-block; background: #334539; color: #ffffff; padding: 0.65rem 1.3rem;
+            border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+        }
+        .tool .go:hover { background: #28362c; }
+        .tool .aside {
+            margin-top: 14px; padding-left: 14px; border-left: 3px solid #6a8971;
+            color: #5b564f; font-size: 0.95rem;
+        }
+        .group {
+            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: #5b564f; font-weight: 700; margin: 34px 0 14px;
+            padding-bottom: 8px; border-bottom: 1px solid #d8d3c8;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="the-record.html">The Record</a></li>
+                <li><a class="nav-link active" href="tools.html">Tools</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>Tools for Colorado Growers</h1>
+        <p class="dateline">Updated October 26, 2026</p>
+
+        <p class="lede">The things a Colorado corn grower actually needs, in one place: the decision
+            aids worth your time, the accounts that unlock everything else, and the deadlines that
+            decide whether a payment reaches your operation.</p>
+
+        <p>We have tried to keep this short. Everything on this page is either free, run by people who
+            answer the phone, or both &mdash; and where a tool is built on national averages, we say
+            so, because a national average is not a Colorado answer.</p>
+
+        <div class="group">Work Your Own Numbers</div>
+
+        <div class="tool featured">
+            <h3>ARC/PLC Decision Tool</h3>
+            <div class="who">Agricultural and Food Policy Center &middot; Texas A&amp;M &middot; Free</div>
+
+            <p>This is the one to use before <strong>December 11</strong>. It runs your own base
+                acres and your own program yields rather than handing you a national average, which
+                matters more here than almost anywhere &mdash; Colorado&rsquo;s PLC yields sit below
+                the national average because so much of our corn is dryland.</p>
+
+            <p>The current version carries a <strong>2026 FSA ARC/PLC Expected Payments</strong>
+                simulation. Rather than giving you one number, it estimates the probability of
+                different payment levels across 500 combinations of market prices and county yields.
+                That is the honest way to look at a decision you have to make before you know the
+                weather or the market.</p>
+
+            <p>AFPC builds the representative farm models Congress leans on when it writes this
+                policy, so this is not a third-party guess at the rules. It is from the people who
+                help write the analysis behind them.</p>
+
+            <a class="go" href="https://afpc.tamu.edu/tools" target="_blank" rel="noopener">Open the decision tool &rarr;</a>
+
+            <div class="aside"><strong>There is a staffed helpdesk.</strong> If you get stuck on your
+                own numbers, call <strong>844-229-7373</strong> and a person will walk you through
+                it. Very few federal program tools come with that, and it is worth using.</div>
+        </div>
+
+        <div class="tool">
+            <h3>What the Election Actually Means</h3>
+            <div class="who">CCGA</div>
+            <p>Before you open the tool, the mechanics: why enrollment is required even if you change
+                nothing, the PLC yield trap that catches people, and why the per-acre averages
+                circulating around the southern plains overstate what Colorado base will pay.</p>
+            <a class="go" href="october-payments.html">Read it first &rarr;</a>
+        </div>
+
+        <div class="group">Get Your Access Sorted</div>
+
+        <div class="tool">
+            <h3>Your USDA Account</h3>
+            <div class="who">farmers.gov &middot; Login.gov</div>
+            <p>Farm records, maps, payment history, and the ability to enroll online instead of
+                waiting on a county appointment. It is also what gets you a pre-filled Harvest Fuel
+                Relief application rather than a blank one when that window opens.</p>
+            <p>Three steps in an order that matters, and what to do when the record will not link
+                &mdash; which happens to people who have farmed with FSA for thirty years.</p>
+            <a class="go" href="usda-account.html">Set it up &rarr;</a>
+        </div>
+
+        <div class="group">Deadlines and Programs Running Now</div>
+
+        <div class="tool">
+            <h3>ARC/PLC Election and Enrollment</h3>
+            <div class="who">Closes December 11, 2026</div>
+            <p>Enrolling is required even if you are changing nothing. An unenrolled farm receives no
+                2026 payment &mdash; that is USDA&rsquo;s own wording, not our warning.</p>
+            <a class="go" href="october-payments.html">What to do &rarr;</a>
+        </div>
+
+        <div class="tool">
+            <h3>Harvest Fuel Relief</h3>
+            <div class="who">$8 billion &middot; Rates expected November</div>
+            <p>One-time payments for the 2026 crop year, aimed at what diesel did to cost of
+                production. No payment rate and no application window yet, so anyone quoting you a
+                per-acre figure is guessing. One thing is worth doing today, and it is the USDA
+                account above.</p>
+            <a class="go" href="harvest-fuel-relief.html">What is known &rarr;</a>
+        </div>
+
+        <div class="tool">
+            <h3>Dyed Diesel on the Road</h3>
+            <div class="who">Executive order, October 5</div>
+            <p>Off-road dyed diesel can run on the highway and the 24.4 cent federal tax is deferred
+                through year end. Deferred is not forgiven, and Colorado&rsquo;s own 20.5 cent
+                special fuel tax is a separate question the order does not reach.</p>
+            <a class="go" href="dyed-diesel-order.html">The two traps &rarr;</a>
+        </div>
+
+        <div class="group">Keep an Eye On It</div>
+
+        <div class="tool">
+            <h3>Farm Policy Reading</h3>
+            <div class="who">AFPC &middot; Southern Ag Today &middot; Farm Policy Facts</div>
+            <p>Three outside sources worth your time, what each is good for, and the pieces worth
+                starting with. Every link goes to the original, because we would rather you read the
+                analysis than take our word for it.</p>
+            <a class="go" href="resources.html">The three sources &rarr;</a>
+        </div>
+
+        <div class="tool">
+            <h3>When USDA&rsquo;s Numbers Move</h3>
+            <div class="who">NASS correction, October 23</div>
+            <p>NASS corrected its September corn data after a processing error reached two states and
+                the national forecast. Worth knowing because the Harvest Fuel Relief formula takes
+                WASDE yields as an input, and those rates land in November.</p>
+            <a class="go" href="usda-corn-data-error.html">What was corrected &rarr;</a>
+        </div>
+
+        <div class="tool">
+            <h3>CLIP &mdash; Crop &amp; Livestock Income Protection</h3>
+            <div class="who">Federally subsidised &middot; Co-developed by CCGA</div>
+            <p>An umbrella revenue option that works alongside an existing Revenue Protection policy,
+                letting diversified operations elect higher coverage at better rates by leaning on
+                the risk diversification of several commodities. CCGA helped conceive it with Texas
+                Corn Producers and AgriLogic.</p>
+            <a class="go" href="https://clipfarmcoverage.com/" target="_blank" rel="noopener">Learn about CLIP &rarr;</a>
+        </div>
+
+        <p class="standing-note">External tools are run by the organisations named, not by CCGA, and
+            we have no hand in their figures or their availability. The AFPC decision aid and
+            helpdesk number are as published by the Agricultural and Food Policy Center at Texas
+            A&amp;M. Deadlines are USDA&rsquo;s and can move. CCGA administers no USDA program;
+            enrollment and eligibility are determined by FSA, and nothing on this page is legal, tax
+            or financial advice.</p>
+    </article>
+    
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>
