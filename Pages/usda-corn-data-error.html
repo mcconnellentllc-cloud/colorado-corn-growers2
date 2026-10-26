@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDA Got the Corn Numbers Wrong &mdash; CCGA</title>
+    <meta name="description" content="NASS corrected its September corn data on October 23 after a processing error hit Kansas, Nebraska and the national forecast. Colorado was not among the corrected states, but the number that reaches us is the national one — and it feeds the Harvest Fuel Relief formula.">
+    <meta property="og:title" content="USDA Got the Corn Numbers Wrong">
+    <meta property="og:description" content="NASS corrected its September corn data on October 23 after a processing error hit Kansas, Nebraska and the national forecast. Colorado was not among the corrected states, but the number that reaches us is the national one — and it feeds the Harvest Fuel Relief formula.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/usda-corn-data-error.html">
+    <meta property="og:image" content="https://www.cologrowers.com/images/card-usda-data-error.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="USDA Got the Corn Numbers Wrong">
+    <meta name="twitter:description" content="NASS corrected its September corn data on October 23 after a processing error hit Kansas, Nebraska and the national forecast. Colorado was not among the corrected states, but the number that reaches us is the national one — and it feeds the Harvest Fuel Relief formula.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/images/card-usda-data-error.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early.
+           Re-measured at nine items across 769-1920px when The Record was
+           added; the gaps below are what keeps the bar on one row. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; gap: 1.5rem; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.25rem; }
+            .nav-logo { font-size: 1.25rem; }
+            .nav-links { gap: 1.1rem; }
+            .nav-links a { font-size: 0.9rem; }
+        }
+
+        @media (min-width: 1361px) {
+            .nav-logo { font-size: 1.45rem; }
+            .nav-links { gap: 1.2rem; }
+            .nav-links a { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 1200px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.1rem; }
+            .nav-links { gap: 0.85rem; }
+            .nav-links a { font-size: 0.85rem; }
+        }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
+    
+        /* --- Meeting photographs -------------------------------------------- */
+        figure.shot {
+            margin: 1.75rem 0 2rem;
+        }
+
+        figure.shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+        }
+
+        figure.shot figcaption {
+            font-size: 0.88rem;
+            color: #5b564f;
+            line-height: 1.55;
+            margin-top: 0.6rem;
+        }
+
+        figure.shot.doc img {
+            max-width: 420px;
+            margin: 0 auto;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .standing-note {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: #5b564f;
+            border-top: 1px solid rgba(0, 0, 0, 0.10);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="the-record.html">The Record</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>USDA Got the Corn Numbers Wrong</h1>
+        <p class="dateline">Posted October 26, 2026</p>
+
+        <p class="lede">On October 23 USDA&rsquo;s National Agricultural Statistics Service corrected
+            its September corn data after finding a processing error. Kansas and Nebraska yields
+            moved, the national September figure moved with them, and the October forecast was left
+            standing. Colorado was not among the corrected states &mdash; which is not the same thing
+            as Colorado being unaffected.</p>
+
+        <p>This is worth a page for two reasons, and neither of them is the market. One is what the
+            error appears to have been about. The other is which decisions are about to be made using
+            the same machinery.</p>
+
+        <h2>What Was Corrected</h2>
+
+        <p>NASS says the error reached September corn plant populations, ear counts, yields and
+            production for <strong>Kansas and Nebraska</strong>, the ten-state averages for plant
+            populations and ear counts, and the <strong>national corn yield and production
+            forecasts</strong>. The corrected figures are in the Crop Production reports and in Quick
+            Stats.</p>
+
+        <ul>
+            <li><strong>Nebraska, September:</strong> 177 &rarr; <strong>182</strong> bushels per
+                acre.</li>
+            <li><strong>Kansas, September:</strong> down roughly three bushels, from about 121&ndash;122
+                to <strong>118&ndash;119</strong>. Outlets reporting the corrected figure do not
+                agree on which, so treat it as approximate until NASS&rsquo;s own table is in front
+                of you.</li>
+            <li><strong>National, September:</strong> 178.5 &rarr; <strong>178.8</strong> bushels per
+                acre.</li>
+            <li><strong>October forecast: unchanged.</strong> 181.2 bushels per acre and 16.034
+                billion bushels. USDA says the October numbers were reviewed, validated, and stand.</li>
+        </ul>
+
+        <p>That last point is where the argument is. An error large enough to move two state
+            estimates and the national figure was found in September, and the October forecast built
+            on the same survey came through untouched. Analysts have said plainly that they do not
+            find that reassuring, and at least one has argued the error means the corn estimate was
+            too low rather than too high.</p>
+
+        <h2>The Part That Should Interest Colorado</h2>
+
+        <p>Reporting on what caused the error does not agree, and we are not going to pretend it
+            does. <strong>One outlet reports NASS attributing it to incorrect weighting of irrigated
+            and non-irrigated acreage.</strong> Other coverage says NASS did not explain the cause at
+            all, and a well-known analyst is quoted saying exactly that.</p>
+
+        <p>What is reported consistently is the sample mix, and it is striking. In September, roughly
+            <strong>90 percent</strong> of the Nebraska fields sampled were non-irrigated and about
+            10 percent irrigated. In October the balance came back to something ordinary &mdash;
+            about <strong>55 percent irrigated and 45 percent non-irrigated</strong>. Whatever label
+            USDA puts on it, a survey that saw a state as nine-tenths dryland one month and
+            roughly half irrigated the next was not describing the same crop both times.</p>
+
+        <p>Colorado growers have heard this song before. Our
+            <a href="swca-affiliation.html">transitional yields</a> sat below comparable ground in
+            other states until this association carried the problem to the SWCA board and the council
+            took it to RMA. Our
+            <a href="october-payments.html">PLC program yields</a> run under the national average
+            because so much of our corn is dryland, which is why we keep warning members that
+            national per-acre averages overstate what Colorado base will pay. The irrigated and
+            dryland split is not a footnote in this state. It is the whole shape of the crop, and
+            when a federal data system gets that weighting wrong in Nebraska, it is reasonable to ask
+            how it handles it here.</p>
+
+        <h2>Why It Matters in November, Not Today</h2>
+
+        <p>The market reaction has been modest, and an agricultural economist quoted on the
+            correction said as much &mdash; little market impact, but real damage to a trust that
+            USDA was already working to rebuild. We would not change a marketing decision on the
+            strength of this.</p>
+
+        <p>Here is the part nobody is saying out loud. <strong>The
+            <a href="harvest-fuel-relief.html">Harvest Fuel Relief</a> payment formula runs on this
+            data.</strong> USDA said the $8 billion will be allocated using a national loss average
+            built from FSA planted acres, Economic Research Service cost-of-production estimates, and
+            <strong>WASDE yield and price estimates</strong>. Those WASDE yields come out of the same
+            NASS pipeline that just produced a correction.</p>
+
+        <p>Title I payment rates are expected in <strong>November</strong>. So the sequence is: a
+            data system produces an error in September, acknowledges it in late October, and sets
+            $8 billion in payment rates in November. That is not an accusation. It is a reason for
+            growers to read the rate announcement closely rather than assume the arithmetic behind it
+            is beyond question.</p>
+
+        <h2>What We Want</h2>
+
+        <p>USDA has said it will add pre-publication checks to verify acreage weights and validate
+            objective yield calculations. That is the right fix and it should have existed already.</p>
+
+        <p>The National Corn Growers Association, which this association belongs to, has called the
+            episode a major data processing error and pressed USDA on it. We support that, and we
+            would add one thing from where we sit: <strong>publish the irrigated and non-irrigated
+            breakdown alongside the state estimates.</strong> If the weighting between them can move
+            a state yield by five bushels, growers in a state that is split down the middle have a
+            right to see it rather than infer it.</p>
+
+        <p>Accurate numbers are not a bureaucratic nicety here. They set the reference prices, the
+            benchmark revenues and now the fuel relief rates that decide what reaches Colorado
+            ground.</p>
+
+        <p><a href="harvest-fuel-relief.html">Harvest Fuel Relief: what is known and what is not
+            &rarr;</a><br>
+            <a href="october-payments.html">The December 11 ARC/PLC enrollment deadline &rarr;</a></p>
+
+        <p class="standing-note">Corrected figures are as reported by trade press covering NASS&rsquo;s
+            October 23, 2026 notice; we were unable to reach the NASS notice directly and outlets
+            disagree on the corrected Kansas figure, which is flagged above. The attribution of the
+            cause to irrigated and non-irrigated weighting comes from a single outlet and is
+            contradicted by other coverage, which is why it is presented as disputed rather than as
+            fact. The Nebraska sample mix percentages and the unchanged October forecast are reported
+            consistently. Anyone relying on these numbers should check NASS Quick Stats and the Crop
+            Production report directly. CCGA administers no USDA program and produces no yield
+            estimates.</p>
+    </article>
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>
