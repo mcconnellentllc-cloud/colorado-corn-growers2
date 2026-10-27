@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCGA Annual Meeting — Tell Us Where and What &mdash; CCGA</title>
+    <meta name="description" content="The CCGA annual meeting is being planned and the board wants growers to pick the town and the topics. Vote on Sterling, Yuma, Burlington or write in your own, and tell us what would actually be worth your day.">
+    <meta property="og:title" content="CCGA Annual Meeting — Tell Us Where and What">
+    <meta property="og:description" content="The CCGA annual meeting is being planned and the board wants growers to pick the town and the topics. Vote on Sterling, Yuma, Burlington or write in your own, and tell us what would actually be worth your day.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://www.cologrowers.com/Pages/annual-meeting.html">
+    <meta property="og:image" content="https://www.cologrowers.com/images/card-annual-meeting.jpg">
+    <meta property="og:site_name" content="Colorado Corn Growers Association">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CCGA Annual Meeting — Tell Us Where and What">
+    <meta name="twitter:description" content="The CCGA annual meeting is being planned and the board wants growers to pick the town and the topics. Vote on Sterling, Yuma, Burlington or write in your own, and tell us what would actually be worth your day.">
+    <meta name="twitter:image" content="https://www.cologrowers.com/images/card-annual-meeting.jpg">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: #37342f;
+            background-color: #f5f3ee;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: rgba(27, 26, 23, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #d3ae5c;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 400;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d3ae5c;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #d3ae5c;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 4rem;
+        }
+
+        .article h1 {
+            color: #334539;
+            font-size: 2.5rem;
+            font-weight: 400;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .dateline {
+            color: #5b564f;
+            font-size: 0.95rem;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(211, 174, 92, 0.15);
+        }
+
+        .lede {
+            font-size: 1.2rem;
+            color: #3f3b34;
+            margin-bottom: 2.5rem;
+        }
+
+        .article h2 {
+            color: #334539;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-top: 2.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .article h3 {
+            color: #2b2924;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .article p {
+            margin-bottom: 1.25rem;
+        }
+
+        .article ul {
+            margin: 0 0 1.5rem 0;
+            padding-left: 1.5rem;
+            list-style: none;
+        }
+
+        .article li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .article li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #a5833b;
+            font-weight: bold;
+        }
+
+        .article a {
+            color: #8a6a22;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article a:hover {
+            color: #6d5418;
+        }
+
+        .deadline-callout {
+            background: rgba(106, 137, 113, 0.14);
+            border-left: 4px solid #6a8971;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0 2rem;
+            border-radius: 4px;
+            color: #2f2c26;
+        }
+
+        .deadline-callout strong {
+            color: #334539;
+        }
+
+        .disclosure {
+            font-style: italic;
+            font-size: 0.9rem;
+            color: #5b564f;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer {
+            background: #1b1a17;
+            color: #8c867b;
+            text-align: center;
+            padding: 3rem 1rem;
+            border-top: 1px solid rgba(211, 174, 92, 0.1);
+        }
+
+        .footer p {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem 1.5rem;
+            }
+
+            .article {
+                padding: 2rem 1.25rem 3rem;
+            }
+
+            .article h1 {
+                font-size: 1.9rem;
+            }
+
+            .lede {
+                font-size: 1.1rem;
+            }
+
+            .article h2 {
+                font-size: 1.4rem;
+            }
+        }
+    
+        /* --- Typography ------------------------------------------------- */
+        h1, h2, h3, h4,
+        .logo, .nav-logo, .member-name, .section-title, .stat-number {
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', serif;
+            letter-spacing: normal;
+        }
+
+        .nav-logo { font-weight: 600; }
+        .logo { font-weight: 400; }
+    
+        /* --- Navigation ------------------------------------------------- */
+        /* Between the mobile breakpoint and roughly 1360px the wordmark ran
+           straight into the first link ("Colorado Corn GrowersHome"). Tighten
+           the spacing through that band instead of stacking the bar early.
+           Re-measured at nine items across 769-1920px when The Record was
+           added; the gaps below are what keeps the bar on one row. */
+        .nav-container { gap: 2rem; }
+        .nav-links { flex-wrap: wrap; justify-content: flex-end; gap: 1.5rem; }
+
+        @media (max-width: 1360px) and (min-width: 769px) {
+            .nav-container { padding: 0 1.5rem; gap: 1.25rem; }
+            .nav-logo { font-size: 1.25rem; }
+            .nav-links { gap: 1.1rem; }
+            .nav-links a { font-size: 0.9rem; }
+        }
+
+        @media (min-width: 1361px) {
+            .nav-logo { font-size: 1.45rem; }
+            .nav-links { gap: 1.2rem; }
+            .nav-links a { font-size: 0.95rem; }
+        }
+
+        @media (max-width: 1270px) and (min-width: 769px) {
+            .nav-logo { font-size: 1.05rem; }
+            .nav-links { gap: 0.72rem; }
+            .nav-links a { font-size: 0.83rem; }
+        }
+    
+        /* --- Board Portal link -------------------------------------------- */
+        /* Members-only, so it reads as separate from the public nav rather
+           than as another destination for visitors. */
+        .nav-links a.nav-portal {
+            color: #d3ae5c;
+            border: 1px solid rgba(211, 174, 92, 0.45);
+            border-radius: 3px;
+            padding: 0.3rem 0.75rem;
+        }
+
+        .nav-links a.nav-portal:hover {
+            color: #1b1a17;
+            background: #d3ae5c;
+        }
+
+        .nav-links a.nav-portal::after { display: none; }
+    
+        /* --- Meeting photographs -------------------------------------------- */
+        figure.shot {
+            margin: 1.75rem 0 2rem;
+        }
+
+        figure.shot img {
+            display: block;
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.10);
+        }
+
+        figure.shot figcaption {
+            font-size: 0.88rem;
+            color: #5b564f;
+            line-height: 1.55;
+            margin-top: 0.6rem;
+        }
+
+        figure.shot.doc img {
+            max-width: 420px;
+            margin: 0 auto;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .standing-note {
+            font-size: 0.88rem;
+            font-style: italic;
+            color: #5b564f;
+            border-top: 1px solid rgba(0, 0, 0, 0.10);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+
+        /* Tools list */
+        .tool {
+            background: #ffffff; border: 1px solid #d8d3c8; border-radius: 6px;
+            padding: 26px 28px; margin-bottom: 20px;
+        }
+        .tool.featured { border: 1px solid #6a8971; border-top: 4px solid #d3ae5c; }
+        .tool h3 { color: #334539; font-size: 1.3rem; font-weight: 400; margin-bottom: 4px; }
+        .tool .who {
+            font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase;
+            color: #5b564f; font-weight: 600; margin-bottom: 12px;
+        }
+        .tool p { margin-bottom: 12px; }
+        .tool ul { margin: 0 0 14px 1.1rem; }
+        .tool li { margin-bottom: 7px; }
+        .tool .go {
+            display: inline-block; background: #334539; color: #ffffff; padding: 0.65rem 1.3rem;
+            border-radius: 4px; text-decoration: none; font-weight: 600; font-size: 0.95rem;
+        }
+        .tool .go:hover { background: #28362c; }
+        .tool .aside {
+            margin-top: 14px; padding-left: 14px; border-left: 3px solid #6a8971;
+            color: #5b564f; font-size: 0.95rem;
+        }
+        .group {
+            font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase;
+            color: #5b564f; font-weight: 700; margin: 34px 0 14px;
+            padding-bottom: 8px; border-bottom: 1px solid #d8d3c8;
+        }
+
+        /* Survey form */
+        fieldset { border: 0; margin: 0 0 28px; padding: 0; }
+        legend {
+            font-size: 1.25rem; color: #334539; font-weight: 400; margin-bottom: 6px;
+            font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+        }
+        .hint { color: #5b564f; font-size: 0.95rem; margin-bottom: 14px; }
+        .opt {
+            display: block; background: #ffffff; border: 1px solid #d8d3c8; border-radius: 5px;
+            padding: 14px 16px; margin-bottom: 10px; cursor: pointer;
+        }
+        .opt:hover { border-color: #6a8971; }
+        .opt input { margin-right: 10px; }
+        .opt b { color: #334539; }
+        .opt .sub { display: block; color: #5b564f; font-size: 0.92rem; margin: 4px 0 0 26px; }
+        .writein {
+            width: 100%; padding: 11px 13px; border: 1px solid #d8d3c8; border-radius: 5px;
+            font: inherit; font-size: 0.98rem; color: #37342f; background: #ffffff;
+            margin: 2px 0 0 0;
+        }
+        textarea.writein { min-height: 140px; resize: vertical; }
+        .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .row label { display: block; font-size: 0.9rem; color: #5b564f; margin-bottom: 5px; }
+        .send {
+            background: #334539; color: #ffffff; border: 0; border-radius: 4px;
+            padding: 0.95rem 2rem; font: inherit; font-weight: 600; font-size: 1.02rem;
+            cursor: pointer;
+        }
+        .send:hover { background: #28362c; }
+        .send:disabled { background: #8c867b; cursor: default; }
+        .notice {
+            padding: 16px 18px; border-left: 3px solid #6a8971; background: #f0f3ef;
+            color: #37342f; margin-bottom: 24px;
+        }
+        .notice.warn { border-left-color: #8a6a22; background: #f7f1e3; }
+        /* #8a6a22 is 4.48 on this warmer panel -- just under AA. Darken it
+           here rather than lightening a panel that is meant to read as a
+           caution. */
+        .notice.warn a { color: #7a5c1c; }
+        .done { display: none; }
+        @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">Colorado Corn Growers</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="meet-our-board.html">Meet Our Board</a></li>
+                <li><a class="nav-link" href="announcements.html">Announcements</a></li>
+                <li><a href="the-record.html">The Record</a></li>
+                <li><a class="nav-link active" href="tools.html">Tools</a></li>
+                <li><a href="become-a-sponsor.html">Become a Sponsor</a></li>
+                <li><a href="https://www.ncga.com/membership/join-ncga" target="_blank" rel="noopener">Become a Member</a></li>
+                <li><a href="../index.html#contact">Contact Us</a></li>
+                <li><a class="nav-portal" href="board-portal.html">Board Portal</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <article class="article">
+        <h1>Our Annual Meeting. You Pick the Town.</h1>
+        <p class="dateline">Posted October 27, 2026</p>
+
+        <p class="lede">We are planning the CCGA annual meeting, and rather than decide where to
+            hold it and what to talk about in a room by ourselves, we are asking the people who
+            would have to drive there.</p>
+
+        <p>Two questions and a blank box. It takes about a minute, you do not have to give your
+            name, and the answers go to the board and nowhere else.</p>
+
+        <h2>First, Who You Would Be Spending the Day With</h2>
+
+        <p>There is a thing growers say to us at meetings, and it is usually some version of
+            <em>I already pay the checkoff, why am I being asked for anything else.</em> It is a fair
+            question with a specific answer.</p>
+
+        <p><strong>The corn checkoff is prohibited by law from spending a cent on policy.</strong>
+            Not reluctant &mdash; prohibited. It funds research and promotion, and it does that
+            work well, but it cannot call a congressional office about a farm bill, cannot argue a
+            disaster title, and cannot put a producer in front of the people writing the rules.
+            That is not a criticism of the council. It is the statute.</p>
+
+        <p>Which is the whole reason this association exists, and it is volunteer corn producers
+            doing it. What that has looked like:</p>
+
+        <ul>
+            <li><strong>Disaster relief went statewide.</strong> The excessive heat case carried
+                through the Southwest Council of Agribusiness moved Colorado from 24 drought
+                counties to coverage for the entire state.</li>
+            <li><strong>T-yields raised for corn across Colorado.</strong> Our transitional yields
+                sat below comparable ground in other states. CCGA carried it to the SWCA board and
+                the council took it to RMA directly.</li>
+            <li><strong>CLIP built</strong> with Texas Corn Producers and AgriLogic &mdash; a new
+                federally subsidised umbrella revenue option for diversified operations.</li>
+            <li><strong>SB-021 fought</strong>, along with the labour rules that rode with it.</li>
+            <li><strong>E15 and the RFS defended</strong>, because ethanol demand is corn demand.</li>
+            <li><strong>Over $1.2 billion secured</strong> for Colorado agriculture since 2018
+                &mdash; MFP, CFAP, ARC/PLC, PPP and now ECAP.</li>
+        </ul>
+
+        <p>None of that came from a meeting we were invited to. It came from growers on Friday
+            morning calls with lobbyists and congressional staff, trips to Washington, and round
+            tables in rooms where the people writing the rules could hear from somebody who actually
+            farms. <a href="the-record.html">The record is here</a> if you want the names and the
+            detail.</p>
+
+        <h2>Now Your Turn</h2>
+
+        <div id="survey-wrap">
+            <div class="notice warn" id="survey-offline" style="display:none;">
+                <strong>The form is not open yet.</strong> We are finishing the setup. In the
+                meantime, email <a href="mailto:office@cologrowers.com?subject=Annual%20meeting%20survey">office@cologrowers.com</a>
+                with your town and the topics you want, and it will be counted the same.
+            </div>
+
+            <form id="survey" style="display:none;">
+                <fieldset>
+                    <legend>Where should we hold it?</legend>
+                    <p class="hint">One choice. If none of these work, write in the town that
+                        does.</p>
+
+                    <label class="opt"><input type="radio" name="location" value="sterling"><b>Sterling</b></label>
+                    <label class="opt"><input type="radio" name="location" value="yuma"><b>Yuma</b></label>
+                    <label class="opt"><input type="radio" name="location" value="burlington"><b>Burlington</b></label>
+                    <label class="opt"><input type="radio" name="location" value="other"><b>Somewhere else</b>
+                        <span class="sub">Tell us where and we will look at it seriously.</span></label>
+                    <input class="writein" id="location_other" name="location_other" type="text"
+                           placeholder="Which town?" disabled>
+                </fieldset>
+
+                <fieldset>
+                    <legend>What would actually be worth your day?</legend>
+                    <p class="hint">Tick as many as you like. This decides the programme, so be
+                        honest rather than polite.</p>
+
+                    <label class="opt"><input type="checkbox" name="topics" value="fsa-programs">
+                        <b>FSA programmes, explained &mdash; and how to actually use them</b>
+                        <span class="sub">What the programmes are, what they pay, and the paperwork
+                            that decides whether you get it. Walk-throughs, not a policy
+                            lecture.</span></label>
+
+                    <label class="opt"><input type="checkbox" name="topics" value="marketing-ai">
+                        <b>Marketing with AI</b>
+                        <span class="sub">What these tools can and cannot do for a grain marketing
+                            plan, shown on real numbers rather than talked about.</span></label>
+
+                    <label class="opt"><input type="checkbox" name="topics" value="banking">
+                        <b>Making the bank work for you</b>
+                        <span class="sub">An inside look at what an ag lender actually needs to see,
+                            from people who make those decisions. What strengthens a file and what
+                            sinks one.</span></label>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Anything else</legend>
+                    <p class="hint">A topic we missed, a speaker worth getting, a time of year that
+                        works better, or something we are getting wrong. This box is the most useful
+                        part of the form and the board reads every one of them.</p>
+                    <textarea class="writein" id="comment" name="comment"
+                              placeholder="Comments and suggestions"></textarea>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Who you are, if you want to say</legend>
+                    <p class="hint">All optional. Leave it blank and your answer still counts the
+                        same &mdash; we would rather have an anonymous opinion than no opinion.
+                        Give us an address only if you want to hear back.</p>
+                    <div class="row">
+                        <div><label for="name">Name</label>
+                            <input class="writein" id="name" name="name" type="text" autocomplete="name"></div>
+                        <div><label for="county">County</label>
+                            <input class="writein" id="county" name="county" type="text"></div>
+                    </div>
+                    <div style="margin-top:14px;"><label for="email">Email</label>
+                        <input class="writein" id="email" name="email" type="email" autocomplete="email"></div>
+                </fieldset>
+
+                <button class="send" type="submit" id="send">Send it to the board</button>
+                <p class="hint" id="status" style="margin-top:12px;"></p>
+            </form>
+
+            <div class="notice done" id="thanks">
+                <strong>Got it &mdash; thank you.</strong> That goes straight to the board. If you
+                left an address we may come back to you about the programme; if you did not, your
+                answer still counts exactly the same.
+            </div>
+        </div>
+
+        <p class="standing-note">Responses are visible to the CCGA board only. They are not
+            published, not counted in public, and not shared outside the association. Name, county
+            and email are optional and blank is fine. We record the submitting network address to
+            stop one person answering fifty times; it is not used to identify anyone and is not
+            kept alongside anything published. CCGA administers no USDA program.</p>
+    </article>
+
+    <script>
+    /* The survey needs somewhere to put the answers, and the static site has
+       nowhere. It posts to the Worker API. Until that Worker is deployed the
+       form hides itself behind a /health check and shows the email fallback
+       instead, the same way /board/ does -- a form that silently discards a
+       grower's answer would be worse than no form. */
+    (function () {
+        var API_BASE = 'https://board-api.cologrowers.com';   /* keep in step with board/config.js */
+        var SURVEY = 'annual-meeting-2027';
+
+        var form = document.getElementById('survey');
+        var offline = document.getElementById('survey-offline');
+        var thanks = document.getElementById('thanks');
+        var status = document.getElementById('status');
+        var send = document.getElementById('send');
+        var other = document.getElementById('location_other');
+
+        function show(el) { el.style.display = el === thanks ? 'block' : ''; }
+
+        /* The write-in only accepts text when "somewhere else" is chosen, so a
+           stray entry cannot contradict a selected town. */
+        form.addEventListener('change', function (e) {
+            if (e.target.name !== 'location') return;
+            other.disabled = e.target.value !== 'other';
+            if (!other.disabled) other.focus(); else other.value = '';
+        });
+
+        fetch(API_BASE + '/health', { mode: 'cors' })
+            .then(function (r) { if (!r.ok) throw new Error('down'); show(form); })
+            .catch(function () { show(offline); });
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var loc = form.querySelector('input[name=location]:checked');
+            var topics = [].slice.call(form.querySelectorAll('input[name=topics]:checked'))
+                           .map(function (i) { return i.value; });
+            var comment = document.getElementById('comment').value.trim();
+
+            if (!loc && !topics.length && !comment) {
+                status.textContent = 'Pick a town, a topic, or leave a comment -- otherwise there is nothing to send.';
+                return;
+            }
+
+            send.disabled = true;
+            status.textContent = 'Sending...';
+
+            fetch(API_BASE + '/survey', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    survey: SURVEY,
+                    location: loc ? loc.value : null,
+                    location_other: other.value.trim(),
+                    topics: topics,
+                    comment: comment,
+                    name: document.getElementById('name').value.trim(),
+                    county: document.getElementById('county').value.trim(),
+                    email: document.getElementById('email').value.trim()
+                })
+            })
+            .then(function (r) { if (!r.ok) throw new Error('bad'); return r.json(); })
+            .then(function () { form.style.display = 'none'; show(thanks); })
+            .catch(function () {
+                send.disabled = false;
+                status.textContent = 'That did not go through. Try again, or email office@cologrowers.com and we will count it by hand.';
+            });
+        });
+    })();
+    </script>
+    
+
+    <footer class="footer">
+        <p>&copy; 2026 Colorado Corn Growers Association. Volunteer corn producers fighting for Colorado agriculture.</p>
+        <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
+        <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
+    </footer>
+</body>
+</html>

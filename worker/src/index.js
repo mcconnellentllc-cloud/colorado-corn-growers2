@@ -59,6 +59,7 @@ import {
 import { checkAuthRequestLimits, checkBroadcastCooldown } from './lib/ratelimit.js';
 import { htmlToText, streamToString } from './lib/mime.js';
 import { createLead, isPrimary, recentLeads, storeEmail } from './lib/wire.js';
+import { storeResponse, surveyConfig, surveyResults, tooManyFromIp } from './lib/survey.js';
 import {
   clearedCookieHeader,
   createSession,
@@ -1012,6 +1013,55 @@ async function handleAdminWireLeadFetch(request, env) {
   });
 }
 
+/* ---------------------------------------------------------------------------
+ * Grower survey
+ *
+ * Public in, board only out. /survey takes a response from anyone and answers
+ * with nothing but an acknowledgement -- no counts, no totals. Returning a
+ * running tally to the public would turn a small poll into a thing worth
+ * gaming, and the board is the audience for the answers anyway.
+ * ------------------------------------------------------------------------ */
+
+async function handleSurveySubmit(request, env) {
+  const body = await readJsonBody(request);
+  if (!body) return json(request, { ok: false, error: 'bad_request' }, { status: 400 });
+
+  const survey = typeof body.survey === 'string' ? body.survey : '';
+  if (!surveyConfig(survey)) {
+    return json(request, { ok: false, error: 'unknown_survey' }, { status: 400 });
+  }
+
+  // A response with nothing in it is not a response.
+  const hasLocation = typeof body.location === 'string' && body.location.trim();
+  const hasTopics = Array.isArray(body.topics) && body.topics.length;
+  const hasComment = typeof body.comment === 'string' && body.comment.trim();
+  if (!hasLocation && !hasTopics && !hasComment) {
+    return json(request, { ok: false, error: 'empty' }, { status: 400 });
+  }
+
+  const ip = clientIp(request);
+  if (await tooManyFromIp(env, survey, ip)) {
+    // Deliberately the same shape as success. Telling a stuffer they have been
+    // rate limited only teaches them what to change.
+    return json(request, { ok: true, recorded: false });
+  }
+
+  await storeResponse(env, survey, body, ip);
+  await audit(env, { actorEmail: null, action: 'survey.response', detail: survey, ip });
+  return json(request, { ok: true, recorded: true });
+}
+
+async function handleAdminSurveyResults(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+
+  const survey = new URL(request.url).searchParams.get('survey') || '';
+  if (!surveyConfig(survey)) {
+    return json(request, { ok: false, error: 'unknown_survey' }, { status: 400 });
+  }
+  return json(request, { ok: true, results: await surveyResults(env, survey) });
+}
+
 const ROUTES = [
   ['POST', '/auth/request', handleAuthRequest],
   ['GET', '/auth/verify', handleAuthVerify],
@@ -1034,6 +1084,9 @@ const ROUTES = [
   ['POST', '/admin/mailings/test', handleAdminMailingTest],
   ['POST', '/admin/mailings/send', handleAdminMailingSend],
   ['POST', '/admin/mailings/resend', handleAdminMailingResend],
+
+  ['POST', '/survey', handleSurveySubmit],
+  ['GET', '/admin/survey', handleAdminSurveyResults],
 
   ['POST', '/wire/inbound', handleWireInbound],
   ['GET', '/admin/wire/leads', handleAdminWireLeads],

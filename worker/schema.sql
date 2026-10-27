@@ -202,3 +202,32 @@ CREATE TABLE IF NOT EXISTS leads (
 
 CREATE INDEX IF NOT EXISTS idx_leads_status ON leads (status);
 CREATE INDEX IF NOT EXISTS idx_leads_email ON leads (email_id);
+
+-- ---------------------------------------------------------------------------
+-- Grower survey responses.
+--
+-- Public writes, board-only reads. Nothing here is ever served to an
+-- unauthenticated caller: /survey accepts a response and returns nothing but
+-- an acknowledgement, and the only read path requires an admin session.
+--
+-- Name, county and email are optional by design. A grower who wants to be
+-- anonymous should still be able to vote on where the meeting is held, so the
+-- form asks for nothing it does not need. created_ip is kept only to make
+-- ballot stuffing visible and should not be treated as identifying.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS survey_responses (
+  id             TEXT PRIMARY KEY,
+  survey         TEXT NOT NULL,              -- e.g. 'annual-meeting-2027'
+  location       TEXT,                       -- sterling | yuma | burlington | other
+  location_other TEXT,                       -- free text when location = 'other'
+  topics         TEXT,                       -- JSON array of topic keys
+  comment        TEXT,
+  name           TEXT,
+  county         TEXT,
+  email          TEXT,
+  created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  created_ip     TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_survey_responses_survey  ON survey_responses (survey, created_at);
+CREATE INDEX IF NOT EXISTS idx_survey_responses_ip      ON survey_responses (created_ip, created_at);
