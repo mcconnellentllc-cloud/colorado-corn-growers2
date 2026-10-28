@@ -205,9 +205,11 @@
         .pk-draft   { background: #f2e9d2; color: #6b5214; }
         .pk-blocked { background: #efdede; color: #7d3030; }
         .pk-idea    { background: #e5eae4; color: #3f5245; }
+        .pk-done    { background: #e2e0dc; color: #4a4740; }
         .pk p { font-size: 0.92rem; color: #494540; margin-top: 7px; line-height: 1.6; }
         .pk-facts { font-size: 0.85rem; color: #6a645c; margin-top: 8px; line-height: 1.6; }
         .pk-facts b { color: #334539; }
+        .pk-facts a, .pk-gate a { color: #8a6a22; }
         .pk-gate {
             margin-top: 18px; padding: 14px 16px; border-left: 3px solid #6a8971;
             background: #f6f8f5; font-size: 0.89rem; color: #494540; line-height: 1.65;
@@ -254,6 +256,10 @@
         .logo { font-weight: 400; }
     
         /* --- Open vote callout -------------------------------------------- */
+        /* Kept although nothing uses it right now. The amicus vote is closed and its
+           callout is gone, but /board/ is general-purpose voting machinery and the
+           next motion will want this block back. Cheaper to leave than to delete
+           and rebuild. */
         .vote-callout {
             background: #334539;
             border-radius: 6px;
@@ -314,17 +320,6 @@
         <div class="portal-header">
             <h1>Board Member Portal</h1>
             <p>Colorado Corn Growers Association &mdash; Internal Board Resources</p>
-        </div>
-
-        <div class="vote-callout">
-            <div class="section-label">Action Required</div>
-            <h2>Board Vote: Amicus Curiae Participation</h2>
-            <p>A motion is before the board on whether CCGA participates as amicus curiae in
-                <em>Public Service Company of Colorado v. Dryland Partners, LLC</em> &mdash; the
-                Dickey case. Sign in to read the decision memo and the court order, and to cast your
-                vote. You will receive a sign-in link by email; there is no password.</p>
-            <a class="vote-btn" href="../board/index.html">Sign in to vote</a>
-            <span class="vote-note">One vote per member. You can change your vote until the deadline.</span>
         </div>
 
         <!-- Facebook outreach -->
@@ -635,6 +630,36 @@
                 the repo until there is something that checks who is asking &mdash; the magic-link
                 portal at <code>/board/</code> once the Worker is deployed, or the storefront that
                 sells them.
+            </div>
+        </div>
+
+        <!-- Past business -->
+        <div class="card-full">
+            <div class="section-label">Archive</div>
+            <h2>Past Business</h2>
+
+            <p style="font-size:0.95rem;color:#494540;line-height:1.7;margin-bottom:6px;">
+                Closed items, kept because the reasoning is worth having later even when the
+                decision is made.</p>
+
+            <div class="pk">
+                <div class="pk-top">
+                    <span class="pk-title">Amicus Curiae &mdash; PSCo v. Dryland Partners</span>
+                    <span class="pk-status pk-done">Closed</span>
+                </div>
+                <p>A motion was before the board on whether CCGA would join as amicus curiae in
+                    <em>Public Service Company of Colorado v. Dryland Partners, LLC</em> &mdash; the
+                    Dickey case, out of the Cheyenne County condemnation ruling Xcel asked the
+                    Colorado Supreme Court to overturn. The decision window has passed and the item
+                    is closed.</p>
+                <div class="pk-facts">
+                    <b>The outcome is not recorded on this site.</b> Whatever the board decided
+                    lives in the minutes, which is where it belongs &mdash; we are not going to
+                    write a result here that nobody can check.
+                    <a href="amicus-brief.html">The action plan and the background</a> are kept as
+                    they were, because the analysis of what an amicus brief can and cannot do is
+                    the part worth re-reading next time something like this comes up.
+                </div>
             </div>
         </div>
 
