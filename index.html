@@ -558,6 +558,8 @@
         .row-1 { grid-template-columns: 1fr; }
         .row-2 { grid-template-columns: 1fr 1fr; }
         .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .row-4 { grid-template-columns: repeat(4, 1fr); }
+        .row-4 .slot { min-height: 96px; padding: 1.2rem 0.8rem; }
         .slot { display: flex; flex-direction: column; align-items: center; justify-content: center;
                 text-align: center; border-radius: 6px; padding: 1.6rem 1.2rem;
                 text-decoration: none; transition: all 0.25s ease; min-height: 118px; }
@@ -580,7 +582,7 @@
                          margin-top: 1.6rem; }
         .sponsors-foot a { color: #8a6a22; font-weight: 600; }
         @media (max-width: 860px) {
-            .row-2, .row-3 { grid-template-columns: 1fr; }
+            .row-2, .row-3, .row-4 { grid-template-columns: 1fr; }
             .sponsors { padding: 2.5rem 1.2rem; }
         }
 
@@ -938,55 +940,64 @@
         </div>
     </section>
 
-    <!-- Sponsor band. Slot prices live here and on Pages/become-a-sponsor.html;
-         change them in both places. -->
+    <!-- Sponsor band. Top tier is capped at $10,000; slot prices live here and
+         on Pages/become-a-sponsor.html, so change them in both places.
+         Three Champion plus four Advocacy plus six Supporting tops out at
+         $65,000, which is the room needed to clear $50,000 without selling
+         every slot. -->
     <section class="sponsors" id="sponsors">
         <div class="sponsors-inner">
             <p class="sponsors-label">Our Sponsors</p>
-            <p class="sponsors-sub">This association takes no checkoff money. Everything it does is
-                paid for by the businesses and growers below.</p>
+            <p class="sponsors-sub">We are not the checkoff board. We are sponsor-driven volunteers,
+                and everything this association does is paid for by the businesses and growers
+                below.</p>
 
-            <div class="sponsor-row row-1">
+            <div class="sponsor-row row-3">
                 <a class="slot filled" href="https://acreprofit.com" target="_blank" rel="noopener">
-                    <span class="slot-tier">Presenting Partner</span>
+                    <span class="slot-tier">Champion Partner</span>
                     <span class="slot-name">AcreProfit</span>
                     <span class="slot-go">acreprofit.com &rarr;</span>
                 </a>
-            </div>
-
-            <div class="sponsor-row row-2">
                 <a class="slot open" href="Pages/become-a-sponsor.html">
                     <span class="slot-tier">Champion Partner</span>
-                    <span class="slot-here">This space is open</span>
+                    <span class="slot-here">This could be your ad</span>
                     <span class="slot-price">$10,000 a year</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
                     <span class="slot-tier">Champion Partner</span>
-                    <span class="slot-here">This space is open</span>
+                    <span class="slot-here">This could be your ad</span>
                     <span class="slot-price">$10,000 a year</span>
                 </a>
             </div>
 
-            <div class="sponsor-row row-3">
+            <div class="sponsor-row row-4">
                 <a class="slot open" href="Pages/become-a-sponsor.html">
-                    <span class="slot-tier">Advocacy Partner</span>
-                    <span class="slot-here">This space is open</span>
-                    <span class="slot-price">$5,000 a year</span>
+                    <span class="slot-tier">Advocacy</span>
+                    <span class="slot-here">Your ad here</span>
+                    <span class="slot-price">$5,000</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
-                    <span class="slot-tier">Advocacy Partner</span>
-                    <span class="slot-here">This space is open</span>
-                    <span class="slot-price">$5,000 a year</span>
+                    <span class="slot-tier">Advocacy</span>
+                    <span class="slot-here">Your ad here</span>
+                    <span class="slot-price">$5,000</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
-                    <span class="slot-tier">Advocacy Partner</span>
-                    <span class="slot-here">This space is open</span>
-                    <span class="slot-price">$5,000 a year</span>
+                    <span class="slot-tier">Advocacy</span>
+                    <span class="slot-here">Your ad here</span>
+                    <span class="slot-price">$5,000</span>
+                </a>
+                <a class="slot open" href="Pages/become-a-sponsor.html">
+                    <span class="slot-tier">Advocacy</span>
+                    <span class="slot-here">Your ad here</span>
+                    <span class="slot-price">$5,000</span>
                 </a>
             </div>
 
-            <p class="sponsors-foot">Your logo on every page of this site, and your name attached to
-                the work. <a href="Pages/become-a-sponsor.html">See what each level includes &rarr;</a></p>
+            <p class="sponsors-foot"><strong>Banks, energy and fuel companies, equipment and
+                irrigation dealers, car dealerships.</strong> You already do business with these
+                operations &mdash; this is the association that keeps them farming, and your name
+                sits beside that work on every page. Supporting partnerships start at $2,500.
+                <a href="Pages/become-a-sponsor.html">See what each level includes &rarr;</a></p>
         </div>
     </section>
 
