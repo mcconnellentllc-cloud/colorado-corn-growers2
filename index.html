@@ -309,7 +309,7 @@
 
         .accomplishments-list li:before {
             content: "→";
-            color: #6a8971;
+            color: #5b564f;
             font-weight: bold;
             position: absolute;
             left: 0;
@@ -541,6 +541,49 @@
         .nav-logo { font-weight: 600; }
         .logo { font-weight: 400; }
     
+
+        /* --- Sponsor band ------------------------------------------------ */
+        /* Open slots carry their price on purpose. A prospect we have just
+           called can look at the site and see exactly where their logo goes
+           and what it costs, which is a shorter conversation than a PDF. */
+        .sponsors { background: #ffffff; border-top: 1px solid #e0dbd1;
+                    border-bottom: 1px solid #e0dbd1; padding: 3.5rem 2rem; }
+        .sponsors-inner { max-width: 1200px; margin: 0 auto; }
+        .sponsors-label { font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+                          color: #5b564f; font-weight: 700; text-align: center;
+                          margin-bottom: 0.5rem; }
+        .sponsors-sub { text-align: center; color: #5b564f; font-size: 1rem;
+                        margin-bottom: 2rem; }
+        .sponsor-row { display: grid; gap: 16px; margin-bottom: 16px; }
+        .row-1 { grid-template-columns: 1fr; }
+        .row-2 { grid-template-columns: 1fr 1fr; }
+        .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .slot { display: flex; flex-direction: column; align-items: center; justify-content: center;
+                text-align: center; border-radius: 6px; padding: 1.6rem 1.2rem;
+                text-decoration: none; transition: all 0.25s ease; min-height: 118px; }
+        .slot-tier { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+                     font-weight: 700; margin-bottom: 0.5rem; }
+        .slot.filled { background: #334539; border: 1px solid #334539; }
+        .slot.filled .slot-tier { color: #e3c782; }
+        .slot.filled .slot-name { color: #ffffff; font-size: 1.9rem; font-weight: 600;
+                                  font-family: Georgia, 'Palatino Linotype', serif;
+                                  line-height: 1.1; }
+        .slot.filled .slot-go { color: #cfc8bc; font-size: 0.9rem; margin-top: 0.5rem; }
+        .slot.filled:hover { background: #28362c; }
+        .slot.open { background: #faf9f6; border: 1px dashed #a9a296; }
+        .slot.open .slot-tier { color: #5b564f; }
+        .slot.open .slot-here { color: #37342f; font-size: 1.15rem; font-weight: 600; }
+        .slot.open .slot-price { color: #8a6a22; font-size: 0.98rem; margin-top: 0.35rem;
+                                 font-weight: 600; }
+        .slot.open:hover { border-color: #5b564f; border-style: solid; background: #ffffff; }
+        .sponsors-foot { text-align: center; color: #5b564f; font-size: 0.95rem;
+                         margin-top: 1.6rem; }
+        .sponsors-foot a { color: #8a6a22; font-weight: 600; }
+        @media (max-width: 860px) {
+            .row-2, .row-3 { grid-template-columns: 1fr; }
+            .sponsors { padding: 2.5rem 1.2rem; }
+        }
+
         /* --- Navigation ------------------------------------------------- */
         /* Between the mobile breakpoint and roughly 1360px the wordmark ran
            straight into the first link ("Colorado Corn GrowersHome"). Tighten
@@ -892,6 +935,58 @@
                 This is what real advocacy looks like: working with partners across state lines to create new tools that help farmers manage risk and protect their livelihoods.
             </p>
             <a href="https://clipfarmcoverage.com/" target="_blank" style="display: inline-block; background: #d3ae5c; color: #1b1a17; padding: 12px 28px; border-radius: 4px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">Learn More About CLIP</a>
+        </div>
+    </section>
+
+    <!-- Sponsor band. Slot prices live here and on Pages/become-a-sponsor.html;
+         change them in both places. -->
+    <section class="sponsors" id="sponsors">
+        <div class="sponsors-inner">
+            <p class="sponsors-label">Our Sponsors</p>
+            <p class="sponsors-sub">This association takes no checkoff money. Everything it does is
+                paid for by the businesses and growers below.</p>
+
+            <div class="sponsor-row row-1">
+                <a class="slot filled" href="https://acreprofit.com" target="_blank" rel="noopener">
+                    <span class="slot-tier">Presenting Partner</span>
+                    <span class="slot-name">AcreProfit</span>
+                    <span class="slot-go">acreprofit.com &rarr;</span>
+                </a>
+            </div>
+
+            <div class="sponsor-row row-2">
+                <a class="slot open" href="Pages/become-a-sponsor.html">
+                    <span class="slot-tier">Champion Partner</span>
+                    <span class="slot-here">This space is open</span>
+                    <span class="slot-price">$10,000 a year</span>
+                </a>
+                <a class="slot open" href="Pages/become-a-sponsor.html">
+                    <span class="slot-tier">Champion Partner</span>
+                    <span class="slot-here">This space is open</span>
+                    <span class="slot-price">$10,000 a year</span>
+                </a>
+            </div>
+
+            <div class="sponsor-row row-3">
+                <a class="slot open" href="Pages/become-a-sponsor.html">
+                    <span class="slot-tier">Advocacy Partner</span>
+                    <span class="slot-here">This space is open</span>
+                    <span class="slot-price">$5,000 a year</span>
+                </a>
+                <a class="slot open" href="Pages/become-a-sponsor.html">
+                    <span class="slot-tier">Advocacy Partner</span>
+                    <span class="slot-here">This space is open</span>
+                    <span class="slot-price">$5,000 a year</span>
+                </a>
+                <a class="slot open" href="Pages/become-a-sponsor.html">
+                    <span class="slot-tier">Advocacy Partner</span>
+                    <span class="slot-here">This space is open</span>
+                    <span class="slot-price">$5,000 a year</span>
+                </a>
+            </div>
+
+            <p class="sponsors-foot">Your logo on every page of this site, and your name attached to
+                the work. <a href="Pages/become-a-sponsor.html">See what each level includes &rarr;</a></p>
         </div>
     </section>
 

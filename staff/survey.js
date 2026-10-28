@@ -89,6 +89,22 @@
             ? bars(r.topics, TOPICS, r.total)
             : '<p class="muted">No topics picked yet.</p>';
 
+        if (r.sponsorLeads && r.sponsorLeads.length) {
+            html += '<h3 style="margin-top:1.8rem;">Sponsor leads &mdash; ' + r.sponsorLeads.length + '</h3>';
+            html += '<p class="muted" style="font-size:.88rem;margin-bottom:.8rem;">Businesses growers '
+                 + 'named as worth a call. The grower was told we would not say they sent us unless '
+                 + 'they said so, which matters when somebody picks up the phone.</p>';
+            html += r.sponsorLeads.map(function (item) {
+                var who = [item.name, item.county].filter(Boolean).map(esc).join(', ');
+                return '<div class="source-text" style="white-space:pre-wrap;margin-top:.7rem;">'
+                     + esc(item.lead)
+                     + '<div class="muted" style="margin-top:.6rem;font-size:.8rem;">suggested by '
+                     + (who ? esc(who) : 'someone anonymous')
+                     + (item.email ? ' &middot; ' + esc(item.email) : '')
+                     + '</div></div>';
+            }).join('');
+        }
+
         el('summary').innerHTML = html;
 
         var c = '<h3 style="margin-top:2rem;">Comments and suggestions</h3>';

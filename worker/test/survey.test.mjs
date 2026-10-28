@@ -128,3 +128,25 @@ test('email is lowercased and overlong text is truncated', async () => {
   assert.equal(r.responses[0].email, 'grower@example.com');
   assert.equal(r.responses[0].comment.length, 4000);
 });
+
+test('a sponsor lead is stored and surfaced on its own', async () => {
+    const env = makeEnv();
+    await storeResponse(env, SURVEY, {
+        location: 'sterling',
+        sponsor_lead: 'Haxtun Equipment — ask for Dale',
+        name: 'A Grower',
+        county: 'Phillips',
+    }, null);
+    // A response with nothing but a lead still counts.
+    await storeResponse(env, SURVEY, { sponsor_lead: 'The co-op' }, null);
+
+    const r = await surveyResults(env, SURVEY);
+    assert.equal(r.total, 2);
+    assert.equal(r.sponsorLeads.length, 2);
+    assert.match(r.sponsorLeads[0].lead, /Haxtun|co-op/);
+    // A response without a lead does not appear in the lead list.
+    await storeResponse(env, SURVEY, { location: 'yuma' }, null);
+    const r2 = await surveyResults(env, SURVEY);
+    assert.equal(r2.total, 3);
+    assert.equal(r2.sponsorLeads.length, 2);
+});
