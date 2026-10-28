@@ -225,6 +225,9 @@ CREATE TABLE IF NOT EXISTS survey_responses (
   name           TEXT,
   county         TEXT,
   email          TEXT,
+  -- A business the respondent thinks would sponsor the event. Growers know
+  -- the local ag businesses better than the board does, so the survey asks.
+  sponsor_lead   TEXT,
   created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
   created_ip     TEXT
 );

@@ -1035,7 +1035,8 @@ async function handleSurveySubmit(request, env) {
   const hasLocation = typeof body.location === 'string' && body.location.trim();
   const hasTopics = Array.isArray(body.topics) && body.topics.length;
   const hasComment = typeof body.comment === 'string' && body.comment.trim();
-  if (!hasLocation && !hasTopics && !hasComment) {
+  const hasLead = typeof body.sponsor_lead === 'string' && body.sponsor_lead.trim();
+  if (!hasLocation && !hasTopics && !hasComment && !hasLead) {
     return json(request, { ok: false, error: 'empty' }, { status: 400 });
   }
 

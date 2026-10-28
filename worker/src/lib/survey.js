@@ -74,14 +74,15 @@ export async function storeResponse(env, survey, body, ip) {
   const id = uuid();
   await env.DB.prepare(
     `INSERT INTO survey_responses
-       (id, survey, location, location_other, topics, comment, name, county, email, created_ip)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+       (id, survey, location, location_other, topics, comment, name, county, email, sponsor_lead, created_ip)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   ).bind(
     id, survey, location, other, JSON.stringify(topics),
     clean(body.comment, MAX_COMMENT),
     clean(body.name, MAX_SHORT),
     clean(body.county, MAX_SHORT),
     clean(body.email, MAX_SHORT)?.toLowerCase() ?? null,
+    clean(body.sponsor_lead, MAX_COMMENT),
     ip || null
   ).run();
 
@@ -96,7 +97,7 @@ export async function surveyResults(env, survey) {
   if (!cfg) throw new Error('unknown survey');
 
   const { results: rows } = await env.DB.prepare(
-    `SELECT id, location, location_other, topics, comment, name, county, email, created_at
+    `SELECT id, location, location_other, topics, comment, name, county, email, sponsor_lead, created_at
        FROM survey_responses WHERE survey = ? ORDER BY created_at DESC`
   ).bind(survey).all();
 
@@ -104,6 +105,7 @@ export async function surveyResults(env, survey) {
   const topics = Object.fromEntries(cfg.topics.map((t) => [t, 0]));
   const writeIns = [];
   const comments = [];
+  const sponsorLeads = [];
 
   for (const r of rows) {
     if (r.location && locations[r.location] !== undefined) locations[r.location] += 1;
@@ -111,6 +113,15 @@ export async function surveyResults(env, survey) {
     let list = [];
     try { list = JSON.parse(r.topics || '[]'); } catch { list = []; }
     for (const t of list) if (topics[t] !== undefined) topics[t] += 1;
+    if (r.sponsor_lead) {
+      sponsorLeads.push({
+        lead: r.sponsor_lead,
+        name: r.name,
+        county: r.county,
+        email: r.email,
+        created_at: r.created_at,
+      });
+    }
     if (r.comment) {
       comments.push({
         comment: r.comment,
@@ -127,6 +138,7 @@ export async function surveyResults(env, survey) {
     locations,
     writeIns,
     topics,
+    sponsorLeads,
     comments,
     responses: rows,
   };
