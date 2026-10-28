@@ -234,3 +234,31 @@ CREATE TABLE IF NOT EXISTS survey_responses (
 
 CREATE INDEX IF NOT EXISTS idx_survey_responses_survey  ON survey_responses (survey, created_at);
 CREATE INDEX IF NOT EXISTS idx_survey_responses_ip      ON survey_responses (created_ip, created_at);
+
+-- ---------------------------------------------------------------------------
+-- Pageviews.
+--
+-- Our own analytics, so the board can answer "how many growers see this?"
+-- without paying a third party or handing them our visitors.
+--
+-- No cookies and no IP is stored. A visitor is identified by
+-- SHA-256(date + ip + user-agent + secret), which is enough to count the same
+-- person twice in one day as one visitor, and useless for following anybody
+-- across days because the date is inside the hash. The secret makes the hash
+-- unguessable, so nobody can test whether a given address visited.
+--
+-- One row per view. At this site's scale that is a few hundred writes a day;
+-- if it ever stops being, aggregate nightly and prune.
+-- ---------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS pageviews (
+  id           TEXT PRIMARY KEY,
+  day          TEXT NOT NULL,              -- YYYY-MM-DD, for cheap grouping
+  path         TEXT NOT NULL,
+  referrer     TEXT,                       -- host only, never the full URL
+  visitor      TEXT NOT NULL,              -- daily salted hash, see above
+  created_at   TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_pageviews_day     ON pageviews (day);
+CREATE INDEX IF NOT EXISTS idx_pageviews_path    ON pageviews (day, path);
+CREATE INDEX IF NOT EXISTS idx_pageviews_visitor ON pageviews (day, visitor);

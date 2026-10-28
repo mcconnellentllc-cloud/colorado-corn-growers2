@@ -1,46 +1,62 @@
-/* Site analytics.
+/* Visit counting.
  *
- * Why this file exists rather than a snippet pasted into every page: the tag
- * goes on 23 pages, and this way changing provider, fixing the script URL or
- * switching it off is one edit instead of a sweep.
+ * Ours, not a third party's. The Worker and D1 were already here, so a
+ * pageview is one small POST to our own API and the numbers stay in our own
+ * database. No cookies, no third-party script, nothing loaded from anyone
+ * else's domain, and nothing to put in a consent banner.
  *
- * What it is: Plausible. Cookieless, no personal data, no cross-site tracking,
- * and no consent banner required on that basis. The point is a visitor number
- * we can put in front of a sponsor, not a profile of anybody who reads the
- * site. Board and staff pages under /board/ and /staff/ deliberately do not
- * load this -- there is no reason to measure our own directors.
+ * How a visitor is counted without cookies: the Worker hashes the date, the
+ * IP and the browser string together with a secret. The same person on the
+ * same day lands on the same hash and counts once; the same person tomorrow is
+ * a different hash, because the date is inside it. We never store the IP.
  *
- * ---------------------------------------------------------------------------
- * SETUP, and it is not done until somebody does this:
+ * This records nothing until the Worker is deployed. Until then it fails
+ * quietly, which is the right behaviour -- a counter must never be the reason
+ * a page misbehaves.
  *
- *   1. Create the account at https://plausible.io and add cologrowers.com
- *      as a site. Nothing below records anything until that exists.
- *   2. Plausible shows you a snippet. Check SRC against it. The script URL has
- *      changed between versions and the value below is the common default, not
- *      something verified against your dashboard.
- *   3. To show sponsors the numbers, turn on the public dashboard in
- *      Plausible's site settings and share that link. That is the whole reason
- *      we picked a tool with one.
- *
- * To switch it off entirely, set DOMAIN to an empty string.
- * ------------------------------------------------------------------------ */
+ * Numbers are read at /staff/stats.html with a board sign-in.
+ */
 (function () {
     'use strict';
 
-    var DOMAIN = 'cologrowers.com';
-    var SRC = 'https://plausible.io/js/script.js';
+    var API_BASE = 'https://board-api.cologrowers.com';   /* keep in step with board/config.js */
 
-    if (!DOMAIN || !SRC) return;
-
-    /* Don't count local previews or the GitHub Pages staging hostname -- a
-       handful of our own page loads is noise when the numbers are small, and
-       small is exactly what they will be at the start. */
+    /* Our own page loads are not traffic. Skip local previews and the
+       github.io staging hostname, which matter when the real numbers are
+       small -- and they will be, to start with. */
     var host = window.location.hostname;
     if (host === 'localhost' || host === '127.0.0.1' || host.endsWith('.github.io')) return;
 
-    var s = document.createElement('script');
-    s.defer = true;
-    s.setAttribute('data-domain', DOMAIN);
-    s.src = SRC;
-    document.head.appendChild(s);
+    /* Honour the browser's do-not-track setting. It costs us a little accuracy
+       and it is the correct thing to do when we are counting people who did
+       not ask to be counted. */
+    if (navigator.doNotTrack === '1' || window.doNotTrack === '1') return;
+
+    function send() {
+        var payload = JSON.stringify({
+            path: window.location.pathname,
+            referrer: document.referrer || null
+        });
+
+        /* sendBeacon survives the page being closed mid-request, which a
+           plain fetch does not. Fall back where it is unavailable. */
+        try {
+            if (navigator.sendBeacon) {
+                navigator.sendBeacon(API_BASE + '/pv', new Blob([payload], { type: 'application/json' }));
+                return;
+            }
+        } catch (e) { /* fall through */ }
+
+        try {
+            fetch(API_BASE + '/pv', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: payload,
+                keepalive: true
+            }).catch(function () { /* counting must never surface an error */ });
+        } catch (e) { /* ignore */ }
+    }
+
+    if (document.readyState === 'complete') send();
+    else window.addEventListener('load', send);
 })();

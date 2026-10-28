@@ -60,6 +60,7 @@ import { checkAuthRequestLimits, checkBroadcastCooldown } from './lib/ratelimit.
 import { htmlToText, streamToString } from './lib/mime.js';
 import { createLead, isPrimary, recentLeads, storeEmail } from './lib/wire.js';
 import { storeResponse, surveyConfig, surveyResults, tooManyFromIp } from './lib/survey.js';
+import { recordView, stats as pageviewStats } from './lib/pageviews.js';
 import {
   clearedCookieHeader,
   createSession,
@@ -1063,6 +1064,45 @@ async function handleAdminSurveyResults(request, env) {
   return json(request, { ok: true, results: await surveyResults(env, survey) });
 }
 
+/* ---------------------------------------------------------------------------
+ * Pageviews
+ *
+ * POST /pv is public and answers nothing useful on purpose -- a 204 either
+ * way. Returning a count here would hand anyone our traffic numbers, which
+ * are the board's to share with a sponsor, not the internet's.
+ * ------------------------------------------------------------------------ */
+
+async function handlePageview(request, env) {
+  const body = await readJsonBody(request);
+  if (!body) return new Response(null, { status: 204, headers: corsHeaders(request) });
+
+  let selfHost = null;
+  try { selfHost = new URL(env.SITE_ORIGIN || '').hostname; } catch { selfHost = null; }
+
+  try {
+    await recordView(env, {
+      path: body.path,
+      referrer: body.referrer,
+      ip: clientIp(request),
+      userAgent: request.headers.get('user-agent'),
+      selfHost,
+      // Reuse the session secret as the visitor-hash salt. Rotating it only
+      // means a day's uniques split, which is harmless.
+      secret: env.SESSION_SECRET,
+    });
+  } catch {
+    // Never let counting break a page load.
+  }
+  return new Response(null, { status: 204, headers: corsHeaders(request) });
+}
+
+async function handleAdminStats(request, env) {
+  const auth = await requireAdmin(request, env);
+  if (auth.error) return auth.error;
+  const days = new URL(request.url).searchParams.get('days') || '30';
+  return json(request, { ok: true, stats: await pageviewStats(env, days) });
+}
+
 const ROUTES = [
   ['POST', '/auth/request', handleAuthRequest],
   ['GET', '/auth/verify', handleAuthVerify],
@@ -1085,6 +1125,9 @@ const ROUTES = [
   ['POST', '/admin/mailings/test', handleAdminMailingTest],
   ['POST', '/admin/mailings/send', handleAdminMailingSend],
   ['POST', '/admin/mailings/resend', handleAdminMailingResend],
+
+  ['POST', '/pv', handlePageview],
+  ['GET', '/admin/stats', handleAdminStats],
 
   ['POST', '/survey', handleSurveySubmit],
   ['GET', '/admin/survey', handleAdminSurveyResults],
