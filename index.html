@@ -582,6 +582,31 @@
             .survey-call h2 { font-size: 1.6rem; }
         }
 
+
+        /* Inline survey form on the dark call-out */
+        .sv-group { margin-bottom: 1.4rem; }
+        .sv-q { font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+                color: #e3c782; font-weight: 700; margin-bottom: 0.7rem; }
+        .sv-opts { display: flex; gap: 10px; flex-wrap: wrap; }
+        .sv-opt { display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+                  border: 1px solid rgba(211,174,92,0.45); border-radius: 5px;
+                  padding: 0.6rem 1.05rem; color: #ffffff; font-size: 1rem;
+                  background: rgba(0,0,0,0.12); transition: all 0.2s ease; }
+        .sv-opt:hover { border-color: #d3ae5c; background: rgba(0,0,0,0.25); }
+        .sv-opt input { accent-color: #d3ae5c; margin: 0; }
+        .sv-in { width: 100%; padding: 0.75rem 0.9rem; border-radius: 5px;
+                 border: 1px solid rgba(211,174,92,0.4); background: rgba(0,0,0,0.22);
+                 color: #ffffff; font: inherit; font-size: 1rem; box-sizing: border-box; }
+        .sv-in::placeholder { color: #a39b8e; }
+        .sv-in:focus { outline: none; border-color: #d3ae5c; }
+        .sv-in:disabled { opacity: 0.45; }
+        textarea.sv-in { min-height: 80px; resize: vertical; }
+        .sv-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .sv-status { color: #e3c782; font-size: 0.95rem; margin-top: 0.8rem; min-height: 1.2rem; }
+        .sv-thanks { display: none; color: #ffffff; font-size: 1.1rem; line-height: 1.7; }
+        .sv-thanks strong { color: #e3c782; }
+        @media (max-width: 700px) { .sv-row { grid-template-columns: 1fr; } }
+
         /* --- Sponsor band ------------------------------------------------ */
         /* Open slots carry their price on purpose. A prospect we have just
            called can look at the site and see exactly where their logo goes
@@ -818,6 +843,7 @@
         }
     </style>
     <script defer src="/analytics.js"></script>
+    <script defer src="/survey-form.js"></script>
 </head>
 <body>
     <div class="alert-banner" role="alert" style="background: #232220; color: #e3dfd6; border-bottom: 1px solid rgba(211, 174, 92, 0.28); padding: 0.8rem 1rem; text-align: center; position: relative; z-index: 1001; font-weight: 400; font-size: 0.95rem;">
@@ -894,20 +920,55 @@
                 what to talk about in a room by ourselves, we are asking the people who would have
                 to drive there.</p>
 
-            <div class="choices">
-                <span class="choice">Sterling</span>
-                <span class="choice">Yuma</span>
-                <span class="choice">Burlington</span>
-                <span class="choice w">or write in your own</span>
+            <form data-survey id="home-survey">
+                <div class="sv-group">
+                    <div class="sv-q">Where should we meet?</div>
+                    <div class="sv-opts">
+                        <label class="sv-opt"><input type="radio" name="location" value="sterling">Sterling</label>
+                        <label class="sv-opt"><input type="radio" name="location" value="yuma">Yuma</label>
+                        <label class="sv-opt"><input type="radio" name="location" value="burlington">Burlington</label>
+                        <label class="sv-opt"><input type="radio" name="location" value="other">Somewhere else</label>
+                    </div>
+                    <input class="sv-in" name="location_other" type="text" style="margin-top:10px;"
+                           placeholder="Which town?" disabled>
+                </div>
+
+                <div class="sv-group">
+                    <div class="sv-q">What would be worth 2 hours of your valuable time? Tick any.</div>
+                    <div class="sv-opts">
+                        <label class="sv-opt"><input type="checkbox" name="topics" value="fsa-programs">FSA programs, explained</label>
+                        <label class="sv-opt"><input type="checkbox" name="topics" value="marketing-ai">Marketing with AI</label>
+                        <label class="sv-opt"><input type="checkbox" name="topics" value="banking">Making the bank work for you</label>
+                    </div>
+                </div>
+
+                <div class="sv-group">
+                    <div class="sv-q">Anything we missed?</div>
+                    <textarea class="sv-in" name="comment"
+                              placeholder="A topic, a speaker, a time of year that works better — this is the part the board reads first"></textarea>
+                </div>
+
+                <div class="sv-group">
+                    <div class="sv-q">Your name, if you want to. All optional.</div>
+                    <div class="sv-row">
+                        <input class="sv-in" name="name" type="text" placeholder="Name" autocomplete="name">
+                        <input class="sv-in" name="county" type="text" placeholder="County">
+                        <input class="sv-in" name="email" type="email" placeholder="Email" autocomplete="email">
+                    </div>
+                </div>
+
+                <button class="survey-btn" type="submit">Send it to the board &rarr;</button>
+                <p class="sv-status" data-role="status"></p>
+                <p class="note">About a minute. You do not have to give your name. The answers go to
+                    the board and nowhere else. <a href="Pages/annual-meeting.html" style="color:#e3c782;">More
+                    about the meeting &rarr;</a></p>
+            </form>
+
+            <div class="sv-thanks" data-role="thanks">
+                <strong>Got it — thank you.</strong><br>
+                That goes straight to the board. If you left an address we may come back to you
+                about the programme; if you did not, your answer counts exactly the same.
             </div>
-
-            <p>Then tell us what would actually be worth your day &mdash; FSA programs explained,
-                marketing with AI, or an inside look at what an ag lender needs to see. There is a
-                blank box for anything we missed, and it is the part the board reads first.</p>
-
-            <a class="survey-btn" href="Pages/annual-meeting.html">Take the survey &rarr;</a>
-            <p class="note">About a minute. You do not have to give your name. The answers go to
-                the board and nowhere else.</p>
         </div>
     </section>
 

@@ -81,7 +81,7 @@
                  + r.writeIns.map(esc).join(' &middot; ') + '</p>';
         }
 
-        html += '<h3 style="margin-top:1.8rem;">Topics worth the day</h3>';
+        html += '<h3 style="margin-top:1.8rem;">Topics worth 2 hours</h3>';
         html += '<p class="muted" style="font-size:.88rem;margin-bottom:.8rem;">Growers could tick '
              + 'more than one, so these add to more than the response count. The percentage is of '
              + 'everyone who answered.</p>';
