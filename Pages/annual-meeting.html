@@ -4,16 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CCGA Annual Meeting — Tell Us Where and What &mdash; CCGA</title>
-    <meta name="description" content="The CCGA annual meeting is being planned and the board wants growers to pick the town and the topics. Vote on Sterling, Yuma, Burlington or write in your own, and tell us what would actually be worth your day.">
+    <meta name="description" content="Growers pick the town and the topics for the CCGA annual meeting. Vote Sterling, Yuma or Burlington, write in your own, and say what would be worth 2 hours of your time.">
     <meta property="og:title" content="CCGA Annual Meeting — Tell Us Where and What">
-    <meta property="og:description" content="The CCGA annual meeting is being planned and the board wants growers to pick the town and the topics. Vote on Sterling, Yuma, Burlington or write in your own, and tell us what would actually be worth your day.">
+    <meta property="og:description" content="Growers pick the town and the topics for the CCGA annual meeting. Vote Sterling, Yuma or Burlington, write in your own, and say what would be worth 2 hours of your time.">
     <meta property="og:type" content="article">
     <meta property="og:url" content="https://www.cologrowers.com/Pages/annual-meeting.html">
     <meta property="og:image" content="https://www.cologrowers.com/images/card-annual-meeting.jpg">
     <meta property="og:site_name" content="Colorado Corn Growers Association">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="CCGA Annual Meeting — Tell Us Where and What">
-    <meta name="twitter:description" content="The CCGA annual meeting is being planned and the board wants growers to pick the town and the topics. Vote on Sterling, Yuma, Burlington or write in your own, and tell us what would actually be worth your day.">
+    <meta name="twitter:description" content="Growers pick the town and the topics for the CCGA annual meeting. Vote Sterling, Yuma or Burlington, write in your own, and say what would be worth 2 hours of your time.">
     <meta name="twitter:image" content="https://www.cologrowers.com/images/card-annual-meeting.jpg">
     <style>
         * {
@@ -388,15 +388,14 @@
             padding: 16px 18px; border-left: 3px solid #6a8971; background: #f0f3ef;
             color: #37342f; margin-bottom: 24px;
         }
-        .notice.warn { border-left-color: #8a6a22; background: #f7f1e3; }
-        /* #8a6a22 is 4.48 on this warmer panel -- just under AA. Darken it
-           here rather than lightening a panel that is meant to read as a
-           caution. */
-        .notice.warn a { color: #7a5c1c; }
         .done { display: none; }
+        /* The nav is sticky, so a jump straight to #survey-wrap from the
+           'Take the survey' link would tuck the first question under it. */
+        #survey-wrap { scroll-margin-top: 96px; }
         @media (max-width: 640px) { .row { grid-template-columns: 1fr; } }
     </style>
     <script defer src="/analytics.js"></script>
+    <script defer src="/survey-form.js"></script>
 </head>
 <body>
     <nav class="navbar">
@@ -470,18 +469,7 @@
         <h2>Now Your Turn</h2>
 
         <div id="survey-wrap">
-            <div class="notice warn" id="survey-offline" style="display:none;">
-                <strong>The form on this page is not switched on yet</strong> &mdash; we are
-                finishing the setup. Do not let that stop you: the button below opens an email
-                with the same questions already written out, so you only have to type the
-                answers. It is counted exactly the same.
-                <p style="margin-top:14px;">
-                    <a class="send" style="display:inline-block;text-decoration:none;color:#ffffff;"
-                       href="mailto:office@cologrowers.com?subject=Annual%20meeting%20survey&body=Where%20should%20we%20hold%20the%20annual%20meeting%3F%0A%28Sterling%20/%20Yuma%20/%20Burlington%20/%20somewhere%20else%20-%20tell%20us%20where%29%0A%0A%20%20%20%3E%0A%0A%0AWhat%20would%20be%20worth%20your%20day%3F%20Pick%20any.%0A%20%20-%20FSA%20programs%2C%20explained%2C%20and%20how%20to%20actually%20use%20them%0A%20%20-%20Marketing%20with%20AI%0A%20%20-%20Making%20the%20bank%20work%20for%20you%0A%0A%20%20%20%3E%0A%0A%0AKnow%20a%20business%20that%20would%20sponsor%20it%3F%0A%28Seed%20dealer%2C%20equipment%20shop%2C%20bank%2C%20agronomist%20-%20we%20will%20do%20the%20asking%2C%0Aand%20we%20will%20not%20say%20you%20sent%20us%20unless%20you%20tell%20us%20to.%29%0A%0A%20%20%20%3E%0A%0A%0AAnything%20else%20-%20a%20topic%20we%20missed%2C%20a%20speaker%20worth%20getting%2C%20a%20time%20of%0Ayear%20that%20works%20better%2C%20or%20something%20we%20are%20getting%20wrong%3A%0A%0A%20%20%20%3E%0A%0A%0AYour%20name%20and%20county%2C%20only%20if%20you%20want%20to%3A%0A%0A%20%20%20%3E%0A">Answer by email instead</a>
-                </p>
-            </div>
-
-            <form id="survey" style="display:none;">
+            <form data-survey id="survey">
                 <fieldset>
                     <legend>Where should we hold it?</legend>
                     <p class="hint">One choice. If none of these work, write in the town that
@@ -497,7 +485,7 @@
                 </fieldset>
 
                 <fieldset>
-                    <legend>What would actually be worth your day?</legend>
+                    <legend>What would actually be worth 2 hours of your valuable time?</legend>
                     <p class="hint">Tick as many as you like. This decides the programme, so be
                         honest rather than polite.</p>
 
@@ -554,10 +542,10 @@
                 </fieldset>
 
                 <button class="send" type="submit" id="send">Send it to the board</button>
-                <p class="hint" id="status" style="margin-top:12px;"></p>
+                <p class="hint" data-role="status" style="margin-top:12px;"></p>
             </form>
 
-            <div class="notice done" id="thanks">
+            <div class="notice done" data-role="thanks">
                 <strong>Got it &mdash; thank you.</strong> That goes straight to the board. If you
                 left an address we may come back to you about the programme; if you did not, your
                 answer still counts exactly the same.
@@ -571,77 +559,6 @@
             kept alongside anything published. CCGA administers no USDA program.</p>
     </article>
 
-    <script>
-    /* The survey needs somewhere to put the answers, and the static site has
-       nowhere. It posts to the Worker API. Until that Worker is deployed the
-       form hides itself behind a /health check and shows the email fallback
-       instead, the same way /board/ does -- a form that silently discards a
-       grower's answer would be worse than no form. */
-    (function () {
-        var API_BASE = 'https://board-api.cologrowers.com';   /* keep in step with board/config.js */
-        var SURVEY = 'annual-meeting-2027';
-
-        var form = document.getElementById('survey');
-        var offline = document.getElementById('survey-offline');
-        var thanks = document.getElementById('thanks');
-        var status = document.getElementById('status');
-        var send = document.getElementById('send');
-        var other = document.getElementById('location_other');
-
-        function show(el) { el.style.display = el === thanks ? 'block' : ''; }
-
-        /* The write-in only accepts text when "somewhere else" is chosen, so a
-           stray entry cannot contradict a selected town. */
-        form.addEventListener('change', function (e) {
-            if (e.target.name !== 'location') return;
-            other.disabled = e.target.value !== 'other';
-            if (!other.disabled) other.focus(); else other.value = '';
-        });
-
-        fetch(API_BASE + '/health', { mode: 'cors' })
-            .then(function (r) { if (!r.ok) throw new Error('down'); show(form); })
-            .catch(function () { show(offline); });
-
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var loc = form.querySelector('input[name=location]:checked');
-            var topics = [].slice.call(form.querySelectorAll('input[name=topics]:checked'))
-                           .map(function (i) { return i.value; });
-            var comment = document.getElementById('comment').value.trim();
-
-            var lead = document.getElementById('sponsor_lead').value.trim();
-            if (!loc && !topics.length && !comment && !lead) {
-                status.textContent = 'Pick a town, a topic, or leave a comment -- otherwise there is nothing to send.';
-                return;
-            }
-
-            send.disabled = true;
-            status.textContent = 'Sending...';
-
-            fetch(API_BASE + '/survey', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    survey: SURVEY,
-                    location: loc ? loc.value : null,
-                    location_other: other.value.trim(),
-                    topics: topics,
-                    comment: comment,
-                    name: document.getElementById('name').value.trim(),
-                    county: document.getElementById('county').value.trim(),
-                    email: document.getElementById('email').value.trim(),
-                    sponsor_lead: document.getElementById('sponsor_lead').value.trim()
-                })
-            })
-            .then(function (r) { if (!r.ok) throw new Error('bad'); return r.json(); })
-            .then(function () { form.style.display = 'none'; show(thanks); })
-            .catch(function () {
-                send.disabled = false;
-                status.textContent = 'That did not go through. Try again, or email office@cologrowers.com and we will count it by hand.';
-            });
-        });
-    })();
-    </script>
     
 
     <footer class="footer">
