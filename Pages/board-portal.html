@@ -308,6 +308,72 @@
     </style>
 </head>
 <body>
+    <!-- Password gate.
+         READ THIS BEFORE RELYING ON IT. This hides the page until the password
+         is entered. It does NOT protect the content: this file is served from a
+         public repository and every word below is in the page source whether or
+         not the gate is passed. Anyone who opens View Source, or fetches the
+         file with curl, reads it all without typing anything.
+         It stops casual wandering. That is the whole of what it does.
+         The password is stored as a SHA-256 hash rather than in the clear, so
+         at least it cannot be harvested from this page and tried elsewhere. To
+         change it, replace the hash below with the SHA-256 of the new password. -->
+    <div id="portal-gate" style="position:fixed; inset:0; z-index:99999; background:#1b1a17;
+         display:flex; align-items:center; justify-content:center; padding:1.5rem;">
+        <div style="background:#ffffff; border-radius:6px; padding:2.5rem 2.2rem; max-width:380px;
+             width:100%; box-shadow:0 10px 40px rgba(0,0,0,0.4);">
+            <h2 style="font-family:Georgia,serif; font-weight:400; color:#334539; font-size:1.5rem;
+                margin-bottom:6px;">Board Portal</h2>
+            <p style="color:#5b564f; font-size:0.92rem; margin-bottom:18px;">
+                Enter the board password to continue.</p>
+            <input id="gate-pw" type="password" placeholder="Password" autocomplete="current-password"
+                style="width:100%; padding:12px 14px; border:2px solid #e3dfd6; border-radius:4px;
+                font-size:1rem; outline:none; box-sizing:border-box; margin-bottom:8px;"
+                onfocus="this.style.borderColor='#6a8971'" onblur="this.style.borderColor='#e3dfd6'">
+            <div id="gate-err" style="color:#a3301f; font-size:0.85rem; height:20px; margin-bottom:10px;"></div>
+            <button id="gate-go" style="width:100%; padding:13px; background:#334539; color:#ffffff;
+                border:none; border-radius:4px; font-size:1rem; font-weight:600; cursor:pointer;">
+                Enter</button>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        var HASH = 'b5b2a24616e3b083327dcd4ed09ac4c621127f35088bdb4759b73754b85a58e4';
+        var KEY = 'ccga-portal-ok';
+        var gate = document.getElementById('portal-gate');
+        var pw = document.getElementById('gate-pw');
+        var err = document.getElementById('gate-err');
+
+        function open_() {
+            gate.style.display = 'none';
+            try { sessionStorage.setItem(KEY, '1'); } catch (e) { /* private window */ }
+        }
+
+        /* Entered once this session is enough -- do not ask again on every page. */
+        try { if (sessionStorage.getItem(KEY) === '1') { gate.style.display = 'none'; return; } } catch (e) {}
+
+        function check() {
+            var value = pw.value || '';
+            crypto.subtle.digest('SHA-256', new TextEncoder().encode(value)).then(function (buf) {
+                var hex = [].map.call(new Uint8Array(buf), function (b) {
+                    return b.toString(16).padStart(2, '0');
+                }).join('');
+                if (hex === HASH) { open_(); return; }
+                err.textContent = 'That is not the board password.';
+                pw.value = '';
+                pw.focus();
+            }).catch(function () {
+                err.textContent = 'Could not check that. Try a different browser.';
+            });
+        }
+
+        document.getElementById('gate-go').addEventListener('click', check);
+        pw.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+        pw.focus();
+    })();
+    </script>
+
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">CCGA Board Portal</div>
