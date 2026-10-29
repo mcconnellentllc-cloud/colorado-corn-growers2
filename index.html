@@ -542,6 +542,46 @@
         .logo { font-weight: 400; }
     
 
+
+        /* --- Survey call-out ---------------------------------------------- */
+        .survey-call {
+            background: #334539; border-radius: 6px; padding: 2.6rem 2.8rem;
+            color: #ffffff; margin-bottom: 2.5rem;
+        }
+        .survey-call .eyebrow {
+            font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase;
+            color: #e3c782; font-weight: 700; margin-bottom: 0.7rem;
+        }
+        .survey-call h2 {
+            color: #ffffff; font-size: 2.1rem; font-weight: 400; line-height: 1.15;
+            margin-bottom: 0.9rem;
+        }
+        .survey-call p {
+            color: #e3dfd6; font-size: 1.08rem; line-height: 1.7; margin-bottom: 1rem;
+            max-width: 62ch;
+        }
+        .survey-call .choices {
+            display: flex; gap: 10px; flex-wrap: wrap; margin: 1.3rem 0 1.5rem;
+        }
+        .survey-call .choice {
+            border: 1px solid rgba(211,174,92,0.45); border-radius: 5px;
+            padding: 0.6rem 1.1rem; font-size: 1.02rem; color: #ffffff;
+        }
+        .survey-call .choice.w { color: #cfc8bc; font-size: 0.95rem; }
+        .survey-btn {
+            display: inline-block; background: #d3ae5c; color: #1b1a17;
+            padding: 0.9rem 2rem; border-radius: 4px; text-decoration: none;
+            font-weight: 700; font-size: 1.05rem; transition: background 0.3s ease;
+        }
+        .survey-btn:hover { background: #e3c782; }
+        .survey-call .note {
+            color: #b9b2a6; font-size: 0.95rem; margin: 0.9rem 0 0;
+        }
+        @media (max-width: 768px) {
+            .survey-call { padding: 1.8rem 1.4rem; }
+            .survey-call h2 { font-size: 1.6rem; }
+        }
+
         /* --- Sponsor band ------------------------------------------------ */
         /* Open slots carry their price on purpose. A prospect we have just
            called can look at the site and see exactly where their logo goes
@@ -844,6 +884,33 @@
 
     <!-- Who has shown up for us. Promoted out of the old #allies section at the
          bottom of the page, which this replaces. -->
+    <!-- Annual meeting survey. Top of the page on purpose: it is the one thing
+         on this site with a closing window that we control. -->
+    <section class="section" style="padding-bottom: 0;">
+        <div class="survey-call">
+            <p class="eyebrow">We need to hear from you</p>
+            <h2>Our Annual Meeting. You Pick the Town.</h2>
+            <p>We are planning the CCGA annual meeting, and rather than decide where to hold it and
+                what to talk about in a room by ourselves, we are asking the people who would have
+                to drive there.</p>
+
+            <div class="choices">
+                <span class="choice">Sterling</span>
+                <span class="choice">Yuma</span>
+                <span class="choice">Burlington</span>
+                <span class="choice w">or write in your own</span>
+            </div>
+
+            <p>Then tell us what would actually be worth your day &mdash; FSA programs explained,
+                marketing with AI, or an inside look at what an ag lender needs to see. There is a
+                blank box for anything we missed, and it is the part the board reads first.</p>
+
+            <a class="survey-btn" href="Pages/annual-meeting.html">Take the survey &rarr;</a>
+            <p class="note">About a minute. You do not have to give your name. The answers go to
+                the board and nowhere else.</p>
+        </div>
+    </section>
+
     <section class="section" style="padding-bottom: 0;">
         <div class="record-card">
             <div>
