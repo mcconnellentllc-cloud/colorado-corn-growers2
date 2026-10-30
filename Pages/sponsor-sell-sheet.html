@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- A leave-behind for sponsor calls. Built to print to a single page:
+         open it, File -> Print -> Save as PDF. Not for search; it is a sales
+         tool, not site content. -->
+    <meta name="robots" content="noindex, nofollow">
+    <title>CCGA Sponsorship — One-Page Overview</title>
+    <style>
+        :root {
+            --page:#f5f3ee; --surface:#ffffff; --ink:#37342f; --muted:#5b564f;
+            --green:#334539; --gold-dark:#8a6a22; --line:#d8d2c6;
+        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Segoe UI',Helvetica,Arial,sans-serif; color:var(--ink);
+               background:#e7e3da; line-height:1.42; padding:24px; }
+        .sheet { max-width:820px; margin:0 auto; background:var(--surface);
+                 box-shadow:0 2px 16px rgba(0,0,0,.12); }
+        .band { background:var(--green); color:#fff; padding:18px 32px; }
+        .band .kicker { color:#d3ae5c; font-size:.72rem; letter-spacing:.18em;
+                        text-transform:uppercase; font-weight:700; }
+        .band h1 { font-family:Georgia,serif; font-weight:400; font-size:1.75rem;
+                   line-height:1.08; margin:5px 0 4px; }
+        .band p { color:#e3dfd6; font-size:.92rem; max-width:64ch; }
+        .body { padding:18px 32px 20px; }
+        .lead { font-size:.98rem; margin-bottom:12px; }
+        .lead strong { color:var(--green); }
+        h2 { font-size:.76rem; letter-spacing:.12em; text-transform:uppercase;
+             color:var(--gold-dark); font-weight:700; margin:14px 0 8px;
+             border-bottom:1px solid var(--line); padding-bottom:4px; }
+        .wins { display:grid; grid-template-columns:1fr 1fr; gap:4px 26px; }
+        .wins li { list-style:none; font-size:.92rem; padding-left:16px;
+                   position:relative; }
+        .wins li::before { content:''; position:absolute; left:0; top:9px;
+                           width:8px; height:2px; background:#6a8971; }
+        .wins b { color:var(--green); }
+        .tiers { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:2px; }
+        .tier { border:1px solid var(--line); border-radius:6px; padding:12px 13px; }
+        .tier.champ { border-color:var(--green); border-width:2px; }
+        .tier .t-name { font-weight:700; color:var(--green); font-size:.95rem; }
+        .tier .t-price { color:var(--gold-dark); font-weight:700; font-size:1.2rem;
+                         margin:1px 0 6px; }
+        .tier .t-get { font-size:.84rem; color:var(--ink); }
+        .tier .t-slots { font-size:.74rem; color:var(--muted); margin-top:7px;
+                         text-transform:uppercase; letter-spacing:.06em; }
+        .math { background:var(--page); border:1px solid var(--line); border-radius:6px;
+                padding:14px 16px; margin-top:4px; }
+        .math table { width:100%; border-collapse:collapse; font-size:.9rem; }
+        .math th, .math td { text-align:left; padding:4px 8px; }
+        .math th { color:var(--muted); font-weight:600; font-size:.78rem;
+                   text-transform:uppercase; letter-spacing:.05em; border-bottom:1px solid var(--line); }
+        .math td.n { text-align:right; font-variant-numeric:tabular-nums; }
+        .math .big { color:var(--green); font-weight:700; }
+        .reach { margin-top:4px; background:#faf7ef; border:1px dashed #c7ad6a;
+                 border-radius:6px; padding:12px 16px; font-size:.9rem; }
+        .reach .blanks { display:flex; gap:22px; flex-wrap:wrap; margin-top:7px; }
+        .reach .blank { font-size:.85rem; color:var(--muted); }
+        .reach .blank span { display:inline-block; min-width:92px;
+                             border-bottom:1px solid #b9b2a4; }
+        .cta { margin-top:14px; padding-top:12px; border-top:2px solid var(--green);
+               display:flex; justify-content:space-between; align-items:flex-end;
+               gap:20px; flex-wrap:wrap; }
+        .cta .ask { font-family:Georgia,serif; color:var(--green); font-size:1.08rem;
+                    max-width:48%; }
+        .cta .who { font-size:.84rem; color:var(--muted); text-align:right; }
+        .cta .who b { color:var(--ink); }
+        .foot { font-size:.74rem; color:var(--muted); margin-top:10px; }
+        @media print {
+            body { background:#fff; padding:0; line-height:1.36; }
+            /* The content reflows narrower in print than on screen and runs a
+               little long; a touch of zoom keeps it to one page without
+               shrinking any text perceptibly. */
+            .sheet { box-shadow:none; max-width:none; zoom:0.95; }
+            .band { padding:14px 28px; }
+            .band h1 { font-size:1.65rem; }
+            .body { padding:13px 28px 12px; }
+            .lead { margin-bottom:10px; }
+            h2 { margin:11px 0 6px; }
+            .wins { gap:3px 26px; }
+            .math th, .math td { padding:3px 8px; }
+            .reach { padding:10px 14px; }
+            .cta { margin-top:11px; padding-top:10px; }
+            .foot { margin-top:8px; }
+            @page { margin:9mm; size:Letter; }
+        }
+        @media (max-width:640px) {
+            .wins, .tiers { grid-template-columns:1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="sheet">
+    <div class="band">
+        <div class="kicker">Colorado Corn Growers Association</div>
+        <h1>Put your name beside the work that keeps Colorado farming</h1>
+        <p>We are not the checkoff board. We are volunteer corn producers who get the
+            bills through Denver and Washington &mdash; funded entirely by the businesses
+            and growers who decide this work is worth paying for.</p>
+    </div>
+
+    <div class="body">
+        <p class="lead">A grower who gets a disaster payment through, or keeps a farm solvent
+            through a bad year, is a grower who is still <strong>your</strong> customer next
+            spring. This association is the reason a number of them are &mdash; and sponsorship
+            puts your name where those growers see it, all year.</p>
+
+        <h2>What this association has delivered</h2>
+        <ul class="wins">
+            <li><b>Over $1.2 billion</b> secured for Colorado agriculture since 2018</li>
+            <li><b>E15</b> and the Renewable Fuel Standard defended &mdash; ethanol demand is corn demand</li>
+            <li><b>T-yields raised</b> for corn across Colorado, lifting safety-net payments</li>
+            <li><b>$8.6 million</b> for the Gold Hill Pipeline at Greeley</li>
+        </ul>
+
+        <h2>Three ways to partner</h2>
+        <div class="tiers">
+            <div class="tier champ">
+                <div class="t-name">Champion Partner</div>
+                <div class="t-price">$10,000</div>
+                <div class="t-get">Your name on one running update &mdash; every bill
+                    update, every payment announcement, or every meeting announcement
+                    &mdash; on the site and on Facebook.</div>
+                <div class="t-slots">3 places &middot; 2 open</div>
+            </div>
+            <div class="tier">
+                <div class="t-name">Advocacy Partner</div>
+                <div class="t-price">$5,000</div>
+                <div class="t-get">Your name rotates across our news coverage through
+                    the year, plus your logo in the sponsor band and a mention at the
+                    annual meeting.</div>
+                <div class="t-slots">4 places &middot; all open</div>
+            </div>
+            <div class="tier">
+                <div class="t-name">Supporting Partner</div>
+                <div class="t-price">$2,500</div>
+                <div class="t-get">Your name on the sponsor banner on the home page,
+                    named at the annual meeting and recognised on Facebook.</div>
+                <div class="t-slots">6 places &middot; all open</div>
+            </div>
+        </div>
+
+        <h2>What a Champion place actually buys</h2>
+        <div class="math">
+            <table>
+                <tr><th>Stream</th><th class="n">Times a year</th><th class="n">Cost per mention</th></tr>
+                <tr><td>Bill updates (3+ a week)</td><td class="n">150+</td><td class="n big">~$65</td></tr>
+                <tr><td>Meeting announcements (weekly)</td><td class="n">~52</td><td class="n big">~$190</td></tr>
+                <tr><td>Payment &amp; program announcements</td><td class="n">as they land</td><td class="n big">your most-read posts</td></tr>
+            </table>
+        </div>
+
+        <h2>Your name reaches</h2>
+        <div class="reach">
+            Every mention lands in front of Colorado corn growers across the website,
+            the mailing list and Facebook.
+            <div class="blanks">
+                <div class="blank">Members / list: <span>&nbsp;</span></div>
+                <div class="blank">Site visits / mo: <span>&nbsp;</span></div>
+                <div class="blank">Facebook reach: <span>&nbsp;</span></div>
+            </div>
+        </div>
+
+        <div class="cta">
+            <div class="ask">Two Champion places are open. Shall we save one for you?</div>
+            <div class="who">
+                <b>Colorado Corn Growers Association</b><br>
+                office@cologrowers.com &middot; 1-877-CO-GROW-9<br>
+                cologrowers.com/Pages/become-a-sponsor.html
+            </div>
+        </div>
+
+        <p class="foot">CCGA administers no USDA program and takes no checkoff money &mdash;
+            by law the checkoff cannot spend a cent on policy. Figures are drawn from the
+            public record; see cologrowers.com for sources.</p>
+    </div>
+</div>
+</body>
+</html>
