@@ -640,9 +640,24 @@
         .slot.open { background: #faf9f6; border: 1px dashed #a9a296; }
         .slot.open .slot-tier { color: #5b564f; }
         .slot.open .slot-here { color: #37342f; font-size: 1.15rem; font-weight: 600; }
-        .slot.open .slot-price { color: #8a6a22; font-size: 0.98rem; margin-top: 0.35rem;
-                                 font-weight: 600; }
+        /* What a sponsor actually gets for the place: the running update their
+           name rides on. This, not a price, is what the band sells. Prices
+           live on become-a-sponsor.html. */
+        .slot-stream { font-size: 0.9rem; margin-top: 0.45rem; line-height: 1.32; }
+        .slot.filled .slot-stream { color: #e9e5dc; }
+        .slot.open .slot-stream { color: #8a6a22; font-weight: 600; }
         .slot.open:hover { border-color: #5b564f; border-style: solid; background: #ffffff; }
+        /* Supporting partners are a strip of names along the foot of the band
+           rather than their own ad tiles. */
+        .supporting-banner { display: flex; flex-wrap: wrap; align-items: baseline;
+                             gap: 8px 18px; background: #faf9f6; border: 1px dashed #a9a296;
+                             border-radius: 6px; padding: 1.05rem 1.4rem; }
+        .supporting-banner .sb-tier { font-size: 0.72rem; letter-spacing: 0.12em;
+                                      text-transform: uppercase; font-weight: 700;
+                                      color: #5b564f; }
+        .supporting-banner .sb-names { color: #37342f; font-size: 1rem; }
+        .supporting-banner a { color: #8a6a22; font-weight: 600; text-decoration: none; }
+        .supporting-banner a:hover { text-decoration: underline; }
         .sponsors-foot { text-align: center; color: #5b564f; font-size: 0.95rem;
                          margin-top: 1.6rem; }
         .sponsors-foot a { color: #8a6a22; font-weight: 600; }
@@ -1081,51 +1096,65 @@
                 and everything this association does is paid for by the businesses and growers
                 below.</p>
 
+            <!-- Champion partners each carry one running update. When a bill
+                 update, a payment announcement or a meeting announcement goes
+                 out, it carries that sponsor's name, on the site and on
+                 Facebook. AcreProfit holds payment announcements; the other two
+                 streams are open. -->
             <div class="sponsor-row row-3">
                 <a class="slot filled" href="https://acreprofit.com" target="_blank" rel="noopener">
                     <span class="slot-tier">Champion Partner</span>
                     <span class="slot-name">AcreProfit</span>
-                    <span class="slot-go">acreprofit.com &rarr;</span>
+                    <span class="slot-stream">Brings growers every payment announcement</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
                     <span class="slot-tier">Champion Partner</span>
-                    <span class="slot-here">This could be your ad</span>
-                    <span class="slot-price">$10,000 a year</span>
+                    <span class="slot-here">This could be your name</span>
+                    <span class="slot-stream">Sponsor every bill update &rarr;</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
                     <span class="slot-tier">Champion Partner</span>
-                    <span class="slot-here">This could be your ad</span>
-                    <span class="slot-price">$10,000 a year</span>
+                    <span class="slot-here">This could be your name</span>
+                    <span class="slot-stream">Sponsor every meeting announcement &rarr;</span>
                 </a>
             </div>
 
+            <!-- Advocacy partners rotate across the news: as items are
+                 published their names cycle through the coverage. -->
             <div class="sponsor-row row-4">
                 <a class="slot open" href="Pages/become-a-sponsor.html">
-                    <span class="slot-tier">Advocacy</span>
-                    <span class="slot-here">Your ad here</span>
-                    <span class="slot-price">$5,000</span>
+                    <span class="slot-tier">Advocacy Partner</span>
+                    <span class="slot-here">Your name here</span>
+                    <span class="slot-stream">Rotating across our news</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
-                    <span class="slot-tier">Advocacy</span>
-                    <span class="slot-here">Your ad here</span>
-                    <span class="slot-price">$5,000</span>
+                    <span class="slot-tier">Advocacy Partner</span>
+                    <span class="slot-here">Your name here</span>
+                    <span class="slot-stream">Rotating across our news</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
-                    <span class="slot-tier">Advocacy</span>
-                    <span class="slot-here">Your ad here</span>
-                    <span class="slot-price">$5,000</span>
+                    <span class="slot-tier">Advocacy Partner</span>
+                    <span class="slot-here">Your name here</span>
+                    <span class="slot-stream">Rotating across our news</span>
                 </a>
                 <a class="slot open" href="Pages/become-a-sponsor.html">
-                    <span class="slot-tier">Advocacy</span>
-                    <span class="slot-here">Your ad here</span>
-                    <span class="slot-price">$5,000</span>
+                    <span class="slot-tier">Advocacy Partner</span>
+                    <span class="slot-here">Your name here</span>
+                    <span class="slot-stream">Rotating across our news</span>
                 </a>
+            </div>
+
+            <!-- Supporting partners: names along the banner. -->
+            <div class="supporting-banner">
+                <span class="sb-tier">Supporting Partners</span>
+                <span class="sb-names"><a href="Pages/become-a-sponsor.html">Your name on the
+                    banner &mdash; join them &rarr;</a></span>
             </div>
 
             <p class="sponsors-foot"><strong>Banks, energy and fuel companies, equipment and
                 irrigation dealers, car dealerships.</strong> You already do business with these
                 operations &mdash; this is the association that keeps them farming, and your name
-                sits beside that work on every page. Supporting partnerships start at $2,500.
+                sits beside that work on every page.
                 <a href="Pages/become-a-sponsor.html">See what each level includes &rarr;</a></p>
         </div>
     </section>
