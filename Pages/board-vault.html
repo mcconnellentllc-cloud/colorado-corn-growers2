@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Board Password Vault — CCGA</title>
+    <!--
+      An encrypted vault for the board's shared logins.
+
+      How it is secured: entries are encrypted in the browser with AES-GCM,
+      using a key derived from the board passphrase with PBKDF2 (250k rounds).
+      Only the encrypted blob is ever stored, in this browser's localStorage
+      and in the file you export. The passphrase is never stored anywhere, and
+      no readable password is ever written to the page, the repository or the
+      site. Without the passphrase the stored blob is useless.
+
+      This is real protection, not the portal's cosmetic gate. Its strength is
+      the passphrase: choose a long, unique one, keep it off the site and out of
+      email, and it is not the portal password.
+    -->
+    <style>
+        :root{--page:#f5f3ee;--surface:#fff;--ink:#37342f;--muted:#5b564f;
+              --green:#334539;--green-d:#28362c;--gold-d:#8a6a22;--line:#e0dbd1;--err:#a3301f;}
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:'Segoe UI',Helvetica,Arial,sans-serif;background:var(--page);
+             color:var(--ink);line-height:1.6;}
+        .navbar{background:rgba(27,26,23,.97);padding:1.1rem 0;position:sticky;top:0;z-index:50;}
+        .nav-in{max-width:960px;margin:0 auto;padding:0 1.4rem;display:flex;
+                justify-content:space-between;align-items:center;}
+        .nav-logo{color:#fff;font-weight:600;font-size:1.1rem;}
+        .nav-back{color:#d3ae5c;text-decoration:none;font-size:.9rem;}
+        .wrap{max-width:960px;margin:0 auto;padding:2.2rem 1.4rem 4rem;}
+        h1{font-family:Georgia,serif;font-weight:400;color:var(--green);font-size:1.9rem;margin-bottom:.3rem;}
+        .sub{color:var(--muted);margin-bottom:1.6rem;}
+        .card{background:var(--surface);border:1px solid var(--line);border-radius:8px;
+              padding:1.5rem;margin-bottom:1.3rem;}
+        label{display:block;font-size:.82rem;font-weight:600;color:var(--muted);
+              text-transform:uppercase;letter-spacing:.04em;margin-bottom:.35rem;}
+        input,textarea{width:100%;padding:.7rem .8rem;border:1px solid #c7c0b4;border-radius:6px;
+              font:inherit;font-size:1rem;color:var(--ink);background:#fff;}
+        input:focus,textarea:focus{outline:2px solid var(--green);border-color:var(--green);}
+        .btn{display:inline-flex;align-items:center;gap:.4rem;background:var(--green);color:#fff;
+             border:none;padding:.72rem 1.3rem;border-radius:6px;font:inherit;font-weight:600;
+             cursor:pointer;text-decoration:none;}
+        .btn:hover{background:var(--green-d);}
+        .btn:disabled{background:#9a948a;cursor:default;}
+        .btn.ghost{background:transparent;color:var(--green);border:1px solid var(--green);}
+        .btn.ghost:hover{background:#eef1ec;}
+        .btn.sm{padding:.4rem .7rem;font-size:.85rem;}
+        .row{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center;}
+        .msg{font-size:.9rem;margin-top:.7rem;min-height:1.2em;}
+        .msg.err{color:var(--err);}
+        .msg.ok{color:var(--green);}
+        .hint{font-size:.9rem;color:var(--muted);margin-top:.5rem;}
+        .entry{border:1px solid var(--line);border-radius:7px;padding:1rem 1.1rem;margin-bottom:.9rem;background:#fff;}
+        .entry h3{font-size:1.08rem;color:var(--green);margin-bottom:.5rem;}
+        .field{display:flex;gap:.6rem;align-items:center;margin:.3rem 0;flex-wrap:wrap;}
+        .field .k{font-size:.78rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;min-width:78px;}
+        .field .v{font-family:'Courier New',monospace;color:var(--ink);word-break:break-all;}
+        .field a.v{color:var(--gold-d);}
+        .masked{letter-spacing:.12em;}
+        .notice{border-left:3px solid var(--gold-d);background:#f7f1e3;padding:.9rem 1.1rem;
+                border-radius:0 6px 6px 0;font-size:.92rem;margin-bottom:1.3rem;}
+        .notice b{color:var(--green);}
+        .hidden{display:none;}
+        .split{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+        @media(max-width:620px){.split{grid-template-columns:1fr;}}
+        /* Portal gate */
+        #gate{position:fixed;inset:0;z-index:9999;background:#1b1a17;display:flex;
+              align-items:center;justify-content:center;padding:1.4rem;}
+        #gate .box{background:#fff;border-radius:10px;padding:2rem 1.8rem;max-width:360px;width:100%;}
+        #gate h2{font-family:Georgia,serif;font-weight:400;color:var(--green);font-size:1.4rem;margin-bottom:1rem;}
+        #gate .e{color:var(--err);font-size:.85rem;height:20px;margin:6px 0;}
+    </style>
+</head>
+<body>
+    <!-- Portal gate: entering it once in the portal carries over here (same origin). -->
+    <div id="gate">
+        <div class="box">
+            <h2>Board Portal</h2>
+            <label for="gpw">Portal password</label>
+            <input id="gpw" type="password" autocomplete="current-password">
+            <div class="e" id="gerr"></div>
+            <button class="btn" id="ggo" style="width:100%;justify-content:center;">Enter</button>
+        </div>
+    </div>
+
+    <script>
+    (function(){
+        var HASH='b5b2a24616e3b083327dcd4ed09ac4c621127f35088bdb4759b73754b85a58e4';
+        var KEY='ccga-portal-ok',g=document.getElementById('gate'),pw=document.getElementById('gpw'),
+            e=document.getElementById('gerr');
+        function open_(){g.style.display='none';try{sessionStorage.setItem(KEY,'1');}catch(x){}}
+        try{if(sessionStorage.getItem(KEY)==='1'){g.style.display='none';return;}}catch(x){}
+        function check(){
+            crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw.value||'')).then(function(b){
+                var hex=[].map.call(new Uint8Array(b),function(x){return x.toString(16).padStart(2,'0');}).join('');
+                if(hex===HASH){open_();return;}
+                e.textContent='That is not the board password.';pw.value='';pw.focus();
+            }).catch(function(){e.textContent='Could not check that. Try another browser.';});
+        }
+        document.getElementById('ggo').addEventListener('click',check);
+        pw.addEventListener('keydown',function(ev){if(ev.key==='Enter')check();});
+        pw.focus();
+    })();
+    </script>
+
+    <nav class="navbar"><div class="nav-in">
+        <span class="nav-logo">CCGA Board Vault</span>
+        <a class="nav-back" href="board-portal.html">&larr; Back to Portal</a>
+    </div></nav>
+
+    <div class="wrap">
+        <h1>Board Password Vault</h1>
+        <p class="sub">Shared logins, encrypted. Locked with the board passphrase.</p>
+
+        <div class="notice">
+            <b>How this is protected.</b> Entries are encrypted in your browser with your
+            passphrase &mdash; only the scrambled form is ever stored, here and in the file you
+            export. The passphrase is never saved and never leaves this page. Choose a strong one,
+            keep it off the site and out of email, and make it different from the portal password.
+        </div>
+
+        <!-- UNLOCK -->
+        <div class="card" id="lockCard">
+            <label for="pass" id="passLabel">Board passphrase</label>
+            <div class="split">
+                <input id="pass" type="password" autocomplete="off" placeholder="Enter the board passphrase">
+                <div class="row">
+                    <button class="btn" id="unlockBtn">Unlock</button>
+                    <button class="btn ghost" id="newBtn">Start a new vault</button>
+                </div>
+            </div>
+            <div class="msg" id="lockMsg"></div>
+            <p class="hint" id="lockHint"></p>
+        </div>
+
+        <!-- VAULT (unlocked) -->
+        <div class="hidden" id="vaultCard">
+            <div class="card">
+                <div class="row" style="justify-content:space-between;">
+                    <div class="row">
+                        <button class="btn sm" id="addBtn">+ Add a login</button>
+                        <button class="btn ghost sm" id="exportBtn">Export encrypted file</button>
+                        <button class="btn ghost sm" id="importBtn">Import file</button>
+                        <input id="importFile" type="file" accept=".vault,.txt,application/octet-stream" class="hidden">
+                    </div>
+                    <button class="btn ghost sm" id="lockBtn">Lock</button>
+                </div>
+                <div class="msg" id="vaultMsg"></div>
+            </div>
+
+            <!-- Add / edit form -->
+            <div class="card hidden" id="formCard">
+                <h3 style="color:var(--green);margin-bottom:.8rem;" id="formTitle">Add a login</h3>
+                <div class="split">
+                    <div><label for="fTitle">Name</label><input id="fTitle" placeholder="e.g. Constant Contact"></div>
+                    <div><label for="fUrl">Sign-in URL</label><input id="fUrl" placeholder="https://..."></div>
+                </div>
+                <div class="split" style="margin-top:.8rem;">
+                    <div><label for="fUser">Username</label><input id="fUser" autocomplete="off"></div>
+                    <div><label for="fPass">Password</label><input id="fPass" autocomplete="off"></div>
+                </div>
+                <div style="margin-top:.8rem;"><label for="fNotes">Notes</label>
+                    <textarea id="fNotes" rows="2" placeholder="2FA notes, recovery, who to ask..."></textarea></div>
+                <div class="row" style="margin-top:1rem;">
+                    <button class="btn" id="saveEntry">Save</button>
+                    <button class="btn ghost" id="cancelEntry">Cancel</button>
+                </div>
+            </div>
+
+            <div id="entries"></div>
+        </div>
+    </div>
+
+    <script>
+    (function(){
+        'use strict';
+        var LS='ccga-vault-blob', ITER=250000;
+        var key=null, data=[], editIndex=-1;
+
+        var $=function(id){return document.getElementById(id);};
+        function b64(u){var s='';for(var i=0;i<u.length;i++)s+=String.fromCharCode(u[i]);return btoa(s);}
+        function ub64(s){var b=atob(s),u=new Uint8Array(b.length);for(var i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return u;}
+
+        function deriveKey(pass,salt){
+            return crypto.subtle.importKey('raw',new TextEncoder().encode(pass),'PBKDF2',false,['deriveKey'])
+            .then(function(km){return crypto.subtle.deriveKey(
+                {name:'PBKDF2',salt:salt,iterations:ITER,hash:'SHA-256'},km,
+                {name:'AES-GCM',length:256},false,['encrypt','decrypt']);});
+        }
+        function encrypt(k,obj){
+            var iv=crypto.getRandomValues(new Uint8Array(12));
+            return crypto.subtle.encrypt({name:'AES-GCM',iv:iv},k,new TextEncoder().encode(JSON.stringify(obj)))
+            .then(function(ct){return {iv:iv,ct:new Uint8Array(ct)};});
+        }
+
+        function store(){
+            // re-encrypt current data under the active key and persist the blob only
+            var salt=crypto.getRandomValues(new Uint8Array(16));
+            return deriveKey(window.__pass,salt).then(function(k){
+                return encrypt(k,data).then(function(r){
+                    var blob='v1.'+b64(salt)+'.'+b64(r.iv)+'.'+b64(r.ct);
+                    try{localStorage.setItem(LS,blob);}catch(e){}
+                    return blob;
+                });
+            });
+        }
+
+        function msg(id,text,ok){var el=$(id);el.textContent=text||'';el.className='msg'+(text?(ok?' ok':' err'):'');}
+
+        // ---- unlock / create ----
+        function tryUnlock(){
+            var pass=$('pass').value;
+            if(!pass){msg('lockMsg','Enter the passphrase.');return;}
+            var blob;try{blob=localStorage.getItem(LS);}catch(e){}
+            if(!blob){msg('lockMsg','No vault on this device yet. Choose "Start a new vault", or Import a file first.');return;}
+            var p=blob.split('.');
+            deriveKey(pass,ub64(p[1])).then(function(k){
+                return crypto.subtle.decrypt({name:'AES-GCM',iv:ub64(p[2])},k,ub64(p[3]));
+            }).then(function(pt){
+                data=JSON.parse(new TextDecoder().decode(pt));
+                window.__pass=pass; key=true; openVault();
+            }).catch(function(){msg('lockMsg','That passphrase did not open the vault.');});
+        }
+        function startNew(){
+            var pass=$('pass').value;
+            if(pass.length<10){msg('lockMsg','Pick a passphrase of at least 10 characters. Longer is better.');return;}
+            if(!confirm('Start a NEW empty vault on this device with this passphrase?\n\nIf a vault already exists here it will be replaced. Make sure you have exported a backup first.'))return;
+            data=[]; window.__pass=pass; key=true;
+            store().then(function(){openVault();});
+        }
+        function openVault(){
+            $('pass').value='';
+            $('lockCard').classList.add('hidden');
+            $('vaultCard').classList.remove('hidden');
+            render();
+        }
+        function lock(){
+            key=null;data=[];window.__pass=null;editIndex=-1;
+            $('vaultCard').classList.add('hidden');
+            $('formCard').classList.add('hidden');
+            $('lockCard').classList.remove('hidden');
+            msg('lockMsg','Locked.',true);
+        }
+
+        // ---- render ----
+        function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+        function render(){
+            var box=$('entries');
+            if(!data.length){box.innerHTML='<div class="card" style="color:#5b564f;">The vault is empty. Choose <b>+ Add a login</b> to put the first one in.</div>';return;}
+            box.innerHTML='';
+            data.forEach(function(e,i){
+                var d=document.createElement('div');d.className='entry';
+                var url=e.url?('<div class="field"><span class="k">Site</span><a class="v" href="'+esc(e.url)+'" target="_blank" rel="noopener">'+esc(e.url)+'</a></div>'):'';
+                var notes=e.notes?('<div class="field"><span class="k">Notes</span><span class="v" style="font-family:inherit;">'+esc(e.notes)+'</span></div>'):'';
+                d.innerHTML='<h3>'+esc(e.title||'(untitled)')+'</h3>'+url+
+                    '<div class="field"><span class="k">User</span><span class="v" data-u="'+i+'">'+esc(e.username||'')+'</span>'+
+                        (e.username?'<button class="btn ghost sm" data-copy="u" data-i="'+i+'">Copy</button>':'')+'</div>'+
+                    '<div class="field"><span class="k">Password</span><span class="v masked" data-p="'+i+'">••••••••</span>'+
+                        (e.password?'<button class="btn ghost sm" data-show="'+i+'">Show</button><button class="btn ghost sm" data-copy="p" data-i="'+i+'">Copy</button>':'')+'</div>'+
+                    notes+
+                    '<div class="row" style="margin-top:.6rem;"><button class="btn ghost sm" data-edit="'+i+'">Edit</button>'+
+                        '<button class="btn ghost sm" data-del="'+i+'">Delete</button></div>';
+                box.appendChild(d);
+            });
+        }
+
+        // ---- entry form ----
+        function showForm(i){
+            editIndex=(typeof i==='number')?i:-1;
+            var e=editIndex>=0?data[editIndex]:{};
+            $('formTitle').textContent=editIndex>=0?'Edit login':'Add a login';
+            $('fTitle').value=e.title||'';$('fUrl').value=e.url||'';
+            $('fUser').value=e.username||'';$('fPass').value=e.password||'';$('fNotes').value=e.notes||'';
+            $('formCard').classList.remove('hidden');
+            $('fTitle').focus();
+            $('formCard').scrollIntoView({behavior:'smooth',block:'nearest'});
+        }
+        function saveEntry(){
+            var e={title:$('fTitle').value.trim(),url:$('fUrl').value.trim(),
+                   username:$('fUser').value,password:$('fPass').value,notes:$('fNotes').value.trim()};
+            if(!e.title){alert('Give it a name.');return;}
+            if(editIndex>=0)data[editIndex]=e;else data.push(e);
+            $('formCard').classList.add('hidden');editIndex=-1;
+            store().then(function(){render();msg('vaultMsg','Saved and re-encrypted.',true);});
+        }
+
+        // ---- export / import ----
+        function exportVault(){
+            var blob;try{blob=localStorage.getItem(LS);}catch(e){}
+            if(!blob){msg('vaultMsg','Nothing to export yet.');return;}
+            var a=document.createElement('a');
+            a.href=URL.createObjectURL(new Blob([blob],{type:'text/plain'}));
+            a.download='ccga-board-vault.vault';a.click();
+            msg('vaultMsg','Exported the encrypted file. Share it with the board; it needs the passphrase to open.',true);
+        }
+        function importVault(file){
+            var r=new FileReader();
+            r.onload=function(){
+                var t=(r.result||'').trim();
+                if(t.indexOf('v1.')!==0){msg('vaultMsg','That does not look like a vault file.');return;}
+                try{localStorage.setItem(LS,t);}catch(e){}
+                msg('vaultMsg','Imported. Lock, then unlock with the passphrase for that file.',true);
+                if(key)lock();
+            };
+            r.readAsText(file);
+        }
+
+        // ---- events ----
+        $('unlockBtn').addEventListener('click',tryUnlock);
+        $('newBtn').addEventListener('click',startNew);
+        $('pass').addEventListener('keydown',function(e){if(e.key==='Enter')tryUnlock();});
+        $('lockBtn').addEventListener('click',lock);
+        $('addBtn').addEventListener('click',function(){showForm();});
+        $('saveEntry').addEventListener('click',saveEntry);
+        $('cancelEntry').addEventListener('click',function(){$('formCard').classList.add('hidden');editIndex=-1;});
+        $('exportBtn').addEventListener('click',exportVault);
+        $('importBtn').addEventListener('click',function(){$('importFile').click();});
+        $('importFile').addEventListener('change',function(e){if(e.target.files[0])importVault(e.target.files[0]);});
+        $('entries').addEventListener('click',function(ev){
+            var t=ev.target,i;
+            if((i=t.getAttribute('data-show'))!==null&&i!==undefined){
+                var span=document.querySelector('[data-p="'+i+'"]');
+                if(span.classList.contains('masked')){span.textContent=data[i].password;span.classList.remove('masked');t.textContent='Hide';}
+                else{span.textContent='••••••••';span.classList.add('masked');t.textContent='Show';}return;}
+            if((i=t.getAttribute('data-edit'))!==null&&i!==undefined){showForm(+i);return;}
+            if((i=t.getAttribute('data-del'))!==null&&i!==undefined){
+                if(confirm('Delete "'+(data[i].title||'this entry')+'"?')){data.splice(i,1);store().then(function(){render();});}return;}
+            if(t.getAttribute('data-copy')){
+                var idx=+t.getAttribute('data-i'),val=t.getAttribute('data-copy')==='p'?data[idx].password:data[idx].username;
+                navigator.clipboard.writeText(val).then(function(){var o=t.textContent;t.textContent='Copied';setTimeout(function(){t.textContent=o;},1200);});
+            }
+        });
+
+        // initial hint
+        (function(){
+            var has=false;try{has=!!localStorage.getItem(LS);}catch(e){}
+            $('lockHint').textContent=has
+                ?'A vault exists on this device. Enter the passphrase to open it.'
+                :'No vault on this device yet. Import the board’s vault file, or start a new one.';
+        })();
+    })();
+    </script>
+</body>
+</html>
