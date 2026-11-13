@@ -55,16 +55,48 @@ export function loginPage({ error } = {}) {
     <a href="https://www.cologrowers.com">cologrowers.com</a></div></div>
   <div class="wrap">
     <h1>Board Portal</h1>
-    <p class="sub">Private to the CCGA board. Sign in with your email and we will send you a one-time link.</p>
+    <p class="sub">Private to the CCGA board. Sign in with your password, or have a one-time link emailed to you.</p>
     <div class="card">
-      <form method="POST" action="/auth/request">
+      <form method="POST">
         <label for="email">Board email</label>
         <input id="email" name="email" type="email" required autocomplete="email" placeholder="you@cologrowers.com" autofocus>
-        <div style="margin-top:1rem;"><button class="btn" type="submit">Email me a sign-in link</button></div>
+        <div style="margin-top:.9rem;"><label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Your password (leave blank to use an email link)"></div>
         ${error ? `<div class="err">${error}</div>` : ''}
+        <div class="row" style="margin-top:1.1rem;">
+          <button class="btn" type="submit" formaction="/auth/login">Sign in</button>
+          <button class="btn ghost" type="submit" formaction="/auth/request">Email me a link instead</button>
+        </div>
       </form>
-      <p class="hint">Only addresses on the board roster can sign in. No password to remember &mdash;
-        the link in your email signs you in, works once, and expires in 24 hours.</p>
+      <p class="hint">Only board roster addresses can sign in. New here, or want to set a password?
+        <a class="link" href="/setup">Set up your password</a>. The email link works with no password
+        &mdash; it signs you in once and expires in 24 hours.</p>
+    </div>
+  </div>` + FOOT;
+}
+
+// Set or reset a password. Open to a roster email; the link option is always
+// there as the fallback if someone isn't sure.
+export function setupPage({ error, email } = {}) {
+  return HEAD('Set up your password') + `
+  <div class="bar"><div class="bar-in"><span class="logo">CCGA Board Portal</span>
+    <a href="https://www.cologrowers.com">cologrowers.com</a></div></div>
+  <div class="wrap">
+    <h1>Set up your password</h1>
+    <p class="sub">For board members. Set a password for your own account, then sign in with it.</p>
+    <div class="card">
+      <form method="POST" action="/auth/setup">
+        <label for="email">Board email</label>
+        <input id="email" name="email" type="email" required autocomplete="email" value="${email || ''}" placeholder="you@cologrowers.com" autofocus>
+        <div style="margin-top:.9rem;"><label for="password">Choose a password</label>
+          <input id="password" name="password" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters"></div>
+        <div style="margin-top:.9rem;"><label for="confirm">Confirm password</label>
+          <input id="confirm" name="confirm" type="password" required autocomplete="new-password"></div>
+        ${error ? `<div class="err">${error}</div>` : ''}
+        <div style="margin-top:1.1rem;"><button class="btn" type="submit">Set my password</button></div>
+      </form>
+      <p class="hint">Your email must already be on the board roster &mdash; ask the office if you are
+        not sure. Prefer not to use a password? <a class="link" href="/">Use an email link instead</a>.</p>
     </div>
   </div>` + FOOT;
 }
@@ -95,12 +127,36 @@ function portalChrome(member, inner) {
   const admin = member.is_admin ? ' <span class="pill">Admin</span>' : '';
   return HEAD('Portal') + `
   <div class="bar"><div class="bar-in"><a href="/portal" style="color:#fff;text-decoration:none;font-weight:600;">CCGA Board Portal</a>
-    <form method="POST" action="/logout" style="margin:0;"><button class="btn" style="padding:.4rem .9rem;font-size:.85rem;">Sign out</button></form></div></div>
+    <span style="display:flex;gap:.8rem;align-items:center;">
+      <a href="/account" style="color:#d3ae5c;text-decoration:none;font-size:.85rem;">Account</a>
+      <form method="POST" action="/logout" style="margin:0;"><button class="btn" style="padding:.4rem .9rem;font-size:.85rem;">Sign out</button></form></span></div></div>
   <div class="wrap">
     <h1>Welcome, ${member.full_name}${admin}</h1>
     <p class="sub">${member.role ? member.role + ' &middot; ' : ''}Signed in as ${member.email}</p>
     ${inner}
   </div>` + FOOT;
+}
+
+// Account page: set or change your own password while signed in.
+export function accountPage(member, { message, error } = {}) {
+  const has = !!member.password_hash;
+  const inner = `<p style="margin-bottom:1.2rem;"><a class="link" href="/portal">&larr; Back</a></p>
+    <div class="card">
+      <h2>${has ? 'Change your password' : 'Set a password'}</h2>
+      <p style="color:#494540;margin-bottom:1rem;">${has
+        ? 'You can sign in with this password or with an email link &mdash; your choice.'
+        : 'You do not have a password yet. Set one and you can sign in with it, or keep using email links.'}</p>
+      ${message ? `<p style="color:#334539;font-weight:600;margin-bottom:1rem;">${message}</p>` : ''}
+      <form method="POST" action="/account/password">
+        <label for="password">New password</label>
+        <input id="password" name="password" type="password" required minlength="8" autocomplete="new-password" placeholder="At least 8 characters">
+        <div style="margin-top:.9rem;"><label for="confirm">Confirm password</label>
+          <input id="confirm" name="confirm" type="password" required autocomplete="new-password"></div>
+        ${error ? `<div class="err">${error}</div>` : ''}
+        <div style="margin-top:1.1rem;"><button class="btn" type="submit">${has ? 'Update password' : 'Set password'}</button></div>
+      </form>
+    </div>`;
+  return portalChrome(member, inner);
 }
 
 // The private index. Served only to a signed-in board member.
@@ -112,7 +168,7 @@ export function portalPage(member, documents) {
   let list;
   if (!documents.length) {
     list = `<div class="card"><h2>Board documents</h2><p style="color:#494540;">No documents yet.
-      ${member.is_admin ? 'Use <a class="link" href="/portal/admin">Manage documents</a> to load them.'
+      ${member.is_admin ? 'Use <a class="link" href="/portal/admin">Manage board</a>.'
         : 'The office loads confidential material here &mdash; it lives behind this sign-in, not on the public site.'}</p></div>`;
   } else {
     list = `<div class="card"><h2>Board documents</h2>` + documents.map((d) =>
@@ -121,23 +177,53 @@ export function portalPage(member, documents) {
     ).join('') + `</div>`;
   }
   const adminLink = member.is_admin
-    ? `<p style="margin-top:.4rem;"><a class="link" href="/portal/admin">Manage documents &rarr;</a></p>` : '';
+    ? `<p style="margin-top:.4rem;"><a class="link" href="/portal/admin">Manage board (members &amp; documents) &rarr;</a></p>` : '';
   return portalChrome(member, note + list + adminLink);
 }
 
-// Admin-only: load documents by pasting the seed JSON. Keeps content off the
-// repo and out of the logs — it goes straight into the database.
-export function adminPage(member, { message } = {}) {
+// Admin-only: manage the board roster and load documents.
+export function adminPage(member, { message, members = [] } = {}) {
+  const row = (m) => {
+    const badges = (m.is_admin ? '<span class="pill">Admin</span> ' : '')
+      + (m.password_hash ? '<span style="color:#6a8971;font-size:.8rem;">has password</span>' : '<span style="color:#8c867b;font-size:.8rem;">link only</span>')
+      + (m.is_active ? '' : ' <span style="color:#a3301f;font-size:.8rem;">inactive</span>');
+    const act = (a, label) => `<form method="POST" action="/portal/admin/member" style="display:inline;margin:0;">
+      <input type="hidden" name="id" value="${m.id}"><input type="hidden" name="action" value="${a}">
+      <button class="btn ghost sm" style="padding:.25rem .55rem;font-size:.78rem;">${label}</button></form>`;
+    return `<tr><td style="padding:.4rem .5rem;border-bottom:1px solid #e0dbd1;">
+        <b>${m.full_name || '(no name)'}</b><br><span style="color:#5b564f;font-size:.88rem;">${m.email}</span></td>
+      <td style="padding:.4rem .5rem;border-bottom:1px solid #e0dbd1;">${badges}</td>
+      <td style="padding:.4rem .5rem;border-bottom:1px solid #e0dbd1;white-space:nowrap;">
+        ${m.is_admin ? act('demote', 'Remove admin') : act('promote', 'Make admin')}
+        ${m.is_active ? act('deactivate', 'Deactivate') : act('activate', 'Reactivate')}</td></tr>`;
+  };
+  const list = members.length
+    ? `<table style="width:100%;border-collapse:collapse;font-size:.92rem;">
+        <tr><th style="text-align:left;padding:.3rem .5rem;color:#5b564f;">Member</th>
+        <th style="text-align:left;padding:.3rem .5rem;color:#5b564f;">Access</th>
+        <th style="text-align:left;padding:.3rem .5rem;color:#5b564f;"></th></tr>${members.map(row).join('')}</table>`
+    : '<p style="color:#494540;">No members yet.</p>';
+
   const inner = `<p style="margin-bottom:1.2rem;"><a class="link" href="/portal">&larr; Back</a></p>
+    ${message ? `<p style="color:#334539;font-weight:600;margin-bottom:1rem;">${message}</p>` : ''}
+    <div class="card">
+      <h2>Board members</h2>
+      <p style="color:#494540;margin-bottom:1rem;">The roster &mdash; only these addresses can sign in.
+        Add one per line: just an email, or <code>email, Full Name</code>.</p>
+      <form method="POST" action="/portal/admin/members">
+        <label for="emails">Add members</label>
+        <textarea id="emails" name="emails" rows="5" placeholder="director@example.com, Jane Director&#10;another@example.com"></textarea>
+        <div style="margin-top:.9rem;"><button class="btn" type="submit">Add to roster</button></div>
+      </form>
+      <div style="margin-top:1.4rem;">${list}</div>
+    </div>
     <div class="card">
       <h2>Load documents</h2>
-      <p style="color:#494540;margin-bottom:1rem;">Open the <b>strategy-timelines.seed.json</b> file,
-        copy everything in it, and paste it below. This loads or updates the documents in the
-        portal &mdash; the text goes into the server's database, never the public site.</p>
-      ${message ? `<p style="color:#334539;font-weight:600;margin-bottom:1rem;">${message}</p>` : ''}
+      <p style="color:#494540;margin-bottom:1rem;">Documents load automatically on deploy. To load or
+        update them by hand, paste the documents JSON below.</p>
       <form method="POST" action="/portal/admin/load">
         <label for="docs">Documents JSON</label>
-        <textarea id="docs" name="docs" rows="12" placeholder='[ { "slug": "...", "title": "...", "body_html": "...", "sort": 1 } ]'
+        <textarea id="docs" name="docs" rows="6" placeholder='[ { "slug": "...", "title": "...", "body_html": "...", "sort": 1 } ]'
           style="font-family:monospace;font-size:.85rem;"></textarea>
         <div style="margin-top:1rem;"><button class="btn" type="submit">Load documents</button></div>
       </form>

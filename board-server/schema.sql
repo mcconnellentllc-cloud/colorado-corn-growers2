@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS members (
   role       TEXT,                       -- "President", "Board Member", ...
   is_admin   INTEGER NOT NULL DEFAULT 0, -- 0/1
   is_active  INTEGER NOT NULL DEFAULT 1, -- 0/1
+  password_hash TEXT,                -- set when a member chooses a password (optional)
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
 );
 
