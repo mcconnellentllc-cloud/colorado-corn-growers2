@@ -1,31 +1,23 @@
-// Auto-load board documents from an encrypted bundle committed with the code.
+// Auto-load board documents from a private file the server is given at deploy —
+// a Render "Secret File" (mounted at /etc/secrets/documents.json by default).
 //
-// The bundle (content/documents.enc) is AES-256-GCM ciphertext — meaningless
-// without the key, so it is safe in a public repository. The key lives only in
-// the CONTENT_KEY environment variable on the server, never in the repo. On
-// every boot the server decrypts the bundle and upserts the documents, so the
-// canonical board content ships with the code and loads itself — no manual step.
+// The documents live in that private file on the server, NEVER in the
+// repository. The repo carries only this loader. On every boot the server reads
+// the file and upserts the documents, so the board content is part of every
+// deploy automatically — no manual loading, and nothing confidential in the
+// public repo.
 import { readFileSync, existsSync } from 'node:fs';
-import { createDecipheriv } from 'node:crypto';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { upsertDocument } from './db.js';
 
-const here = dirname(fileURLToPath(import.meta.url));
-
-export function loadEncryptedDocuments(db, keyHex) {
-  const file = join(here, '..', 'content', 'documents.enc');
-  if (!keyHex) { console.log('[content] CONTENT_KEY not set — skipping encrypted bundle.'); return; }
-  if (!existsSync(file)) { console.log('[content] no documents.enc bundle found — skipping.'); return; }
+export function loadBoardDocuments(db) {
+  const path = process.env.CONTENT_FILE || '/etc/secrets/documents.json';
+  if (!existsSync(path)) {
+    console.log('[content] no documents file at ' + path + ' — skipping (add it as a Render Secret File).');
+    return;
+  }
   try {
-    const key = Buffer.from(keyHex.trim(), 'hex');
-    if (key.length !== 32) throw new Error('CONTENT_KEY must be 32 bytes (64 hex chars)');
-    const [v, ivB64, tagB64, ctB64] = readFileSync(file, 'utf8').trim().split('.');
-    if (v !== 'v1') throw new Error('unexpected bundle format');
-    const dec = createDecipheriv('aes-256-gcm', key, Buffer.from(ivB64, 'base64'));
-    dec.setAuthTag(Buffer.from(tagB64, 'base64'));
-    const json = Buffer.concat([dec.update(Buffer.from(ctB64, 'base64')), dec.final()]).toString('utf8');
-    const docs = JSON.parse(json);
+    const docs = JSON.parse(readFileSync(path, 'utf8'));
+    if (!Array.isArray(docs)) throw new Error('documents file is not a JSON array');
     let n = 0;
     for (const d of docs) {
       if (d && d.slug && d.title && d.body_html) {
@@ -33,8 +25,8 @@ export function loadEncryptedDocuments(db, keyHex) {
         n++;
       }
     }
-    console.log('[content] loaded ' + n + ' document(s) from the encrypted bundle');
+    console.log('[content] loaded ' + n + ' document(s) from ' + path);
   } catch (e) {
-    console.error('[content] could not load documents.enc:', e.message);
+    console.error('[content] could not load documents from ' + path + ':', e.message);
   }
 }
