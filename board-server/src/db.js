@@ -25,6 +25,8 @@ export function openDb(dbPath) {
   const db = new DatabaseSync(path);
   db.exec('PRAGMA journal_mode = WAL; PRAGMA foreign_keys = ON;');
   db.exec(readFileSync(join(here, '..', 'schema.sql'), 'utf8'));
+  // Migration: add password_hash to an existing members table that predates it.
+  try { db.exec('ALTER TABLE members ADD COLUMN password_hash TEXT'); } catch (e) { /* already present */ }
   return db;
 }
 
@@ -86,4 +88,18 @@ export function upsertDocument(db, { slug, title, body_html, sort = 0 }) {
   }
   db.prepare('INSERT INTO documents (id, slug, title, body_html, sort, updated_at) VALUES (?, ?, ?, ?, ?, ?)')
     .run(uuid(), slug, title, body_html, sort, nowIso());
+}
+
+/* ---- passwords ---- */
+
+export function setMemberPassword(db, memberId, passwordHash) {
+  db.prepare('UPDATE members SET password_hash = ? WHERE id = ?').run(passwordHash, memberId);
+}
+
+export function clearMemberPassword(db, memberId) {
+  db.prepare('UPDATE members SET password_hash = NULL WHERE id = ?').run(memberId);
+}
+
+export function listMembers(db) {
+  return db.prepare('SELECT id, email, full_name, role, is_admin, is_active, password_hash FROM members ORDER BY full_name').all();
 }

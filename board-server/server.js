@@ -6,16 +6,20 @@
 // in a static file a browser can fetch without signing in.
 import { createServer } from 'node:http';
 import {
-  openDb, normalizeEmail, findMemberByEmail, upsertMember, memberCount, audit,
-  listDocuments, getDocument, upsertDocument,
+  openDb, normalizeEmail, findMemberByEmail, findMemberById, upsertMember, memberCount, audit,
+  listDocuments, getDocument, upsertDocument, setMemberPassword, listMembers,
 } from './src/db.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
   purgeExpiredTokens, createSession, getSession, destroySession, cookieHeader, readCookie,
 } from './src/auth.js';
+import { hashPassword, verifyPassword } from './src/crypto.js';
 import { sendSignInLink } from './src/email.js';
 import { loadBoardDocuments } from './src/content.js';
-import { loginPage, checkEmailPage, noticePage, portalPage, documentPage, adminPage } from './src/pages.js';
+import {
+  loginPage, checkEmailPage, noticePage, portalPage, documentPage, adminPage,
+  setupPage, accountPage,
+} from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || '';
@@ -108,6 +112,70 @@ const server = createServer(async (req, res) => {
       return send(res, 200, loginPage());
     }
 
+    // Password sign-in.
+    if (req.method === 'POST' && path === '/auth/login') {
+      const body = await readBody(req);
+      const email = normalizeEmail(formField(body, 'email'));
+      const password = formField(body, 'password');
+      if (!password) {
+        // No password typed — treat "Sign in" as a nudge toward the link option.
+        return send(res, 200, loginPage({ error: 'Enter your password, or use "Email me a link instead".' }));
+      }
+      const member = findMemberByEmail(db, email);
+      // One generic failure message whether the email, the password, or the
+      // account's active state is the problem — no account enumeration.
+      if (!member || !member.is_active || !verifyPassword(password, member.password_hash)) {
+        return send(res, 200, loginPage({ error: 'That email and password did not match. If you have not set a password, use the link option or Set up your password.' }));
+      }
+      const session = createSession(db, SECRET, member.id);
+      audit(db, { actorEmail: member.email, action: 'auth.login', ip: clientIp(req) });
+      return redirect(res, '/portal', { 'Set-Cookie': cookieHeader(session.cookieValue, SESSION_TTL_SECONDS, COOKIE_SECURE) });
+    }
+
+    // Set-up / reset a password — open to a roster email.
+    if (req.method === 'GET' && path === '/setup') {
+      if (currentSession(req)) return redirect(res, '/account');
+      return send(res, 200, setupPage());
+    }
+    if (req.method === 'POST' && path === '/auth/setup') {
+      const body = await readBody(req);
+      const email = normalizeEmail(formField(body, 'email'));
+      const password = formField(body, 'password');
+      const confirm = formField(body, 'confirm');
+      if (!password || password.length < 8) return send(res, 200, setupPage({ email, error: 'Password must be at least 8 characters.' }));
+      if (password !== confirm) return send(res, 200, setupPage({ email, error: 'The two passwords do not match.' }));
+      const member = findMemberByEmail(db, email);
+      if (!member || !member.is_active) {
+        // Don't reveal roster membership; send them to the link path.
+        return send(res, 200, noticePage('Check with the office',
+          '<p>If that address is on the board roster, you can set a password. If it is not working, ask the office to add you, or ' +
+          '<a class="link" href="/">use an email link</a>.</p>'));
+      }
+      setMemberPassword(db, member.id, hashPassword(password));
+      audit(db, { actorEmail: member.email, action: 'auth.setup_password', ip: clientIp(req) });
+      const session = createSession(db, SECRET, member.id);
+      return redirect(res, '/portal', { 'Set-Cookie': cookieHeader(session.cookieValue, SESSION_TTL_SECONDS, COOKIE_SECURE) });
+    }
+
+    // Account: change your own password (signed in).
+    if (req.method === 'GET' && path === '/account') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, accountPage(s.member));
+    }
+    if (req.method === 'POST' && path === '/account/password') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const body = await readBody(req);
+      const password = formField(body, 'password');
+      const confirm = formField(body, 'confirm');
+      if (!password || password.length < 8) return send(res, 200, accountPage(s.member, { error: 'Password must be at least 8 characters.' }));
+      if (password !== confirm) return send(res, 200, accountPage(s.member, { error: 'The two passwords do not match.' }));
+      setMemberPassword(db, s.member.id, hashPassword(password));
+      audit(db, { actorEmail: s.member.email, action: 'auth.change_password', ip: clientIp(req) });
+      return send(res, 200, accountPage({ ...s.member, password_hash: 'set' }, { message: 'Password updated.' }));
+    }
+
     // Request a magic link. Always responds the same way (no account enumeration).
     if (req.method === 'POST' && path === '/auth/request') {
       const body = await readBody(req);
@@ -176,7 +244,57 @@ const server = createServer(async (req, res) => {
       if (!s) return redirect(res, '/');
       if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only. <a class="link" href="/portal">Back</a></p>'));
       const loaded = url.searchParams.get('loaded');
-      return send(res, 200, adminPage(s.member, { message: loaded ? `Loaded ${loaded} document(s).` : null }));
+      const added = url.searchParams.get('added');
+      let message = null;
+      if (loaded) message = `Loaded ${loaded} document(s).`;
+      else if (added) message = `Added ${added} member(s) to the roster.`;
+      return send(res, 200, adminPage(s.member, { message, members: listMembers(db) }));
+    }
+    // Admin: add members to the roster (one per line: email, or "email, Name").
+    if (req.method === 'POST' && path === '/portal/admin/members') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only.</p>'));
+      const body = await readBody(req);
+      let n = 0;
+      for (const line of formField(body, 'emails').split('\n')) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        const comma = trimmed.indexOf(',');
+        const email = normalizeEmail(comma === -1 ? trimmed : trimmed.slice(0, comma));
+        const name = comma === -1 ? '' : trimmed.slice(comma + 1).trim();
+        if (!email.includes('@')) continue;
+        const existing = findMemberByEmail(db, email);
+        upsertMember(db, {
+          email,
+          full_name: name || (existing && existing.full_name) || email.split('@')[0],
+          role: existing ? existing.role : 'Board Member',
+          is_admin: existing ? existing.is_admin : 0,
+          is_active: 1,
+        });
+        n++;
+      }
+      audit(db, { actorEmail: s.member.email, action: 'roster.add', detail: String(n), ip: clientIp(req) });
+      return redirect(res, '/portal/admin?added=' + n);
+    }
+    // Admin: promote/demote/activate/deactivate one member.
+    if (req.method === 'POST' && path === '/portal/admin/member') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only.</p>'));
+      const body = await readBody(req);
+      const target = findMemberById(db, formField(body, 'id'));
+      const action = formField(body, 'action');
+      if (target) {
+        const flags = { is_admin: target.is_admin, is_active: target.is_active };
+        if (action === 'promote') flags.is_admin = 1;
+        else if (action === 'demote') flags.is_admin = 0;
+        else if (action === 'activate') flags.is_active = 1;
+        else if (action === 'deactivate') flags.is_active = 0;
+        upsertMember(db, { email: target.email, full_name: target.full_name, role: target.role, ...flags });
+        audit(db, { actorEmail: s.member.email, action: 'roster.' + action, detail: target.email, ip: clientIp(req) });
+      }
+      return redirect(res, '/portal/admin');
     }
     if (req.method === 'POST' && path === '/portal/admin/load') {
       const s = currentSession(req);

@@ -31,3 +31,24 @@ export function timingSafeEqual(a, b) {
 export function uuid() {
   return randomUUID();
 }
+
+/* ---- passwords (scrypt) ---- */
+
+import { scryptSync } from 'node:crypto';
+
+/** Hash a password with a random salt. Format: s1.<saltB64>.<hashB64> */
+export function hashPassword(password) {
+  const salt = randomBytes(16);
+  const hash = scryptSync(String(password), salt, 64);
+  return 's1.' + salt.toString('base64') + '.' + hash.toString('base64');
+}
+
+/** Verify a password against a stored hash, in constant time. */
+export function verifyPassword(password, stored) {
+  if (!stored) return false;
+  const [v, saltB64, hashB64] = String(stored).split('.');
+  if (v !== 's1' || !saltB64 || !hashB64) return false;
+  const expected = Buffer.from(hashB64, 'base64');
+  const actual = scryptSync(String(password), Buffer.from(saltB64, 'base64'), 64);
+  return actual.length === expected.length && nodeTimingSafeEqual(actual, expected);
+}
