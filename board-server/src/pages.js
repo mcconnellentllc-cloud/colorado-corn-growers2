@@ -34,6 +34,17 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .pill{display:inline-block;background:#eef1ec;color:var(--green);font-size:.78rem;font-weight:700;
         padding:.2rem .6rem;border-radius:20px;text-transform:uppercase;letter-spacing:.05em;}
   a.link{color:var(--gold-d);font-weight:600;}
+  .doc{color:#37342f;}
+  .doc h3{color:var(--green);font-size:1.1rem;margin:1.4rem 0 .5rem;}
+  .doc p{margin:0 0 .8rem;}
+  .doc ul,.doc ol{margin:0 0 .9rem 1.2rem;}
+  .doc li{margin:.25rem 0;}
+  .doc table{width:100%;border-collapse:collapse;margin:.6rem 0 1.1rem;font-size:.95rem;}
+  .doc th,.doc td{text-align:left;padding:.5rem .6rem;border-bottom:1px solid var(--line);vertical-align:top;}
+  .doc th{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;}
+  .doc .step{font-weight:700;color:var(--green);}
+  .doc em{color:#5b564f;}
+  .doc .lead{font-size:1.02rem;color:#494540;}
 </style></head><body>`;
 
 const FOOT = `</body></html>`;
@@ -80,25 +91,42 @@ export function noticePage(title, body) {
   <div class="wrap"><h1>${title}</h1><div class="card">${body}</div></div>` + FOOT;
 }
 
-// The private area. Everything below is served only to a signed-in board member.
-export function portalPage(member) {
+function portalChrome(member, inner) {
   const admin = member.is_admin ? ' <span class="pill">Admin</span>' : '';
   return HEAD('Portal') + `
-  <div class="bar"><div class="bar-in"><span class="logo">CCGA Board Portal</span>
+  <div class="bar"><div class="bar-in"><a href="/portal" style="color:#fff;text-decoration:none;font-weight:600;">CCGA Board Portal</a>
     <form method="POST" action="/logout" style="margin:0;"><button class="btn" style="padding:.4rem .9rem;font-size:.85rem;">Sign out</button></form></div></div>
   <div class="wrap">
     <h1>Welcome, ${member.full_name}${admin}</h1>
     <p class="sub">${member.role ? member.role + ' &middot; ' : ''}Signed in as ${member.email}</p>
-
-    <div class="note"><b>This area is genuinely private.</b> Everything on this page is served from
-      the board server only after you sign in &mdash; it is never part of the public website and
-      never reaches a browser that has not authenticated. Confidential board material belongs here.</div>
-
-    <div class="card">
-      <h2>Private board material</h2>
-      <p style="color:#494540;">This is where the confidential items move &mdash; NCGA access notes,
-        documents, and anything that must not be public. Tell the office what to place here and it
-        will be added to this authenticated area, not the public site.</p>
-    </div>
+    ${inner}
   </div>` + FOOT;
+}
+
+// The private index. Served only to a signed-in board member.
+export function portalPage(member, documents) {
+  const note = `<div class="note"><b>This area is genuinely private.</b> Everything here is served
+    from the board server only after you sign in &mdash; it is never part of the public website,
+    and the text is stored in the server's database, not in the code repository.</div>`;
+
+  let list;
+  if (!documents.length) {
+    list = `<div class="card"><h2>Board documents</h2><p style="color:#494540;">No documents yet.
+      The office loads confidential material here &mdash; it lives behind this sign-in, not on the
+      public site.</p></div>`;
+  } else {
+    list = `<div class="card"><h2>Board documents</h2>` + documents.map((d) =>
+      `<p style="margin:.5rem 0;"><a class="link" href="/portal/d/${encodeURIComponent(d.slug)}">${d.title}</a>
+       <span style="color:#8c867b;font-size:.85rem;"> &middot; updated ${d.updated_at.slice(0, 10)}</span></p>`
+    ).join('') + `</div>`;
+  }
+  return portalChrome(member, note + list);
+}
+
+// A single document. Body is trusted, board-authored HTML from the database.
+export function documentPage(member, doc) {
+  const inner = `<p style="margin-bottom:1.2rem;"><a class="link" href="/portal">&larr; All documents</a></p>
+    <div class="card"><h2 style="font-size:1.5rem;margin-bottom:1rem;">${doc.title}</h2>
+    <div class="doc">${doc.body_html}</div></div>`;
+  return portalChrome(member, inner);
 }
