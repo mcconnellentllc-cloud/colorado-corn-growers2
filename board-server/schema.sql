@@ -43,3 +43,15 @@ CREATE TABLE IF NOT EXISTS audit_log (
   ip          TEXT,
   created_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
 );
+
+-- Private board documents (strategy memos, timelines, notes). The CONTENT lives
+-- here in the database on the server's disk, never in the public repository.
+-- Served only to an authenticated session.
+CREATE TABLE IF NOT EXISTS documents (
+  id         TEXT PRIMARY KEY,
+  slug       TEXT NOT NULL UNIQUE,
+  title      TEXT NOT NULL,
+  body_html  TEXT NOT NULL,              -- trusted, board-authored HTML
+  sort       INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);

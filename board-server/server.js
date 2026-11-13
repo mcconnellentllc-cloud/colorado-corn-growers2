@@ -7,13 +7,14 @@
 import { createServer } from 'node:http';
 import {
   openDb, normalizeEmail, findMemberByEmail, upsertMember, memberCount, audit,
+  listDocuments, getDocument,
 } from './src/db.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
   purgeExpiredTokens, createSession, getSession, destroySession, cookieHeader, readCookie,
 } from './src/auth.js';
 import { sendSignInLink } from './src/email.js';
-import { loginPage, checkEmailPage, noticePage, portalPage } from './src/pages.js';
+import { loginPage, checkEmailPage, noticePage, portalPage, documentPage } from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || '';
@@ -148,11 +149,21 @@ const server = createServer(async (req, res) => {
       });
     }
 
-    // The private area.
+    // The private area — document index.
     if (req.method === 'GET' && path === '/portal') {
       const s = currentSession(req);
       if (!s) return redirect(res, '/');
-      return send(res, 200, portalPage(s.member));
+      return send(res, 200, portalPage(s.member, listDocuments(db)));
+    }
+
+    // A single private document.
+    if (req.method === 'GET' && path.startsWith('/portal/d/')) {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const slug = decodeURIComponent(path.slice('/portal/d/'.length));
+      const doc = getDocument(db, slug);
+      if (!doc) return send(res, 404, noticePage('Not found', '<p><a class="link" href="/portal">Back to documents</a></p>'));
+      return send(res, 200, documentPage(s.member, doc));
     }
 
     if (req.method === 'POST' && path === '/logout') {
