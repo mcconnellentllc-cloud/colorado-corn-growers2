@@ -1,0 +1,5 @@
+[
+  { "email": "office@cologrowers.com", "full_name": "CCGA Office", "role": "Admin", "is_admin": true },
+  { "email": "president@example.com", "full_name": "Jeff Self", "role": "President", "is_admin": true },
+  { "email": "director@example.com", "full_name": "A Director", "role": "Board Member", "is_admin": false }
+]
