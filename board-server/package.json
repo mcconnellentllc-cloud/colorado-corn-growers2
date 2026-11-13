@@ -1,0 +1,13 @@
+{
+  "name": "ccga-board-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Private, authenticated board portal for the Colorado Corn Growers Association. Runs on Render; the public site stays on GitHub Pages.",
+  "engines": { "node": ">=22.5.0" },
+  "scripts": {
+    "start": "node --experimental-sqlite server.js",
+    "seed": "node --experimental-sqlite scripts/seed.js",
+    "test": "node --experimental-sqlite --test"
+  }
+}

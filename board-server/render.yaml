@@ -1,0 +1,36 @@
+# Render Blueprint for the CCGA private board portal.
+# In Render: New + -> Blueprint -> point at this repo. The board server lives in
+# /board-server. A persistent disk (paid instance) keeps the SQLite file across
+# deploys; fill the "sync:false" secrets in the dashboard after first create.
+services:
+  - type: web
+    name: ccga-board-portal
+    runtime: node
+    plan: starter            # a persistent disk requires a paid instance
+    rootDir: board-server
+    buildCommand: npm install
+    startCommand: node --experimental-sqlite server.js
+    healthCheckPath: /healthz
+    disk:
+      name: board-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_VERSION
+        value: 22.22.0
+      - key: NODE_ENV
+        value: production
+      - key: DB_PATH
+        value: /data/board.db
+      - key: SESSION_SECRET
+        generateValue: true   # Render generates a strong random value
+      - key: PUBLIC_ORIGIN
+        sync: false           # set to the service's https URL after first deploy
+      - key: RESEND_API_KEY
+        sync: false
+      - key: MAIL_FROM
+        value: CCGA Board <board@cologrowers.com>
+      - key: BOOTSTRAP_ADMIN_EMAIL
+        sync: false
+      - key: BOOTSTRAP_ADMIN_NAME
+        sync: false
