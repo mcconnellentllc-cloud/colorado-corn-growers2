@@ -7,14 +7,14 @@
 import { createServer } from 'node:http';
 import {
   openDb, normalizeEmail, findMemberByEmail, upsertMember, memberCount, audit,
-  listDocuments, getDocument,
+  listDocuments, getDocument, upsertDocument,
 } from './src/db.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
   purgeExpiredTokens, createSession, getSession, destroySession, cookieHeader, readCookie,
 } from './src/auth.js';
 import { sendSignInLink } from './src/email.js';
-import { loginPage, checkEmailPage, noticePage, portalPage, documentPage } from './src/pages.js';
+import { loginPage, checkEmailPage, noticePage, portalPage, documentPage, adminPage } from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
 const SESSION_SECRET = process.env.SESSION_SECRET || '';
@@ -164,6 +164,36 @@ const server = createServer(async (req, res) => {
       const doc = getDocument(db, slug);
       if (!doc) return send(res, 404, noticePage('Not found', '<p><a class="link" href="/portal">Back to documents</a></p>'));
       return send(res, 200, documentPage(s.member, doc));
+    }
+
+    // Admin-only: document loader.
+    if (req.method === 'GET' && path === '/portal/admin') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only. <a class="link" href="/portal">Back</a></p>'));
+      const loaded = url.searchParams.get('loaded');
+      return send(res, 200, adminPage(s.member, { message: loaded ? `Loaded ${loaded} document(s).` : null }));
+    }
+    if (req.method === 'POST' && path === '/portal/admin/load') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only.</p>'));
+      const body = await readBody(req);
+      let docs;
+      try {
+        docs = JSON.parse(formField(body, 'docs'));
+        if (!Array.isArray(docs)) throw new Error('not an array');
+      } catch (e) {
+        return send(res, 200, adminPage(s.member, { message: 'That did not parse as a JSON array. Copy the whole file, including the opening [ and closing ].' }));
+      }
+      let n = 0;
+      for (const d of docs) {
+        if (!d || !d.slug || !d.title || !d.body_html) continue;
+        upsertDocument(db, { slug: d.slug, title: d.title, body_html: d.body_html, sort: d.sort || 0 });
+        n++;
+      }
+      audit(db, { actorEmail: s.member.email, action: 'docs.load', detail: String(n), ip: clientIp(req) });
+      return redirect(res, '/portal/admin?loaded=' + n);
     }
 
     if (req.method === 'POST' && path === '/logout') {

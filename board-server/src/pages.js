@@ -112,15 +112,37 @@ export function portalPage(member, documents) {
   let list;
   if (!documents.length) {
     list = `<div class="card"><h2>Board documents</h2><p style="color:#494540;">No documents yet.
-      The office loads confidential material here &mdash; it lives behind this sign-in, not on the
-      public site.</p></div>`;
+      ${member.is_admin ? 'Use <a class="link" href="/portal/admin">Manage documents</a> to load them.'
+        : 'The office loads confidential material here &mdash; it lives behind this sign-in, not on the public site.'}</p></div>`;
   } else {
     list = `<div class="card"><h2>Board documents</h2>` + documents.map((d) =>
       `<p style="margin:.5rem 0;"><a class="link" href="/portal/d/${encodeURIComponent(d.slug)}">${d.title}</a>
        <span style="color:#8c867b;font-size:.85rem;"> &middot; updated ${d.updated_at.slice(0, 10)}</span></p>`
     ).join('') + `</div>`;
   }
-  return portalChrome(member, note + list);
+  const adminLink = member.is_admin
+    ? `<p style="margin-top:.4rem;"><a class="link" href="/portal/admin">Manage documents &rarr;</a></p>` : '';
+  return portalChrome(member, note + list + adminLink);
+}
+
+// Admin-only: load documents by pasting the seed JSON. Keeps content off the
+// repo and out of the logs — it goes straight into the database.
+export function adminPage(member, { message } = {}) {
+  const inner = `<p style="margin-bottom:1.2rem;"><a class="link" href="/portal">&larr; Back</a></p>
+    <div class="card">
+      <h2>Load documents</h2>
+      <p style="color:#494540;margin-bottom:1rem;">Open the <b>strategy-timelines.seed.json</b> file,
+        copy everything in it, and paste it below. This loads or updates the documents in the
+        portal &mdash; the text goes into the server's database, never the public site.</p>
+      ${message ? `<p style="color:#334539;font-weight:600;margin-bottom:1rem;">${message}</p>` : ''}
+      <form method="POST" action="/portal/admin/load">
+        <label for="docs">Documents JSON</label>
+        <textarea id="docs" name="docs" rows="12" placeholder='[ { "slug": "...", "title": "...", "body_html": "...", "sort": 1 } ]'
+          style="font-family:monospace;font-size:.85rem;"></textarea>
+        <div style="margin-top:1rem;"><button class="btn" type="submit">Load documents</button></div>
+      </form>
+    </div>`;
+  return portalChrome(member, inner);
 }
 
 // A single document. Body is trusted, board-authored HTML from the database.
