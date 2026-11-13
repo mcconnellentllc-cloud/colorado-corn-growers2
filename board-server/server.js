@@ -14,6 +14,7 @@ import {
   purgeExpiredTokens, createSession, getSession, destroySession, cookieHeader, readCookie,
 } from './src/auth.js';
 import { sendSignInLink } from './src/email.js';
+import { loadEncryptedDocuments } from './src/content.js';
 import { loginPage, checkEmailPage, noticePage, portalPage, documentPage, adminPage } from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -46,6 +47,9 @@ if (memberCount(db) === 0 && process.env.BOOTSTRAP_ADMIN_EMAIL) {
   });
   console.log('[bootstrap] seeded admin: ' + normalizeEmail(process.env.BOOTSTRAP_ADMIN_EMAIL));
 }
+
+// Load the board documents that ship with the code (encrypted bundle).
+loadEncryptedDocuments(db, process.env.CONTENT_KEY);
 
 /* ---- helpers ---- */
 

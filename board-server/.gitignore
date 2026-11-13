@@ -11,4 +11,5 @@ data/
 roster.json
 
 # Private board content — loaded into the DB, never committed to a public repo.
-content/
+content/*
+!content/documents.enc
