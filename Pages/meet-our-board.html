@@ -590,70 +590,11 @@
         z-index: 9999;
         box-shadow: 0 2px 8px rgba(0,0,0,0.35);
         user-select: none;
-    " onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.65'" onclick="document.getElementById('portal-modal').style.display='flex'">
+    " onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.65'" onclick="window.open('https://ccga-board-portal.onrender.com','_blank','noopener')">
         <svg width="20" height="20" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="20" cy="20" r="18" stroke="#d3ae5c" stroke-width="2.5" fill="none"/>
             <text x="20" y="26" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#d3ae5c">C</text>
         </svg>
-    </div>
-
-    <!-- Password Modal -->
-    <div id="portal-modal" style="
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.6);
-        z-index: 10000;
-        align-items: center;
-        justify-content: center;
-    " onclick="if(event.target===this)this.style.display='none'">
-        <div style="
-            background: white;
-            border-radius: 6px;
-            padding: 40px;
-            width: 340px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-        ">
-            <div style="
-                width: 56px; height: 56px; border-radius: 50%;
-                background: #334539;
-                display: flex; align-items: center; justify-content: center;
-                margin: 0 auto 20px;
-            ">
-                <svg width="28" height="28" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="20" cy="20" r="18" stroke="#d3ae5c" stroke-width="2.5" fill="none"/>
-                    <text x="20" y="26" text-anchor="middle" font-family="serif" font-size="16" font-weight="bold" fill="#d3ae5c">C</text>
-                </svg>
-            </div>
-            <h3 style="color: #334539; margin-bottom: 8px; font-size: 1.2rem;">Board Portal</h3>
-            <p style="color: #5b564f; font-size: 0.9rem; margin-bottom: 24px;">Authorized members only</p>
-            <input id="portal-password" type="password" placeholder="Enter password" style="
-                width: 100%;
-                padding: 12px 16px;
-                border: 2px solid #e3dfd6;
-                border-radius: 4px;
-                font-size: 1rem;
-                outline: none;
-                margin-bottom: 8px;
-                box-sizing: border-box;
-                transition: border-color 0.2s;
-            " onfocus="this.style.borderColor='#6a8971'" onblur="this.style.borderColor='#e3dfd6'"
-            onkeydown="if(event.key==='Enter')checkPortalPassword()">
-            <div id="portal-error" style="color: #c0392b; font-size: 0.85rem; height: 20px; margin-bottom: 12px;"></div>
-            <button onclick="checkPortalPassword()" style="
-                width: 100%;
-                padding: 13px;
-                background: #334539;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                font-size: 1rem;
-                font-weight: 600;
-                cursor: pointer;
-                transition: opacity 0.2s;
-            " onmouseenter="this.style.opacity='0.88'" onmouseleave="this.style.opacity='1'">Enter</button>
-        </div>
     </div>
 
     <script>
@@ -669,17 +610,6 @@
             }
         });
 
-        function checkPortalPassword() {
-            const input = document.getElementById('portal-password').value;
-            const error = document.getElementById('portal-error');
-            if (input === 'Cornrocks!') {
-                window.location.href = 'board-portal.html';
-            } else {
-                error.textContent = 'Incorrect password.';
-                document.getElementById('portal-password').value = '';
-                document.getElementById('portal-password').focus();
-            }
-        }
     </script>
 </body>
 </html>
