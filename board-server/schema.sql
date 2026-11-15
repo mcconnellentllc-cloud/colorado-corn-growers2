@@ -53,6 +53,9 @@ CREATE TABLE IF NOT EXISTS documents (
   slug       TEXT NOT NULL UNIQUE,
   title      TEXT NOT NULL,
   body_html  TEXT NOT NULL,              -- trusted, board-authored HTML
+  category   TEXT,                       -- dashboard grouping, e.g. "checkoff", "operations"
+  status     TEXT,                       -- dashboard badge, e.g. "active", "blocked", "reference"
+  summary    TEXT,                       -- one-line description shown on the dashboard tile
   sort       INTEGER NOT NULL DEFAULT 0,
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
 );

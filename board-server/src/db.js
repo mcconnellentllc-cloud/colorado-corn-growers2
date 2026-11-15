@@ -27,6 +27,10 @@ export function openDb(dbPath) {
   db.exec(readFileSync(join(here, '..', 'schema.sql'), 'utf8'));
   // Migration: add password_hash to an existing members table that predates it.
   try { db.exec('ALTER TABLE members ADD COLUMN password_hash TEXT'); } catch (e) { /* already present */ }
+  // Migration: dashboard fields on documents (added after the first release).
+  try { db.exec('ALTER TABLE documents ADD COLUMN category TEXT'); } catch (e) { /* already present */ }
+  try { db.exec('ALTER TABLE documents ADD COLUMN status TEXT'); } catch (e) { /* already present */ }
+  try { db.exec('ALTER TABLE documents ADD COLUMN summary TEXT'); } catch (e) { /* already present */ }
   return db;
 }
 
@@ -72,22 +76,22 @@ export function audit(db, { actorEmail = null, action, detail = null, ip = null 
 /* ---- documents (private board content, stored in the DB, never in the repo) ---- */
 
 export function listDocuments(db) {
-  return db.prepare('SELECT slug, title, updated_at FROM documents ORDER BY sort, title').all();
+  return db.prepare('SELECT slug, title, category, status, summary, sort, updated_at FROM documents ORDER BY sort, title').all();
 }
 
 export function getDocument(db, slug) {
   return db.prepare('SELECT * FROM documents WHERE slug = ?').get(slug) ?? null;
 }
 
-export function upsertDocument(db, { slug, title, body_html, sort = 0 }) {
+export function upsertDocument(db, { slug, title, body_html, category = null, status = null, summary = null, sort = 0 }) {
   const existing = db.prepare('SELECT id FROM documents WHERE slug = ?').get(slug);
   if (existing) {
-    db.prepare('UPDATE documents SET title = ?, body_html = ?, sort = ?, updated_at = ? WHERE id = ?')
-      .run(title, body_html, sort, nowIso(), existing.id);
+    db.prepare('UPDATE documents SET title = ?, body_html = ?, category = ?, status = ?, summary = ?, sort = ?, updated_at = ? WHERE id = ?')
+      .run(title, body_html, category, status, summary, sort, nowIso(), existing.id);
     return;
   }
-  db.prepare('INSERT INTO documents (id, slug, title, body_html, sort, updated_at) VALUES (?, ?, ?, ?, ?, ?)')
-    .run(uuid(), slug, title, body_html, sort, nowIso());
+  db.prepare('INSERT INTO documents (id, slug, title, body_html, category, status, summary, sort, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(uuid(), slug, title, body_html, category, status, summary, sort, nowIso());
 }
 
 /* ---- passwords ---- */

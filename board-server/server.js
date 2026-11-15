@@ -311,7 +311,11 @@ const server = createServer(async (req, res) => {
       let n = 0;
       for (const d of docs) {
         if (!d || !d.slug || !d.title || !d.body_html) continue;
-        upsertDocument(db, { slug: d.slug, title: d.title, body_html: d.body_html, sort: d.sort || 0 });
+        upsertDocument(db, {
+          slug: d.slug, title: d.title, body_html: d.body_html,
+          category: d.category || null, status: d.status || null, summary: d.summary || null,
+          sort: d.sort || 0,
+        });
         n++;
       }
       audit(db, { actorEmail: s.member.email, action: 'docs.load', detail: String(n), ip: clientIp(req) });

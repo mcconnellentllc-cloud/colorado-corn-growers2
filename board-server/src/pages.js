@@ -45,6 +45,33 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .doc .step{font-weight:700;color:var(--green);}
   .doc em{color:#5b564f;}
   .doc .lead{font-size:1.02rem;color:#494540;}
+  /* --- dashboard --- */
+  .sec-label{font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#6a8971;margin:1.9rem 0 .7rem;}
+  .hero{background:var(--green);color:#fff;border-radius:10px;padding:1.7rem 1.7rem 1.4rem;margin-bottom:.4rem;}
+  .hero .sec-label{color:#d3ae5c;margin-top:0;}
+  .hero h2{color:#fff;font-size:1.45rem;margin-bottom:.4rem;}
+  .hero p{color:#e3dfd6;font-size:.96rem;margin-bottom:0;}
+  .issue-grid{display:grid;grid-template-columns:1fr 1fr;gap:.85rem;margin-bottom:.4rem;}
+  @media(max-width:620px){.issue-grid{grid-template-columns:1fr;}}
+  .issue{display:block;background:var(--surface);border:1px solid var(--line);border-radius:9px;
+         padding:1rem 1.1rem;text-decoration:none;color:var(--ink);transition:border-color .15s,box-shadow .15s;}
+  .issue:hover{border-color:#6a8971;box-shadow:0 4px 14px rgba(0,0,0,.07);}
+  .issue .top{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;margin-bottom:.35rem;}
+  .issue h3{font-family:Georgia,serif;font-weight:600;color:var(--green);font-size:1.04rem;line-height:1.25;margin:0;}
+  .issue .sum{font-size:.88rem;color:#5b564f;line-height:1.45;}
+  .issue.on-hero{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);}
+  .issue.on-hero h3{color:#fff;}
+  .issue.on-hero .sum{color:#cfd8cf;}
+  .issue.on-hero:hover{border-color:#d3ae5c;box-shadow:none;}
+  .badge{display:inline-block;font-size:.66rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+         padding:.22rem .5rem;border-radius:5px;white-space:nowrap;}
+  .b-active{background:#dcebe0;color:#2b5338;}
+  .b-blocked{background:#f0dede;color:#8a2f2f;}
+  .b-progress{background:#f3e8cf;color:#6b5214;}
+  .b-action{background:#f3e3cb;color:#7a4e12;}
+  .b-ref{background:#e7e4dd;color:#4a4740;}
+  .b-done{background:#e4e2de;color:#5b564f;}
+  .hero .badge{box-shadow:0 0 0 1px rgba(255,255,255,.15);}
 </style></head><body>`;
 
 const FOOT = `</body></html>`;
@@ -159,26 +186,73 @@ export function accountPage(member, { message, error } = {}) {
   return portalChrome(member, inner);
 }
 
-// The private index. Served only to a signed-in board member.
+// The private index — a dashboard of the board's open issues, grouped by area
+// with a status on each. Served only to a signed-in board member.
 export function portalPage(member, documents) {
+  const STATUS = {
+    active:    ['b-active',   'Active'],
+    blocked:   ['b-blocked',  'Blocked'],
+    progress:  ['b-progress', 'In Progress'],
+    action:    ['b-action',   'Action Needed'],
+    reference: ['b-ref',      'Reference'],
+    done:      ['b-done',     'Closed'],
+  };
+  const badge = (s) => (STATUS[s] ? `<span class="badge ${STATUS[s][0]}">${STATUS[s][1]}</span>` : '');
+
+  // Section order and headings. Any document whose category is unknown falls
+  // under Reference, so nothing is ever dropped from the dashboard.
+  const CATS = [
+    ['checkoff',   'The Checkoff Reallocation Initiative'],
+    ['operations', 'Operations & Access'],
+    ['asks',       'Asks of the Board'],
+    ['reference',  'Reference'],
+    ['archive',    'Archive'],
+  ];
+  const known = new Set(CATS.map(([k]) => k));
+
+  const adminLink = member.is_admin
+    ? `<p style="margin-top:1.4rem;"><a class="link" href="/portal/admin">Manage board (members &amp; documents) &rarr;</a></p>` : '';
+
   const note = `<div class="note"><b>This area is genuinely private.</b> Everything here is served
     from the board server only after you sign in &mdash; it is never part of the public website,
     and the text is stored in the server's database, not in the code repository.</div>`;
 
-  let list;
   if (!documents.length) {
-    list = `<div class="card"><h2>Board documents</h2><p style="color:#494540;">No documents yet.
-      ${member.is_admin ? 'Use <a class="link" href="/portal/admin">Manage board</a>.'
-        : 'The office loads confidential material here &mdash; it lives behind this sign-in, not on the public site.'}</p></div>`;
-  } else {
-    list = `<div class="card"><h2>Board documents</h2>` + documents.map((d) =>
-      `<p style="margin:.5rem 0;"><a class="link" href="/portal/d/${encodeURIComponent(d.slug)}">${d.title}</a>
-       <span style="color:#8c867b;font-size:.85rem;"> &middot; updated ${d.updated_at.slice(0, 10)}</span></p>`
-    ).join('') + `</div>`;
+    const empty = `<div class="card"><h2>No board issues loaded yet</h2>
+      <p style="color:#494540;">${member.is_admin
+        ? 'Load the board content from <a class="link" href="/portal/admin">Manage board</a> and this dashboard fills in automatically.'
+        : 'The office is loading the board&rsquo;s material &mdash; check back shortly.'}</p></div>`;
+    return portalChrome(member, note + empty + adminLink);
   }
-  const adminLink = member.is_admin
-    ? `<p style="margin-top:.4rem;"><a class="link" href="/portal/admin">Manage board (members &amp; documents) &rarr;</a></p>` : '';
-  return portalChrome(member, note + list + adminLink);
+
+  const byCat = {};
+  for (const d of documents) {
+    const c = known.has(d.category) ? d.category : 'reference';
+    (byCat[c] ||= []).push(d);
+  }
+
+  const tile = (d, onHero = false) =>
+    `<a class="issue${onHero ? ' on-hero' : ''}" href="/portal/d/${encodeURIComponent(d.slug)}">
+       <div class="top"><h3>${d.title}</h3>${badge(d.status)}</div>
+       ${d.summary ? `<div class="sum">${d.summary}</div>` : ''}</a>`;
+
+  let sections = '';
+  for (const [key, label] of CATS) {
+    const docs = byCat[key];
+    if (!docs || !docs.length) continue;
+    if (key === 'checkoff') {
+      sections += `<div class="hero"><div class="sec-label">Top Priority</div>
+        <h2>${label}</h2>
+        <p>Moving half or more of the Colorado corn checkoff toward grower-directed priorities &mdash;
+           the North Dakota precedent, the parallel plan for Colorado, the numbers, and the records request.</p>
+        <div class="issue-grid" style="margin-top:1.1rem;">${docs.map((d) => tile(d, true)).join('')}</div></div>`;
+    } else {
+      sections += `<div class="sec-label">${label}</div>
+        <div class="issue-grid">${docs.map((d) => tile(d)).join('')}</div>`;
+    }
+  }
+
+  return portalChrome(member, note + sections + adminLink);
 }
 
 // Admin-only: manage the board roster and load documents.
