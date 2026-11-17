@@ -36,6 +36,18 @@ CREATE TABLE IF NOT EXISTS sessions (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
 );
 
+-- The Board Room: board members' notes and "midnight thoughts". Written by any
+-- signed-in member, kept forever, shown newest first. The body is plain text
+-- entered by a person, so it is always HTML-escaped on the way out.
+CREATE TABLE IF NOT EXISTS notes (
+  id           TEXT PRIMARY KEY,
+  author_email TEXT NOT NULL,
+  author_name  TEXT NOT NULL,
+  body         TEXT NOT NULL,
+  created_at   TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_notes_created ON notes(created_at);
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id          TEXT PRIMARY KEY,
   actor_email TEXT,

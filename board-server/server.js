@@ -8,6 +8,7 @@ import { createServer } from 'node:http';
 import {
   openDb, normalizeEmail, findMemberByEmail, findMemberById, upsertMember, memberCount, audit,
   listDocuments, getDocument, upsertDocument, setMemberPassword, listMembers,
+  addNote, listNotes, deleteNote,
 } from './src/db.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
@@ -221,11 +222,36 @@ const server = createServer(async (req, res) => {
       });
     }
 
-    // The private area — document index.
+    // The private area — the headquarters home (board room + issue dashboard).
     if (req.method === 'GET' && path === '/portal') {
       const s = currentSession(req);
       if (!s) return redirect(res, '/');
-      return send(res, 200, portalPage(s.member, listDocuments(db)));
+      return send(res, 200, portalPage(s.member, listDocuments(db), listNotes(db)));
+    }
+
+    // The Board Room: post a thought. Any signed-in member.
+    if (req.method === 'POST' && path === '/portal/room') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const body = (formField(await readBody(req), 'body') || '').trim();
+      if (body) {
+        addNote(db, { authorEmail: s.member.email, authorName: s.member.full_name || s.member.email, body: body.slice(0, 8000) });
+        audit(db, { actorEmail: s.member.email, action: 'note.add', ip: clientIp(req) });
+      }
+      return redirect(res, '/portal#board-room');
+    }
+
+    // The Board Room: delete a thought. Author or admin only.
+    if (req.method === 'POST' && path === '/portal/room/delete') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const id = formField(await readBody(req), 'id');
+      const note = (listNotes(db, 500) || []).find((n) => n.id === id);
+      if (note && (s.member.is_admin || note.author_email === s.member.email)) {
+        deleteNote(db, id);
+        audit(db, { actorEmail: s.member.email, action: 'note.delete', detail: id, ip: clientIp(req) });
+      }
+      return redirect(res, '/portal#board-room');
     }
 
     // A single private document.

@@ -72,7 +72,21 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .b-ref{background:#e7e4dd;color:#4a4740;}
   .b-done{background:#e4e2de;color:#5b564f;}
   .hero .badge{box-shadow:0 0 0 1px rgba(255,255,255,.15);}
+  /* --- the board room --- */
+  textarea{width:100%;padding:.75rem .85rem;border:1px solid #c7c0b4;border-radius:6px;font:inherit;font-size:1rem;resize:vertical;}
+  textarea:focus{outline:2px solid var(--green);border-color:var(--green);}
+  .note-item{padding:.85rem 0;border-bottom:1px solid var(--line);}
+  .note-item:last-child{border-bottom:none;padding-bottom:0;}
+  .note-meta{font-size:.82rem;color:#8c867b;margin-bottom:.3rem;display:flex;gap:.45rem;align-items:center;}
+  .note-meta b{color:var(--green);}
+  .note-body{color:#37342f;white-space:pre-wrap;line-height:1.5;}
+  .note-del{margin-left:auto;background:none;border:none;color:#a3301f;cursor:pointer;font:inherit;font-size:.78rem;padding:0;text-decoration:underline;}
+  .room-empty{color:#8c867b;font-size:.92rem;padding:.6rem 0;}
 </style></head><body>`;
+
+// Escape text entered by a person before it is placed in HTML.
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 const FOOT = `</body></html>`;
 
@@ -186,9 +200,40 @@ export function accountPage(member, { message, error } = {}) {
   return portalChrome(member, inner);
 }
 
-// The private index — a dashboard of the board's open issues, grouped by area
-// with a status on each. Served only to a signed-in board member.
-export function portalPage(member, documents) {
+// The Board Room: compose box + the running feed of board thoughts.
+function boardRoom(member, notes) {
+  const feed = notes.length
+    ? notes.map((n) => {
+        const canDelete = member.is_admin || n.author_email === member.email;
+        const del = canDelete
+          ? `<form method="POST" action="/portal/room/delete" class="note-del-form" style="margin:0 0 0 auto;"
+               onsubmit="return confirm('Delete this thought?');">
+               <input type="hidden" name="id" value="${esc(n.id)}">
+               <button class="note-del" type="submit">delete</button></form>` : '';
+        return `<div class="note-item">
+          <div class="note-meta"><b>${esc(n.author_name)}</b>
+            <time class="ts" datetime="${esc(n.created_at)}">${esc(n.created_at)}</time>${del}</div>
+          <div class="note-body">${esc(n.body)}</div></div>`;
+      }).join('')
+    : `<div class="room-empty">No thoughts yet &mdash; be the first. Anything the board should see goes here.</div>`;
+
+  return `<div class="card" id="board-room">
+    <h2>The Board Room</h2>
+    <p style="color:#5b564f;font-size:.9rem;margin-bottom:.9rem;">Midnight thoughts, questions, anything
+      the board should see. Signed and kept &mdash; this is the board&rsquo;s shared table.</p>
+    <form method="POST" action="/portal/room">
+      <textarea name="body" rows="3" required placeholder="Share a thought with the board&hellip;"></textarea>
+      <div style="margin-top:.6rem;"><button class="btn" type="submit">Post to the board</button></div>
+    </form>
+    <div style="margin-top:1.3rem;">${feed}</div>
+    <script>document.querySelectorAll('time.ts').forEach(function(t){var d=new Date(t.getAttribute('datetime'));
+      if(!isNaN(d))t.textContent=d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});});</script>
+  </div>`;
+}
+
+// The private index — the board's headquarters: the Board Room on top, then a
+// dashboard of the board's open issues grouped by area. Signed-in members only.
+export function portalPage(member, documents, notes = []) {
   const STATUS = {
     active:    ['b-active',   'Active'],
     blocked:   ['b-blocked',  'Blocked'],
@@ -213,16 +258,17 @@ export function portalPage(member, documents) {
   const adminLink = member.is_admin
     ? `<p style="margin-top:1.4rem;"><a class="link" href="/portal/admin">Manage board (members &amp; documents) &rarr;</a></p>` : '';
 
-  const note = `<div class="note"><b>This area is genuinely private.</b> Everything here is served
-    from the board server only after you sign in &mdash; it is never part of the public website,
-    and the text is stored in the server's database, not in the code repository.</div>`;
+  const note = `<div class="note"><b>Your headquarters.</b> This lives in the cloud, not in any office &mdash;
+    reachable from anywhere, private to the board, and never part of the public website.</div>`;
+
+  const room = boardRoom(member, notes);
 
   if (!documents.length) {
     const empty = `<div class="card"><h2>No board issues loaded yet</h2>
       <p style="color:#494540;">${member.is_admin
         ? 'Load the board content from <a class="link" href="/portal/admin">Manage board</a> and this dashboard fills in automatically.'
         : 'The office is loading the board&rsquo;s material &mdash; check back shortly.'}</p></div>`;
-    return portalChrome(member, note + empty + adminLink);
+    return portalChrome(member, note + room + empty + adminLink);
   }
 
   const byCat = {};
@@ -252,7 +298,8 @@ export function portalPage(member, documents) {
     }
   }
 
-  return portalChrome(member, note + sections + adminLink);
+  const dashLabel = `<div class="sec-label" style="margin-top:2.2rem;">Board Issues &amp; Initiatives</div>`;
+  return portalChrome(member, note + room + dashLabel + sections + adminLink);
 }
 
 // Admin-only: manage the board roster and load documents.
