@@ -66,6 +66,23 @@ export function memberCount(db) {
   return db.prepare('SELECT COUNT(*) AS n FROM members').get().n;
 }
 
+/* ---- the board room (notes / midnight thoughts) ---- */
+
+export function addNote(db, { authorEmail, authorName, body }) {
+  const id = uuid();
+  db.prepare('INSERT INTO notes (id, author_email, author_name, body) VALUES (?, ?, ?, ?)')
+    .run(id, authorEmail, authorName, body);
+  return id;
+}
+
+export function listNotes(db, limit = 200) {
+  return db.prepare('SELECT id, author_email, author_name, body, created_at FROM notes ORDER BY created_at DESC, id DESC LIMIT ?').all(limit);
+}
+
+export function deleteNote(db, id) {
+  db.prepare('DELETE FROM notes WHERE id = ?').run(id);
+}
+
 /* ---- audit ---- */
 
 export function audit(db, { actorEmail = null, action, detail = null, ip = null }) {
