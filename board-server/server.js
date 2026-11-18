@@ -9,6 +9,7 @@ import {
   openDb, normalizeEmail, findMemberByEmail, findMemberById, upsertMember, memberCount, audit,
   listDocuments, getDocument, upsertDocument, setMemberPassword, listMembers,
   addNote, listNotes, deleteNote,
+  addDecision, listDecisions, deleteDecision,
 } from './src/db.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
@@ -226,7 +227,7 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && path === '/portal') {
       const s = currentSession(req);
       if (!s) return redirect(res, '/');
-      return send(res, 200, portalPage(s.member, listDocuments(db), listNotes(db)));
+      return send(res, 200, portalPage(s.member, listDocuments(db), listNotes(db), listDecisions(db)));
     }
 
     // The Board Room: post a thought. Any signed-in member.
@@ -252,6 +253,40 @@ const server = createServer(async (req, res) => {
         audit(db, { actorEmail: s.member.email, action: 'note.delete', detail: id, ip: clientIp(req) });
       }
       return redirect(res, '/portal#board-room');
+    }
+
+    // Decisions log: record a decision. Any signed-in member.
+    if (req.method === 'POST' && path === '/portal/decisions') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const form = await readBody(req);
+      const title = (formField(form, 'title') || '').trim();
+      const detail = (formField(form, 'detail') || '').trim();
+      const outcomeRaw = (formField(form, 'outcome') || '').trim();
+      const outcome = ['Passed', 'Failed', 'Tabled', 'In progress'].includes(outcomeRaw) ? outcomeRaw : 'Passed';
+      const decidedOn = /^\d{4}-\d{2}-\d{2}$/.test((formField(form, 'decided_on') || '').trim())
+        ? formField(form, 'decided_on').trim() : null;
+      if (title) {
+        addDecision(db, {
+          title: title.slice(0, 300), detail: detail.slice(0, 8000) || null, outcome,
+          decidedOn, recordedBy: s.member.full_name || s.member.email, recordedEmail: s.member.email,
+        });
+        audit(db, { actorEmail: s.member.email, action: 'decision.add', ip: clientIp(req) });
+      }
+      return redirect(res, '/portal#decisions');
+    }
+
+    // Decisions log: delete an entry. Recorder or admin only.
+    if (req.method === 'POST' && path === '/portal/decisions/delete') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const id = formField(await readBody(req), 'id');
+      const d = (listDecisions(db, 1000) || []).find((x) => x.id === id);
+      if (d && (s.member.is_admin || d.recorded_email === s.member.email)) {
+        deleteDecision(db, id);
+        audit(db, { actorEmail: s.member.email, action: 'decision.delete', detail: id, ip: clientIp(req) });
+      }
+      return redirect(res, '/portal#decisions');
     }
 
     // A single private document.

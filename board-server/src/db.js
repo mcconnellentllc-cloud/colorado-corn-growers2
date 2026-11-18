@@ -83,6 +83,23 @@ export function deleteNote(db, id) {
   db.prepare('DELETE FROM notes WHERE id = ?').run(id);
 }
 
+/* ---- the decisions log ---- */
+
+export function addDecision(db, { title, detail = null, outcome, decidedOn = null, recordedBy, recordedEmail }) {
+  const id = uuid();
+  db.prepare('INSERT INTO decisions (id, title, detail, outcome, decided_on, recorded_by, recorded_email) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .run(id, title, detail, outcome, decidedOn, recordedBy, recordedEmail);
+  return id;
+}
+
+export function listDecisions(db, limit = 300) {
+  return db.prepare('SELECT id, title, detail, outcome, decided_on, recorded_by, recorded_email, created_at FROM decisions ORDER BY COALESCE(decided_on, created_at) DESC, created_at DESC LIMIT ?').all(limit);
+}
+
+export function deleteDecision(db, id) {
+  db.prepare('DELETE FROM decisions WHERE id = ?').run(id);
+}
+
 /* ---- audit ---- */
 
 export function audit(db, { actorEmail = null, action, detail = null, ip = null }) {

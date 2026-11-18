@@ -48,6 +48,21 @@ CREATE TABLE IF NOT EXISTS notes (
 );
 CREATE INDEX IF NOT EXISTS idx_notes_created ON notes(created_at);
 
+-- The Decisions log: the board's official record of motions and their outcomes.
+-- Written by any signed-in member, kept forever, shown newest first. Text fields
+-- are person-entered, so they are always HTML-escaped on the way out.
+CREATE TABLE IF NOT EXISTS decisions (
+  id             TEXT PRIMARY KEY,
+  title          TEXT NOT NULL,
+  detail         TEXT,
+  outcome        TEXT NOT NULL,          -- Passed / Failed / Tabled / In progress
+  decided_on     TEXT,                   -- date the board decided (YYYY-MM-DD), optional
+  recorded_by    TEXT NOT NULL,          -- author name
+  recorded_email TEXT NOT NULL,
+  created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_decisions_created ON decisions(created_at);
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id          TEXT PRIMARY KEY,
   actor_email TEXT,

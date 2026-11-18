@@ -82,11 +82,23 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .note-body{color:#37342f;white-space:pre-wrap;line-height:1.5;}
   .note-del{margin-left:auto;background:none;border:none;color:#a3301f;cursor:pointer;font:inherit;font-size:.78rem;padding:0;text-decoration:underline;}
   .room-empty{color:#8c867b;font-size:.92rem;padding:.6rem 0;}
+  .decision-title{font-family:Georgia,serif;font-weight:600;color:var(--green);font-size:1.05rem;line-height:1.3;}
+  select:focus{outline:2px solid var(--green);border-color:var(--green);}
 </style></head><body>`;
 
 // Escape text entered by a person before it is placed in HTML.
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+// Format a YYYY-MM-DD (or ISO) date as "Nov 18, 2026". Returns '' if unparseable.
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const fmtDate = (ymd) => {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(ymd ?? ''));
+  return m ? `${MONTHS[+m[2] - 1]} ${+m[3]}, ${m[1]}` : '';
+};
+
+// Map a decision outcome to its badge class.
+const OUTCOME_BADGE = { 'Passed': 'b-active', 'Failed': 'b-blocked', 'In progress': 'b-progress', 'Tabled': 'b-ref' };
 
 const FOOT = `</body></html>`;
 
@@ -231,9 +243,53 @@ function boardRoom(member, notes) {
   </div>`;
 }
 
-// The private index — the board's headquarters: the Board Room on top, then a
-// dashboard of the board's open issues grouped by area. Signed-in members only.
-export function portalPage(member, documents, notes = []) {
+// The Decisions log: record a motion/outcome, and the running record below.
+function decisionsLog(member, decisions) {
+  const feed = decisions.length
+    ? decisions.map((d) => {
+        const canDelete = member.is_admin || d.recorded_email === member.email;
+        const del = canDelete
+          ? `<form method="POST" action="/portal/decisions/delete" style="margin:0 0 0 auto;"
+               onsubmit="return confirm('Delete this decision record?');">
+               <input type="hidden" name="id" value="${esc(d.id)}">
+               <button class="note-del" type="submit">delete</button></form>` : '';
+        const when = fmtDate(d.decided_on) || fmtDate(d.created_at);
+        const badgeClass = OUTCOME_BADGE[d.outcome] || 'b-ref';
+        return `<div class="note-item">
+          <div class="note-meta"><span class="badge ${badgeClass}">${esc(d.outcome)}</span>
+            ${when ? `<span>${esc(when)}</span>` : ''}${del}</div>
+          <div class="decision-title">${esc(d.title)}</div>
+          ${d.detail ? `<div class="note-body" style="margin-top:.3rem;">${esc(d.detail)}</div>` : ''}
+          <div style="font-size:.8rem;color:#8c867b;margin-top:.35rem;">Recorded by ${esc(d.recorded_by)}</div>
+        </div>`;
+      }).join('')
+    : `<div class="room-empty">No decisions recorded yet. The board&rsquo;s official record of what it chose, and when.</div>`;
+
+  return `<div class="card" id="decisions">
+    <h2>Decisions</h2>
+    <p style="color:#5b564f;font-size:.9rem;margin-bottom:.9rem;">The board&rsquo;s official record &mdash;
+      motions, outcomes, and the date. Kept forever.</p>
+    <form method="POST" action="/portal/decisions">
+      <label for="d-title">The decision / motion</label>
+      <input id="d-title" name="title" required maxlength="300" placeholder="e.g. Send the CORA request for checkoff financials">
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.7rem;">
+        <div style="flex:1;min-width:150px;"><label for="d-outcome">Outcome</label>
+          <select id="d-outcome" name="outcome" style="width:100%;padding:.75rem .85rem;border:1px solid #c7c0b4;border-radius:6px;font:inherit;font-size:1rem;">
+            <option>Passed</option><option>Failed</option><option>Tabled</option><option>In progress</option></select></div>
+        <div style="flex:1;min-width:150px;"><label for="d-date">Date decided</label>
+          <input id="d-date" name="decided_on" type="date" style="width:100%;"></div>
+      </div>
+      <div style="margin-top:.7rem;"><label for="d-detail">Detail (optional)</label>
+        <textarea id="d-detail" name="detail" rows="2" placeholder="Context, vote count, who moved and seconded&hellip;"></textarea></div>
+      <div style="margin-top:.7rem;"><button class="btn" type="submit">Record decision</button></div>
+    </form>
+    <div style="margin-top:1.3rem;">${feed}</div>
+  </div>`;
+}
+
+// The private index — the board's headquarters: the Board Room and Decisions on
+// top, then a dashboard of the board's open issues. Signed-in members only.
+export function portalPage(member, documents, notes = [], decisions = []) {
   const STATUS = {
     active:    ['b-active',   'Active'],
     blocked:   ['b-blocked',  'Blocked'],
@@ -262,13 +318,14 @@ export function portalPage(member, documents, notes = []) {
     reachable from anywhere, private to the board, and never part of the public website.</div>`;
 
   const room = boardRoom(member, notes);
+  const decisionsBlock = decisionsLog(member, decisions);
 
   if (!documents.length) {
     const empty = `<div class="card"><h2>No board issues loaded yet</h2>
       <p style="color:#494540;">${member.is_admin
         ? 'Load the board content from <a class="link" href="/portal/admin">Manage board</a> and this dashboard fills in automatically.'
         : 'The office is loading the board&rsquo;s material &mdash; check back shortly.'}</p></div>`;
-    return portalChrome(member, note + room + empty + adminLink);
+    return portalChrome(member, note + room + decisionsBlock + empty + adminLink);
   }
 
   const byCat = {};
@@ -299,7 +356,7 @@ export function portalPage(member, documents, notes = []) {
   }
 
   const dashLabel = `<div class="sec-label" style="margin-top:2.2rem;">Board Issues &amp; Initiatives</div>`;
-  return portalChrome(member, note + room + dashLabel + sections + adminLink);
+  return portalChrome(member, note + room + decisionsBlock + dashLabel + sections + adminLink);
 }
 
 // Admin-only: manage the board roster and load documents.
