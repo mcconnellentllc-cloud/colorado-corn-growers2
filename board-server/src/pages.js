@@ -84,6 +84,20 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .room-empty{color:#8c867b;font-size:.92rem;padding:.6rem 0;}
   .decision-title{font-family:Georgia,serif;font-weight:600;color:var(--green);font-size:1.05rem;line-height:1.3;}
   select:focus{outline:2px solid var(--green);border-color:var(--green);}
+  /* --- section nav (sticky tabs) --- */
+  .hqnav{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.04);}
+  .hqnav-in{max-width:820px;margin:0 auto;padding:0 1.4rem;display:flex;gap:1.3rem;overflow-x:auto;}
+  .hqnav a{display:inline-block;padding:.8rem .1rem;color:var(--muted);text-decoration:none;font-size:.88rem;
+           font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;}
+  .hqnav a:hover{color:var(--green);border-bottom-color:var(--green);}
+  [id]{scroll-margin-top:3.6rem;}
+  /* collapsible compose */
+  details.compose{border:1px solid var(--line);border-radius:8px;padding:0;margin-bottom:1.3rem;background:#fbfaf7;}
+  details.compose>summary{list-style:none;cursor:pointer;padding:.8rem 1rem;font-weight:600;color:var(--green);font-size:.95rem;}
+  details.compose>summary::-webkit-details-marker{display:none;}
+  details.compose>summary::before{content:'+ ';font-weight:700;}
+  details.compose[open]>summary::before{content:'\\2212 ';}
+  details.compose>.compose-body{padding:0 1rem 1rem;}
 </style></head><body>`;
 
 // Escape text entered by a person before it is placed in HTML.
@@ -183,6 +197,13 @@ function portalChrome(member, inner) {
     <span style="display:flex;gap:.8rem;align-items:center;">
       <a href="/account" style="color:#d3ae5c;text-decoration:none;font-size:.85rem;">Account</a>
       <form method="POST" action="/logout" style="margin:0;"><button class="btn" style="padding:.4rem .9rem;font-size:.85rem;">Sign out</button></form></span></div></div>
+  <nav class="hqnav"><div class="hqnav-in">
+    <a href="/portal#board-room">Board Room</a>
+    <a href="/portal#decisions">Decisions</a>
+    <a href="/portal#issues">Issues</a>
+    <a href="/portal#handover">Handover</a>
+    ${member.is_admin ? '<a href="/portal/admin">Manage</a>' : ''}
+  </div></nav>
   <div class="wrap">
     <h1>Welcome, ${member.full_name}${admin}</h1>
     <p class="sub">${member.role ? member.role + ' &middot; ' : ''}Signed in as ${member.email}</p>
@@ -234,7 +255,7 @@ function boardRoom(member, notes) {
     <p style="color:#5b564f;font-size:.9rem;margin-bottom:.9rem;">Midnight thoughts, questions, anything
       the board should see. Signed and kept &mdash; this is the board&rsquo;s shared table.</p>
     <form method="POST" action="/portal/room">
-      <textarea name="body" rows="3" required placeholder="Share a thought with the board&hellip;"></textarea>
+      <textarea name="body" rows="2" required placeholder="Share a thought with the board&hellip;"></textarea>
       <div style="margin-top:.6rem;"><button class="btn" type="submit">Post to the board</button></div>
     </form>
     <div style="margin-top:1.3rem;">${feed}</div>
@@ -269,6 +290,7 @@ function decisionsLog(member, decisions) {
     <h2>Decisions</h2>
     <p style="color:#5b564f;font-size:.9rem;margin-bottom:.9rem;">The board&rsquo;s official record &mdash;
       motions, outcomes, and the date. Kept forever.</p>
+    <details class="compose"><summary>Record a decision</summary><div class="compose-body">
     <form method="POST" action="/portal/decisions">
       <label for="d-title">The decision / motion</label>
       <input id="d-title" name="title" required maxlength="300" placeholder="e.g. Send the CORA request for checkoff financials">
@@ -282,7 +304,7 @@ function decisionsLog(member, decisions) {
       <div style="margin-top:.7rem;"><label for="d-detail">Detail (optional)</label>
         <textarea id="d-detail" name="detail" rows="2" placeholder="Context, vote count, who moved and seconded&hellip;"></textarea></div>
       <div style="margin-top:.7rem;"><button class="btn" type="submit">Record decision</button></div>
-    </form>
+    </form></div></details>
     <div style="margin-top:1.3rem;">${feed}</div>
   </div>`;
 }
@@ -328,8 +350,11 @@ export function portalPage(member, documents, notes = [], decisions = []) {
     return portalChrome(member, note + room + decisionsBlock + empty + adminLink);
   }
 
+  // Handover-kit documents render in their own section, not in the issue dashboard.
+  const handoverDocs = documents.filter((d) => d.category === 'handover');
   const byCat = {};
   for (const d of documents) {
+    if (d.category === 'handover') continue;
     const c = known.has(d.category) ? d.category : 'reference';
     (byCat[c] ||= []).push(d);
   }
@@ -355,8 +380,18 @@ export function portalPage(member, documents, notes = [], decisions = []) {
     }
   }
 
-  const dashLabel = `<div class="sec-label" style="margin-top:2.2rem;">Board Issues &amp; Initiatives</div>`;
-  return portalChrome(member, note + room + decisionsBlock + dashLabel + sections + adminLink);
+  const dashLabel = `<div class="sec-label" id="issues" style="margin-top:2.2rem;">Board Issues &amp; Initiatives</div>`;
+
+  // The Handover Kit — everything needed to run CCGA, for anyone taking the keys.
+  const handover = `<div class="sec-label" id="handover" style="margin-top:2.4rem;">Running CCGA &mdash; The Handover Kit</div>
+    <p style="color:#5b564f;font-size:.92rem;margin:-.3rem 0 .9rem;">Everything needed to operate the
+      association. Hand this to anyone taking the keys.</p>`
+    + (handoverDocs.length
+      ? `<div class="issue-grid">${handoverDocs.map((d) => tile(d)).join('')}</div>`
+      : `<div class="card"><p style="color:#8c867b;">The handover kit isn&rsquo;t loaded yet.${member.is_admin
+          ? ' Load it from <a class="link" href="/portal/admin">Manage board</a>.' : ''}</p></div>`);
+
+  return portalChrome(member, note + room + decisionsBlock + dashLabel + sections + handover + adminLink);
 }
 
 // Admin-only: manage the board roster and load documents.
