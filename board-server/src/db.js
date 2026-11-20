@@ -100,6 +100,31 @@ export function deleteDecision(db, id) {
   db.prepare('DELETE FROM decisions WHERE id = ?').run(id);
 }
 
+/* ---- membership list (sponsorship targets) ---- */
+
+export function addMember(db, { name, farm = null, email = null, phone = null, town = null, status = null, stage = null, notes = null, addedBy = null }) {
+  const id = uuid();
+  db.prepare('INSERT INTO membership (id, name, farm, email, phone, town, status, stage, notes, added_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(id, name, farm, email, phone, town, status, stage, notes, addedBy);
+  return id;
+}
+
+export function listMembership(db, limit = 2000) {
+  return db.prepare('SELECT * FROM membership ORDER BY name COLLATE NOCASE LIMIT ?').all(limit);
+}
+
+export function updateMemberStage(db, id, stage) {
+  db.prepare('UPDATE membership SET stage = ? WHERE id = ?').run(stage, id);
+}
+
+export function deleteMember(db, id) {
+  db.prepare('DELETE FROM membership WHERE id = ?').run(id);
+}
+
+export function membershipStats(db) {
+  return db.prepare("SELECT COUNT(*) AS total, SUM(CASE WHEN stage='Committed' THEN 1 ELSE 0 END) AS committed, SUM(CASE WHEN stage='Interested' THEN 1 ELSE 0 END) AS interested FROM membership").get();
+}
+
 /* ---- audit ---- */
 
 export function audit(db, { actorEmail = null, action, detail = null, ip = null }) {

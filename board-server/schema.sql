@@ -63,6 +63,24 @@ CREATE TABLE IF NOT EXISTS decisions (
 );
 CREATE INDEX IF NOT EXISTS idx_decisions_created ON decisions(created_at);
 
+-- The membership list: CCGA members and prospects (starting with expired
+-- members), worked as sponsorship targets. Private to the board. Text fields
+-- are person-entered, so they are always HTML-escaped on the way out.
+CREATE TABLE IF NOT EXISTS membership (
+  id          TEXT PRIMARY KEY,
+  name        TEXT NOT NULL,
+  farm        TEXT,                    -- farm / business name
+  email       TEXT,
+  phone       TEXT,
+  town        TEXT,                    -- town / county
+  status      TEXT,                    -- Expired / Lapsed / Active / Prospect
+  stage       TEXT,                    -- sponsorship pipeline: New / Contacted / Interested / Committed / Declined
+  notes       TEXT,
+  added_by    TEXT,
+  created_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_membership_name ON membership(name);
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id          TEXT PRIMARY KEY,
   actor_email TEXT,

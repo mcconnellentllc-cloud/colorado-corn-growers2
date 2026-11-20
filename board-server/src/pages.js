@@ -84,6 +84,9 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .room-empty{color:#8c867b;font-size:.92rem;padding:.6rem 0;}
   .decision-title{font-family:Georgia,serif;font-weight:600;color:var(--green);font-size:1.05rem;line-height:1.3;}
   select:focus{outline:2px solid var(--green);border-color:var(--green);}
+  .mtable{width:100%;border-collapse:collapse;font-size:.9rem;}
+  .mtable th{text-align:left;padding:.4rem .5rem;color:#5b564f;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--line);white-space:nowrap;}
+  .mtable td{padding:.55rem .5rem;border-bottom:1px solid var(--line);vertical-align:top;}
   /* --- section nav (sticky tabs) --- */
   .hqnav{position:sticky;top:0;z-index:30;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 1px 4px rgba(0,0,0,.04);}
   .hqnav-in{max-width:820px;margin:0 auto;padding:0 1.4rem;display:flex;gap:1.3rem;overflow-x:auto;}
@@ -201,6 +204,7 @@ function portalChrome(member, inner) {
     <a href="/portal#board-room">Board Room</a>
     <a href="/portal#decisions">Decisions</a>
     <a href="/portal#issues">Issues</a>
+    <a href="/portal/members">Members</a>
     <a href="/portal#handover">Handover</a>
     ${member.is_admin ? '<a href="/portal/admin">Manage</a>' : ''}
   </div></nav>
@@ -450,5 +454,91 @@ export function documentPage(member, doc) {
   const inner = `<p style="margin-bottom:1.2rem;"><a class="link" href="/portal">&larr; All documents</a></p>
     <div class="card"><h2 style="font-size:1.5rem;margin-bottom:1rem;">${doc.title}</h2>
     <div class="doc">${doc.body_html}</div></div>`;
+  return portalChrome(member, inner);
+}
+
+// The Members list — membership & sponsorship-target records, on its own page.
+export function membersPage(member, rows) {
+  const MSTATUS = { 'Expired': 'b-blocked', 'Lapsed': 'b-progress', 'Active': 'b-active', 'Prospect': 'b-ref' };
+  const STAGES = ['New', 'Contacted', 'Interested', 'Committed', 'Declined'];
+  const STATUSES = ['Expired', 'Lapsed', 'Active', 'Prospect'];
+  const opt = (v, sel) => `<option${v === sel ? ' selected' : ''}>${v}</option>`;
+
+  const stats = {
+    total: rows.length,
+    committed: rows.filter((r) => r.stage === 'Committed').length,
+    interested: rows.filter((r) => r.stage === 'Interested').length,
+    contacted: rows.filter((r) => r.stage === 'Contacted').length,
+  };
+
+  const addForm = `<details class="compose"><summary>Add a member / prospect</summary><div class="compose-body">
+    <form method="POST" action="/portal/members">
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;">
+        <div style="flex:2;min-width:180px;"><label for="m-name">Name</label>
+          <input id="m-name" name="name" required maxlength="200" placeholder="Grower name"></div>
+        <div style="flex:2;min-width:180px;"><label for="m-farm">Farm / business</label>
+          <input id="m-farm" name="farm" maxlength="200"></div>
+      </div>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.7rem;">
+        <div style="flex:2;min-width:180px;"><label for="m-email">Email</label>
+          <input id="m-email" name="email" type="email" maxlength="200"></div>
+        <div style="flex:1;min-width:140px;"><label for="m-phone">Phone</label>
+          <input id="m-phone" name="phone" maxlength="60"></div>
+        <div style="flex:1;min-width:140px;"><label for="m-town">Town / county</label>
+          <input id="m-town" name="town" maxlength="120"></div>
+      </div>
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.7rem;">
+        <div style="flex:1;min-width:150px;"><label for="m-status">Membership status</label>
+          <select id="m-status" name="status" style="width:100%;padding:.75rem .85rem;border:1px solid #c7c0b4;border-radius:6px;font:inherit;font-size:1rem;">${STATUSES.map((v) => opt(v, 'Expired')).join('')}</select></div>
+        <div style="flex:1;min-width:150px;"><label for="m-stage">Sponsorship stage</label>
+          <select id="m-stage" name="stage" style="width:100%;padding:.75rem .85rem;border:1px solid #c7c0b4;border-radius:6px;font:inherit;font-size:1rem;">${STAGES.map((v) => opt(v, 'New')).join('')}</select></div>
+      </div>
+      <div style="margin-top:.7rem;"><label for="m-notes">Notes</label>
+        <textarea id="m-notes" name="notes" rows="2" placeholder="Context, who knows them, last contact&hellip;"></textarea></div>
+      <div style="margin-top:.7rem;"><button class="btn" type="submit">Add to list</button></div>
+    </form></div></details>`;
+
+  const rowHtml = (r) => {
+    const contact = [
+      r.email ? `<a class="link" href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : '',
+      r.phone ? esc(r.phone) : '',
+    ].filter(Boolean).join('<br>') || '<span style="color:#b7b1a6;">&mdash;</span>';
+    const statusBadge = r.status ? `<span class="badge ${MSTATUS[r.status] || 'b-ref'}">${esc(r.status)}</span>` : '';
+    const stageSelect = `<form method="POST" action="/portal/members/stage" style="margin:0;">
+      <input type="hidden" name="id" value="${esc(r.id)}">
+      <select name="stage" onchange="this.form.submit()" style="padding:.3rem .4rem;border:1px solid #c7c0b4;border-radius:5px;font:inherit;font-size:.82rem;">
+        ${STAGES.map((v) => opt(v, r.stage)).join('')}</select></form>`;
+    const del = `<form method="POST" action="/portal/members/delete" style="margin:0;" onsubmit="return confirm('Remove this member from the list?');">
+      <input type="hidden" name="id" value="${esc(r.id)}"><button class="note-del" type="submit">remove</button></form>`;
+    return `<tr>
+      <td><b>${esc(r.name)}</b>${r.farm ? `<br><span style="color:#5b564f;font-size:.85rem;">${esc(r.farm)}</span>` : ''}
+        ${r.town ? `<br><span style="color:#8c867b;font-size:.8rem;">${esc(r.town)}</span>` : ''}</td>
+      <td style="font-size:.85rem;">${contact}</td>
+      <td>${statusBadge}</td>
+      <td>${stageSelect}</td>
+      <td style="font-size:.85rem;color:#5b564f;">${r.notes ? esc(r.notes) : ''}</td>
+      <td style="text-align:right;">${del}</td></tr>`;
+  };
+
+  const table = rows.length
+    ? `<div style="overflow-x:auto;"><table class="mtable">
+        <tr><th>Name</th><th>Contact</th><th>Status</th><th>Stage</th><th>Notes</th><th></th></tr>
+        ${rows.map(rowHtml).join('')}</table></div>`
+    : `<div class="room-empty">No members on the list yet. Add your expired members above, or import them once you&rsquo;re back into the membership system.</div>`;
+
+  const inner = `
+    <div class="card">
+      <h2>Members &amp; Sponsorship Targets</h2>
+      <p style="color:#5b564f;font-size:.92rem;margin-bottom:.9rem;">The membership list &mdash; starting with expired
+        members &mdash; worked as sponsorship prospects. Private to the board.</p>
+      <div style="display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.1rem;font-size:.9rem;">
+        <span><b style="font-size:1.3rem;color:#334539;">${stats.total}</b> on the list</span>
+        <span><b style="font-size:1.3rem;color:#6b5214;">${stats.contacted}</b> contacted</span>
+        <span><b style="font-size:1.3rem;color:#2b5338;">${stats.interested}</b> interested</span>
+        <span><b style="font-size:1.3rem;color:#2b5338;">${stats.committed}</b> committed</span>
+      </div>
+      ${addForm}
+      <div style="margin-top:1.2rem;">${table}</div>
+    </div>`;
   return portalChrome(member, inner);
 }
