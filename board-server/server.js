@@ -21,8 +21,9 @@ import { sendSignInLink } from './src/email.js';
 import { loadBoardDocuments } from './src/content.js';
 import { parseNcgaMembers } from './src/member-import.js';
 import {
-  loginPage, checkEmailPage, noticePage, portalPage, documentPage, adminPage,
+  loginPage, checkEmailPage, noticePage, documentPage, adminPage,
   setupPage, accountPage, membersPage,
+  homePage, boardRoomPage, decisionsPage, issuesPage, handoverPage,
 } from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -234,11 +235,35 @@ const server = createServer(async (req, res) => {
       });
     }
 
-    // The private area — the headquarters home (board room + issue dashboard).
+    // The headquarters home — what's new (latest comments + decisions) + links.
     if (req.method === 'GET' && path === '/portal') {
       const s = currentSession(req);
       if (!s) return redirect(res, '/');
-      return send(res, 200, portalPage(s.member, listDocuments(db), listNotes(db), listDecisions(db)));
+      return send(res, 200, homePage(s.member, { notes: listNotes(db), decisions: listDecisions(db) }));
+    }
+    // Board Room — the member comment / discussion feed.
+    if (req.method === 'GET' && path === '/portal/room') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, boardRoomPage(s.member, listNotes(db)));
+    }
+    // Decisions — the official record.
+    if (req.method === 'GET' && path === '/portal/decisions') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, decisionsPage(s.member, listDecisions(db)));
+    }
+    // Issues — the board's initiatives and open matters.
+    if (req.method === 'GET' && path === '/portal/issues') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, issuesPage(s.member, listDocuments(db)));
+    }
+    // Handover — everything needed to run CCGA.
+    if (req.method === 'GET' && path === '/portal/handover') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, handoverPage(s.member, listDocuments(db)));
     }
 
     // The Board Room: post a thought. Any signed-in member.
@@ -250,7 +275,7 @@ const server = createServer(async (req, res) => {
         addNote(db, { authorEmail: s.member.email, authorName: s.member.full_name || s.member.email, body: body.slice(0, 8000) });
         audit(db, { actorEmail: s.member.email, action: 'note.add', ip: clientIp(req) });
       }
-      return redirect(res, '/portal#board-room');
+      return redirect(res, '/portal/room');
     }
 
     // The Board Room: delete a thought. Author or admin only.
@@ -263,7 +288,7 @@ const server = createServer(async (req, res) => {
         deleteNote(db, id);
         audit(db, { actorEmail: s.member.email, action: 'note.delete', detail: id, ip: clientIp(req) });
       }
-      return redirect(res, '/portal#board-room');
+      return redirect(res, '/portal/room');
     }
 
     // Decisions log: record a decision. Any signed-in member.
@@ -284,7 +309,7 @@ const server = createServer(async (req, res) => {
         });
         audit(db, { actorEmail: s.member.email, action: 'decision.add', ip: clientIp(req) });
       }
-      return redirect(res, '/portal#decisions');
+      return redirect(res, '/portal/decisions');
     }
 
     // Decisions log: delete an entry. Recorder or admin only.
@@ -297,7 +322,7 @@ const server = createServer(async (req, res) => {
         deleteDecision(db, id);
         audit(db, { actorEmail: s.member.email, action: 'decision.delete', detail: id, ip: clientIp(req) });
       }
-      return redirect(res, '/portal#decisions');
+      return redirect(res, '/portal/decisions');
     }
 
     // Members list (sponsorship targets).
