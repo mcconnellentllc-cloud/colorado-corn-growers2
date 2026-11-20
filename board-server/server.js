@@ -465,6 +465,15 @@ const server = createServer(async (req, res) => {
           audit(db, { actorEmail: s.member.email, action: 'roster.reset_password', detail: target.email, ip: clientIp(req) });
           return redirect(res, '/portal/admin?msg=reset');
         }
+        if (action === 'signin_link') {
+          // Generate a one-time sign-in link the admin can copy and send to the
+          // member directly (text / their own email). Works without a mail service.
+          if (!target.is_active) return redirect(res, '/portal/admin');
+          const { token } = issueToken(db, { email: target.email, ip: clientIp(req) });
+          const link = `${PUBLIC_ORIGIN}/auth/verify?token=${encodeURIComponent(token)}`;
+          audit(db, { actorEmail: s.member.email, action: 'roster.signin_link', detail: target.email, ip: clientIp(req) });
+          return send(res, 200, adminPage(s.member, { members: listMembers(db), linkInfo: { email: target.email, link } }));
+        }
         const flags = { is_admin: target.is_admin, is_active: target.is_active };
         if (action === 'promote') flags.is_admin = 1;
         else if (action === 'demote') flags.is_admin = 0;
