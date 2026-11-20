@@ -26,11 +26,13 @@ export function tooManyRequests(db, { email, ip }) {
   return false;
 }
 
-export function issueToken(db, { email, ip }) {
+// ttlSeconds lets an admin-generated link last effectively forever; it stays
+// single-use, so a forwarded copy is dead once the member has clicked it.
+export function issueToken(db, { email, ip, ttlSeconds = TOKEN_TTL_SECONDS }) {
   const id = uuid();
   const secret = randomToken(32);
   const tokenHash = sha256Hex(secret);
-  const expiresAt = isoFromNow(TOKEN_TTL_SECONDS);
+  const expiresAt = isoFromNow(ttlSeconds);
   db.prepare('INSERT INTO tokens (id, email, token_hash, expires_at, used_at, created_ip, created_at) VALUES (?, ?, ?, ?, NULL, ?, ?)')
     .run(id, email, tokenHash, expiresAt, ip ?? null, nowIso());
   return { token: `${id}.${secret}`, expiresAt };
