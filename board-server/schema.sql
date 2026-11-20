@@ -81,6 +81,26 @@ CREATE TABLE IF NOT EXISTS membership (
 );
 CREATE INDEX IF NOT EXISTS idx_membership_name ON membership(name);
 
+-- Responses to the "trusted source for legislation" survey sent to elected
+-- officials. Submitted from a PUBLIC form (an official or their staff, no board
+-- login), so every text field is person-entered and always HTML-escaped on the
+-- way out. office_key ties a response to a seat in the officials directory.
+CREATE TABLE IF NOT EXISTS survey_responses (
+  id            TEXT PRIMARY KEY,
+  office_key    TEXT,                    -- seat key from the officials directory (e.g. "sen-bennet", "co-04")
+  office_label  TEXT,                    -- human label as shown to the respondent
+  respondent    TEXT,                    -- who filled it in (name)
+  role          TEXT,                    -- their role / title (e.g. "Legislative Aide")
+  email         TEXT,
+  phone         TEXT,
+  answer        TEXT,                    -- Yes / Maybe / Not now
+  interests     TEXT,                    -- topics they care about (free text)
+  comments      TEXT,
+  created_ip    TEXT,
+  created_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_survey_created ON survey_responses(created_at);
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id          TEXT PRIMARY KEY,
   actor_email TEXT,

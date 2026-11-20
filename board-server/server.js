@@ -11,7 +11,9 @@ import {
   addNote, listNotes, deleteNote,
   addDecision, listDecisions, deleteDecision,
   addMember, listMembership, updateMemberStage, deleteMember,
+  addSurveyResponse, listSurveyResponses, deleteSurveyResponse, surveyStats,
 } from './src/db.js';
+import { officeByKey, OFFICIALS } from './src/officials.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
   purgeExpiredTokens, createSession, getSession, destroySession, cookieHeader, readCookie,
@@ -24,6 +26,7 @@ import {
   loginPage, checkEmailPage, noticePage, documentPage, adminPage,
   setupPage, accountPage, membersPage,
   homePage, boardRoomPage, decisionsPage, issuesPage, handoverPage,
+  officialsPage, publicSurveyPage, surveyThanksPage,
 } from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -109,6 +112,39 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && path === '/healthz') {
       res.writeHead(200, { 'Content-Type': 'text/plain' });
       return res.end('ok');
+    }
+
+    // PUBLIC: the "trusted source" survey for elected officials and their staff.
+    // No board session — this is sent out to offices. ?office=<key> pre-selects.
+    if (req.method === 'GET' && path === '/survey') {
+      return send(res, 200, publicSurveyPage({ selectedOffice: url.searchParams.get('office') || '' }));
+    }
+    if (req.method === 'GET' && path === '/survey/thanks') {
+      return send(res, 200, surveyThanksPage());
+    }
+    if (req.method === 'POST' && path === '/survey') {
+      const f = await readBody(req);
+      // Honeypot: a real person leaves the hidden "website" field empty.
+      if ((formField(f, 'website') || '').trim()) return redirect(res, '/survey/thanks');
+      const clip = (name, n) => (formField(f, name) || '').trim().slice(0, n);
+      const officeKey = clip('office', 60);
+      const office = officeKey ? officeByKey(officeKey) : null;
+      const answerRaw = clip('answer', 20);
+      const answer = ['Yes', 'Maybe', 'Not now'].includes(answerRaw) ? answerRaw : 'Maybe';
+      addSurveyResponse(db, {
+        officeKey: office ? office.key : null,
+        officeLabel: office ? `${office.name}${office.district ? ' — ' + office.district : ''}` : null,
+        respondent: clip('respondent', 160) || null,
+        role: clip('role', 160) || null,
+        email: clip('email', 200) || null,
+        phone: clip('phone', 60) || null,
+        answer,
+        interests: clip('interests', 400) || null,
+        comments: clip('comments', 2000) || null,
+        ip: clientIp(req),
+      });
+      audit(db, { action: 'survey.response', detail: office ? office.key : 'unspecified', ip: clientIp(req) });
+      return redirect(res, '/survey/thanks');
     }
 
     // Landing / login. If already signed in, go straight to the portal.
@@ -264,6 +300,45 @@ const server = createServer(async (req, res) => {
       const s = currentSession(req);
       if (!s) return redirect(res, '/');
       return send(res, 200, handoverPage(s.member, listDocuments(db)));
+    }
+    // Officials — the Colorado delegation directory + the trusted-source survey.
+    if (req.method === 'GET' && path === '/portal/officials') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, officialsPage(s.member, {
+        responses: listSurveyResponses(db),
+        stats: surveyStats(db),
+        surveyUrl: `${PUBLIC_ORIGIN}/survey`,
+      }));
+    }
+    // Officials — download the directory as CSV (for a Constant Contact list / mail merge).
+    if (req.method === 'GET' && path === '/portal/officials/export') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const q = (v) => { const x = String(v == null ? '' : v).replace(/&mdash;/g, '—').replace(/&rsquo;/g, '’').replace(/&amp;/g, '&'); return /[",\n\r]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
+      const header = ['Office', 'Name', 'Title', 'Party', 'Status', 'Email', 'Phone', 'Address', 'Contact URL', 'Website'];
+      const lines = [header.join(',')];
+      for (const o of OFFICIALS) {
+        const email = o.campaign_email || '';
+        const link = o.contact_url || o.campaign_url || '';
+        const statusLabel = o.status === 'new' ? 'Elected — office opens Jan 2027' : o.status === 'returning' ? 'In office' : 'Office';
+        lines.push([o.group, o.name, o.title, o.party, statusLabel, email, o.phone || '', o.dc_address || '', link, o.website || ''].map(q).join(','));
+      }
+      res.writeHead(200, {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'Content-Disposition': 'attachment; filename="ccga-officials.csv"',
+      });
+      res.end(lines.join('\r\n'));
+      return;
+    }
+    // Officials — delete a survey response. Admins only.
+    if (req.method === 'POST' && path === '/portal/officials/response/delete') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only.</p>'));
+      deleteSurveyResponse(db, formField(await readBody(req), 'id'));
+      audit(db, { actorEmail: s.member.email, action: 'survey.delete', ip: clientIp(req) });
+      return redirect(res, '/portal/officials');
     }
 
     // The Board Room: post a thought. Any signed-in member.
