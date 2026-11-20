@@ -408,7 +408,8 @@ export function adminPage(member, { message, members = [] } = {}) {
       <td style="padding:.4rem .5rem;border-bottom:1px solid #e0dbd1;">${badges}</td>
       <td style="padding:.4rem .5rem;border-bottom:1px solid #e0dbd1;white-space:nowrap;">
         ${m.is_admin ? act('demote', 'Remove admin') : act('promote', 'Make admin')}
-        ${m.is_active ? act('deactivate', 'Deactivate') : act('activate', 'Reactivate')}</td></tr>`;
+        ${m.is_active ? act('deactivate', 'Deactivate') : act('activate', 'Reactivate')}
+        ${m.password_hash ? `<form method="POST" action="/portal/admin/member" style="display:inline;margin:0;" onsubmit="return confirm('Reset this member&apos;s password? They will set a new one next time they sign in.');"><input type="hidden" name="id" value="${m.id}"><input type="hidden" name="action" value="reset_password"><button class="btn ghost sm" style="padding:.25rem .55rem;font-size:.78rem;">Reset password</button></form>` : ''}</td></tr>`;
   };
   const list = members.length
     ? `<table style="width:100%;border-collapse:collapse;font-size:.92rem;">
