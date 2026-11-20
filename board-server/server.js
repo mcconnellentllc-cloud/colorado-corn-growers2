@@ -7,7 +7,7 @@
 import { createServer } from 'node:http';
 import {
   openDb, normalizeEmail, findMemberByEmail, findMemberById, upsertMember, memberCount, audit,
-  listDocuments, getDocument, upsertDocument, setMemberPassword, listMembers,
+  listDocuments, getDocument, upsertDocument, setMemberPassword, clearMemberPassword, listMembers,
   addNote, listNotes, deleteNote,
   addDecision, listDecisions, deleteDecision,
 } from './src/db.js';
@@ -152,6 +152,15 @@ const server = createServer(async (req, res) => {
         return send(res, 200, noticePage('Check with the office',
           '<p>If that address is on the board roster, you can set a password. If it is not working, ask the office to add you, or ' +
           '<a class="link" href="/">use an email link</a>.</p>'));
+      }
+      if (member.password_hash) {
+        // Already has a password — do not let this page overwrite it (anyone could
+        // otherwise reset a known roster email). Reset goes through sign-in, an
+        // email link, or an admin.
+        return send(res, 200, noticePage('You already have a password',
+          '<p>This account already has a password. <a class="link" href="/">Sign in</a> with it, or use ' +
+          '&ldquo;Email me a link instead&rdquo; on the sign-in page to get back in and change it under Account. ' +
+          'Locked out? Ask a board admin to reset your password.</p>'));
       }
       setMemberPassword(db, member.id, hashPassword(password));
       audit(db, { actorEmail: member.email, action: 'auth.setup_password', ip: clientIp(req) });
@@ -309,6 +318,7 @@ const server = createServer(async (req, res) => {
       let message = null;
       if (loaded) message = `Loaded ${loaded} document(s).`;
       else if (added) message = `Added ${added} member(s) to the roster.`;
+      else if (url.searchParams.get('msg') === 'reset') message = 'Password reset. The member sets a new one at "Set up your password" (or via a sign-in link).';
       return send(res, 200, adminPage(s.member, { message, members: listMembers(db) }));
     }
     // Admin: add members to the roster (one per line: email, or "email, Name").
@@ -347,6 +357,13 @@ const server = createServer(async (req, res) => {
       const target = findMemberById(db, formField(body, 'id'));
       const action = formField(body, 'action');
       if (target) {
+        if (action === 'reset_password') {
+          // Clear the member's password so they set a fresh one (via Set up your
+          // password, or a sign-in link). Does not lock them out of link sign-in.
+          clearMemberPassword(db, target.id);
+          audit(db, { actorEmail: s.member.email, action: 'roster.reset_password', detail: target.email, ip: clientIp(req) });
+          return redirect(res, '/portal/admin?msg=reset');
+        }
         const flags = { is_admin: target.is_admin, is_active: target.is_active };
         if (action === 'promote') flags.is_admin = 1;
         else if (action === 'demote') flags.is_admin = 0;
