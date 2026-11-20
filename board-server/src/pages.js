@@ -549,6 +549,24 @@ export function membersPage(member, rows, { message } = {}) {
         <span><b style="font-size:1.3rem;color:#2b5338;">${stats.interested}</b> interested</span>
         <span><b style="font-size:1.3rem;color:#2b5338;">${stats.committed}</b> committed</span>
       </div>
+      <div class="note" style="margin-bottom:1.3rem;">
+        <b>Send a blast through Constant Contact.</b>
+        <ol style="margin:.5rem 0 .7rem 1.2rem;font-size:.9rem;line-height:1.65;">
+          <li><b>Export your segment</b> &mdash; downloads a CSV:
+            <a class="link" href="/portal/members/export?status=active">Active</a> &middot;
+            <a class="link" href="/portal/members/export?status=lapsed">Lapsed</a> &middot;
+            <a class="link" href="/portal/members/export?status=expired">Expired</a> &middot;
+            <a class="link" href="/portal/members/export?status=all">All</a></li>
+          <li><b>Import</b> that CSV into a new list in Constant Contact.</li>
+          <li><b>Create the email campaign</b> to that list and send.</li>
+        </ol>
+        <a class="btn" href="https://login.constantcontact.com" target="_blank" rel="noopener"
+          style="font-size:.85rem;padding:.5rem 1rem;">Open Constant Contact &rarr;</a>
+        <a class="link" href="https://app.constantcontact.com/pages/contacts/ui#import" target="_blank" rel="noopener"
+          style="margin-left:1rem;font-size:.85rem;">Import contacts</a>
+        <a class="link" href="https://app.constantcontact.com/pages/campaigns/email-list" target="_blank" rel="noopener"
+          style="margin-left:1rem;font-size:.85rem;">Create a campaign</a>
+      </div>
       ${addForm}
       ${importForm}
       <div style="margin-top:1.2rem;">${table}</div>
