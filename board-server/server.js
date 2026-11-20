@@ -372,6 +372,32 @@ const server = createServer(async (req, res) => {
       audit(db, { actorEmail: s.member.email, action: 'membership.import', detail: `+${added}/-${skipped}`, ip: clientIp(req) });
       return redirect(res, `/portal/members?imported=${added}&skipped=${skipped}`);
     }
+    // Export the membership list as CSV, formatted for Constant Contact import.
+    if (req.method === 'GET' && path === '/portal/members/export') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const want = (url.searchParams.get('status') || 'all').toLowerCase();
+      let rows = listMembership(db, 100000);
+      if (want !== 'all') rows = rows.filter((m) => (m.status || '').toLowerCase() === want);
+      rows = rows.filter((m) => (m.email || '').includes('@')); // a blast needs an address
+      const q = (v) => { const x = String(v == null ? '' : v); return /[",\n\r]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
+      const COMPANY = /\b(LLC|LLP|Inc\.?|Incorporated|Company|Co\.?|Farms?|Bank|Land|Seed|Bros|Brothers)\b|&/i;
+      const header = ['First Name', 'Last Name', 'Company Name', 'Email Address', 'Phone', 'City', 'Membership Status', 'Sponsorship Stage', 'Notes'];
+      const lines = [header.join(',')];
+      for (const m of rows) {
+        let first = '', last = '', company = '';
+        const name = (m.name || '').trim();
+        if (COMPANY.test(name)) company = name;
+        else { const p = name.split(/\s+/); first = p.shift() || ''; last = p.join(' '); }
+        lines.push([first, last, company, m.email, m.phone, m.town, m.status, m.stage, m.notes].map(q).join(','));
+      }
+      res.writeHead(200, {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'Content-Disposition': `attachment; filename="ccga-members-${want}.csv"`,
+      });
+      res.end(lines.join('\r\n'));
+      return;
+    }
 
     // A single private document.
     if (req.method === 'GET' && path.startsWith('/portal/d/')) {

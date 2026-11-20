@@ -549,6 +549,14 @@ export function membersPage(member, rows, { message } = {}) {
         <span><b style="font-size:1.3rem;color:#2b5338;">${stats.interested}</b> interested</span>
         <span><b style="font-size:1.3rem;color:#2b5338;">${stats.committed}</b> committed</span>
       </div>
+      <div style="margin-bottom:1.1rem;font-size:.88rem;color:#5b564f;">
+        <b>Export for Constant Contact:</b>
+        <a class="link" href="/portal/members/export?status=all">All</a> &middot;
+        <a class="link" href="/portal/members/export?status=active">Active</a> &middot;
+        <a class="link" href="/portal/members/export?status=lapsed">Lapsed</a> &middot;
+        <a class="link" href="/portal/members/export?status=expired">Expired</a>
+        <span style="color:#8c867b;"> &mdash; downloads a CSV ready to import into a Constant Contact list.</span>
+      </div>
       ${addForm}
       ${importForm}
       <div style="margin-top:1.2rem;">${table}</div>
