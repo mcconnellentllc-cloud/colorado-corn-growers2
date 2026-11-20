@@ -458,7 +458,7 @@ export function documentPage(member, doc) {
 }
 
 // The Members list — membership & sponsorship-target records, on its own page.
-export function membersPage(member, rows) {
+export function membersPage(member, rows, { message } = {}) {
   const MSTATUS = { 'Expired': 'b-blocked', 'Lapsed': 'b-progress', 'Active': 'b-active', 'Prospect': 'b-ref' };
   const STAGES = ['New', 'Contacted', 'Interested', 'Committed', 'Declined'];
   const STATUSES = ['Expired', 'Lapsed', 'Active', 'Prospect'];
@@ -498,6 +498,17 @@ export function membersPage(member, rows) {
       <div style="margin-top:.7rem;"><button class="btn" type="submit">Add to list</button></div>
     </form></div></details>`;
 
+  const importForm = member.is_admin
+    ? `<details class="compose"><summary>Import from NCGA / Nimble export</summary><div class="compose-body">
+      <p style="color:#5b564f;font-size:.88rem;margin-bottom:.6rem;">Paste the member export (with its header row,
+        tab-separated). It reads the name, email, phone, town, membership status and renewal date, and skips anyone
+        already on the list.</p>
+      <form method="POST" action="/portal/members/import">
+        <textarea name="data" rows="5" placeholder="Account Name&#9;Member Id&#9;Person Account: Email&#9;&hellip;"
+          style="font-family:monospace;font-size:.8rem;white-space:pre;"></textarea>
+        <div style="margin-top:.6rem;"><button class="btn" type="submit">Import members</button></div>
+      </form></div></details>` : '';
+
   const rowHtml = (r) => {
     const contact = [
       r.email ? `<a class="link" href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : '',
@@ -527,10 +538,11 @@ export function membersPage(member, rows) {
     : `<div class="room-empty">No members on the list yet. Add your expired members above, or import them once you&rsquo;re back into the membership system.</div>`;
 
   const inner = `
+    ${message ? `<p style="color:#334539;font-weight:600;margin-bottom:1rem;">${esc(message)}</p>` : ''}
     <div class="card">
       <h2>Members &amp; Sponsorship Targets</h2>
-      <p style="color:#5b564f;font-size:.92rem;margin-bottom:.9rem;">The membership list &mdash; starting with expired
-        members &mdash; worked as sponsorship prospects. Private to the board.</p>
+      <p style="color:#5b564f;font-size:.92rem;margin-bottom:.9rem;">The membership list, worked as
+        sponsorship prospects. Private to the board.</p>
       <div style="display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.1rem;font-size:.9rem;">
         <span><b style="font-size:1.3rem;color:#334539;">${stats.total}</b> on the list</span>
         <span><b style="font-size:1.3rem;color:#6b5214;">${stats.contacted}</b> contacted</span>
@@ -538,6 +550,7 @@ export function membersPage(member, rows) {
         <span><b style="font-size:1.3rem;color:#2b5338;">${stats.committed}</b> committed</span>
       </div>
       ${addForm}
+      ${importForm}
       <div style="margin-top:1.2rem;">${table}</div>
     </div>`;
   return portalChrome(member, inner);

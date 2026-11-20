@@ -19,6 +19,7 @@ import {
 import { hashPassword, verifyPassword } from './src/crypto.js';
 import { sendSignInLink } from './src/email.js';
 import { loadBoardDocuments } from './src/content.js';
+import { parseNcgaMembers } from './src/member-import.js';
 import {
   loginPage, checkEmailPage, noticePage, portalPage, documentPage, adminPage,
   setupPage, accountPage, membersPage,
@@ -303,7 +304,11 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && path === '/portal/members') {
       const s = currentSession(req);
       if (!s) return redirect(res, '/');
-      return send(res, 200, membersPage(s.member, listMembership(db)));
+      const imported = url.searchParams.get('imported');
+      const message = imported != null
+        ? `Imported ${imported} member(s)${url.searchParams.get('skipped') > 0 ? `, skipped ${url.searchParams.get('skipped')} already on the list` : ''}.`
+        : null;
+      return send(res, 200, membersPage(s.member, listMembership(db), { message }));
     }
     if (req.method === 'POST' && path === '/portal/members') {
       const s = currentSession(req);
@@ -345,6 +350,27 @@ const server = createServer(async (req, res) => {
       deleteMember(db, formField(await readBody(req), 'id'));
       audit(db, { actorEmail: s.member.email, action: 'membership.delete', ip: clientIp(req) });
       return redirect(res, '/portal/members');
+    }
+    // Bulk import from a pasted NCGA / Nimble member export. Admins only.
+    if (req.method === 'POST' && path === '/portal/members/import') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only.</p>'));
+      const parsed = parseNcgaMembers(formField(await readBody(req), 'data') || '');
+      const existing = listMembership(db, 100000);
+      const emails = new Set(existing.map((m) => (m.email || '').toLowerCase()).filter(Boolean));
+      const names = new Set(existing.map((m) => (m.name || '').toLowerCase()));
+      let added = 0, skipped = 0;
+      for (const m of parsed) {
+        const key = (m.email || '').toLowerCase();
+        if ((key && emails.has(key)) || (!key && names.has(m.name.toLowerCase()))) { skipped++; continue; }
+        addMember(db, { ...m, addedBy: s.member.email });
+        if (key) emails.add(key);
+        names.add(m.name.toLowerCase());
+        added++;
+      }
+      audit(db, { actorEmail: s.member.email, action: 'membership.import', detail: `+${added}/-${skipped}`, ip: clientIp(req) });
+      return redirect(res, `/portal/members?imported=${added}&skipped=${skipped}`);
     }
 
     // A single private document.
