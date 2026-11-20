@@ -10,6 +10,7 @@ import {
   listDocuments, getDocument, upsertDocument, setMemberPassword, clearMemberPassword, listMembers,
   addNote, listNotes, deleteNote,
   addDecision, listDecisions, deleteDecision,
+  addMember, listMembership, updateMemberStage, deleteMember,
 } from './src/db.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
@@ -20,7 +21,7 @@ import { sendSignInLink } from './src/email.js';
 import { loadBoardDocuments } from './src/content.js';
 import {
   loginPage, checkEmailPage, noticePage, portalPage, documentPage, adminPage,
-  setupPage, accountPage,
+  setupPage, accountPage, membersPage,
 } from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -296,6 +297,54 @@ const server = createServer(async (req, res) => {
         audit(db, { actorEmail: s.member.email, action: 'decision.delete', detail: id, ip: clientIp(req) });
       }
       return redirect(res, '/portal#decisions');
+    }
+
+    // Members list (sponsorship targets).
+    if (req.method === 'GET' && path === '/portal/members') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, membersPage(s.member, listMembership(db)));
+    }
+    if (req.method === 'POST' && path === '/portal/members') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const f = await readBody(req);
+      const name = (formField(f, 'name') || '').trim();
+      if (name) {
+        const STAGES = ['New', 'Contacted', 'Interested', 'Committed', 'Declined'];
+        const STATUSES = ['Expired', 'Lapsed', 'Active', 'Prospect'];
+        const pick = (v, list, dflt) => (list.includes((v || '').trim()) ? v.trim() : dflt);
+        addMember(db, {
+          name: name.slice(0, 200),
+          farm: (formField(f, 'farm') || '').trim().slice(0, 200) || null,
+          email: (formField(f, 'email') || '').trim().slice(0, 200) || null,
+          phone: (formField(f, 'phone') || '').trim().slice(0, 60) || null,
+          town: (formField(f, 'town') || '').trim().slice(0, 120) || null,
+          status: pick(formField(f, 'status'), STATUSES, 'Expired'),
+          stage: pick(formField(f, 'stage'), STAGES, 'New'),
+          notes: (formField(f, 'notes') || '').trim().slice(0, 2000) || null,
+          addedBy: s.member.email,
+        });
+        audit(db, { actorEmail: s.member.email, action: 'membership.add', ip: clientIp(req) });
+      }
+      return redirect(res, '/portal/members');
+    }
+    if (req.method === 'POST' && path === '/portal/members/stage') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      const f = await readBody(req);
+      const stage = (formField(f, 'stage') || '').trim();
+      if (['New', 'Contacted', 'Interested', 'Committed', 'Declined'].includes(stage)) {
+        updateMemberStage(db, formField(f, 'id'), stage);
+      }
+      return redirect(res, '/portal/members');
+    }
+    if (req.method === 'POST' && path === '/portal/members/delete') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      deleteMember(db, formField(await readBody(req), 'id'));
+      audit(db, { actorEmail: s.member.email, action: 'membership.delete', ip: clientIp(req) });
+      return redirect(res, '/portal/members');
     }
 
     // A single private document.
