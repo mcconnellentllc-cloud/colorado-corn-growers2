@@ -399,7 +399,7 @@ export function portalPage(member, documents, notes = [], decisions = []) {
 }
 
 // Admin-only: manage the board roster and load documents.
-export function adminPage(member, { message, members = [] } = {}) {
+export function adminPage(member, { message, members = [], linkInfo } = {}) {
   const row = (m) => {
     const badges = (m.is_admin ? '<span class="pill">Admin</span> ' : '')
       + (m.password_hash ? '<span style="color:#6a8971;font-size:.8rem;">has password</span>' : '<span style="color:#8c867b;font-size:.8rem;">link only</span>')
@@ -411,6 +411,7 @@ export function adminPage(member, { message, members = [] } = {}) {
         <b>${m.full_name || '(no name)'}</b><br><span style="color:#5b564f;font-size:.88rem;">${m.email}</span></td>
       <td style="padding:.4rem .5rem;border-bottom:1px solid #e0dbd1;">${badges}</td>
       <td style="padding:.4rem .5rem;border-bottom:1px solid #e0dbd1;white-space:nowrap;">
+        ${m.is_active ? act('signin_link', 'Send sign-in link') : ''}
         ${m.is_admin ? act('demote', 'Remove admin') : act('promote', 'Make admin')}
         ${m.is_active ? act('deactivate', 'Deactivate') : act('activate', 'Reactivate')}
         ${m.password_hash ? `<form method="POST" action="/portal/admin/member" style="display:inline;margin:0;" onsubmit="return confirm('Reset this member&apos;s password? They will set a new one next time they sign in.');"><input type="hidden" name="id" value="${m.id}"><input type="hidden" name="action" value="reset_password"><button class="btn ghost sm" style="padding:.25rem .55rem;font-size:.78rem;">Reset password</button></form>` : ''}</td></tr>`;
@@ -424,6 +425,12 @@ export function adminPage(member, { message, members = [] } = {}) {
 
   const inner = `<p style="margin-bottom:1.2rem;"><a class="link" href="/portal">&larr; Back</a></p>
     ${message ? `<p style="color:#334539;font-weight:600;margin-bottom:1rem;">${message}</p>` : ''}
+    ${linkInfo ? `<div class="note" style="margin-bottom:1rem;">
+      <b>Sign-in link for ${esc(linkInfo.email)}</b> &mdash; works once, expires in 24 hours. Click to select, copy it,
+      and send it to them by text or your own email:
+      <div style="margin-top:.5rem;"><input readonly value="${esc(linkInfo.link)}" onclick="this.select()"
+        style="width:100%;font-family:monospace;font-size:.78rem;padding:.5rem;border:1px solid #c7c0b4;border-radius:6px;box-sizing:border-box;"></div>
+    </div>` : ''}
     <div class="card">
       <h2>Board members</h2>
       <p style="color:#494540;margin-bottom:1rem;">The roster &mdash; only these addresses can sign in.
