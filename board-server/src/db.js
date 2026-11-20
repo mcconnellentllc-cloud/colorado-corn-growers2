@@ -125,6 +125,27 @@ export function membershipStats(db) {
   return db.prepare("SELECT COUNT(*) AS total, SUM(CASE WHEN stage='Committed' THEN 1 ELSE 0 END) AS committed, SUM(CASE WHEN stage='Interested' THEN 1 ELSE 0 END) AS interested FROM membership").get();
 }
 
+/* ---- officials survey (public "trusted source" responses) ---- */
+
+export function addSurveyResponse(db, { officeKey = null, officeLabel = null, respondent = null, role = null, email = null, phone = null, answer = null, interests = null, comments = null, ip = null }) {
+  const id = uuid();
+  db.prepare('INSERT INTO survey_responses (id, office_key, office_label, respondent, role, email, phone, answer, interests, comments, created_ip) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(id, officeKey, officeLabel, respondent, role, email, phone, answer, interests, comments, ip);
+  return id;
+}
+
+export function listSurveyResponses(db, limit = 2000) {
+  return db.prepare('SELECT * FROM survey_responses ORDER BY created_at DESC, id DESC LIMIT ?').all(limit);
+}
+
+export function deleteSurveyResponse(db, id) {
+  db.prepare('DELETE FROM survey_responses WHERE id = ?').run(id);
+}
+
+export function surveyStats(db) {
+  return db.prepare("SELECT COUNT(*) AS total, SUM(CASE WHEN answer='Yes' THEN 1 ELSE 0 END) AS yes, SUM(CASE WHEN answer='Maybe' THEN 1 ELSE 0 END) AS maybe FROM survey_responses").get();
+}
+
 /* ---- audit ---- */
 
 export function audit(db, { actorEmail = null, action, detail = null, ip = null }) {

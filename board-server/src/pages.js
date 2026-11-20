@@ -1,6 +1,7 @@
 // Server-rendered pages. Inline CSS, site palette (cream / deep green / gold).
 // The portal page is served ONLY to an authenticated session — its contents
 // never reach a browser that has not signed in.
+import { OFFICIALS, OFFICIAL_GROUPS, CAPITOL_SWITCHBOARD } from './officials.js';
 
 const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,6 +113,21 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   details.compose>summary::before{content:'+ ';font-weight:700;}
   details.compose[open]>summary::before{content:'\\2212 ';}
   details.compose>.compose-body{padding:0 1rem 1rem;}
+  /* --- officials directory --- */
+  .ofl{display:block;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:1.05rem 1.15rem;margin-bottom:.8rem;}
+  .ofl-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.6rem;margin-bottom:.5rem;}
+  .ofl-name{font-family:Georgia,serif;font-weight:600;color:var(--green);font-size:1.08rem;line-height:1.25;}
+  .ofl-title{font-size:.84rem;color:#8c867b;margin-top:.1rem;}
+  .party{display:inline-block;font-size:.7rem;font-weight:700;padding:.1rem .4rem;border-radius:4px;vertical-align:middle;margin-left:.3rem;}
+  .p-D{background:#dde6f0;color:#274b74;}
+  .p-R{background:#f0dede;color:#8a2f2f;}
+  .ofl-rows{font-size:.9rem;color:#37342f;line-height:1.7;}
+  .ofl-rows a{color:var(--gold-d);font-weight:600;text-decoration:none;}
+  .ofl-rows a:hover{text-decoration:underline;}
+  .ofl-k{display:inline-block;min-width:92px;color:#8c867b;font-size:.76rem;text-transform:uppercase;letter-spacing:.03em;}
+  .ofl-current{margin-top:.55rem;padding-top:.55rem;border-top:1px dashed var(--line);font-size:.86rem;color:#5b564f;}
+  .ofl-current b{color:var(--green);}
+  .ofl-pending{margin-top:.5rem;font-size:.86rem;color:#7a4e12;background:#f7efdc;border-radius:6px;padding:.5rem .65rem;}
 </style></head><body>`;
 
 // Escape text entered by a person before it is placed in HTML.
@@ -218,6 +234,7 @@ function portalChrome(member, inner, active = '') {
     ${tab('/portal/decisions', 'decisions', 'Decisions')}
     ${tab('/portal/issues', 'issues', 'Issues')}
     ${tab('/portal/members', 'members', 'Members')}
+    ${tab('/portal/officials', 'officials', 'Officials')}
     ${tab('/portal/handover', 'handover', 'Handover')}
     ${member.is_admin ? tab('/portal/admin', 'admin', 'Manage') : ''}
   </div></nav>
@@ -374,6 +391,7 @@ export function homePage(member, { notes = [], decisions = [] } = {}) {
     card('/portal/decisions', 'Decisions', 'The official record of what the board chose.'),
     card('/portal/issues', 'Issues', 'The board&rsquo;s initiatives and open matters.'),
     card('/portal/members', 'Members', 'Membership list &amp; sponsorship targets.'),
+    card('/portal/officials', 'Officials', 'Colorado&rsquo;s delegation, agencies &amp; the trusted-source survey.'),
     card('/portal/handover', 'Handover', 'Everything needed to run CCGA.'),
   ].join('');
 
@@ -636,4 +654,180 @@ export function membersPage(member, rows, { message } = {}) {
       <div style="margin-top:1.2rem;">${table}</div>
     </div>`;
   return portalChrome(member, inner);
+}
+
+/* ---- Officials directory + the "trusted source" survey ---- */
+
+const SURVEY_BADGE = { 'Yes': 'b-active', 'Maybe': 'b-progress', 'Not now': 'b-ref' };
+
+// Render one official's contact block. Officials data is trusted, board-authored
+// (not person input), so its HTML entities are intentional and not escaped.
+function officialCard(o) {
+  const party = o.party ? `<span class="party p-${o.party}">${o.party}</span>` : '';
+  const statusBadge = o.status === 'new'
+    ? `<span class="badge b-progress">Elected &middot; takes office ${o.office_opens}</span>`
+    : o.status === 'returning' ? `<span class="badge b-active">In office</span>` : '';
+  const tel = (p) => `<a href="tel:${p.replace(/[^0-9]/g, '')}">${p}</a>`;
+  const host = (u) => u.replace(/^https?:\/\//, '').replace(/\/$/, '');
+  const rows = [];
+  if (o.dc_address) rows.push(`<div><span class="ofl-k">Office</span> ${o.dc_address}</div>`);
+  if (o.phone) rows.push(`<div><span class="ofl-k">Phone</span> ${tel(o.phone)}</div>`);
+  if (o.contact_url) rows.push(`<div><span class="ofl-k">Contact</span> <a href="${o.contact_url}" target="_blank" rel="noopener">Official contact form &rarr;</a></div>`);
+  if (o.website) rows.push(`<div><span class="ofl-k">Website</span> <a href="${o.website}" target="_blank" rel="noopener">${host(o.website)}</a></div>`);
+  if (o.campaign_email) rows.push(`<div><span class="ofl-k">Email</span> <a href="mailto:${o.campaign_email}">${o.campaign_email}</a></div>`);
+  if (o.campaign_url) rows.push(`<div><span class="ofl-k">Campaign site</span> <a href="${o.campaign_url}" target="_blank" rel="noopener">${host(o.campaign_url)} &rarr;</a></div>`);
+  const pending = (o.status === 'new' && !o.dc_address)
+    ? `<div class="ofl-pending">Official congressional office opens ${o.office_opens}. Until then reach them through the campaign contact above, the current office below, or the U.S. Capitol switchboard at ${CAPITOL_SWITCHBOARD}.</div>` : '';
+  const current = o.current
+    ? `<div class="ofl-current">In office now: <b>${o.current.name}</b> &mdash; ${o.current.note}.</div>` : '';
+  const note = o.note ? `<div class="ofl-current" style="border-top:none;padding-top:0;color:#6b6358;">${o.note}</div>` : '';
+  return `<div class="ofl">
+    <div class="ofl-head">
+      <div><div class="ofl-name">${o.name}${party}</div><div class="ofl-title">${o.title}</div></div>
+      ${statusBadge}
+    </div>
+    <div class="ofl-rows">${rows.join('')}</div>
+    ${pending}${current}${note}
+  </div>`;
+}
+
+// The board-only Officials hub: the survey tooling, responses, and the directory.
+export function officialsPage(member, { responses = [], stats = {}, surveyUrl = '/survey' } = {}) {
+  const yes = stats.yes || 0, maybe = stats.maybe || 0, total = stats.total || 0;
+
+  const respRows = responses.length
+    ? responses.map((r) => {
+        const del = member.is_admin
+          ? `<form method="POST" action="/portal/officials/response/delete" style="margin:0;" onsubmit="return confirm('Delete this response?');">
+               <input type="hidden" name="id" value="${esc(r.id)}"><button class="note-del" type="submit">remove</button></form>` : '';
+        const badge = `<span class="badge ${SURVEY_BADGE[r.answer] || 'b-ref'}">${esc(r.answer || '—')}</span>`;
+        const who = [esc(r.respondent || ''), r.role ? esc(r.role) : ''].filter(Boolean).join(', ');
+        const contact = [r.email ? `<a class="link" href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : '', r.phone ? esc(r.phone) : ''].filter(Boolean).join(' &middot; ');
+        const extra = [r.interests ? `<b>Interests:</b> ${esc(r.interests)}` : '', r.comments ? esc(r.comments) : ''].filter(Boolean).join('<br>');
+        return `<tr>
+          <td><b>${esc(r.office_label || '—')}</b>${who ? `<br><span style="color:#5b564f;font-size:.85rem;">${who}</span>` : ''}
+            ${contact ? `<br><span style="font-size:.82rem;">${contact}</span>` : ''}</td>
+          <td>${badge}</td>
+          <td style="font-size:.85rem;color:#5b564f;">${extra}</td>
+          <td style="font-size:.8rem;color:#8c867b;white-space:nowrap;"><time class="ts" datetime="${esc(r.created_at)}">${esc(r.created_at)}</time></td>
+          <td style="text-align:right;">${del}</td></tr>`;
+      }).join('')
+    : `<div class="room-empty">No responses yet. Send the survey link below and they land here as offices reply.</div>`;
+
+  const directory = OFFICIAL_GROUPS.map((g) => {
+    const items = OFFICIALS.filter((o) => o.group === g).sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    if (!items.length) return '';
+    return `<div class="sec-label">${g}</div>${items.map(officialCard).join('')}`;
+  }).join('');
+
+  const inner = `
+    <div class="note"><b>Colorado&rsquo;s elected officials &mdash; our advocacy directory.</b> The delegation as it stands
+      for the new Congress sworn in January 2027, plus the Governor&rsquo;s office and the state and federal
+      ag agencies. We work with whoever is elected: this is nonpartisan reference for reaching every office.</div>
+
+    <div class="card">
+      <h2>The Trusted-Source Survey</h2>
+      <p style="color:#5b564f;font-size:.92rem;margin-bottom:.9rem;">One ask to every office: can CCGA be their
+        trusted source on ag legislation? Years in the field and on the Hill make us a think tank they can bounce
+        a bill off of. Send each office the link &mdash; replies land in the table below.</p>
+      <div style="display:flex;gap:1.4rem;flex-wrap:wrap;margin-bottom:1.1rem;font-size:.9rem;">
+        <span><b style="font-size:1.3rem;color:#334539;">${total}</b> responses</span>
+        <span><b style="font-size:1.3rem;color:#2b5338;">${yes}</b> said yes</span>
+        <span><b style="font-size:1.3rem;color:#6b5214;">${maybe}</b> maybe</span>
+      </div>
+      <label for="survey-link">Survey link &mdash; send this to each office</label>
+      <input id="survey-link" readonly value="${esc(surveyUrl)}" onclick="this.select()"
+        style="font-family:monospace;font-size:.82rem;">
+      <p class="hint">Tip: add <code>?office=&lt;seat&gt;</code> to pre-select an office (e.g.
+        <code>${esc(surveyUrl)}?office=co-04</code>). <a class="link" href="${esc(surveyUrl)}" target="_blank" rel="noopener">Preview the survey &rarr;</a></p>
+      <div class="note" style="margin:1.1rem 0 0;">
+        <b>Email the whole delegation through Constant Contact.</b>
+        <ol style="margin:.5rem 0 .7rem 1.2rem;font-size:.9rem;line-height:1.65;">
+          <li><b>Export the official contacts</b> &mdash; <a class="link" href="/portal/officials/export">download the CSV</a> (offices with a published email).</li>
+          <li><b>Import</b> it into a new list in Constant Contact.</li>
+          <li><b>Create a campaign</b> to that list &mdash; include the survey link above.</li>
+        </ol>
+        <a class="btn" href="https://login.constantcontact.com" target="_blank" rel="noopener" style="font-size:.85rem;padding:.5rem 1rem;">Open Constant Contact &rarr;</a>
+        <a class="link" href="https://app.constantcontact.com/pages/campaigns/email-list" target="_blank" rel="noopener" style="margin-left:1rem;font-size:.85rem;">Create a campaign</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Responses</h2>
+      <div style="overflow-x:auto;margin-top:.6rem;">${responses.length
+        ? `<table class="mtable"><tr><th>Office / respondent</th><th>Answer</th><th>Notes</th><th>When</th><th></th></tr>${respRows}</table>`
+        : respRows}</div>
+    </div>
+
+    <h2 style="color:var(--green);margin:1.8rem 0 .4rem;">The Directory</h2>
+    <p style="color:#5b564f;font-size:.9rem;margin-bottom:1rem;">Every office, with how to reach it. Newly-elected
+      members are marked; their official congressional office opens January 2027.</p>
+    ${directory}
+    ${TS_SCRIPT}`;
+  return portalChrome(member, inner, 'officials');
+}
+
+// Standalone chrome for the PUBLIC survey (no board session). Site palette.
+function publicChrome(title, inner) {
+  return HEAD(title) + `
+  <div class="bar"><div class="bar-in"><span class="logo">Colorado Corn Growers Association</span>
+    <a href="https://www.cologrowers.com">cologrowers.com</a></div></div>
+  <div class="wrap">${inner}</div>` + FOOT;
+}
+
+// The PUBLIC "trusted source" survey, sent to officials and their staff.
+export function publicSurveyPage({ error, values = {}, selectedOffice = '' } = {}) {
+  const options = OFFICIALS.map((o) =>
+    `<option value="${o.key}"${o.key === selectedOffice ? ' selected' : ''}>${o.name}${o.district ? ' — ' + o.district : ''}</option>`).join('');
+  const ans = (v) => values.answer === v ? ' selected' : '';
+  const inner = `
+    <h1>Can CCGA be your trusted source on ag legislation?</h1>
+    <p class="sub">A two-minute question from the Colorado Corn Growers Association &mdash; a volunteer, grower-run
+      organization that has spent years in the field and on the Hill.</p>
+    <div class="card">
+      <p style="color:#494540;margin-bottom:1.1rem;">We&rsquo;d like to be a resource your office can call on
+        &mdash; a working think tank to check a bill, a number, or how a policy lands on Colorado farm ground,
+        with no charge and no catch. If that&rsquo;s useful to you, tell us how you&rsquo;d like to stay in touch.</p>
+      <form method="POST" action="/survey">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
+        <label for="s-office">Which office is this?</label>
+        <select id="s-office" name="office" style="width:100%;padding:.75rem .85rem;border:1px solid #c7c0b4;border-radius:6px;font:inherit;font-size:1rem;">
+          <option value="">— select the office —</option>${options}
+        </select>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.9rem;">
+          <div style="flex:2;min-width:180px;"><label for="s-name">Your name</label>
+            <input id="s-name" name="respondent" maxlength="160" value="${esc(values.respondent || '')}"></div>
+          <div style="flex:2;min-width:180px;"><label for="s-role">Your role</label>
+            <input id="s-role" name="role" maxlength="160" placeholder="e.g. Legislative Aide" value="${esc(values.role || '')}"></div>
+        </div>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.9rem;">
+          <div style="flex:2;min-width:180px;"><label for="s-email">Email</label>
+            <input id="s-email" name="email" type="email" maxlength="200" value="${esc(values.email || '')}"></div>
+          <div style="flex:1;min-width:140px;"><label for="s-phone">Phone</label>
+            <input id="s-phone" name="phone" maxlength="60" value="${esc(values.phone || '')}"></div>
+        </div>
+        <div style="margin-top:.9rem;"><label for="s-answer">Would CCGA as a trusted source be useful to your office?</label>
+          <select id="s-answer" name="answer" style="width:100%;padding:.75rem .85rem;border:1px solid #c7c0b4;border-radius:6px;font:inherit;font-size:1rem;">
+            <option${ans('Yes')}>Yes</option><option${ans('Maybe')}>Maybe</option><option${ans('Not now')}>Not now</option></select></div>
+        <div style="margin-top:.9rem;"><label for="s-interests">Issues your office is working on (optional)</label>
+          <input id="s-interests" name="interests" maxlength="400" placeholder="e.g. farm bill, E15, water, disaster programs" value="${esc(values.interests || '')}"></div>
+        <div style="margin-top:.9rem;"><label for="s-comments">Anything else (optional)</label>
+          <textarea id="s-comments" name="comments" rows="3" maxlength="2000">${esc(values.comments || '')}</textarea></div>
+        ${error ? `<div class="err">${esc(error)}</div>` : ''}
+        <div style="margin-top:1.1rem;"><button class="btn" type="submit">Send to CCGA</button></div>
+      </form>
+      <p class="hint">The Colorado Corn Growers Association is a volunteer advocacy organization. It administers no
+        USDA program. Your answer goes only to the CCGA board.</p>
+    </div>`;
+  return publicChrome('Trusted-source survey', inner);
+}
+
+export function surveyThanksPage() {
+  return publicChrome('Thank you', `
+    <h1>Thank you.</h1>
+    <div class="card">
+      <p>We&rsquo;ve got it, and a member of the CCGA board will follow up. We&rsquo;re glad to be a resource for
+        your office on anything touching Colorado agriculture.</p>
+      <p style="margin-top:.8rem;"><a class="link" href="https://www.cologrowers.com">Visit cologrowers.com &rarr;</a></p>
+    </div>`);
 }
