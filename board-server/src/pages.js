@@ -2,6 +2,7 @@
 // The portal page is served ONLY to an authenticated session — its contents
 // never reach a browser that has not signed in.
 import { OFFICIALS, OFFICIAL_GROUPS, CAPITOL_SWITCHBOARD } from './officials.js';
+import { DOWNLOADS } from './contacts.js';
 
 const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -762,6 +763,17 @@ export function officialsPage(member, { responses = [], stats = {}, surveyUrl = 
         </ol>
         <a class="btn" href="https://login.constantcontact.com" target="_blank" rel="noopener" style="font-size:.85rem;padding:.5rem 1rem;">Open Constant Contact &rarr;</a>
         <a class="link" href="https://app.constantcontact.com/pages/campaigns/email-list" target="_blank" rel="noopener" style="margin-left:1rem;font-size:.85rem;">Create a campaign</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Download contact lists</h2>
+      <p style="color:#5b564f;font-size:.92rem;margin-bottom:.9rem;">Verified contact lists as CSV &mdash; ready to
+        import into a Constant Contact list, or open in a spreadsheet. State legislators are the currently-seated
+        members; federal members-elect get official contacts in January.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.6rem;">
+        ${DOWNLOADS.map((d) => `<a class="btn" href="/portal/officials/export${d.key === 'national' ? '' : '?list=' + encodeURIComponent(d.key)}"
+          style="font-size:.85rem;padding:.5rem 1rem;background:#eef1ec;color:#334539;border:1px solid #cdd7cd;">&darr; ${d.label}</a>`).join('')}
       </div>
     </div>
 
