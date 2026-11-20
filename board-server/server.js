@@ -14,6 +14,7 @@ import {
   addSurveyResponse, listSurveyResponses, deleteSurveyResponse, surveyStats,
 } from './src/db.js';
 import { officeByKey, OFFICIALS } from './src/officials.js';
+import { LISTS, toCsv } from './src/contacts.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
   purgeExpiredTokens, createSession, getSession, destroySession, cookieHeader, readCookie,
@@ -311,24 +312,35 @@ const server = createServer(async (req, res) => {
         surveyUrl: `${PUBLIC_ORIGIN}/survey`,
       }));
     }
-    // Officials — download the directory as CSV (for a Constant Contact list / mail merge).
+    // Officials — download a contact list as CSV (for a Constant Contact list / mail merge).
+    // ?list=state-legislature|governor|cda|fsa|nrcs ; default/national = the federal delegation.
     if (req.method === 'GET' && path === '/portal/officials/export') {
       const s = currentSession(req);
       if (!s) return redirect(res, '/');
-      const q = (v) => { const x = String(v == null ? '' : v).replace(/&mdash;/g, '—').replace(/&rsquo;/g, '’').replace(/&amp;/g, '&'); return /[",\n\r]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
-      const header = ['Office', 'Name', 'Title', 'Party', 'Status', 'Email', 'Phone', 'Address', 'Contact URL', 'Website'];
-      const lines = [header.join(',')];
-      for (const o of OFFICIALS) {
-        const email = o.campaign_email || '';
-        const link = o.contact_url || o.campaign_url || '';
-        const statusLabel = o.status === 'new' ? 'Elected — office opens Jan 2027' : o.status === 'returning' ? 'In office' : 'Office';
-        lines.push([o.group, o.name, o.title, o.party, statusLabel, email, o.phone || '', o.dc_address || '', link, o.website || ''].map(q).join(','));
+      const list = url.searchParams.get('list') || 'national';
+      let csv, filename;
+      if (list !== 'national' && LISTS[list]) {
+        csv = toCsv(LISTS[list].header, LISTS[list].rows);
+        filename = LISTS[list].filename;
+      } else {
+        const q = (v) => { const x = String(v == null ? '' : v).replace(/&mdash;/g, '—').replace(/&rsquo;/g, '’').replace(/&amp;/g, '&'); return /[",\n\r]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
+        const header = ['Office', 'Name', 'Title', 'Party', 'Status', 'Email', 'Phone', 'Address', 'Contact URL', 'Website'];
+        const lines = [header.join(',')];
+        for (const o of OFFICIALS) {
+          const email = o.campaign_email || '';
+          const link = o.contact_url || o.campaign_url || '';
+          const statusLabel = o.status === 'new' ? 'Elected — office opens Jan 2027' : o.status === 'returning' ? 'In office' : 'Office';
+          lines.push([o.group, o.name, o.title, o.party, statusLabel, email, o.phone || '', o.dc_address || '', link, o.website || ''].map(q).join(','));
+          if (o.staff) for (const p of o.staff) lines.push([o.group, p.name, `${p.role} — ${o.name}`, '', 'Staff', p.email || '', p.phone || '', '', '', ''].map(q).join(','));
+        }
+        csv = lines.join('\r\n');
+        filename = 'ccga-co-national-congress.csv';
       }
       res.writeHead(200, {
         'Content-Type': 'text/csv; charset=utf-8',
-        'Content-Disposition': 'attachment; filename="ccga-officials.csv"',
+        'Content-Disposition': `attachment; filename="${filename}"`,
       });
-      res.end(lines.join('\r\n'));
+      res.end(csv);
       return;
     }
     // Officials — delete a survey response. Admins only.
