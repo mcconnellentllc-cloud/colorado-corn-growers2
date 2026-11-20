@@ -469,7 +469,9 @@ const server = createServer(async (req, res) => {
           // Generate a one-time sign-in link the admin can copy and send to the
           // member directly (text / their own email). Works without a mail service.
           if (!target.is_active) return redirect(res, '/portal/admin');
-          const { token } = issueToken(db, { email: target.email, ip: clientIp(req) });
+          // Non-expiring but still single-use: the member can click it whenever,
+          // and once used a forwarded copy is dead.
+          const { token } = issueToken(db, { email: target.email, ip: clientIp(req), ttlSeconds: 10 * 365 * 24 * 60 * 60 });
           const link = `${PUBLIC_ORIGIN}/auth/verify?token=${encodeURIComponent(token)}`;
           audit(db, { actorEmail: s.member.email, action: 'roster.signin_link', detail: target.email, ip: clientIp(req) });
           return send(res, 200, adminPage(s.member, { members: listMembers(db), linkInfo: { email: target.email, link } }));

@@ -426,8 +426,8 @@ export function adminPage(member, { message, members = [], linkInfo } = {}) {
   const inner = `<p style="margin-bottom:1.2rem;"><a class="link" href="/portal">&larr; Back</a></p>
     ${message ? `<p style="color:#334539;font-weight:600;margin-bottom:1rem;">${message}</p>` : ''}
     ${linkInfo ? `<div class="note" style="margin-bottom:1rem;">
-      <b>Sign-in link for ${esc(linkInfo.email)}</b> &mdash; works once, expires in 24 hours. Click to select, copy it,
-      and send it to them by text or your own email:
+      <b>Sign-in link for ${esc(linkInfo.email)}</b> &mdash; it does not expire, and it works only once, so a forwarded
+      copy is useless once they&rsquo;ve clicked it. Send it directly to them by text or your own email. Click to select:
       <div style="margin-top:.5rem;"><input readonly value="${esc(linkInfo.link)}" onclick="this.select()"
         style="width:100%;font-family:monospace;font-size:.78rem;padding:.5rem;border:1px solid #c7c0b4;border-radius:6px;box-sizing:border-box;"></div>
     </div>` : ''}
