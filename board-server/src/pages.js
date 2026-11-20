@@ -93,7 +93,18 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .hqnav a{display:inline-block;padding:.8rem .1rem;color:var(--muted);text-decoration:none;font-size:.88rem;
            font-weight:600;white-space:nowrap;border-bottom:2px solid transparent;}
   .hqnav a:hover{color:var(--green);border-bottom-color:var(--green);}
+  .hqnav a.on{color:var(--green);border-bottom-color:var(--green);}
   [id]{scroll-margin-top:3.6rem;}
+  /* home activity feed */
+  .feed-item{display:block;padding:.7rem 0;border-bottom:1px solid var(--line);text-decoration:none;color:var(--ink);}
+  .feed-item:last-child{border-bottom:none;}
+  .feed-item:hover .feed-body{color:var(--green);}
+  .feed-meta{font-size:.8rem;color:#8c867b;margin-bottom:.25rem;display:flex;gap:.45rem;align-items:center;flex-wrap:wrap;}
+  .feed-meta b{color:var(--green);}
+  .feed-tag{font-size:.66rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.15rem .45rem;border-radius:4px;white-space:nowrap;}
+  .tag-comment{background:#e7e4dd;color:#4a4740;}
+  .tag-decision{background:#dcebe0;color:#2b5338;}
+  .feed-body{font-size:.93rem;color:#37342f;line-height:1.45;}
   /* collapsible compose */
   details.compose{border:1px solid var(--line);border-radius:8px;padding:0;margin-bottom:1.3rem;background:#fbfaf7;}
   details.compose>summary{list-style:none;cursor:pointer;padding:.8rem 1rem;font-weight:600;color:var(--green);font-size:.95rem;}
@@ -193,20 +204,22 @@ export function noticePage(title, body) {
   <div class="wrap"><h1>${title}</h1><div class="card">${body}</div></div>` + FOOT;
 }
 
-function portalChrome(member, inner) {
+function portalChrome(member, inner, active = '') {
   const admin = member.is_admin ? ' <span class="pill">Admin</span>' : '';
+  const tab = (href, key, label) => `<a href="${href}"${active === key ? ' class="on"' : ''}>${label}</a>`;
   return HEAD('Portal') + `
   <div class="bar"><div class="bar-in"><a href="/portal" style="color:#fff;text-decoration:none;font-weight:600;">CCGA Board Portal</a>
     <span style="display:flex;gap:.8rem;align-items:center;">
       <a href="/account" style="color:#d3ae5c;text-decoration:none;font-size:.85rem;">Account</a>
       <form method="POST" action="/logout" style="margin:0;"><button class="btn" style="padding:.4rem .9rem;font-size:.85rem;">Sign out</button></form></span></div></div>
   <nav class="hqnav"><div class="hqnav-in">
-    <a href="/portal#board-room">Board Room</a>
-    <a href="/portal#decisions">Decisions</a>
-    <a href="/portal#issues">Issues</a>
-    <a href="/portal/members">Members</a>
-    <a href="/portal#handover">Handover</a>
-    ${member.is_admin ? '<a href="/portal/admin">Manage</a>' : ''}
+    ${tab('/portal', 'home', 'Home')}
+    ${tab('/portal/room', 'room', 'Board Room')}
+    ${tab('/portal/decisions', 'decisions', 'Decisions')}
+    ${tab('/portal/issues', 'issues', 'Issues')}
+    ${tab('/portal/members', 'members', 'Members')}
+    ${tab('/portal/handover', 'handover', 'Handover')}
+    ${member.is_admin ? tab('/portal/admin', 'admin', 'Manage') : ''}
   </div></nav>
   <div class="wrap">
     <h1>Welcome, ${member.full_name}${admin}</h1>
@@ -214,6 +227,9 @@ function portalChrome(member, inner) {
     ${inner}
   </div>` + FOOT;
 }
+
+// Small helper: localize the server's ISO timestamps to the viewer's clock.
+const TS_SCRIPT = `<script>document.querySelectorAll('time.ts').forEach(function(t){var d=new Date(t.getAttribute('datetime'));if(!isNaN(d))t.textContent=d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});});</script>`;
 
 // Account page: set or change your own password while signed in.
 export function accountPage(member, { message, error } = {}) {
@@ -313,61 +329,100 @@ function decisionsLog(member, decisions) {
   </div>`;
 }
 
-// The private index — the board's headquarters: the Board Room and Decisions on
-// top, then a dashboard of the board's open issues. Signed-in members only.
-export function portalPage(member, documents, notes = [], decisions = []) {
-  const STATUS = {
-    active:    ['b-active',   'Active'],
-    blocked:   ['b-blocked',  'Blocked'],
-    progress:  ['b-progress', 'In Progress'],
-    action:    ['b-action',   'Action Needed'],
-    reference: ['b-ref',      'Reference'],
-    done:      ['b-done',     'Closed'],
-  };
-  const badge = (s) => (STATUS[s] ? `<span class="badge ${STATUS[s][0]}">${STATUS[s][1]}</span>` : '');
+// Shared dashboard-tile rendering for the Issues and Handover pages.
+const DOC_STATUS = {
+  active: ['b-active', 'Active'], blocked: ['b-blocked', 'Blocked'],
+  progress: ['b-progress', 'In Progress'], action: ['b-action', 'Action Needed'],
+  reference: ['b-ref', 'Reference'], done: ['b-done', 'Closed'],
+};
+const docBadge = (s) => (DOC_STATUS[s] ? `<span class="badge ${DOC_STATUS[s][0]}">${DOC_STATUS[s][1]}</span>` : '');
+const docTile = (d, onHero = false) =>
+  `<a class="issue${onHero ? ' on-hero' : ''}" href="/portal/d/${encodeURIComponent(d.slug)}">
+     <div class="top"><h3>${esc(d.title)}</h3>${docBadge(d.status)}</div>
+     ${d.summary ? `<div class="sum">${esc(d.summary)}</div>` : ''}</a>`;
 
-  // Section order and headings. Any document whose category is unknown falls
-  // under Reference, so nothing is ever dropped from the dashboard.
-  const CATS = [
-    ['checkoff',   'The Checkoff Reallocation Initiative'],
-    ['operations', 'Operations & Access'],
-    ['asks',       'Asks of the Board'],
-    ['reference',  'Reference'],
-    ['archive',    'Archive'],
-  ];
-  const known = new Set(CATS.map(([k]) => k));
-
-  const adminLink = member.is_admin
-    ? `<p style="margin-top:1.4rem;"><a class="link" href="/portal/admin">Manage board (members &amp; documents) &rarr;</a></p>` : '';
-
+// Home: what's new — the latest comments and decisions, newest first — then
+// quick links into each area of the HQ.
+export function homePage(member, { notes = [], decisions = [] } = {}) {
   const note = `<div class="note"><b>Your headquarters.</b> This lives in the cloud, not in any office &mdash;
     reachable from anywhere, private to the board, and never part of the public website.</div>`;
 
-  const room = boardRoom(member, notes);
-  const decisionsBlock = decisionsLog(member, decisions);
+  const items = [
+    ...notes.map((n) => ({ ts: n.created_at, kind: 'comment', n })),
+    ...decisions.map((d) => ({ ts: d.created_at, kind: 'decision', d })),
+  ].sort((a, b) => (a.ts < b.ts ? 1 : a.ts > b.ts ? -1 : 0)).slice(0, 12);
 
-  if (!documents.length) {
+  const feed = items.length ? items.map((it) => {
+    if (it.kind === 'comment') {
+      const n = it.n;
+      const body = n.body.length > 180 ? n.body.slice(0, 180) + '…' : n.body;
+      return `<a class="feed-item" href="/portal/room">
+        <div class="feed-meta"><span class="feed-tag tag-comment">Comment</span> <b>${esc(n.author_name)}</b>
+          <time class="ts" datetime="${esc(n.created_at)}">${esc(n.created_at)}</time></div>
+        <div class="feed-body">${esc(body)}</div></a>`;
+    }
+    const d = it.d;
+    return `<a class="feed-item" href="/portal/decisions">
+      <div class="feed-meta"><span class="feed-tag tag-decision">Decision &middot; ${esc(d.outcome)}</span>
+        <time class="ts" datetime="${esc(d.created_at)}">${esc(d.created_at)}</time></div>
+      <div class="feed-body"><b>${esc(d.title)}</b></div></a>`;
+  }).join('') : `<div class="room-empty">Nothing yet &mdash; head to the Board Room and post the first comment.</div>`;
+
+  const card = (href, title, desc) => `<a class="issue" href="${href}"><div class="top"><h3>${title}</h3></div><div class="sum">${desc}</div></a>`;
+  const cards = [
+    card('/portal/room', 'Board Room', 'Post and read board comments.'),
+    card('/portal/decisions', 'Decisions', 'The official record of what the board chose.'),
+    card('/portal/issues', 'Issues', 'The board&rsquo;s initiatives and open matters.'),
+    card('/portal/members', 'Members', 'Membership list &amp; sponsorship targets.'),
+    card('/portal/handover', 'Handover', 'Everything needed to run CCGA.'),
+  ].join('');
+
+  const inner = `${note}
+    <div class="card">
+      <h2>What&rsquo;s New</h2>
+      <p style="color:#5b564f;font-size:.9rem;margin-bottom:.8rem;">The latest comments and decisions, newest first.</p>
+      ${feed}
+      <p style="margin-top:1rem;"><a class="btn" href="/portal/room" style="font-size:.85rem;padding:.5rem 1rem;">Go to the Board Room &rarr;</a></p>
+    </div>
+    <div class="sec-label" style="margin-top:2rem;">Go to</div>
+    <div class="issue-grid">${cards}</div>
+    ${TS_SCRIPT}`;
+  return portalChrome(member, inner, 'home');
+}
+
+// Board Room — the board's comment / discussion feed. Open to every member.
+export function boardRoomPage(member, notes = []) {
+  return portalChrome(member, boardRoom(member, notes), 'room');
+}
+
+// Decisions — the board's official record.
+export function decisionsPage(member, decisions = []) {
+  return portalChrome(member, decisionsLog(member, decisions), 'decisions');
+}
+
+// Issues — the board's initiatives and open matters, grouped with a status each.
+export function issuesPage(member, documents = []) {
+  const CATS = [
+    ['checkoff', 'The Checkoff Reallocation Initiative'],
+    ['operations', 'Operations & Access'],
+    ['asks', 'Asks of the Board'],
+    ['reference', 'Reference'],
+    ['archive', 'Archive'],
+  ];
+  const known = new Set(CATS.map(([k]) => k));
+  const issues = documents.filter((d) => d.category !== 'handover');
+  if (!issues.length) {
     const empty = `<div class="card"><h2>No board issues loaded yet</h2>
       <p style="color:#494540;">${member.is_admin
-        ? 'Load the board content from <a class="link" href="/portal/admin">Manage board</a> and this dashboard fills in automatically.'
+        ? 'Load the board content from <a class="link" href="/portal/admin">Manage board</a> and this fills in automatically.'
         : 'The office is loading the board&rsquo;s material &mdash; check back shortly.'}</p></div>`;
-    return portalChrome(member, note + room + decisionsBlock + empty + adminLink);
+    return portalChrome(member, empty, 'issues');
   }
-
-  // Handover-kit documents render in their own section, not in the issue dashboard.
-  const handoverDocs = documents.filter((d) => d.category === 'handover');
   const byCat = {};
-  for (const d of documents) {
-    if (d.category === 'handover') continue;
+  for (const d of issues) {
     const c = known.has(d.category) ? d.category : 'reference';
     (byCat[c] ||= []).push(d);
   }
-
-  const tile = (d, onHero = false) =>
-    `<a class="issue${onHero ? ' on-hero' : ''}" href="/portal/d/${encodeURIComponent(d.slug)}">
-       <div class="top"><h3>${d.title}</h3>${badge(d.status)}</div>
-       ${d.summary ? `<div class="sum">${d.summary}</div>` : ''}</a>`;
-
   let sections = '';
   for (const [key, label] of CATS) {
     const docs = byCat[key];
@@ -377,25 +432,27 @@ export function portalPage(member, documents, notes = [], decisions = []) {
         <h2>${label}</h2>
         <p>Moving half or more of the Colorado corn checkoff toward grower-directed priorities &mdash;
            the North Dakota precedent, the parallel plan for Colorado, the numbers, and the records request.</p>
-        <div class="issue-grid" style="margin-top:1.1rem;">${docs.map((d) => tile(d, true)).join('')}</div></div>`;
+        <div class="issue-grid" style="margin-top:1.1rem;">${docs.map((d) => docTile(d, true)).join('')}</div></div>`;
     } else {
       sections += `<div class="sec-label">${label}</div>
-        <div class="issue-grid">${docs.map((d) => tile(d)).join('')}</div>`;
+        <div class="issue-grid">${docs.map((d) => docTile(d)).join('')}</div>`;
     }
   }
+  const inner = `<h2 style="color:var(--green);margin-bottom:1.1rem;">Board Issues &amp; Initiatives</h2>${sections}`;
+  return portalChrome(member, inner, 'issues');
+}
 
-  const dashLabel = `<div class="sec-label" id="issues" style="margin-top:2.2rem;">Board Issues &amp; Initiatives</div>`;
-
-  // The Handover Kit — everything needed to run CCGA, for anyone taking the keys.
-  const handover = `<div class="sec-label" id="handover" style="margin-top:2.4rem;">Running CCGA &mdash; The Handover Kit</div>
-    <p style="color:#5b564f;font-size:.92rem;margin:-.3rem 0 .9rem;">Everything needed to operate the
-      association. Hand this to anyone taking the keys.</p>`
-    + (handoverDocs.length
-      ? `<div class="issue-grid">${handoverDocs.map((d) => tile(d)).join('')}</div>`
+// Handover — everything needed to run CCGA, for anyone taking the keys.
+export function handoverPage(member, documents = []) {
+  const docs = documents.filter((d) => d.category === 'handover');
+  const inner = `<div class="sec-label">Running CCGA &mdash; The Handover Kit</div>
+    <h2 style="color:var(--green);margin:-.2rem 0 .3rem;">Hand the keys to anyone</h2>
+    <p style="color:#5b564f;font-size:.92rem;margin-bottom:1rem;">Everything needed to operate the association.</p>`
+    + (docs.length
+      ? `<div class="issue-grid">${docs.map((d) => docTile(d)).join('')}</div>`
       : `<div class="card"><p style="color:#8c867b;">The handover kit isn&rsquo;t loaded yet.${member.is_admin
           ? ' Load it from <a class="link" href="/portal/admin">Manage board</a>.' : ''}</p></div>`);
-
-  return portalChrome(member, note + room + decisionsBlock + dashLabel + sections + handover + adminLink);
+  return portalChrome(member, inner, 'handover');
 }
 
 // Admin-only: manage the board roster and load documents.
