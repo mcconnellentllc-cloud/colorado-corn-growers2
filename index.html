@@ -753,13 +753,6 @@
             margin-bottom: 1rem;
         }
 
-        .record-card .endorse-note {
-            border-left: 3px solid #6a8971;
-            padding-left: 1rem;
-            color: #5b564f;
-            font-size: 1rem;
-        }
-
         .record-card-btn {
             display: inline-block;
             background: #334539;
@@ -781,69 +774,6 @@
             object-fit: cover;
             border-radius: 4px;
             display: block;
-        }
-
-        /* --- Hero endorsement video ---------------------------------------- */
-        /* The board's endorsement video sits beside the hero text. It is a
-           board-voted endorsement, so it is labelled as one on its face. */
-        .hero-content.hero-split {
-            max-width: 1200px;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 290px;
-            gap: 3.5rem;
-            align-items: center;
-        }
-
-        .hero-video {
-            margin: 0;
-            text-align: left;
-        }
-
-        .hero-video-label {
-            font-size: 0.8rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #d3ae5c;
-            font-weight: 600;
-            margin-bottom: 0.6rem;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
-        }
-
-        .hero-video video {
-            display: block;
-            width: 100%;
-            height: auto;
-            aspect-ratio: 9 / 16;
-            background: #12110e;
-            border-top: 4px solid #d3ae5c;
-            border-radius: 6px;
-            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-video figcaption {
-            margin-top: 0.9rem;
-            color: #e3dfd6;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
-        }
-
-        .hero-video figcaption a {
-            color: #d3ae5c;
-            text-decoration: underline;
-            white-space: nowrap;
-        }
-
-        @media (max-width: 860px) {
-            .hero-content.hero-split {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-
-            .hero-video {
-                width: min(300px, 82vw);
-                margin: 0 auto;
-            }
         }
 
         @media (max-width: 860px) {
@@ -887,7 +817,7 @@
     </nav>
 
     <section id="home" class="hero">
-        <div class="hero-content hero-split">
+        <div class="hero-content">
           <div class="hero-text">
             <h1 class="logo">Colorado Corn Growers Association</h1>
             <p class="tagline">Volunteer Corn Producers Fighting for Colorado Agriculture in Denver and Washington, D.C.</p>
@@ -907,19 +837,6 @@
                 </a>
             </div>
           </div>
-
-          <figure class="hero-video">
-            <p class="hero-video-label">Board Endorsement</p>
-            <video controls playsinline preload="metadata"
-                   width="1080" height="1920"
-                   poster="videos/boebert-endorsement-poster.jpg"
-                   aria-label="Video: CCGA President Jeff Self on the board's endorsement of Lauren Boebert for Congress">
-                <source src="videos/boebert-endorsement-jeff-self.mp4" type="video/mp4">
-            </video>
-            <figcaption>The CCGA board voted to endorse Lauren Boebert for Congress in
-                Colorado&rsquo;s 4th District. A message from our President, Jeff Self.
-                <a href="Pages/the-record.html">See the record &rarr;</a></figcaption>
-          </figure>
         </div>
     </section>
 
@@ -1004,9 +921,9 @@
                     living. Chairman Boozman and Sen. Hoeven on permanent year-round E15, and
                     Chairman Thompson on the first H-2A reform in forty years.</p>
 
-                <p class="endorse-note">The same page carries the candidates the CCGA board voted to
-                    support. That is an endorsement, it is labelled as one, and it is kept separate
-                    from the record of work done in office.</p>
+                <p>We work with whoever is elected. Describing what an officeholder did &mdash; a
+                    vote, a bill, a hearing &mdash; is a matter of public record, and that record is
+                    how growers judge who is pulling for them.</p>
 
                 <a href="Pages/the-record.html" class="record-card-btn">See the record &rarr;</a>
             </div>
@@ -1046,7 +963,7 @@
                 
                 <p>We are a grassroots advocacy organization that fights for policies that benefit our corn growers. We collect NO automatic funding streams and depend entirely on voluntary memberships and sponsorships from those who believe in effective advocacy.</p>
                 
-                <p>Affiliated with the Southwest Council of Agribusiness and working alongside experienced lobbyists like Tom Sell, we bring real advocacy power to agricultural issues that matter most to Colorado farmers.</p>
+                <p>Affiliated with the Southwest Council of Agribusiness and working alongside experienced agricultural lobbyists, we bring real advocacy power to agricultural issues that matter most to Colorado farmers.</p>
             </div>
             <div class="image-container">
                 <img src="colorado-corn-field.jpg" alt="Colorado Corn Field" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'>Colorado Corn Field<br>[Image: colorado-corn-field.jpg not found]</div>'">
