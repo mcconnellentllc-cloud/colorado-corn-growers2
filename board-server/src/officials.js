@@ -28,6 +28,9 @@ export const OFFICIALS = [
     contact_url: 'https://www.bennet.senate.gov/contact/',
     website: 'https://www.bennet.senate.gov',
     note: 'Member, Senate Committee on Agriculture, Nutrition, and Forestry &mdash; our seat at the farm-bill table.',
+    staff: [
+      { name: 'Victoria Maloch', role: 'Senior Advisor (Agriculture)', email: 'victoria_maloch@bennet.senate.gov', phone: '(202) 821-8179' },
+    ],
   },
   {
     key: 'sen-hickenlooper', group: 'U.S. Senate', sort: 2,
@@ -131,6 +134,17 @@ export const OFFICIALS = [
     note: 'Commissioner of Agriculture: Kate Greenberg. Commissioner&rsquo;s office contacts at ag.colorado.gov/commissioners-office-contacts.',
   },
 
+  // ---- Colorado General Assembly (state legislature) ----
+  {
+    key: 'cga', group: 'Colorado General Assembly', sort: 25,
+    name: 'Colorado General Assembly', party: '', title: 'State Legislature',
+    status: 'office',
+    dc_address: 'Colorado State Capitol, 200 E. Colfax Ave., Denver, CO 80203',
+    contact_url: 'https://leg.colorado.gov/find-my-legislator',
+    website: 'https://leg.colorado.gov/legislators',
+    note: 'Senate desk: (303) 866-2316 &middot; House desk: (303) 866-2904. The 2027 session&rsquo;s members are seated in January; the full roster and the Agriculture &amp; Natural Resources committees are at leg.colorado.gov. Use the board&rsquo;s state-legislator CSV for a mailing list.',
+  },
+
   // ---- Federal ag agencies in Colorado ----
   {
     key: 'fsa-co', group: 'USDA in Colorado', sort: 31,
@@ -151,7 +165,7 @@ export const OFFICIALS = [
 ];
 
 // Groups, in display order.
-export const OFFICIAL_GROUPS = ['U.S. Senate', 'U.S. House', 'Governor &amp; State', 'USDA in Colorado'];
+export const OFFICIAL_GROUPS = ['U.S. Senate', 'U.S. House', 'Governor &amp; State', 'Colorado General Assembly', 'USDA in Colorado'];
 
 // The office options a survey respondent can pick from (every person/office).
 export function officeOptions() {

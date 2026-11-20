@@ -128,6 +128,11 @@ const HEAD = (title) => `<!DOCTYPE html><html lang="en"><head>
   .ofl-current{margin-top:.55rem;padding-top:.55rem;border-top:1px dashed var(--line);font-size:.86rem;color:#5b564f;}
   .ofl-current b{color:var(--green);}
   .ofl-pending{margin-top:.5rem;font-size:.86rem;color:#7a4e12;background:#f7efdc;border-radius:6px;padding:.5rem .65rem;}
+  .ofl-staff{margin-top:.6rem;padding-top:.55rem;border-top:1px solid var(--line);}
+  .ofl-staff-h{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#6a8971;margin-bottom:.35rem;}
+  .ofl-staff-row{font-size:.88rem;color:#37342f;line-height:1.55;margin-bottom:.3rem;}
+  .ofl-staff-row b{color:var(--green);}
+  .ofl-staff-row a{color:var(--gold-d);font-weight:600;text-decoration:none;}
 </style></head><body>`;
 
 // Escape text entered by a person before it is placed in HTML.
@@ -681,13 +686,21 @@ function officialCard(o) {
   const current = o.current
     ? `<div class="ofl-current">In office now: <b>${o.current.name}</b> &mdash; ${o.current.note}.</div>` : '';
   const note = o.note ? `<div class="ofl-current" style="border-top:none;padding-top:0;color:#6b6358;">${o.note}</div>` : '';
+  const staff = (o.staff && o.staff.length)
+    ? `<div class="ofl-staff"><div class="ofl-staff-h">Key staff</div>${o.staff.map((p) => {
+        const bits = [
+          p.phone ? `<a href="tel:${p.phone.replace(/[^0-9]/g, '')}">${p.phone}</a>` : '',
+          p.email ? `<a href="mailto:${p.email}">${p.email}</a>` : '',
+        ].filter(Boolean).join(' &middot; ');
+        return `<div class="ofl-staff-row"><b>${p.name}</b>${p.role ? ` &mdash; ${p.role}` : ''}${bits ? `<br>${bits}` : ''}</div>`;
+      }).join('')}</div>` : '';
   return `<div class="ofl">
     <div class="ofl-head">
       <div><div class="ofl-name">${o.name}${party}</div><div class="ofl-title">${o.title}</div></div>
       ${statusBadge}
     </div>
     <div class="ofl-rows">${rows.join('')}</div>
-    ${pending}${current}${note}
+    ${pending}${current}${note}${staff}
   </div>`;
 }
 
