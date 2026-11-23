@@ -457,5 +457,39 @@
         <p>Affiliated with Southwest Council of Agribusiness | 100% Voluntary Support | PO Box 340, Burlington, CO 80807</p>
         <p>1-877-CO-GROW-9 | office@cologrowers.com</p>
     </footer>
+<!-- mobile-nav-fix: collapse the nav into a hamburger on phones -->
+<style>
+.nav-toggle{display:none;background:none;border:0;cursor:pointer;padding:.5rem;margin:-.5rem 0;line-height:0;}
+.nav-toggle span{display:block;width:26px;height:2px;background:#d3ae5c;margin:5px 0;transition:transform .3s ease,opacity .3s ease;}
+@media (max-width:768px){
+  .nav-container{flex-wrap:wrap;}
+  .nav-logo{font-size:1.2rem;line-height:1.2;}
+  .nav-toggle{display:block;}
+  .nav-links{display:none;flex-basis:100%;width:100%;flex-direction:column;align-items:flex-start;gap:0;margin-top:.6rem;}
+  .nav-links.open{display:flex;}
+  .nav-links li{width:100%;border-top:1px solid rgba(255,255,255,.08);}
+  .nav-links a{display:block;width:100%;padding:.85rem 0;font-size:1.05rem;}
+  .nav-links a.nav-portal{margin-top:.6rem;}
+  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle.open span:nth-child(2){opacity:0;}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+}
+</style>
+<script>
+(function(){
+  var bar=document.querySelector('.navbar .nav-container');
+  var links=bar&&bar.querySelector('.nav-links');
+  if(!bar||!links||bar.querySelector('.nav-toggle'))return;
+  var btn=document.createElement('button');
+  btn.className='nav-toggle';btn.type='button';
+  btn.setAttribute('aria-label','Toggle menu');btn.setAttribute('aria-expanded','false');
+  btn.innerHTML='<span></span><span></span><span></span>';
+  links.parentNode.insertBefore(btn,links);
+  function set(open){links.classList.toggle('open',open);btn.classList.toggle('open',open);btn.setAttribute('aria-expanded',open?'true':'false');}
+  btn.addEventListener('click',function(){set(!links.classList.contains('open'));});
+  links.addEventListener('click',function(e){var t=e.target;while(t&&t!==links){if(t.tagName==='A'){set(false);break;}t=t.parentNode;}});
+})();
+</script>
+<!-- /mobile-nav-fix -->
 </body>
 </html>
