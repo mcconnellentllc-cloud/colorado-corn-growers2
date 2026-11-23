@@ -146,6 +146,27 @@ export function surveyStats(db) {
   return db.prepare("SELECT COUNT(*) AS total, SUM(CASE WHEN answer='Yes' THEN 1 ELSE 0 END) AS yes, SUM(CASE WHEN answer='Maybe' THEN 1 ELSE 0 END) AS maybe FROM survey_responses").get();
 }
 
+/* ---- member legislative suggestions (public) ---- */
+
+export function addSuggestion(db, { name = null, email = null, county = null, changeType = null, topic = null, body = null, ip = null }) {
+  const id = uuid();
+  db.prepare('INSERT INTO suggestions (id, name, email, county, change_type, topic, body, created_ip) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(id, name, email, county, changeType, topic, body, ip);
+  return id;
+}
+
+export function listSuggestions(db, limit = 2000) {
+  return db.prepare('SELECT * FROM suggestions ORDER BY created_at DESC, id DESC LIMIT ?').all(limit);
+}
+
+export function deleteSuggestion(db, id) {
+  db.prepare('DELETE FROM suggestions WHERE id = ?').run(id);
+}
+
+export function suggestionCount(db) {
+  return db.prepare('SELECT COUNT(*) AS n FROM suggestions').get().n;
+}
+
 /* ---- audit ---- */
 
 export function audit(db, { actorEmail = null, action, detail = null, ip = null }) {

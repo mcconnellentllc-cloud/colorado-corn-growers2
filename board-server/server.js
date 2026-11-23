@@ -12,6 +12,7 @@ import {
   addDecision, listDecisions, deleteDecision,
   addMember, listMembership, updateMemberStage, deleteMember,
   addSurveyResponse, listSurveyResponses, deleteSurveyResponse, surveyStats,
+  addSuggestion, listSuggestions, deleteSuggestion,
 } from './src/db.js';
 import { officeByKey, OFFICIALS } from './src/officials.js';
 import { LISTS, toCsv } from './src/contacts.js';
@@ -28,6 +29,7 @@ import {
   setupPage, accountPage, membersPage,
   homePage, boardRoomPage, decisionsPage, issuesPage, handoverPage,
   officialsPage, publicSurveyPage, surveyThanksPage,
+  suggestPage, suggestThanksPage, suggestionsPage,
 } from './src/pages.js';
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -123,6 +125,37 @@ const server = createServer(async (req, res) => {
     if (req.method === 'GET' && path === '/survey/thanks') {
       return send(res, 200, surveyThanksPage());
     }
+    // PUBLIC: member legislative suggestion form. No board login.
+    if (req.method === 'GET' && path === '/suggest') {
+      return send(res, 200, suggestPage());
+    }
+    if (req.method === 'GET' && path === '/suggest/thanks') {
+      return send(res, 200, suggestThanksPage());
+    }
+    if (req.method === 'POST' && path === '/suggest') {
+      const f = await readBody(req);
+      if ((formField(f, 'website') || '').trim()) return redirect(res, '/suggest/thanks'); // honeypot
+      const clip = (name, n) => (formField(f, name) || '').trim().slice(0, n);
+      const topic = clip('topic', 160);
+      const body = clip('body', 4000);
+      if (!topic && !body) {
+        return send(res, 200, suggestPage({ error: 'Tell us at least what it&rsquo;s about and what you&rsquo;d change.', values: {} }));
+      }
+      const changeRaw = clip('change_type', 40);
+      const changeType = ['A new law', 'Change an existing law', 'Not sure yet'].includes(changeRaw) ? changeRaw : 'Not sure yet';
+      addSuggestion(db, {
+        name: clip('name', 160) || null,
+        email: clip('email', 200) || null,
+        county: clip('county', 120) || null,
+        changeType,
+        topic: topic || null,
+        body: body || null,
+        ip: clientIp(req),
+      });
+      audit(db, { action: 'suggestion.add', detail: topic.slice(0, 60), ip: clientIp(req) });
+      return redirect(res, '/suggest/thanks');
+    }
+
     if (req.method === 'POST' && path === '/survey') {
       const f = await readBody(req);
       // Honeypot: a real person leaves the hidden "website" field empty.
@@ -343,6 +376,22 @@ const server = createServer(async (req, res) => {
       res.end(csv);
       return;
     }
+    // Suggestions — board view of member legislative suggestions.
+    if (req.method === 'GET' && path === '/portal/suggestions') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      return send(res, 200, suggestionsPage(s.member, listSuggestions(db)));
+    }
+    // Suggestions — delete one. Admins only.
+    if (req.method === 'POST' && path === '/portal/suggestions/delete') {
+      const s = currentSession(req);
+      if (!s) return redirect(res, '/');
+      if (!s.member.is_admin) return send(res, 403, noticePage('Not allowed', '<p>Admins only.</p>'));
+      deleteSuggestion(db, formField(await readBody(req), 'id'));
+      audit(db, { actorEmail: s.member.email, action: 'suggestion.delete', ip: clientIp(req) });
+      return redirect(res, '/portal/suggestions');
+    }
+
     // Officials — delete a survey response. Admins only.
     if (req.method === 'POST' && path === '/portal/officials/response/delete') {
       const s = currentSession(req);

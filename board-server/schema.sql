@@ -101,6 +101,22 @@ CREATE TABLE IF NOT EXISTS survey_responses (
 );
 CREATE INDEX IF NOT EXISTS idx_survey_created ON survey_responses(created_at);
 
+-- Member legislative suggestions: what laws growers want created or changed.
+-- Submitted from a PUBLIC form (members, no board login), so every text field is
+-- person-entered and always HTML-escaped on the way out.
+CREATE TABLE IF NOT EXISTS suggestions (
+  id          TEXT PRIMARY KEY,
+  name        TEXT,
+  email       TEXT,
+  county      TEXT,
+  change_type TEXT,                    -- "New law" / "Change a law" / "Not sure"
+  topic       TEXT,                    -- short subject line
+  body        TEXT,                    -- the suggestion itself
+  created_ip  TEXT,
+  created_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);
+CREATE INDEX IF NOT EXISTS idx_suggestions_created ON suggestions(created_at);
+
 CREATE TABLE IF NOT EXISTS audit_log (
   id          TEXT PRIMARY KEY,
   actor_email TEXT,
