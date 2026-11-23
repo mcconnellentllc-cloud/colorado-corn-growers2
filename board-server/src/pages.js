@@ -241,6 +241,7 @@ function portalChrome(member, inner, active = '') {
     ${tab('/portal/issues', 'issues', 'Issues')}
     ${tab('/portal/members', 'members', 'Members')}
     ${tab('/portal/officials', 'officials', 'Officials')}
+    ${tab('/portal/suggestions', 'suggestions', 'Suggestions')}
     ${tab('/portal/handover', 'handover', 'Handover')}
     ${member.is_admin ? tab('/portal/admin', 'admin', 'Manage') : ''}
   </div></nav>
@@ -398,6 +399,7 @@ export function homePage(member, { notes = [], decisions = [] } = {}) {
     card('/portal/issues', 'Issues', 'The board&rsquo;s initiatives and open matters.'),
     card('/portal/members', 'Members', 'Membership list &amp; sponsorship targets.'),
     card('/portal/officials', 'Officials', 'Colorado&rsquo;s delegation, agencies &amp; the trusted-source survey.'),
+    card('/portal/suggestions', 'Suggestions', 'Legislation members want created or changed.'),
     card('/portal/handover', 'Handover', 'Everything needed to run CCGA.'),
   ].join('');
 
@@ -855,4 +857,90 @@ export function surveyThanksPage() {
         your office on anything touching Colorado agriculture.</p>
       <p style="margin-top:.8rem;"><a class="link" href="https://www.cologrowers.com">Visit cologrowers.com &rarr;</a></p>
     </div>`);
+}
+
+/* ---- Member legislative suggestions ---- */
+
+// The PUBLIC suggestion form — members tell the board what laws they want.
+export function suggestPage({ error, values = {} } = {}) {
+  const CHANGE = ['A new law', 'Change an existing law', 'Not sure yet'];
+  const sel = (v) => values.change_type === v ? ' selected' : '';
+  const inner = `
+    <h1>What legislation would help your operation?</h1>
+    <p class="sub">Tell the Colorado Corn Growers Association board what you&rsquo;d like to see written, fixed, or
+      fought for. Members set our agenda &mdash; this is how.</p>
+    <div class="card">
+      <form method="POST" action="/suggest">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
+        <label for="g-topic">In a few words, what&rsquo;s it about?</label>
+        <input id="g-topic" name="topic" maxlength="160" required placeholder="e.g. Permanent disaster title, water, E15, property rights" value="${esc(values.topic || '')}">
+        <div style="margin-top:.9rem;"><label for="g-type">Is this&hellip;</label>
+          <select id="g-type" name="change_type" style="width:100%;padding:.75rem .85rem;border:1px solid #c7c0b4;border-radius:6px;font:inherit;font-size:1rem;">
+            ${CHANGE.map((v) => `<option${sel(v)}>${v}</option>`).join('')}</select></div>
+        <div style="margin-top:.9rem;"><label for="g-body">Tell us what you&rsquo;d change, and why it matters on your place</label>
+          <textarea id="g-body" name="body" rows="5" required maxlength="4000" placeholder="What&rsquo;s the problem, what would fix it, and what it would mean for your operation. Plain words are perfect.">${esc(values.body || '')}</textarea></div>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.9rem;">
+          <div style="flex:2;min-width:180px;"><label for="g-name">Your name</label>
+            <input id="g-name" name="name" maxlength="160" value="${esc(values.name || '')}"></div>
+          <div style="flex:1;min-width:140px;"><label for="g-county">County</label>
+            <input id="g-county" name="county" maxlength="120" value="${esc(values.county || '')}"></div>
+        </div>
+        <div style="margin-top:.9rem;"><label for="g-email">Email (so we can follow up)</label>
+          <input id="g-email" name="email" type="email" maxlength="200" value="${esc(values.email || '')}"></div>
+        ${error ? `<div class="err">${esc(error)}</div>` : ''}
+        <div style="margin-top:1.1rem;"><button class="btn" type="submit">Send it to the board</button></div>
+      </form>
+      <p class="hint">Every suggestion goes straight to the CCGA board. We read them all, and they shape what we
+        carry to the Capitol and to Washington. The Colorado Corn Growers Association administers no USDA program.</p>
+    </div>`;
+  return publicChrome('Suggest legislation', inner);
+}
+
+export function suggestThanksPage() {
+  return publicChrome('Thank you', `
+    <h1>Got it &mdash; thank you.</h1>
+    <div class="card">
+      <p>Your suggestion is in front of the board. This is exactly how our agenda gets set, so thank you for
+        taking the time. If you left an email, we may follow up.</p>
+      <p style="margin-top:.8rem;"><a class="link" href="/suggest">Add another &rarr;</a> &nbsp;&middot;&nbsp;
+        <a class="link" href="https://www.cologrowers.com">Back to cologrowers.com</a></p>
+    </div>`);
+}
+
+// Board-only view of member suggestions.
+export function suggestionsPage(member, suggestions = []) {
+  const rows = suggestions.length
+    ? suggestions.map((g) => {
+        const del = member.is_admin
+          ? `<form method="POST" action="/portal/suggestions/delete" style="margin:0;" onsubmit="return confirm('Delete this suggestion?');">
+               <input type="hidden" name="id" value="${esc(g.id)}"><button class="note-del" type="submit">remove</button></form>` : '';
+        const who = [esc(g.name || 'Anonymous'), g.county ? esc(g.county) + ' County' : ''].filter(Boolean).join(' &middot; ');
+        const contact = g.email ? ` &middot; <a class="link" href="mailto:${esc(g.email)}">${esc(g.email)}</a>` : '';
+        const tag = g.change_type ? `<span class="badge b-ref">${esc(g.change_type)}</span>` : '';
+        return `<div class="note-item">
+          <div class="note-meta"><b>${esc(g.topic || 'Suggestion')}</b> ${tag}
+            <time class="ts" datetime="${esc(g.created_at)}" style="margin-left:auto;">${esc(g.created_at)}</time>${del}</div>
+          <div class="note-body">${esc(g.body || '')}</div>
+          <div style="font-size:.82rem;color:#8c867b;margin-top:.4rem;">${who}${contact}</div>
+        </div>`;
+      }).join('')
+    : `<div class="room-empty">No suggestions yet. Share the link below and members&rsquo; ideas land here.</div>`;
+
+  const inner = `
+    <div class="note"><b>Member legislative suggestions.</b> What growers want created or changed &mdash; the
+      board&rsquo;s agenda, straight from the membership.</div>
+    <div class="card">
+      <h2>The suggestion link</h2>
+      <p style="color:#5b564f;font-size:.92rem;margin-bottom:.7rem;">Share this with members &mdash; it&rsquo;s public,
+        no login. It&rsquo;s linked from cologrowers.com too.</p>
+      <input readonly value="https://ccga-board-portal.onrender.com/suggest" onclick="this.select()"
+        style="font-family:monospace;font-size:.82rem;">
+      <p class="hint"><a class="link" href="/suggest" target="_blank" rel="noopener">Preview the form &rarr;</a></p>
+    </div>
+    <div class="card">
+      <h2>Suggestions <span style="color:#8c867b;font-weight:400;font-size:1rem;">(${suggestions.length})</span></h2>
+      <div style="margin-top:.8rem;">${rows}</div>
+    </div>
+    ${TS_SCRIPT}`;
+  return portalChrome(member, inner, 'suggestions');
 }
