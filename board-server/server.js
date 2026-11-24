@@ -16,6 +16,7 @@ import {
 } from './src/db.js';
 import { officeByKey, OFFICIALS } from './src/officials.js';
 import { LISTS, toCsv } from './src/contacts.js';
+import { pushToAirtable } from './src/airtable.js';
 import {
   COOKIE_NAME, SESSION_TTL_SECONDS, tooManyRequests, issueToken, redeemToken,
   purgeExpiredTokens, createSession, getSession, destroySession, cookieHeader, readCookie,
@@ -143,16 +144,17 @@ const server = createServer(async (req, res) => {
       }
       const changeRaw = clip('change_type', 40);
       const changeType = ['A new law', 'Change an existing law', 'Not sure yet'].includes(changeRaw) ? changeRaw : 'Not sure yet';
+      const name = clip('name', 160), county = clip('county', 120), email = clip('email', 200);
       addSuggestion(db, {
-        name: clip('name', 160) || null,
-        email: clip('email', 200) || null,
-        county: clip('county', 120) || null,
-        changeType,
-        topic: topic || null,
-        body: body || null,
-        ip: clientIp(req),
+        name: name || null, email: email || null, county: county || null,
+        changeType, topic: topic || null, body: body || null, ip: clientIp(req),
       });
       audit(db, { action: 'suggestion.add', detail: topic.slice(0, 60), ip: clientIp(req) });
+      pushToAirtable('Member Suggestions', {
+        Topic: topic || '', Type: changeType, Suggestion: body || '',
+        Name: name, County: county, Email: /@/.test(email) ? email : '',
+        Submitted: new Date().toISOString(),
+      });
       return redirect(res, '/suggest/thanks');
     }
 
@@ -165,19 +167,20 @@ const server = createServer(async (req, res) => {
       const office = officeKey ? officeByKey(officeKey) : null;
       const answerRaw = clip('answer', 20);
       const answer = ['Yes', 'Maybe', 'Not now'].includes(answerRaw) ? answerRaw : 'Maybe';
+      const officeLabel = office ? `${office.name}${office.district ? ' — ' + office.district : ''}` : null;
+      const respondent = clip('respondent', 160), role = clip('role', 160), email = clip('email', 200);
+      const phone = clip('phone', 60), interests = clip('interests', 400), comments = clip('comments', 2000);
       addSurveyResponse(db, {
-        officeKey: office ? office.key : null,
-        officeLabel: office ? `${office.name}${office.district ? ' — ' + office.district : ''}` : null,
-        respondent: clip('respondent', 160) || null,
-        role: clip('role', 160) || null,
-        email: clip('email', 200) || null,
-        phone: clip('phone', 60) || null,
-        answer,
-        interests: clip('interests', 400) || null,
-        comments: clip('comments', 2000) || null,
-        ip: clientIp(req),
+        officeKey: office ? office.key : null, officeLabel,
+        respondent: respondent || null, role: role || null, email: email || null, phone: phone || null,
+        answer, interests: interests || null, comments: comments || null, ip: clientIp(req),
       });
       audit(db, { action: 'survey.response', detail: office ? office.key : 'unspecified', ip: clientIp(req) });
+      pushToAirtable('Survey Responses', {
+        Office: officeLabel || '', Respondent: respondent, Role: role, Answer: answer,
+        Email: /@/.test(email) ? email : '', Phone: phone, Interests: interests, Comments: comments,
+        Submitted: new Date().toISOString(),
+      });
       return redirect(res, '/survey/thanks');
     }
 

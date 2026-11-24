@@ -34,3 +34,8 @@ services:
         sync: false
       - key: BOOTSTRAP_ADMIN_NAME
         sync: false
+      # Optional: sync public form submissions (suggestions, survey) to Airtable.
+      - key: AIRTABLE_BASE_ID
+        value: apprYvNSMph2yd9vk
+      - key: AIRTABLE_TOKEN
+        sync: false           # paste the Airtable Personal Access Token in the dashboard
